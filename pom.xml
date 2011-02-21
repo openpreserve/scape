@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>scape</groupId>
+  <artifactId>scape</artifactId>
+  <name>SCAPE</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <description>SCAlable Preservation Environments</description>
+  <url>http://wiki.opf-labs.org/display/SP</url>
+  <issueManagement>
+  	<system>JIRA, hosted by OPF</system>
+  	<url>http://jira.opf-labs.org/browse/SP</url>
+  </issueManagement>
+  <ciManagement>
+  	<system>Bamboo, hosted by OPF</system>
+  	<url>http://bamboo.opf-labs.org/browse/SP</url>
+  </ciManagement>
+  <scm>
+  	<url>git@github.com:openplanets/scape.git</url>
+  </scm>
+</project>
