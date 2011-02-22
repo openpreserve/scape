@@ -1,4 +1,4 @@
 SCAPE
 =====
 
-This is the git repository for the SCAPE prject.
+This is the git repository for the SCAPE project.
