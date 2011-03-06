@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bookmarks>
+   <site url="http://download.aptana.com/tools/radrails/plugin/install/radrails-bundle" selected="true" name="Aptana RadRails"/>
+   <site url="http://update.atlassian.com/atlassian-eclipse-plugin/e3.6" selected="true" name="Atlassian Eclipse Integration"/>
+   <site url="http://eclipse-cs.sf.net/update/" selected="true" name="CheckStyle"/>
+   <site url="http://www.apache.org/dist/ant/ivyde/updatesite/" selected="true" name="IvyDE Update Site"/>
+   <site url="http://www.jgit.org/updates/" selected="true" name="JGit.org"/>
+   <site url="http://m2eclipse.sonatype.org/sites/m2e" selected="true" name="Maven Eclipse"/>
+   <site url="http://pydev.org/updates" selected="true" name="PyDev"/>
+   <site url="http://subclipse.tigris.org/update_1.6.x" selected="true" name="Subclipse"/>
+</bookmarks>
