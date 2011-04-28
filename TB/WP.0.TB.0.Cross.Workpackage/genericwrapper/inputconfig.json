@@ -1,0 +1,47 @@
+{
+  "inputFile": {
+    "Datatype": "xsd:anyURI",
+    "Required": "true",
+    "CliMapping": "INFILE",
+    "Documentation": "URL reference to input file"
+  },
+  "someBooleanParam": {
+    "Datatype": "xsd:boolean",
+    "Required": "true",
+    "Cardinality": "single",
+    "Documentation": "Some boolean parameter"
+  },
+  "someIntParam": {
+    "Datatype": "xsd:int",
+    "Required": "true",
+    "Documentation": "Some int parameter"
+  },
+  "someStringParam": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Documentation": "Some string parameter"
+  },
+  "someRestrictedStringParam": {
+    "Datatype": "xsd:string",
+    "Restriction": ["First","Second","Third"],
+    "Default": "Second",
+    "Required": "true",
+    "Documentation": "Some restricted string parameter"
+  },
+  "someRestrictedStringListParam": {
+    "Datatype": "xsd:string",
+    "Restriction": ["One","Two","Three"],
+    "Default": "One",
+    "Required": "true",
+    "Cardinality": "list",
+    "Documentation": "Some restricted string parameter"
+  }
+}
+// The following properties can be defined for each variable:
+// - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
+// - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
+// - CliMapping - Mapping to command line pattern variable, see property
+//                service.cli.command.pattern in genericwrapper.properties
+// - Default - Default value if using an array of allowed values (optional)
+// - Cardinality - Use "list" for a string list input
+// - Documentation - Documentation for the variable

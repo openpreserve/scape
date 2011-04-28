@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/******************************************************************************* 
+* Copyright (c) #GLOBAL_YEAR# The #GLOBAL_PROJECT_PREFIX# Project Partners.
+* 
+* All rights reserved. This program and the accompanying 
+* materials are made available under the terms of the 
+* Apache License, Version 2.0 which accompanies 
+* this distribution, and is available at 
+* http://www.apache.org/licenses/LICENSE-2.0 
+* 
+*******************************************************************************/
+-->
+<serviceGroup>
+    <service name="#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#Service">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="#PROJECT_PACKAGE_NAME#.service.#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">#PROJECT_PACKAGE_NAME#.service.#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">false</parameter>
+
+        <!--
+        Below is the command that will be executed on the command line. You
+        must either indicate the full path of the tool, or create add the
+        application name to the application search path (windows environment 
+        variable 'Path'). 
+        -->
+        <parameter name="CLICommand">#~CLICMDTMPL1~#</parameter>
+
+        <!--
+        This parameter must indicate a path where the <servicename>ByUrl method
+        can write the output file to. Additionally, this path must be within
+        a publicly accessible web space (see the next parameter
+        publicHttpAccessUrl which configures the URL prefix for accessing the
+        output file).
+        -->
+        <parameter name="publicHttpAccessDir">#~PUBHTTPACCESSDIR~#</parameter>
+
+         <!--
+        URL prefix for accessing the output file (see parameter
+        publicHttpAccessDir above).
+        -->
+        <parameter name="publicHttpAccessUrl">#~PUBHTTPACCESSURL~#</parameter>
+
+
+        <!--
+        Web service operation which sends/receives binary data by URL references.
+        -->
+        <operation name="#SERVICE_DEFAULT_OPERATION#" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://#PROJECT_PACKAGE_NAME#/#GLOBAL_PROJECT_PREFIX_LC#/">
+            <actionMapping>#SERVICE_DEFAULT_OPERATION#</actionMapping>
+            <outputActionMapping>//schemas.xmlsoap.org/wsdl/#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServicePortType/Response</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

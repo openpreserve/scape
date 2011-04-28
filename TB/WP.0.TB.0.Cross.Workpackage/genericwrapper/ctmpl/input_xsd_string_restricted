@@ -1,0 +1,9 @@
+        // Input: #INPUT_VARIABLE#
+        // Default value is "#DEFAULT#"
+        String #INPUT_VARIABLE# = null;
+        if(requestObj.#GETTER_NAME#() == null) {
+            #INPUT_VARIABLE# = "#DEFAULT#";
+        } else {
+            #INPUT_VARIABLE# = requestObj.#GETTER_NAME#().getValue();
+        }
+        #MAPPING#

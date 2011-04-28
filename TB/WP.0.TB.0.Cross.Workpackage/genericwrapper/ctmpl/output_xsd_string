@@ -1,0 +1,4 @@
+        // Output: #INPUT_VARIABLE#
+        String #INPUT_VARIABLE# = "";
+        #MAPPING#
+        #OUTMAPPING#

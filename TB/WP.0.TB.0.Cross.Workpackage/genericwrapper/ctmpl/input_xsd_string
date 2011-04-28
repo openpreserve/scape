@@ -1,0 +1,3 @@
+        // Input: #INPUT_VARIABLE#
+        String #INPUT_VARIABLE# = requestObj.#GETTER_NAME#();
+        #MAPPING#
