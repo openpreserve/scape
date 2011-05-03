@@ -8,7 +8,7 @@
  * this distribution, and is available at
  * http://www.apache.org/licenses/LICENSE-2.0
  *******************************************************************************/
-package eu.impact_project.iif.gw.cli;
+package org.opflabs.scape.tb.gw.cli;
 
 import java.io.File;
 
