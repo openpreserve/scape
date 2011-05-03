@@ -1,9 +1,15 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>project-root</artifactId>
+		<groupId>eu.scape-project</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.opf-labs.scape.tb</groupId>
-    <artifactId>genericwrapper</artifactId>
+    <groupId>eu.scape-project</groupId>
+    <artifactId>xa-genericwrapper</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Generic Wrapper</name>
