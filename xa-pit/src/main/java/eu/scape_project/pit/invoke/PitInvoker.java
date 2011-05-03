@@ -59,7 +59,7 @@ public class PitInvoker {
 		// Now substiture the parameters into the templates.
 		HashMap<String,String> vars = new HashMap<String,String>();
 		for( Parameter v : ts.getParam() ) {
-			vars.put(v.getName(), v.getDefaultValue());
+			vars.put(v.getVar(), v.getDefaultValue());
 		}
 		
 		// TODO Check input file exists, and output file does not!
@@ -109,10 +109,10 @@ public class PitInvoker {
 	 * @throws CommandNotFoundException 
 	 */
 	public static void main(String[] args) throws IOException, ToolSpecNotFoundException, CommandNotFoundException {
-		PitInvoker ib = new PitInvoker("isobuster");
-		ib.invoke("image-to-userdata-image", 
-				new File("Y:\\DropBox\\Akiko\\test-nimbie\\DISK_1.mds"), 
-				new File("test1") );
+		PitInvoker ib = new PitInvoker("jasper");
+		ib.invoke("minimally-lossless", 
+				new File("test.jpeg"), 
+				new File("test.jp2") );
 //				File.createTempFile("DISC_1",".iso") );
 	}
 	

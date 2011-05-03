@@ -8,7 +8,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 public class Parameter {
 
 	@XmlAttribute
+	String var;
+	
+	@XmlAttribute
 	String name;
+	
+	@XmlAttribute
+	String allowed;
 	
 	@XmlAttribute(name="default")
 	String defaultValue;
@@ -25,6 +31,34 @@ public class Parameter {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return the var
+	 */
+	public String getVar() {
+		return var;
+	}
+
+	/**
+	 * @param var the var to set
+	 */
+	public void setVar(String var) {
+		this.var = var;
+	}
+
+	/**
+	 * @return the allowed
+	 */
+	public String getAllowed() {
+		return allowed;
+	}
+
+	/**
+	 * @param allowed the allowed to set
+	 */
+	public void setAllowed(String allowed) {
+		this.allowed = allowed;
 	}
 
 	/**

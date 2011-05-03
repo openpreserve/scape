@@ -25,12 +25,12 @@
     </fmt>
   </tool>
 
-<!-- parameter mapping to port generation needs some thought, but fine - map to WSDL, including comments, -->
-<!-- Plus Tests for checking -->
+  <!-- parameter mapping to port generation needs some thought, but fine - map to WSDL, including comments, -->
+  <!-- Plus Tests for checking -->
 
   <!-- Minimally lossless means using the irreversible wavelet transform, but keeping everything else and using default values -->
   <tool type="convert" id="minimally-lossless">
-    <command>jasper -f %{inFile} -F %{outFile} -T jp2 -O mode=real</command>
+    <command>jasper -f %{inFile} -F %{outFile} -T jp2 -O rate=1.0 -O mode=real -O prg=%{jp2.progOrder}</command>
   </tool>
 
   <tool type="convert" id="lossy-maxrate-4.0">
