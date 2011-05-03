@@ -1,4 +1,4 @@
-package eu.planets_project.tools;
+package eu.scape_project.tools;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.planets_project.pit.invoke;
+package eu.scape_project.pit.invoke;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,9 +15,9 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.IOUtils;
 
-import eu.planets_project.tools.Convert;
-import eu.planets_project.tools.ToolSpec;
-import eu.planets_project.tools.Var;
+import eu.scape_project.tools.Convert;
+import eu.scape_project.tools.ToolSpec;
+import eu.scape_project.tools.Var;
 
 /**
  * @author Andrew.Jackson@bl.uk [AnJackson]

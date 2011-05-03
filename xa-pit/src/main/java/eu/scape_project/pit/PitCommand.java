@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.planets_project.pit;
+package eu.scape_project.pit;
 
 /**
  * @author anj

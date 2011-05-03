@@ -12,6 +12,8 @@ import javax.xml.bind.JAXBException;
 import org.junit.Before;
 import org.junit.Test;
 
+import eu.scape_project.tools.ToolSpec;
+
 /**
  * @author Andrew Jackson
  *
@@ -26,7 +28,7 @@ public class ToolSpecTest {
 	}
 
 	/**
-	 * Test method for {@link eu.planets_project.tools.ToolSpec#toXMlFormatted()}.
+	 * Test method for {@link eu.scape_project.tools.ToolSpec#toXMlFormatted()}.
 	 */
 	@Test
 	public void testToXMlFormatted() {

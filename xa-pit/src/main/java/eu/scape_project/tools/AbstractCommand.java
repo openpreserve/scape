@@ -1,4 +1,4 @@
-package eu.planets_project.tools;
+package eu.scape_project.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

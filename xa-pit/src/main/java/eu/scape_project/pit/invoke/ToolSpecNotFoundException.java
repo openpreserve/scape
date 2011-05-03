@@ -1,16 +1,16 @@
-package eu.planets_project.pit.invoke;
+package eu.scape_project.pit.invoke;
 
-public class CommandNotFoundException extends Exception {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -4405067564500792267L;
+public class ToolSpecNotFoundException extends Exception {
 
 	/**
 	 * 
 	 */
-	public CommandNotFoundException() {
+	private static final long serialVersionUID = -6842192485602025566L;
+
+	/**
+	 * 
+	 */
+	public ToolSpecNotFoundException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -19,7 +19,7 @@ public class CommandNotFoundException extends Exception {
 	 * @param message
 	 * @param cause
 	 */
-	public CommandNotFoundException(String message, Throwable cause) {
+	public ToolSpecNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
@@ -27,7 +27,7 @@ public class CommandNotFoundException extends Exception {
 	/**
 	 * @param message
 	 */
-	public CommandNotFoundException(String message) {
+	public ToolSpecNotFoundException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
@@ -35,9 +35,10 @@ public class CommandNotFoundException extends Exception {
 	/**
 	 * @param cause
 	 */
-	public CommandNotFoundException(Throwable cause) {
+	public ToolSpecNotFoundException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
+	
 
 }
