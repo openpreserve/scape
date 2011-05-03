@@ -9,7 +9,7 @@
   <groupId>eu.scape-project</groupId>
   <artifactId>xa-pit</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Preservation-action Invocation Tool</name>
+  <name>SCAPE Preservation-action Invocation Tool</name>
   <description>Defines and invokes portable preservation action tool specifications.</description>
 	<build>
 		<plugins>

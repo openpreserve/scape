@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.scape-project</groupId>
   <artifactId>project-root</artifactId>
-  <name>SCAPE</name>
+  <name>SCAPE Project</name>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>SCAlable Preservation Environments - a toolkit for large-scale digital preservation.</description>
@@ -37,6 +37,7 @@
   <modules>
   	<module>xa-pit</module>
   	<module>xa-toolwrapper</module>
+  	<module>pc-qa-bitwiser</module>
   </modules>
   <!-- Global build options. -->
   <build>
