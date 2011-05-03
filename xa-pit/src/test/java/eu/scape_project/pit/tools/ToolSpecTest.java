@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.planets_project.tools;
+package eu.scape_project.pit.tools;
 
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ import javax.xml.bind.JAXBException;
 import org.junit.Before;
 import org.junit.Test;
 
-import eu.scape_project.tools.ToolSpec;
+import eu.scape_project.pit.tools.ToolSpec;
 
 /**
  * @author Andrew Jackson
@@ -28,7 +28,7 @@ public class ToolSpecTest {
 	}
 
 	/**
-	 * Test method for {@link eu.scape_project.tools.ToolSpec#toXMlFormatted()}.
+	 * Test method for {@link eu.scape_project.pit.tools.ToolSpec#toXMlFormatted()}.
 	 */
 	@Test
 	public void testToXMlFormatted() {
