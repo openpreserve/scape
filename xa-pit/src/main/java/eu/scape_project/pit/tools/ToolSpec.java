@@ -1,4 +1,4 @@
-package eu.scape_project.tools;
+package eu.scape_project.pit.tools;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

@@ -1,15 +1,17 @@
-package eu.scape_project.tools;
+package eu.scape_project.pit.tools;
+
+import java.net.URL;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType( XmlAccessType.FIELD )
-public class Version {
+public class Install {
 
-	String value;
+	String type;
 	
-	String command;
+	URL url;
 	
-	String match;
+	String md5;
 	
 }

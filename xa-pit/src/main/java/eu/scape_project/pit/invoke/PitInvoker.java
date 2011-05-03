@@ -15,9 +15,9 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.IOUtils;
 
-import eu.scape_project.tools.Convert;
-import eu.scape_project.tools.ToolSpec;
-import eu.scape_project.tools.Var;
+import eu.scape_project.pit.tools.Convert;
+import eu.scape_project.pit.tools.ToolSpec;
+import eu.scape_project.pit.tools.Var;
 
 /**
  * @author Andrew.Jackson@bl.uk [AnJackson]
