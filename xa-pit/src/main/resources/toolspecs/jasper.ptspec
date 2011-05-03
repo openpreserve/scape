@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+  <id>pit-buildin-jasper</id>
+  <tool>JasPer</tool>
+  <homepage>http://www.ece.uvic.ca/~mdadams/jasper/</homepage>
+  
+  <version>
+    <command>jasper --version</command>
+    <match>(\d\.\d*\.\d)</match>
+  </version>
+  
+  <!-- DEB:libjasper-runtime - See http://packages.ubuntu.com/hardy/i386/libjasper-runtime/filelist -->
+
+  <!-- Fully lossless compression, using default values for everything. -->
+  <convert id="lossless">
+    <command>jasper -f %{inFile} -F %{outFile} -T jp2</command>
+    <formats in="mif,pnm,bmp,ras,jp2,jpc,jpg,pgx" out="jp2"/>
+  </convert>
+
+  <!-- Minimally lossless means using the irreversible wavelet transform, but keeping everything else and using default values -->
+  <convert id="minimally-lossless">
+    <command>jasper -f %{inFile} -F %{outFile} -T jp2 -O mode=real</command>
+  </convert>
+
+  <convert id="lossy-maxrate-4.0">
+    <command>jasper -f %{inFile} -F %{outFile} -O rate=4.0 -O ilyrrates=3.4,2.1,1.2,0.6,0.3,0.15,0.075 -O mode=real -O numrlvls=6 -O lazy -O prg=rpcl -O cblkwidth=64 -O cblkheight=64 -O prcwidth=256 -O prcheight=256</command>
+  </convert>
+
+  <convert id="lossy-maxrate-3.4">
+    <command>jasper -f %{inFile} -F %{outFile} -O rate=3.4 -O ilyrrates=2.1,1.2,0.6,0.3,0.15,0.075 -O mode=real -O numrlvls=6 -O lazy -O prg=rpcl -O cblkwidth=64 -O cblkheight=64 -O prcwidth=256 -O prcheight=256</command>
+  </convert>
+
+  <convert id="lossy-maxrate-2.8">
+    <command>jasper -f %{inFile} -F %{outFile} -O rate=2.8 -O ilyrrates=2.1,1.2,0.6,0.3,0.15,0.075 -O mode=real -O numrlvls=6 -O lazy -O prg=rpcl -O cblkwidth=64 -O cblkheight=64 -O prcwidth=256 -O prcheight=256</command>
+  </convert>
+
+  <convert id="lossy-maxrate-2.1">
+    <command>jasper -f %{inFile} -F %{outFile} -O rate=2.1 -O ilyrrates=1.2,0.6,0.3,0.15,0.075 -O mode=real -O numrlvls=6 -O lazy -O prg=rpcl -O cblkwidth=64 -O cblkheight=64 -O prcwidth=256 -O prcheight=256</command>
+  </convert>
+
+  <convert id="lossy-maxrate-1.5">
+    <command>jasper -f %{inFile} -F %{outFile} -rate 1.5 -O ilyrrates=1.2,0.6,0.3,0.15,0.075 -O mode=real -O numrlvls=6 -O lazy -O prg=rpcl -O cblkwidth=64 -O cblkheight=64 -O prcwidth=256 -O prcheight=256</command>
+  </convert>
+
+  <!-- 
+  Simple JP2 validation by expanding the JP2.
+  -->
+  <validate id="can-expand-precise-1thread">
+    <command>jasper -f %{inFile} -F ${tmpFile}.pnm</command>
+    <invalidIfOutput match="Kakadu .* Error"/>
+    <validIfOutput match="Processed using the multi-threaded environment, with"/>
+  </validate>
+  
+  <compare id="compare-psnr">
+  	<command>imgcmp </command>
+  </compare>
+  
+  <characterise id="extract-info">
+  	<command>imginfo</command>
+  </characterise>
+
+</toolspec>

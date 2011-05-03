@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+  <id>pit-buildin-jhove2</id>
+  <tool>JHOVE2</tool>
+  
+  <!-- In this case, it is easier to specify the version here, as this is used to download and install the right version. -->
+  <version>0.6.0</version>
+  
+  <!-- Install instructions - actionable in this case. -->
+  <install type="download">
+  	<platform>Java/1.6</platform>
+    <url>http://bitbucket.org/jhove2/main/downloads/jhove2-#{version}.zip</url>
+    <md5>e848ce2df9e3684a961100caba6f884c</md5>
+  </install>
+
+  <!-- In this case, the framework should download and unpack the install, with #{installDir} pointing to the right place. -->
+  <env name="JHOVE2_HOME" value="#{install.dir}"/>
+
+</toolspec>

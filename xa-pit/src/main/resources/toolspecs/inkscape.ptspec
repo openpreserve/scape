@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+  <tool>Inkscape</tool>
+
+  <convert id="inkscape-to-svg">
+    <command>inkscape %{inFile} --export-plain-svg=%{outFile} </command>
+    <formats in="eps,pdf,ps" out="svg"/>
+  </convert>
+
+</toolspec>

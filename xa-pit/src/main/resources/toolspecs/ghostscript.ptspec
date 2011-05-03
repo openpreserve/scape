@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+  <name>Ghostscript</name>
+
+  <convert id="gs-to-pdfa">
+    <command>gs -dPDFA -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=%{outFile} %{inFile}</command>
+    <formats in="eps,pdf,ps" out="pdfa"/>
+  </convert>
+  
+  <convert id="ps2pdf-a">
+   <command>ps2pdf -dEPSCrop -dPDFA sample.eps</commmand>
+   <formats in="eps" out="pdfa"/>
+  </convert>
+
+</toolspec>
