@@ -73,11 +73,12 @@ public class PitInvoker {
 
 		// Build the command:
 		ProcessBuilder pb = new ProcessBuilder(cmd_template);
-		System.out.println("Command : "+pb.toString());
 		System.out.println("Command : "+pb.command());
+		/*
 		for( String command : pb.command() ) {
 			System.out.println("Command : "+command);			
 		}
+		*/
 		
 		pb.redirectErrorStream(true);
 		Process start = pb.start();
