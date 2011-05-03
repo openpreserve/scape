@@ -13,42 +13,51 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlNsForm;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.transform.stream.StreamSource;
 
+
 @XmlRootElement( name="toolspec" )
+@XmlType
 @XmlAccessorType( XmlAccessType.FIELD )
 public class ToolSpec {
+	
+	public static final String NS="http://scape-project.eu/schema/toolspec";
 
-	@XmlElement
+	@XmlElement(namespace=ToolSpec.NS)
 	private String id;
 
-	@XmlElement
+	@XmlElement(namespace=ToolSpec.NS)
 	private String name;
 	
-	@XmlElement
+	@XmlElement(namespace=ToolSpec.NS)
 	private Version version;
 	
-	@XmlElement
+	@XmlElement(namespace=ToolSpec.NS)
 	private Install install;
 	
-	@XmlElement
+	@XmlElement(namespace=ToolSpec.NS)
 	private List<Var> env;
 	
-	@XmlElement
+	@XmlElement(namespace=ToolSpec.NS)
 	private List<Template> template;
 	
-	@XmlElement
+	@XmlElement(namespace=ToolSpec.NS)
 	private List<Parameter> param;
 	
-	@XmlElement(name="tool")
+	@XmlElement(namespace=ToolSpec.NS)
+	private Parameters parameters;
+	
+	@XmlElement(namespace=ToolSpec.NS, name="tool")
 	private List<Tool> tools;
 		
 	private static JAXBContext jc;
 	
 	static {
 		try {
-			jc  = JAXBContext.newInstance(ToolSpec.class);
+			jc  = JAXBContext.newInstance(ToolSpec.class.getPackage().getName());
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -143,6 +152,20 @@ public class ToolSpec {
 	}
 
 	/**
+	 * @return the parameters
+	 */
+	public Parameters getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * @param parameters the parameters to set
+	 */
+	public void setParameters(Parameters parameters) {
+		this.parameters = parameters;
+	}
+
+	/**
 	 * @return the convert
 	 */
 	public List<Tool> getTools() {
@@ -160,6 +183,7 @@ public class ToolSpec {
 		//Create marshaller
 		Marshaller m = jc.createMarshaller();
 		m.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
+		m.setProperty( Marshaller.JAXB_ENCODING, "UTF-8" );
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		m.marshal(this, bos);
 		return bos.toString("UTF-8");

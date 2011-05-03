@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toolspec>
+<toolspec xmlns="http://scape-project.eu/schema/toolspec" 
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xmlns:jp2="http://scape-project.eu/schema/tool/parameters/jp2"
+		  xsi:schemaLocation="http://scape-project.eu/schema/tool/parameters/jp2.xsd ./jp2.xsd">
   <id>pit-buildin-jasper</id>
   <name>JasPer</name>
   <homepage>http://www.ece.uvic.ca/~mdadams/jasper/</homepage>
@@ -12,7 +15,10 @@
   <template var="common.params" value="-O mode=real -O numrlvls=6 -O lazy -O prg=%{jp2.progOrder} -O cblkwidth=64 -O cblkheight=64 -O prcwidth=256 -O prcheight=256"/>
 
   <param var="jp2.progOrder" name="Progression Order" default="rpcl" allowed="rpcl|rcpl|pcrl|..."/>
-
+  <parameters>
+  	<jp2:progOrder>rpcl</jp2:progOrder>
+  </parameters>
+ 
   <!-- Debian package: libjasper-runtime - See http://packages.ubuntu.com/hardy/i386/libjasper-runtime/filelist -->
 
   <!-- Fully lossless compression, using default values for everything. -->

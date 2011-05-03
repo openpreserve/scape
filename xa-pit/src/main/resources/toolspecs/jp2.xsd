@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://scape-project.eu/schema/tool/parameters/jp2"
+	elementFormDefault="qualified">
+	<xs:element name="progOrder">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="rpcl" />
+				<xs:enumeration value="rcpl" />
+				<xs:enumeration value="pcrl" />
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+</xs:schema>
