@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec>
   <id>isobuster</id>
-  <tool>IsoBuster</tool>
+  <name>IsoBuster</name>
   <homepage>http://www.isobuster.com/</homepage>
 
   <!-- Location of the IsoBuster executable. -->  
@@ -13,20 +13,20 @@
   <var name="isobuster.common" value="/ep:oea /ep:now /m /nosplash /nodrives /c /l:%{logFile}"/>
 
   <!-- The /et:u user-data mode does not work well - no WAV files extracted.  -->
-  <convert id="mds-to-userdata-iso">
+  <tool type="convert" id="mds-to-userdata-iso">
     <command>%{isobuster.exe} "%{inFile}" "/ei:%{outFile}" /et:r /ep:oea /ep:now /nosplash /nodrives /c /l:%{logFile}</command>
     <formats in="mds" out="iso"/>
-  </convert>
+  </tool>
 
-  <convert id="image-to-userdata-image">
+  <tool type="convert" id="image-to-userdata-image">
     <command>%{isobuster.exe} "%{inFile}" "/ei:%{outFile}" /et:u %{isobuster.common}</command>
     <formats in="mds,iso" out="tao"/>
-  </convert>
+  </tool>
 
   <!-- This works well for data disks. -->
-  <convert id="image-to-userdata-files">
+  <tool type="convert" id="image-to-userdata-files">
     <command>%{isobuster.exe} "%{inFile}" "/ef:%{outFile}" /et:u %{isobuster.common}</command>
     <formats in="iso" out="folder"/>
-  </convert>
+  </tool>
 
 </toolspec>

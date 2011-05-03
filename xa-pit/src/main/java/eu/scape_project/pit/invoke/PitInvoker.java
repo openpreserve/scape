@@ -15,7 +15,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.IOUtils;
 
-import eu.scape_project.pit.tools.Convert;
+import eu.scape_project.pit.tools.Tool;
 import eu.scape_project.pit.tools.ToolSpec;
 import eu.scape_project.pit.tools.Var;
 
@@ -25,13 +25,13 @@ import eu.scape_project.pit.tools.Var;
  */
 public class PitInvoker {
 	
-	private ToolSpec tool;
+	private ToolSpec ts;
 
 	
 
 	public PitInvoker( String toolspec_id ) throws ToolSpecNotFoundException {
 		try {
-			tool = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec"));
+			ts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec"));
 		} catch (FileNotFoundException e) {
 			throw new ToolSpecNotFoundException("Toolspec "+toolspec_id+" not found!", e);
 		} catch (JAXBException e) {
@@ -41,14 +41,14 @@ public class PitInvoker {
 	}
 
 	public void migrate( String command_id, File input, File output) throws CommandNotFoundException, IOException {
-		Convert cmd = null;
-		for( Convert c : tool.getConvert() ) {
+		Tool cmd = null;
+		for( Tool c : ts.getTools() ) {
 			if( c.getId() != null && c.getId().equals(command_id) ) cmd = c;
 		}
 		if( cmd == null ) throw new CommandNotFoundException("No command "+command_id+" could be found.");
 		
 		HashMap<String,String> vars = new HashMap<String,String>();
-		for( Var v : tool.getVar() ) {
+		for( Var v : ts.getVar() ) {
 			vars.put(v.getName(), v.getValue());
 		}
 		
@@ -56,7 +56,7 @@ public class PitInvoker {
 		
 		vars.put("inFile", input.getAbsolutePath());
 		vars.put("outFile", output.getAbsolutePath());
-		vars.put("logFile", File.createTempFile(tool.getTool()+"-"+command_id, ".log").getAbsolutePath());
+		vars.put("logFile", File.createTempFile(ts.getName()+"-"+command_id, ".log").getAbsolutePath());
 		
 		// First substitute local vars into the command, then split and substitute some more?
 		// Vars in vars?

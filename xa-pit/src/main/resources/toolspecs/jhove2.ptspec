@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec>
   <id>pit-buildin-jhove2</id>
-  <tool>JHOVE2</tool>
+  <name>JHOVE2</name>
   
   <!-- In this case, it is easier to specify the version here, as this is used to download and install the right version. -->
   <version>0.6.0</version>

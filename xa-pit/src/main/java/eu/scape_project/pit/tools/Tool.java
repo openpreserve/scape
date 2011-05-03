@@ -1,18 +1,26 @@
 package eu.scape_project.pit.tools;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType( XmlAccessType.FIELD )
-public class AbstractCommand {
+public class Tool {
 
 	@XmlAttribute
 	private String id;
 	
+	@XmlAttribute
+	private String type;
+	
+	
 	private String command;
 
-	public AbstractCommand() {
+	List<PathwaySpec> formats;
+
+	public Tool() {
 		super();
 	}
 
@@ -31,6 +39,20 @@ public class AbstractCommand {
 	}
 
 	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/**
 	 * @return the command
 	 */
 	public String getCommand() {
@@ -44,6 +66,20 @@ public class AbstractCommand {
 		this.command = command;
 	}
 	
+	/**
+	 * @return the formats
+	 */
+	public List<PathwaySpec> getFormats() {
+		return formats;
+	}
+
+	/**
+	 * @param formats the formats to set
+	 */
+	public void setFormats(List<PathwaySpec> formats) {
+		this.formats = formats;
+	}
+
 	
 
 }

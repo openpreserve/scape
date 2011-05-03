@@ -21,7 +21,7 @@ import javax.xml.transform.stream.StreamSource;
 public class ToolSpec {
 
 	@XmlElement
-	private String tool;
+	private String name;
 	
 	@XmlElement
 	private Version version;
@@ -36,12 +36,8 @@ public class ToolSpec {
 	private List<Var> var;
 	
 	@XmlElement
-	private List<Convert> convert;
-	
-	@XmlElement
-	private List<Validate> validate;
-
-	
+	private List<Tool> tools;
+		
 	private static JAXBContext jc;
 	
 	static {
@@ -59,15 +55,15 @@ public class ToolSpec {
 	/**
 	 * @return the tool
 	 */
-	public String getTool() {
-		return tool;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param tool the tool to set
+	 * @param name the tool to set
 	 */
-	public void setTool(String tool) {
-		this.tool = tool;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -129,29 +125,15 @@ public class ToolSpec {
 	/**
 	 * @return the convert
 	 */
-	public List<Convert> getConvert() {
-		return convert;
+	public List<Tool> getTools() {
+		return tools;
 	}
 
 	/**
-	 * @param convert the convert to set
+	 * @param tools the convert to set
 	 */
-	public void setConvert(List<Convert> convert) {
-		this.convert = convert;
-	}
-
-	/**
-	 * @return the validate
-	 */
-	public List<Validate> getValidate() {
-		return validate;
-	}
-
-	/**
-	 * @param validate the validate to set
-	 */
-	public void setValidate(List<Validate> validate) {
-		this.validate = validate;
+	public void setTools(List<Tool> tools) {
+		this.tools = tools;
 	}
 
 	String toXMlFormatted() throws JAXBException, UnsupportedEncodingException {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec>
   <id>pit-buildin-kakadu</id>
-  <tool>Kakadu</tool>
+  <name>Kakadu</name>
 
   <!-- Information on how to install this tool. Should be actionable where possible, manual by default. -->
   <install type="manual"/>
@@ -26,44 +26,44 @@
        Use %{out} or %{outFile} or %{outDir} for output specification -->
 
   <!-- Fully lossless compression, using default values for everything. -->
-  <convert id="lossless">
+  <tool type="convert" id="lossless">
     <command>$KAKADU_HOME/kdu_compress -i %{inFile} -o %{outFile} -rate - Creversible=yes</command>
     <formats in="tif,bmp,pnm" out="jp2"/>
     <formats in="pnm" out="jp2"/>
-  </convert>
+  </tool>
 
   <!-- Minimally lossless means using the irreversible wavelet transform, but keeping everything else and using default values -->
-  <convert id="minimally-lossless">
+  <tool type="convert" id="minimally-lossless">
     <command>$KAKADU_HOME/kdu_compress -i %{inFile} -o %{outFile} -rate - Creversible=no</command>
-  </convert>
+  </tool>
 
-  <convert id="lossy-maxrate-4.0">
+  <tool type="convert" id="lossy-maxrate-4.0">
     <command>$KAKADU_HOME/kdu_compress -i %{inFile} -o %{outFile} -rate 4.0,3.4,2.1,%{kdu.rates.hi} %{kdu.ir.config}</command>
-  </convert>
+  </tool>
 
-  <convert id="lossy-maxrate-3.4">
+  <tool type="convert" id="lossy-maxrate-3.4">
     <command>$KAKADU_HOME/kdu_compress -i %{inFile} -o %{outFile} -rate 3.4,2.1,%{kdu.rates.hi} %{kdu.ir.config}</command>
-  </convert>
+  </tool>
 
-  <convert id="lossy-maxrate-2.8">
+  <tool type="convert" id="lossy-maxrate-2.8">
     <command>$KAKADU_HOME/kdu_compress -i %{inFile} -o %{outFile} -rate 2.8,2.1,%{kdu.rates.hi} %{kdu.ir.config}</command>
-  </convert>
+  </tool>
 
-  <convert id="lossy-maxrate-2.1">
+  <tool type="convert" id="lossy-maxrate-2.1">
     <command>$KAKADU_HOME/kdu_compress -i %{inFile} -o %{outFile} -rate 2.1,%{kdu.rates.hi} %{kdu.ir.config}</command>
-  </convert>
+  </tool>
 
-  <convert id="lossy-maxrate-1.5">
+  <tool type="convert" id="lossy-maxrate-1.5">
     <command>$KAKADU_HOME/kdu_compress -i %{inFile} -o %{outFile} -rate 1.5,%{kdu.rates.hi} %{kdu.ir.config}</command>
-  </convert>
+  </tool>
 
   <!-- 
   Simple JP2 validation by expanding the JP2 with Kakadu and checking it worked okay. The 'precise' flag forces the use of 32-bit representations. 
   -->
-  <validate id="can-expand-precise-1thread">
+  <tool type="validate" id="can-expand-precise-1thread">
     <command>$KAKADU_HOME/kdu_expand -i %{inFile} -o ${tmpFile}.pnm -stats -precise -num_threads 1</command>
     <invalidIfOutput match="Kakadu .* Error"/>
     <validIfOutput match="Processed using the multi-threaded environment, with"/>
-  </validate>
+  </tool>
 
 </toolspec>
