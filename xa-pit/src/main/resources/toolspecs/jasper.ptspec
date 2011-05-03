@@ -18,7 +18,7 @@
   <!-- Fully lossless compression, using default values for everything. -->
   <tool type="convert" id="lossless">
     <cmd>jasper -f %{inFile} -F %{outFile} -T jp2</cmd>
-    <formats in="mif,pnm,bmp,ras,jp2,jpc,jpg,pgx" out="jp2"/>
+    <formats in="mif pnm bmp ras jp2 jpc jpg pgx" out="jp2"/>
     <fmt>
       <in>mif pnm bmp ras jp2 jpc jpg pgx image/jpg info:pronom/fmt/113</in>
       <out>jp2 image/jpeg2000</out>

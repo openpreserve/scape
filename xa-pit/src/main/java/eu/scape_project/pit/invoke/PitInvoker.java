@@ -15,9 +15,10 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.IOUtils;
 
+import eu.scape_project.pit.tools.Parameter;
 import eu.scape_project.pit.tools.Tool;
 import eu.scape_project.pit.tools.ToolSpec;
-import eu.scape_project.pit.tools.Var;
+import eu.scape_project.pit.tools.Template;
 
 /**
  * @author Andrew.Jackson@bl.uk [AnJackson]
@@ -40,31 +41,37 @@ public class PitInvoker {
 		
 	}
 
-	public void migrate( String command_id, File input, File output) throws CommandNotFoundException, IOException {
+	public void invoke( String command_id, File input, File output) throws CommandNotFoundException, IOException {
 		Tool cmd = null;
 		for( Tool c : ts.getTools() ) {
 			if( c.getId() != null && c.getId().equals(command_id) ) cmd = c;
 		}
 		if( cmd == null ) throw new CommandNotFoundException("No command "+command_id+" could be found.");
+
+		// Substitute the templates into the command string:
+		HashMap<String,String> tpls = new HashMap<String,String>();
+		for( Template v : ts.getTemplate() ) {
+			tpls.put(v.getName(), v.getValue());
+		}
+		String[] cmd_template = cmd.getCommand().split(" ");
+		replaceAll(cmd_template,tpls);
 		
+		// Now substiture the parameters into the templates.
 		HashMap<String,String> vars = new HashMap<String,String>();
-		for( Var v : ts.getVar() ) {
-			vars.put(v.getName(), v.getValue());
+		for( Parameter v : ts.getParam() ) {
+			vars.put(v.getName(), v.getDefaultValue());
 		}
 		
-		// Check input file exists, and output file does not!
-		
+		// TODO Check input file exists, and output file does not!
+		// Create standard parameters.
 		vars.put("inFile", input.getAbsolutePath());
 		vars.put("outFile", output.getAbsolutePath());
 		vars.put("logFile", File.createTempFile(ts.getName()+"-"+command_id, ".log").getAbsolutePath());
-		
-		// First substitute local vars into the command, then split and substitute some more?
-		// Vars in vars?
 
-		String[] cmd_template = cmd.getCommand().split(" ");
-		replaceAll(cmd_template,vars);
+		// Now substitute the parameters:
 		replaceAll(cmd_template,vars);
 
+		// Build the command:
 		ProcessBuilder pb = new ProcessBuilder(cmd_template);
 		System.out.println("Command : "+pb.toString());
 		System.out.println("Command : "+pb.command());
@@ -103,7 +110,7 @@ public class PitInvoker {
 	 */
 	public static void main(String[] args) throws IOException, ToolSpecNotFoundException, CommandNotFoundException {
 		PitInvoker ib = new PitInvoker("isobuster");
-		ib.migrate("image-to-userdata-image", 
+		ib.invoke("image-to-userdata-image", 
 				new File("Y:\\DropBox\\Akiko\\test-nimbie\\DISK_1.mds"), 
 				new File("test1") );
 //				File.createTempFile("DISC_1",".iso") );

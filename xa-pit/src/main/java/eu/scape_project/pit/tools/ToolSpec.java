@@ -21,6 +21,9 @@ import javax.xml.transform.stream.StreamSource;
 public class ToolSpec {
 
 	@XmlElement
+	private String id;
+
+	@XmlElement
 	private String name;
 	
 	@XmlElement
@@ -33,9 +36,12 @@ public class ToolSpec {
 	private List<Var> env;
 	
 	@XmlElement
-	private List<Var> var;
+	private List<Template> template;
 	
 	@XmlElement
+	private List<Parameter> param;
+	
+	@XmlElement(name="tool")
 	private List<Tool> tools;
 		
 	private static JAXBContext jc;
@@ -109,17 +115,31 @@ public class ToolSpec {
 	}
 
 	/**
-	 * @return the var
+	 * @return the template
 	 */
-	public List<Var> getVar() {
-		return var;
+	public List<Template> getTemplate() {
+		return template;
 	}
 
 	/**
-	 * @param var the var to set
+	 * @param template the template to set
 	 */
-	public void setVar(List<Var> var) {
-		this.var = var;
+	public void setTemplate(List<Template> template) {
+		this.template = template;
+	}
+
+	/**
+	 * @return the param
+	 */
+	public List<Parameter> getParam() {
+		return param;
+	}
+
+	/**
+	 * @param param the param to set
+	 */
+	public void setParam(List<Parameter> param) {
+		this.param = param;
 	}
 
 	/**

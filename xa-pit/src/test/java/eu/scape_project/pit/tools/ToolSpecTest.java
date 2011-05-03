@@ -23,6 +23,7 @@ import eu.scape_project.pit.tools.ToolSpec;
 public class ToolSpecTest {
 	
 	private static final String KAKADU_SPEC = "/toolspecs/kakadu.ptspec";
+	private static final String JASPER_SPEC = "/toolspecs/jasper.ptspec";
 	private static final String JHOVE2_SPEC = "/toolspecs/jhove2.ptspec";
 	private static final String ISOBUSTER_SPEC = "/toolspecs/isobuster.ptspec";
 
@@ -41,11 +42,11 @@ public class ToolSpecTest {
 	 */
 	@Test
 	public void testToXMlFormatted() throws FileNotFoundException, JAXBException, UnsupportedEncodingException {
-		ToolSpec pts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(KAKADU_SPEC));
+		ToolSpec pts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(JASPER_SPEC));
+		System.out.println("In = "+pts.toXMlFormatted());
 		String xml = pts.toXMlFormatted();
 		ToolSpec pts2 = ToolSpec.fromInputStream( new ByteArrayInputStream( xml.getBytes("UTF-8") ));
 		if( ! pts.equals( pts ) ) {
-			System.out.println("In = "+pts.toXMlFormatted());
 			System.out.println("Out = "+pts2.toXMlFormatted());
 			fail("Round-trip to XML and back lost some data.");
 		}

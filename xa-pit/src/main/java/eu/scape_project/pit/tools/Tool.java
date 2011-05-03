@@ -15,10 +15,11 @@ public class Tool {
 	@XmlAttribute
 	private String type;
 	
-	
 	private String command;
 
 	List<PathwaySpec> formats;
+
+	List<PathwaySpec> fmt;
 
 	public Tool() {
 		super();
