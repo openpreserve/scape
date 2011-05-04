@@ -16,8 +16,19 @@
 	<jp2:profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xmlns:jp2="http://scape-project.eu/schema/tool/parameters/jp2"
 		  xsi:schemaLocation="http://scape-project.eu/schema/tool/parameters/jp2 ./jp2.xsd">
-	  	<jp2:progOrder>rpclg</jp2:progOrder>
+	  	<jp2:progOrder>rpcl</jp2:progOrder>
 	</jp2:profile>
+	<!-- Tempting to pull in RDF at this level, but generating WSDL will be v hard, whereas
+	generating RDF mappings for XSD looks likely to be fairly easy -->
+	<rdf:RDF
+ 	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	 xmlns:jp2="http://scape-project.eu/schema/tool/parameters/jp2#"
+  	 xmlns:dc="http://purl.org/dc/elements/1.1/">
+		<rdf:Description rdf:ID="default-jp2-profile">
+  			<dc:title>Default JP2 Profile</dc:title>
+  	  		<jp2:progOrder>rpcl</jp2:progOrder>
+		</rdf:Description>
+	</rdf:RDF>
   </parameters>
  
   <!-- Debian package: libjasper-runtime - See http://packages.ubuntu.com/hardy/i386/libjasper-runtime/filelist -->
