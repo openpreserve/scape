@@ -17,5 +17,9 @@
 	  	<xs:element ref="jp2:progOrder"/>
 	  </xs:sequence>
     </xs:complexType>
-    <xs:element name="profile" type="jp2:profileFields"/>
+    <xs:element name="profile" type="jp2:profileFields">
+      <xs:annotation>
+        <xs:documentation>This element is the root element.</xs:documentation>
+      </xs:annotation>
+    </xs:element>
 </xs:schema>

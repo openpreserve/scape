@@ -13,6 +13,7 @@
 
   <param var="jp2.progOrder" name="Progression Order" default="rpcl" allowed="rpcl|rcpl|pcrl|..."/>
   <parameters>
+  	<!-- Note that GRDDL could be used to map this XSD into RDF -->
     <profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xmlns="http://scape-project.eu/schema/tool/parameters/jp2"
 		  xsi:schemaLocation="http://scape-project.eu/schema/tool/parameters/jp2 ./jp2.xsd">
