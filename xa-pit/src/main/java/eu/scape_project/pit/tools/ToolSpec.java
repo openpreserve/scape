@@ -19,8 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.transform.stream.StreamSource;
 
 
-@XmlRootElement( name="toolspec" )
-@XmlType
+@XmlRootElement( name="toolspec", namespace=ToolSpec.NS )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class ToolSpec {
 	
@@ -184,6 +183,7 @@ public class ToolSpec {
 		Marshaller m = jc.createMarshaller();
 		m.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
 		m.setProperty( Marshaller.JAXB_ENCODING, "UTF-8" );
+		m.setProperty( Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, ToolSpec.NS );
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		m.marshal(this, bos);
 		return bos.toString("UTF-8");
