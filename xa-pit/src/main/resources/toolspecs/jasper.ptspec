@@ -13,10 +13,10 @@
 
   <param var="jp2.progOrder" name="Progression Order" default="rpcl" allowed="rpcl|rcpl|pcrl|..."/>
   <parameters>
-  	<jp2:profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	<jp2:profile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xmlns:jp2="http://scape-project.eu/schema/tool/parameters/jp2"
-		  xsi:schemaLocation="http://scape-project.eu/schema/tool/parameters/jp2.xsd ./jp2.xsd">
-	  	<jp2:progOrder>rpcl</jp2:progOrder>
+		  xsi:schemaLocation="http://scape-project.eu/schema/tool/parameters/jp2 ./jp2.xsd">
+	  	<jp2:progOrder>rpclg</jp2:progOrder>
 	</jp2:profile>
   </parameters>
  

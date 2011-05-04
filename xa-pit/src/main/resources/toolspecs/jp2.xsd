@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jp2="http://scape-project.eu/schema/tool/parameters/jp2"
 	targetNamespace="http://scape-project.eu/schema/tool/parameters/jp2"
 	elementFormDefault="qualified">
 	<xs:element name="progOrder">
@@ -11,4 +12,10 @@
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:element>
+	<xs:complexType name="profileFields">
+	  <xs:sequence>
+	  	<xs:element ref="jp2:progOrder"/>
+	  </xs:sequence>
+    </xs:complexType>
+    <xs:element name="profile" type="jp2:profileFields"/>
 </xs:schema>
