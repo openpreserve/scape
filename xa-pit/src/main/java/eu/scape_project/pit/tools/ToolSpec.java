@@ -19,37 +19,35 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.transform.stream.StreamSource;
 
 
-@XmlRootElement( name="toolspec", namespace=ToolSpec.NS )
+@XmlRootElement( name="toolspec" )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class ToolSpec {
 	
-	public static final String NS="http://scape-project.eu/schema/toolspec";
-
-	@XmlElement(namespace=ToolSpec.NS)
+	@XmlElement()
 	private String id;
 
-	@XmlElement(namespace=ToolSpec.NS)
+	@XmlElement()
 	private String name;
 	
-	@XmlElement(namespace=ToolSpec.NS)
+	@XmlElement()
 	private Version version;
 	
-	@XmlElement(namespace=ToolSpec.NS)
+	@XmlElement()
 	private Install install;
 	
-	@XmlElement(namespace=ToolSpec.NS)
+	@XmlElement()
 	private List<Var> env;
 	
-	@XmlElement(namespace=ToolSpec.NS)
+	@XmlElement()
 	private List<Template> template;
 	
-	@XmlElement(namespace=ToolSpec.NS)
+	@XmlElement()
 	private List<Parameter> param;
 	
-	@XmlElement(namespace=ToolSpec.NS)
+	@XmlElement()
 	private Parameters parameters;
 	
-	@XmlElement(namespace=ToolSpec.NS, name="tool")
+	@XmlElement( name="tool" )
 	private List<Tool> tools;
 		
 	private static JAXBContext jc;
@@ -183,7 +181,6 @@ public class ToolSpec {
 		Marshaller m = jc.createMarshaller();
 		m.setProperty( Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE );
 		m.setProperty( Marshaller.JAXB_ENCODING, "UTF-8" );
-		m.setProperty( Marshaller.JAXB_NO_NAMESPACE_SCHEMA_LOCATION, ToolSpec.NS );
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		m.marshal(this, bos);
 		return bos.toString("UTF-8");
