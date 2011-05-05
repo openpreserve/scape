@@ -36,8 +36,7 @@ service. See section "Requirements" for further information.
 
    or with other arguments:
 
-       java -jar genericwrapper.jar -ic <inputconfig.json> -oc <outputconfig.json> 
-         -pc <projectconfig.properties>
+       java -jar genericwrapper.jar 
 
    The project will be created in the "generated" folder.
 

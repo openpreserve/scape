@@ -10,7 +10,7 @@
 package org.opflabs.scape.tb.gw.gen;
 
 /**
- * Insertible
+ * Insertable
  * @author SCAPE Project Development Team
  * @version 0.1
  */

@@ -153,7 +153,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
                 mappingVal = nodeName + ".getAbsolutePath()";
             }
             if (mappingVal == null) {
-                mappingVal = "TODO: Set value";
+                mappingVal = "\"TODO: Set value\"";
             }
 
             // mapping

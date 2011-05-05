@@ -1,0 +1,28 @@
+{
+  "inputFile": {
+    "Datatype": "xsd:anyURI",
+    "Required": "true",
+    "CliMapping": "INFILE",
+    "Documentation": "URL reference to input file"
+  },
+  "resolutions": {
+    "Datatype": "xsd:int",
+    "Required": "true",
+    "CliMapping": "RESOLUTIONS",
+    "Documentation": "URL reference to input file"
+  },
+  "tileSize": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "CliMapping": "TILESIZE",
+    "Documentation": "size of tile, e.g. 512,512"
+  }
+}
+// The following properties can be defined for each variable:
+// - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
+// - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
+// - CliMapping - Mapping to command line pattern variable, see property
+//                service.cli.command.pattern in genericwrapper.properties
+// - Default - Default value if using an array of allowed values (optional)
+// - Cardinality - Use "list" for a string list input
+// - Documentation - Documentation for the variable
