@@ -15,6 +15,10 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.ws.RequestWrapper;
+import javax.xml.ws.ResponseWrapper;
+import javax.xml.ws.soap.MTOM;
+
+import com.sun.xml.ws.developer.StreamingAttachment;
 
 import eu.planets_project.services.identify.IdentifyResult;
 import eu.planets_project.services.identify.IdentifyResult.Method;
@@ -29,6 +33,8 @@ import eu.scape_project.pit.tools.Parameters;
  * @author anj
  *
  */
+@MTOM
+@StreamingAttachment(parseEagerly=true, memoryThreshold=4000000L)
 @WebService
 //SOAPBinding(style=SOAPBinding.Style.DOCUMENT, use=SOAPBinding.Use.ENCODED, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class ToolService {
@@ -47,7 +53,8 @@ public class ToolService {
 	// 
 	@WebMethod(operationName="identify")
 	@WebResult(name="identifyResult")
-	@RequestWrapper(localName="arguments")
+	//@RequestWrapper(partName="arguments")
+	//@ResponseWrapper(partName="results")
 	public IdentifyResult identify( 
 			@WebParam(name="toolId") String toolId, 
 			@WebParam(name="inputURI") URI input, 

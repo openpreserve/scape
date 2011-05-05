@@ -149,7 +149,7 @@ public class PitInvoker {
 	 */
 	public static void main(String[] args) throws IOException, ToolSpecNotFoundException, CommandNotFoundException {
 		PitInvoker ib = new PitInvoker("file");
-		ib.identify("file-id-mime", 
+		ib.identify("file-mime", 
 				new File("test.jpeg") );
 				//, 
 				//new File("test.jp2") );

@@ -52,6 +52,41 @@
     	  <!-- Could use this to patch wsdl:documentation and other niceties into the WSDL, remembering to refer to it from the endpoint declaration.-->
     	</configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>com.sun.xml.ws</groupId>
+                  <artifactId>jaxws-rt</artifactId>
+                  <version>2.2</version>
+                  <type>jar</type>
+                  <overWrite>true</overWrite>
+                  <outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-compiler-plugin</artifactId>
+       <configuration>
+         <source>1.6</source>
+         <target>1.6</target>
+         <compilerArguments>
+           <endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+         </compilerArguments>
+       </configuration>
+     </plugin>
 		</plugins>
 	</build>
   <dependencies>

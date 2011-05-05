@@ -13,19 +13,23 @@
   	<parameter name="exclude" value="tokens"/>
   </parameters>
  
-  <tool type="identify" id="file-id-text">
+  <tool type="identify" id="file-stdin-text">
+  	<command>file -</command>
+  </tool>
+
+  <tool type="identify" id="file-text">
   	<command>file ${inFile}</command>
   </tool>
 
-  <tool type="identify" id="file-id-text-exclude">
+  <tool type="identify" id="file-text-exclude">
   	<command>file -e ${exclude} ${inFile}</command>
   </tool>
 
-  <tool type="identify" id="file-id-mime">
+  <tool type="identify" id="file-mime">
   	<command>file --mime-type ${inFile}</command>
   </tool>
 
-  <tool type="identify" id="file-id-mime-exclude">
+  <tool type="identify" id="file-mime-exclude">
   	<command>file --mime-type -e ${exclude} ${inFile}</command>
   </tool>
 
