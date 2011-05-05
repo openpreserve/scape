@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+  <id>pit-buildin-file</id>
+  <name>Fine Free File</name>
+  <homepage></homepage>
+  
+  <version>
+    <command>file -v</command>
+    <match>(file-.*)</match>
+  </version>
+
+  <parameters>
+  	<parameter name="exclude" value="tokens"/>
+  </parameters>
+ 
+  <tool type="identify" id="file-id-text">
+  	<command>file ${inFile}</command>
+  </tool>
+
+  <tool type="identify" id="file-id-text-exclude">
+  	<command>file -e ${exclude} ${inFile}</command>
+  </tool>
+
+  <tool type="identify" id="file-id-mime">
+  	<command>file --mime-type ${inFile}</command>
+  </tool>
+
+  <tool type="identify" id="file-id-mime-exclude">
+  	<command>file --mime-type -e ${exclude} ${inFile}</command>
+  </tool>
+
+</toolspec>
