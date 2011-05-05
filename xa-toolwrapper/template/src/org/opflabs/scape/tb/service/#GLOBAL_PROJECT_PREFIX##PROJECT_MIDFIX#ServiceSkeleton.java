@@ -130,17 +130,16 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
         // Required for providing access to output files
         String publicHttpAccessUrl = getValueOfServiceParameter("publicHttpAccessUrl");
 
+        // Command pattern variables key value pairs
         HashMap cliCmdKeyValPairs = new HashMap<String, String>();
 
-        // input code
+        // <!-- input code java types - do not remove! -->
         long startMillis = System.currentTimeMillis();
         process(cliCmdKeyValPairs);
         long timeMillis = System.currentTimeMillis() - startMillis;
         processing_time = (int)timeMillis;
 
-        // output code
-
-
+        // <!-- output code java types - do not remove! -->
         Response.setResponse(responseObj);
         return Response;
     }
