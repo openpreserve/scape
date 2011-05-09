@@ -48,7 +48,7 @@ public class JavaTypesCreatorTest extends TestCase {
     @Before
     public void setUp() {
         try {
-            st = new ProjectPropertiesSubstitutor("genericwrapper.properties");
+            st = new ProjectPropertiesSubstitutor("projectconfig.properties");
             pu = st.getPropertyUtils();
             jtc = new JavaTypesCreator();
         } catch (GeneratorException ex) {

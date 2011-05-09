@@ -2,7 +2,7 @@
   "outputFile": {
     "Datatype": "xsd:anyURI",
     "CliMapping": "OUTFILE",
-    "Extension": "txt",
+    "Extension": "jp2",
     "Required": "false",
     "Documentation": "URL reference to output file"
   },

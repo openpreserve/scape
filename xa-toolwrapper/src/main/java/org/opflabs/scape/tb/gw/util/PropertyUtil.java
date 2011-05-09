@@ -33,7 +33,7 @@ public class PropertyUtil {
     public PropertyUtil(String propertiesFile) throws GeneratorException {
         try {
             properties = new Properties();
-            properties.load(new FileInputStream("genericwrapper.properties"));
+            properties.load(new FileInputStream(propertiesFile));
 
 //            InputStream is = this.getClass().getResourceAsStream(propertiesFile);
 //            BufferedInputStream stream = new BufferedInputStream(is);

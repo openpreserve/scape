@@ -82,7 +82,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             logger.error("Service source does not exist.");
             throw new GeneratorException();
         }
-        String codePoint = "// " + ioType + " code\n";
+        String codePoint = "// <!-- " + ioType + " code java types - do not remove! -->\n";
         codeSb.append(codePoint);
         codeSb.append("\n");
 
@@ -90,7 +90,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
 
         serviceSource = serviceSource.replaceAll(codePoint, codeSb.toString());
 
-        serviceSource = serviceSource.replaceAll("// " + ioType.INPUT + " code\n", "// " + ioType.INPUT + " code\n" + codeReqSb.toString());
+        serviceSource = serviceSource.replaceAll("// <!-- " + ioType.INPUT + " code java types - do not remove! -->\n", "// <!-- " + ioType.INPUT + " code java types - do not remove! -->\n" + codeReqSb.toString());
 
         File targetFile = FileUtil.writeStringToFile(serviceSource, (trgtFileAbsPath));
         if (targetFile.exists()) {
@@ -152,8 +152,17 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             if (dataType.equals("xsd:anyURI")) {
                 mappingVal = nodeName + ".getAbsolutePath()";
             }
+            if (dataType.equals("xsd:int")) {
+                mappingVal = "Integer.toString("+nodeName + ")";
+            }
+            if (dataType.equals("xsd:boolean")) {
+                mappingVal = nodeName;
+            }
+            if (dataType.equals("xsd:string")) {
+                mappingVal = nodeName;
+            }
             if (mappingVal == null) {
-                mappingVal = "TODO: Set value";
+                mappingVal = "\"TODO: Set value\"";
             }
 
             // mapping
@@ -175,7 +184,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             outMappingVar = outMappingJsn.getTextValue();
 
             outMappingVal = nodeName + " = " + outMappingVar + ";\n";
-            outMappingVal += "        responseObj." + getSetterName(nodeName) + "(" + nodeName + ");\n";
+            outMappingVal += getSpace(2)+"responseObj." + getSetterName(nodeName) + "(" + nodeName + ");\n";
 
             snippet.addKeyValuePair("OUTMAPPING", outMappingVal);
         } else {
@@ -189,10 +198,18 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             String extension = null;
             extension = (extJsn == null) ? "tmp" : extJsn.getTextValue();
             // File name for output files that have to be
-            String ofn = "        String " + nodeName + "Name = FileUtils.getTmpFile(\"" + nodeName + "Result\",\"" + extension + "\").getAbsolutePath();\n";
+            String ofn = getSpace(2)+"String " + nodeName + "Name = FileUtils.getTmpFile(\"" + nodeName + "Result\",\"" + extension + "\").getAbsolutePath();\n";
             codeReqSb.append(ofn);
-            String ofn2 = "        cliCmdKeyValPairs.put(\"" + mappingVar + "\", " + nodeName + "Name);\n";
+            String ofn2 = getSpace(2)+"cliCmdKeyValPairs.put(\"" + mappingVar + "\", " + nodeName + "Name);\n";
             codeReqSb.append(ofn2);
         }
+    }
+
+    private String getSpace(int level) {
+        StringBuilder spaceSb = new StringBuilder();
+        for(int i = 0; i<level; i++) {
+            spaceSb.append("    ");
+        }
+        return spaceSb.toString();
     }
 }

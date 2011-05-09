@@ -109,7 +109,7 @@ public class GenericWrapper {
             logger.info("Trying to read default configuration files from working directory.");
             inputConfigurationFile = "inputconfig.json";
             outputConfigurationFile = "outputconfig.json";
-            projectPropertiesFile = "genericwrapper.properties";
+            projectPropertiesFile = "projectconfig.properties";
             logger.info("Use arguments:");
             logger.info("-ic <inputconfig.json> -oc <outputconfig.json> -pc <projectconfig.properties>");
             logger.info("in order to load other configuration files.");

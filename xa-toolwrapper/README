@@ -13,19 +13,26 @@ service. See section "Requirements" for further information.
 
 1) Configure the project by editing the configuration files:
 
-   a) genericwrapper.properties
+   a) projectconfig.properties
       Project configuration file defining name of the project context,
       name of the tool the web service provides access to, server
       parameters for deploying the service, etc.
 
-   b) genericwrapper.sh and inputconfig.json
+   b) genericwrapper.json and inputconfig.json
       Input and output data type configuration files, see the example files
       inputconfig.json and outputconfig.json provided in the root folder.
       The following properties can be defined for each variable:
       - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
       - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
       - CliMapping - Mapping to command line pattern variable, see property
-                     service.cli.command.pattern in genericwrapper.properties
+            service.cli.command.pattern in projectconfig.properties
+      - OutputMapping - Some variables are provided by the service and can be
+            mapped to an output port:
+            - processing_returncode (String)
+            - returncode, 0 for success >0 if an error occurred
+            - processing_message (String)  - service execution message
+            - processing_log (String) - service execution log
+            - processing_time (int) - processing time in milliseconds
       - Default - Default value if using an array of allowed values (optional)
       - Cardinality - Use "list" for a string list input
       - Documentation - Documentation for the variable
@@ -36,8 +43,7 @@ service. See section "Requirements" for further information.
 
    or with other arguments:
 
-       java -jar genericwrapper.jar -ic <inputconfig.json> -oc <outputconfig.json> 
-         -pc <projectconfig.properties>
+       java -jar genericwrapper.jar 
 
    The project will be created in the "generated" folder.
 
@@ -69,12 +75,12 @@ Project structure
 - template
   Project template (substitution variables in the template files), e.g.
   #GLOBAL_PROJECT_VERSION# will be replaced by the version number defined
-  in the project configuration file (genericwrapper.properties).
+  in the project configuration file (projectconfig.properties).
 
 - genericwrapper.jar
   Java binary executable (execute "java -jar genericwrapper.jar")
 
-- genericwrapper.properties
+- projectconfig.properties
   Project configuration file
 
 - inputconfig.json
