@@ -12,7 +12,9 @@
             return getErrorResponse(Response, responseObj);
         }
         infolog("Input URL: " + #INPUT_VARIABLE#Url.toString());
-        File #INPUT_VARIABLE# = FileUtils.urlToFile(#INPUT_VARIABLE#Url);
+        String inputExt = StringUtils.getFileExtension(#INPUT_VARIABLE#Url.toString());
+        if(inputExt == null) inputExt = "tmp";
+        File #INPUT_VARIABLE# = FileUtils.urlToFile(#INPUT_VARIABLE#Url, inputExt);
         if (!#INPUT_VARIABLE#.exists()) {
             processing_message = "Invalid input file.";
             return getErrorResponse(Response, responseObj);

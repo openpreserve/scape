@@ -49,7 +49,7 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
     private int returncode = -1;
     private int processing_returncode;
     private String processing_message;
-    private String processing_log;
+    private String processing_log = "";
     private int processing_time;
 
     /**
@@ -93,9 +93,9 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
                 break;
             default:
                 processing_message = "Process failed with error code " + processing_returncode + ". ";
-                if (clp.getErrorInputStream() != null) {
-                    processing_message += "Tool error message: " + FileUtils.getStringFromInputStream(clp.getErrorInputStream());
-                }
+//                if (clp.getErrorInputStream() != null) {
+//                    processing_message += "Tool error message: " + FileUtils.getStringFromInputStream(clp.getErrorInputStream());
+//                }
                 errorlog(processing_message);
                 break;
         }
@@ -117,6 +117,10 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
 
         infolog("========= PROCESSING REQUEST =========");
 
+        MessageContext msgCtx = MessageContext.getCurrentMessageContext();
+        String ip = (String) msgCtx.getProperty(MessageContext.REMOTE_ADDR);
+        if(ip != null) infolog("Client IP: "+ip);
+        
         // Request message object
         RequestType requestObj = Request.getRequest();
 
@@ -138,9 +142,11 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
         process(cliCmdKeyValPairs);
         long timeMillis = System.currentTimeMillis() - startMillis;
         processing_time = (int)timeMillis;
-
+        
         // <!-- output code java types - do not remove! -->
+        
         Response.setResponse(responseObj);
+        
         return Response;
     }
 
@@ -154,6 +160,7 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
     Response getErrorResponse(Response Response,
             ResponseType responseObj) {
         errorlog("Process terminated with error: " + processing_message);
+        responseObj.setProcessingLog(processing_log);
         Response.setResponse(responseObj);
         return Response;
     }

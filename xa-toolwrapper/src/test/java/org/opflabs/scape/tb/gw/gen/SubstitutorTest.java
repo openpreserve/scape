@@ -42,7 +42,7 @@ public class SubstitutorTest {
     @Before
     public void setUp() {
         try {
-            st = new ProjectPropertiesSubstitutor("genericwrapper.properties");
+            st = new ProjectPropertiesSubstitutor("projectconfig.properties");
             pu = st.getPropertyUtils();
         } catch (GeneratorException ex) {
             fail("Unable to create substitutor.");
@@ -98,21 +98,21 @@ public class SubstitutorTest {
     /**
      * Test of getProjectMidfix method, of class Substitutor.
      */
-    @Test
-    public void testGetProjectMidfix() {
-        String projectTitle = pu.getProp("project.title");
-        String cleanProjTitle = projectTitle.replaceAll("[^A-Za-z0-9 ]", "");
-        StringTokenizer strtok = new StringTokenizer(cleanProjTitle, " ");
-        StringBuilder sb = new StringBuilder();
-        while (strtok.hasMoreTokens()) {
-            String nameItem = strtok.nextToken();
-            String midfixPart = nameItem.substring(0, 1).toUpperCase() + nameItem.substring(1).toLowerCase();
-            sb.append(midfixPart);
-        }
-        // PROJECT_MIDFIX
-        String projectMidfix = sb.toString();
-        assertTrue("Template directory is not correct.",st.getProjectMidfix().equals(projectMidfix));
-    }
+//    @Test
+//    public void testGetProjectMidfix() {
+//        String projectTitle = pu.getProp("project.title");
+//        String cleanProjTitle = projectTitle.replaceAll("[^A-Za-z0-9 ]", "");
+//        StringTokenizer strtok = new StringTokenizer(cleanProjTitle, " ");
+//        StringBuilder sb = new StringBuilder();
+//        while (strtok.hasMoreTokens()) {
+//            String nameItem = strtok.nextToken();
+//            String midfixPart = nameItem.substring(0, 1).toUpperCase() + nameItem.substring(1).toLowerCase();
+//            sb.append(midfixPart);
+//        }
+//        // PROJECT_MIDFIX
+//        String projectMidfix = sb.toString();
+//        assertTrue("Template directory is not correct.",st.getProjectMidfix().equals(projectMidfix));
+//    }
 
 
 

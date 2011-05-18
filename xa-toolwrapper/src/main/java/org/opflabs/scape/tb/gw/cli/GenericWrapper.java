@@ -123,8 +123,9 @@ public class GenericWrapper {
             st.processDirectory(dir);
             String generatedDir = st.getGenerateDir();
             String projMidfix = st.getProjectMidfix();
+            String projDir = st.getProjectDirectory();
 
-            String wsdlAbsPath = FileUtil.makePath(generatedDir, projMidfix,
+            String wsdlAbsPath = FileUtil.makePath(generatedDir, projDir,
                     st.getProjectResourcesDir())
                     + st.getGlobalProjectPrefix()
                     + projMidfix
@@ -138,7 +139,7 @@ public class GenericWrapper {
                     MsgType.RESPONSE, wsdlAbsPath, outputConfigurationFile, wsdlAbsPath);
             reqSdc.insert();
 
-            String sjf = FileUtil.makePath(generatedDir, projMidfix,
+            String sjf = FileUtil.makePath(generatedDir, projDir,
                     "src",st.getProjectPackagePath(),"service")
                     + st.getGlobalProjectPrefix()
                     + projMidfix
@@ -152,7 +153,7 @@ public class GenericWrapper {
 
             String libDirStr = st.getProjectLibDir();
             File libPath = new File(FileUtil.makePath(libDirStr));
-            String generatedDirStr = FileUtil.makePath(generatedDir, projMidfix, libDirStr);
+            String generatedDirStr = FileUtil.makePath(generatedDir, projDir, libDirStr);
             logger.info("Copying directory " + libPath + " ...");
             FileUtil.copyDirectory(libPath, FileUtil.makePath(libDirStr), generatedDirStr);
         } catch (Exception ex) {

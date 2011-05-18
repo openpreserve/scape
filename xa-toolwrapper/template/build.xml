@@ -180,14 +180,14 @@ build.properties file." />
             message="Deploying ${webservice.file.name} on public server ..."/>
         <scp file="${build.service.dir}/${webservice.file.name}"
         todir="${public.server.user}:${public.server.pwd}@${tomcat.public.host}:${tomcat.public.axis.dir}" trust="true"/>
-        <!-- <copy file="${build.service.dir}/${webservice.file.name}"
+        <!-- copy file="${build.service.dir}/${webservice.file.name}"
         tofile="${tomcat.public.axis.dir}/${webservice.file.name}"
-        overwrite="true"/>-->
+        overwrite="true"/-->
         <echo level="info" message="Reloading Axis2 web application ..."/>
         <!--Note that the reload tasks requires the apache-tomcat cataline-ant.jar
         to be placed in the ant libraries directory.-->
         <reload
-            url="http://${tomcat.public.host}:${tomcat.tomcat.public.http.port}/manager-l"
+            url="http://${tomcat.public.host}:${tomcat.tomcat.public.http.port}/${tomcat.public.manager.context}"
             username="${tomcat.public.manager.user}"
             password="${tomcat.public.manager.pwd}"
             path="/${tomcat.public.axis.context}"/>

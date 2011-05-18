@@ -523,7 +523,32 @@ public final class FileUtils {
     public static File urlToFile(URL url) {
         File fOut = null;
         try {
-            fOut = getTmpFile("tmpfilefromurl", ".tmp");
+            fOut = getTmpFile("fromurl", ".tmp");
+
+            URLConnection uc = url.openConnection();
+            logger.info("ContentType: " + uc.getContentType());
+            InputStream in = uc.getInputStream();
+            writeInputStreamToFile(in, fOut);
+            logger.info("File of length " + fOut.length() + " created from URL " + url.toString());
+
+            in.close();
+        } catch (IOException ex) {
+            logger.error("I/O Exception occurred while trying to read from URL " + url.toString());
+        }
+        return fOut;
+    }
+
+
+
+    /**
+     * Read file of URL into file.
+     * @param url URL where the input file is located
+     * @return Result file
+     */
+    public static File urlToFile(URL url, String ext) {
+        File fOut = null;
+        try {
+            fOut = getTmpFile("fromurl", "."+ext);
 
             URLConnection uc = url.openConnection();
             logger.info("ContentType: " + uc.getContentType());

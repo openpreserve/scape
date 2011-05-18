@@ -65,7 +65,7 @@
     
     <wsdl:service name="#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#Service">
         <wsdl:port name="#GLOBAL_PROJECT_PREFIX#ServiceSOAP11port_http"  binding="tns:#GLOBAL_PROJECT_PREFIX#ServiceSOAP11Binding">
-            <soap:address location="https://#TOMCAT_PUBLIC_HOST#/#TOMCAT_PUBLIC_AXIS_CONTEXT#/#TOMCAT_PUBLIC_SERVICES_PATH#/#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#Service" />
+            <soap:address location="http://#TOMCAT_PUBLIC_HOST#:#TOMCAT_PUBLIC_HTTP_PORT#/#TOMCAT_PUBLIC_AXIS_CONTEXT#/#TOMCAT_PUBLIC_SERVICES_PATH#/#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#Service" />
         </wsdl:port>
     </wsdl:service>
     

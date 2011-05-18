@@ -34,8 +34,8 @@ public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
     private PropertyUtil pu;
     private String templateDir;
     private String generateDir;
-    private String cleanProjTitle;
-    private String projectMidfix;
+
+    private Tool tool;
 
     /**
      * Default constructor
@@ -52,7 +52,7 @@ public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
         super();
         try {
             pu = new PropertyUtil(propertiesFileStr);
-            initDerivedVariables();
+            tool = new Tool(pu.getProp("project.title"),pu.getProp("tool.version"));
         } catch (GeneratorException ex) {
             logger.error("Unable to load properties.");
             throw new GeneratorException();
@@ -77,32 +77,14 @@ public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
     }
 
     /**
-     * Initialises basic variables, like the project title and the midfix.
-     */
-    private void initDerivedVariables() {
-        String projectTitle = pu.getProp("project.title");
-        cleanProjTitle = projectTitle.replaceAll("[^A-Za-z0-9 ]", "");
-        StringTokenizer st = new StringTokenizer(cleanProjTitle, " ");
-        StringBuilder sb = new StringBuilder();
-        while (st.hasMoreTokens()) {
-            String nameItem = st.nextToken();
-            String midfixPart = nameItem.substring(0, 1).toUpperCase() + nameItem.substring(1).toLowerCase();
-            sb.append(midfixPart);
-        }
-        // PROJECT_MIDFIX
-        projectMidfix = sb.toString();
-    }
-
-    /**
      * Add variables that can be de derived from property values
      * @param key property where value is derived from
      * @param val derived value
      */
     private void addDerivedVariables(String key, String val) {
         if (key.equals("project.title")) {
-            pValPairs.put("PROJECT_MIDFIX", projectMidfix);
-            String projectMidfixLc = projectMidfix.toLowerCase();
-            pValPairs.put("PROJECT_MIDFIX_LC", projectMidfixLc);
+            pValPairs.put("PROJECT_MIDFIX", tool.getMidfix());
+            pValPairs.put("PROJECT_MIDFIX_LC", tool.getDirectory());
         } else if (key.equals("project.package.name")) {
             String projectPackagePath = StringConverterUtil.packageNameToPackagePath(val);
             pValPairs.put("PROJECT_PACKAGE_PATH", projectPackagePath);
@@ -115,7 +97,7 @@ public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
     @Override
     public void processFile(File path) {
         logger.debug("Source: " + path);
-        String trgtFilePath = path.getPath().replaceAll(pu.getProp("project.template.dir"), pu.getProp("project.generate.dir") + "/" + this.projectMidfix);
+        String trgtFilePath = path.getPath().replaceAll(pu.getProp("project.template.dir"), pu.getProp("project.generate.dir") + "/" + tool.getDirectory());
         logger.debug("Target: " + trgtFilePath);
         String trgtDirStr = trgtFilePath.replaceAll(path.getName(), "");
         FileUtil.mkdirs(new File(trgtDirStr));
@@ -168,7 +150,15 @@ public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
      * @return project midfix
      */
     public String getProjectMidfix() {
-        return this.projectMidfix;
+        return tool.getMidfix();
+    }
+
+    /**
+     * Getter for the project midfix (e.g. SomeTool)
+     * @return project midfix
+     */
+    public String getProjectDirectory() {
+        return tool.getDirectory();
     }
 
     /**
@@ -186,5 +176,19 @@ public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
     public String getProjectPackagePath() {
         String ppp = pValPairs.get("PROJECT_PACKAGE_PATH");
         return ppp;
+    }
+
+    /**
+     * @return the tool
+     */
+    public Tool getTool() {
+        return tool;
+    }
+
+    /**
+     * @param tool the tool to set
+     */
+    public void setTool(Tool tool) {
+        this.tool = tool;
     }
 }

@@ -1,15 +1,15 @@
         File #INPUT_VARIABLE# = new File(#INPUT_VARIABLE#Name);
-        if (!#INPUT_VARIABLE#.exists()) {
-            processing_message = "The expected output file " + #INPUT_VARIABLE#.getName() + " has not been created successfully.";
+        if (!#INPUT_VARIABLE#.exists() || #INPUT_VARIABLE#.length() == 0) {
+            processing_message = "The expected output file " + #INPUT_VARIABLE#.getName() + " is empty or has not been created successfully.";
             return getErrorResponse(Response, responseObj);
         }
-        infolog("Output file of size " + #INPUT_VARIABLE#.length() + " has been created successfully.");
+        infolog("Output file of size " + #INPUT_VARIABLE#.length() + " has been created successfully");
         File public#TYPE_NAME# =
-                new File(publicHttpAccessDir + #INPUT_VARIABLE#.getName()+"."+StringUtils.getFileExtension(#INPUT_VARIABLE#.getAbsolutePath()));
+                new File(publicHttpAccessDir + #INPUT_VARIABLE#.getName());
         if (!new File(publicHttpAccessDir).isDirectory()) {
-            processing_message = "The output directory does not exist. Check " +
+            processing_message = "The output directory "+publicHttpAccessDir+" does not exist. Check " +
                     "publicHttpAccessDir parameter in the " +
-                    "resources/services.xml service configuration file.";
+                    "resources/services.xml service configuration file";
             return getErrorResponse(Response, responseObj);
         }
         infolog("Public output file: " + public#TYPE_NAME#.toString());

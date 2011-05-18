@@ -198,7 +198,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             String extension = null;
             extension = (extJsn == null) ? "tmp" : extJsn.getTextValue();
             // File name for output files that have to be
-            String ofn = getSpace(2)+"String " + nodeName + "Name = FileUtils.getTmpFile(\"" + nodeName + "Result\",\"" + extension + "\").getAbsolutePath();\n";
+            String ofn = getSpace(2)+"String " + nodeName + "Name = FileUtils.getTmpFile(\"" + nodeName + "\",\"" + extension + "\").getAbsolutePath();\n";
             codeReqSb.append(ofn);
             String ofn2 = getSpace(2)+"cliCmdKeyValPairs.put(\"" + mappingVar + "\", " + nodeName + "Name);\n";
             codeReqSb.append(ofn2);
