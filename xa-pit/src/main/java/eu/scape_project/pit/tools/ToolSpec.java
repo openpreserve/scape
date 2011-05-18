@@ -18,7 +18,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.transform.stream.StreamSource;
 
-
 @XmlRootElement( name="toolspec" )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class ToolSpec {
