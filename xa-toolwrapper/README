@@ -30,13 +30,16 @@ service. See section "Requirements" for further information.
             mapped to an output port:
             - processing_returncode (String)
             - returncode, 0 for success >0 if an error occurred
-            - processing_success (boolean) - success/failure of service execution
             - processing_message (String)  - service execution message
             - processing_log (String) - service execution log
             - processing_time (int) - processing time in milliseconds
+            - processing_success (boolean) - success/failure of service execution
+            - processing_unitid (String) - Processing unit identifier
       - Default - Default value if using an array of allowed values (optional)
       - Cardinality - Use "list" for a string list input
       - Documentation - Documentation for the variable
+      - PrefixFromInput - Only for file outputs: Define input file variable for
+            which the input file name should be prepended to the output filename.
 
 2) Run the project generator (default arguments):
 
