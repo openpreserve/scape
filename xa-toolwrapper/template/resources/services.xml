@@ -23,6 +23,21 @@
         <!--
         Below is the command that will be executed on the command line. You
         must either indicate the full path of the tool, or create add the
+        application name to the application search path (windows environment
+        variable 'Path'). Command line pattern variables like #INFILE# and
+        #OUTFILE# used in the example pattern must be registered in the
+        eu.impact_project.iif.service.CommandPatternVariables class and can
+        then be used in the service implementation class
+        eu.impact_project.iif.service.IMPACTTestCopyFileServiceSkeleton
+        (see method 'process'):
+        paramValuePairs.put(CommandPatternVariables.INFILE, f.getAbsolutePath())
+        -->
+
+        <parameter name="processingUnit">#~PROCUNIT~#</parameter>
+
+        <!--
+        Below is the command that will be executed on the command line. You
+        must either indicate the full path of the tool, or create add the
         application name to the application search path (windows environment 
         variable 'Path'). 
         -->
@@ -42,7 +57,6 @@
         publicHttpAccessDir above).
         -->
         <parameter name="publicHttpAccessUrl">#~PUBHTTPACCESSURL~#</parameter>
-
 
         <!--
         Web service operation which sends/receives binary data by URL references.

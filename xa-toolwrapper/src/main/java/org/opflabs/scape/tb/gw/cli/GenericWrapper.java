@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The SCAPE Project Partners.
+ * Copyright (c) 2011 The IMPACT/SCAPE Project Partners.
  *
  *
  * All rights reserved. This program and the accompanying
@@ -28,7 +28,7 @@ import org.opflabs.scape.tb.gw.gen.XMLSchemaDatatypesCreator;
  * This program generates an ant-based project that can be used to deploy
  * a soap web service in an axis2 web service container deployed in a servlet
  * container, like apache tomcat, for example.
- * @author SCAPE Project Development Team
+ * @author IMPACT/SCAPE Project Development Team
  * @version 0.1
  */
 public class GenericWrapper {
@@ -109,9 +109,9 @@ public class GenericWrapper {
             logger.info("Trying to read default configuration files from working directory.");
             inputConfigurationFile = "inputconfig.json";
             outputConfigurationFile = "outputconfig.json";
-            projectPropertiesFile = "projectconfig.properties";
+            projectPropertiesFile = "default.properties";
             logger.info("Use arguments:");
-            logger.info("-ic <inputconfig.json> -oc <outputconfig.json> -pc <projectconfig.properties>");
+            logger.info("-ic <inputconfig.json> -oc <outputconfig.json> -pc <default.properties>");
             logger.info("in order to load other configuration files.");
         } else {
             initialiseParametersFromArgs(args);
@@ -145,9 +145,9 @@ public class GenericWrapper {
                     + projMidfix
                     + "ServiceSkeleton.java";
             logger.debug("Service Java file: " + sjf);
-            JavaTypesCreator jtcInput = new JavaTypesCreator(IOType.INPUT,inputConfigurationFile,sjf,sjf);
+            JavaTypesCreator jtcInput = new JavaTypesCreator(st, IOType.INPUT,inputConfigurationFile,sjf,sjf);
             jtcInput.insert();
-            JavaTypesCreator jtcOutput = new JavaTypesCreator(IOType.OUTPUT,outputConfigurationFile,sjf,sjf);
+            JavaTypesCreator jtcOutput = new JavaTypesCreator(st, IOType.OUTPUT,outputConfigurationFile,sjf,sjf);
             jtcOutput.insert();
 
 

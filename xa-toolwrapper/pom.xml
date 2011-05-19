@@ -11,7 +11,7 @@
     <artifactId>xa-toolwrapper</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>SCAPE Generic Tool Wrapper</name>
+    <name>SOAP Web Service Tool Wrapper Generator</name>
     <build>
         <plugins>
             <plugin>
@@ -75,6 +75,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <description>Generic Wrapper for Command Line applications</description>
+    <description>SOAP Web Service Tool Wrapper generator for command line applications</description>
 
 </project>

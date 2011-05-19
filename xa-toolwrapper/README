@@ -13,7 +13,7 @@ service. See section "Requirements" for further information.
 
 1) Configure the project by editing the configuration files:
 
-   a) projectconfig.properties
+   a) default.properties
       Project configuration file defining name of the project context,
       name of the tool the web service provides access to, server
       parameters for deploying the service, etc.
@@ -25,11 +25,12 @@ service. See section "Requirements" for further information.
       - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
       - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
       - CliMapping - Mapping to command line pattern variable, see property
-            service.cli.command.pattern in projectconfig.properties
+            service.cli.command.pattern in default.properties
       - OutputMapping - Some variables are provided by the service and can be
             mapped to an output port:
             - processing_returncode (String)
             - returncode, 0 for success >0 if an error occurred
+            - processing_success (boolean) - success/failure of service execution
             - processing_message (String)  - service execution message
             - processing_log (String) - service execution log
             - processing_time (int) - processing time in milliseconds
@@ -75,12 +76,12 @@ Project structure
 - template
   Project template (substitution variables in the template files), e.g.
   #GLOBAL_PROJECT_VERSION# will be replaced by the version number defined
-  in the project configuration file (projectconfig.properties).
+  in the project configuration file (default.properties).
 
 - genericwrapper.jar
   Java binary executable (execute "java -jar genericwrapper.jar")
 
-- projectconfig.properties
+- default.properties
   Project configuration file
 
 - inputconfig.json

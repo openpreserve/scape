@@ -45,12 +45,13 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
     private static Logger logger =
             Logger.getLogger(#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton.class);
 
-    private boolean success = false;
+    private boolean processing_success = false;
     private int returncode = -1;
     private int processing_returncode;
     private String processing_message;
     private String processing_log = "";
     private int processing_time;
+    private String processing_unitid;
 
     /**
      * Apply process to the input object.
@@ -71,11 +72,11 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
             clp.init();
         } catch (IOException ex) {
             processing_message = "I/O Exception. " + ex.getMessage();
-            success = false;
+            processing_success = false;
             return false;
         }
         clp.execute();
-        success = (clp.getCode() == 0);
+        processing_success = (clp.getCode() == 0);
         processing_returncode = clp.getCode();
         processing_log += clp.getProcessingLog();
 
@@ -100,7 +101,7 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
                 break;
         }
 
-        return success;
+        return processing_success;
     }
     
     /**
@@ -117,9 +118,10 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
 
         infolog("========= PROCESSING REQUEST =========");
 
-        MessageContext msgCtx = MessageContext.getCurrentMessageContext();
-        String ip = (String) msgCtx.getProperty(MessageContext.REMOTE_ADDR);
-        if(ip != null) infolog("Client IP: "+ip);
+        infolog("Using service: #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#Service");
+
+        processing_unitid = this.getValueOfServiceParameter("processingUnit");
+        if(processing_unitid == null) processing_unitid = "http://#TOMCAT_PUBLIC_HOST#/#GLOBAL_PROJECT_PREFIX_LC#/null";
         
         // Request message object
         RequestType requestObj = Request.getRequest();

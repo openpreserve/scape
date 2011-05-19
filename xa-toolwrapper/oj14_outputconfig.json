@@ -4,7 +4,20 @@
     "CliMapping": "OUTFILE",
     "Extension": "jp2",
     "Required": "false",
-    "Documentation": "URL reference to output file"
+    "Documentation": "URL reference to output file",
+    "PrefixFromInput": "inputFile"
+  },
+  "success": {
+    "Datatype": "xsd:boolean",
+    "OutMapping": "processing_success",
+    "Required": "true",
+    "Documentation": "success/failure of service execution"
+  },
+  "processingUnit": {
+    "Datatype": "xsd:string",
+    "OutMapping": "processing_unitid",
+    "Required": "true",
+    "Documentation": "Processing unit identifier"
   },
   "processingLog": {
     "Datatype": "xsd:string",
@@ -19,7 +32,7 @@
 // - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
 // - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
 // - CliMapping - Mapping to command line pattern variable, see property
-//                service.cli.command.pattern in projectconfig.properties
+//                service.cli.command.pattern in default.properties
 // - Default - Default value if using an array of allowed values (optional)
 // - Cardinality - Use "list" for a string list input
 // - Documentation - Documentation for the variable
@@ -31,3 +44,5 @@
 // - processing_message (String)  - service execution message
 // - processing_log (String) - service execution log
 // - processing_time (int) - processing time in milliseconds
+// - processing_success (boolean) - success/failure of service execution
+// - processing_unitid (String) - Processing unit identifier

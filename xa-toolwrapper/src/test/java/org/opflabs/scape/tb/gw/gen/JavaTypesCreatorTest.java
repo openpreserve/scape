@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The SCAPE Project Partners.
+ * Copyright (c) 2011 The IMPACT/SCAPE Project Partners.
  *
  * All rights reserved. This program and the accompanying
  * materials are made available under the terms of the
@@ -21,7 +21,7 @@ import org.opflabs.scape.tb.gw.util.StringConverterUtil;
 
 /**
  * JavaTypesCreatorTest
- * @author SCAPE Project Development Team
+ * @author IMPACT/SCAPE Project Development Team
  * @version 0.1
  */
 public class JavaTypesCreatorTest extends TestCase {
@@ -48,7 +48,7 @@ public class JavaTypesCreatorTest extends TestCase {
     @Before
     public void setUp() {
         try {
-            st = new ProjectPropertiesSubstitutor("projectconfig.properties");
+            st = new ProjectPropertiesSubstitutor("default.properties");
             pu = st.getPropertyUtils();
             jtc = new JavaTypesCreator();
         } catch (GeneratorException ex) {

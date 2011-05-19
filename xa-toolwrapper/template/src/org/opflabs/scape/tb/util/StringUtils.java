@@ -10,6 +10,8 @@
  *******************************************************************************/
 package #PROJECT_PACKAGE_NAME#.util;
 
+import org.apache.axis2.databinding.types.URI;
+
 /**
  * These are generic string utilities.
  *
@@ -34,5 +36,18 @@ public final class StringUtils {
     public static String getFileExtension(String path) {
         int dot = path.lastIndexOf(".");
         return path.substring(dot + 1);
+    }
+
+
+    public static String getFilenameFromURI(URI uri, boolean preserveExtension) {
+        int slashIndex = uri.toString().lastIndexOf('/');
+        int dotIndex = uri.toString().lastIndexOf('.');
+        String filenameWithoutExtension = null;
+        if (dotIndex == -1 || preserveExtension) {
+            filenameWithoutExtension = uri.toString().substring(slashIndex + 1);
+        } else {
+            filenameWithoutExtension = uri.toString().substring(slashIndex + 1, dotIndex);
+        }
+        return filenameWithoutExtension;
     }
 }

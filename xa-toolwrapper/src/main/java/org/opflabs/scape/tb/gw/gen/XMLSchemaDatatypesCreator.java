@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The SCAPE Project Partners.
+ * Copyright (c) 2011 The IMPACT/SCAPE Project Partners.
  *
  *
  * All rights reserved. This program and the accompanying
@@ -31,7 +31,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * XMLSchemaDatatypesCreator
- * @author SCAPE Project Development Team
+ * @author IMPACT/SCAPE Project Development Team
  * @version 0.1
  */
 public class XMLSchemaDatatypesCreator implements Insertable {

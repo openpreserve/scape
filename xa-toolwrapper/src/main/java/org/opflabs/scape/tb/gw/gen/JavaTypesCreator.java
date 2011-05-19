@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 The SCAPE Project Partners.
+ * Copyright (c) 2011 The IMPACT/SCAPE Project Partners.
  *
  * All rights reserved. This program and the accompanying
  * materials are made available under the terms of the
@@ -17,7 +17,7 @@ import org.opflabs.scape.tb.gw.util.StringConverterUtil;
 
 /**
  * JavaTypesCreator
- * @author SCAPE Project Development Team
+ * @author IMPACT/SCAPE Project Development Team
  * @version 0.1
  */
 public final class JavaTypesCreator extends JsonTraverser implements Insertable {
@@ -31,17 +31,19 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
     IOType ioType;
     JsonNode cliMappingJsn;
     String mappingVar;
+    ProjectPropertiesSubstitutor st;
 
     public JavaTypesCreator() {
     }
 
-    public JavaTypesCreator(IOType msgType, String jsonConfig, String srcFileAbsPath, String trgtFileAbsPath) {
+    public JavaTypesCreator(ProjectPropertiesSubstitutor st, IOType msgType, String jsonConfig, String srcFileAbsPath, String trgtFileAbsPath) {
         this.srcFileAbsPath = srcFileAbsPath;
         this.trgtFileAbsPath = trgtFileAbsPath;
         this.jsonConfig = jsonConfig;
         codeSb = new StringBuilder("");
         codeReqSb = new StringBuilder("");
         this.ioType = msgType;
+        this.st = st;
     }
 
     protected String getTypeName(String varName) {
@@ -172,7 +174,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             }
             snippet.addKeyValuePair("MAPPING", mappingKeyVal);
         } else {
-            snippet.addKeyValuePair("MAPPING", "// No CLI mapping defined");
+            snippet.addKeyValuePair("MAPPING", "// No CLI mapping defined for "+nodeName);
         }
     }
 
@@ -188,7 +190,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
 
             snippet.addKeyValuePair("OUTMAPPING", outMappingVal);
         } else {
-            snippet.addKeyValuePair("OUTMAPPING", "// No OUT mapping defined");
+            snippet.addKeyValuePair("OUTMAPPING", "// No OUT mapping defined for "+nodeName);
         }
     }
 
@@ -197,9 +199,24 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             JsonNode extJsn = currJsn.findValue("Extension");
             String extension = null;
             extension = (extJsn == null) ? "tmp" : extJsn.getTextValue();
-            // File name for output files that have to be
-            String ofn = getSpace(2)+"String " + nodeName + "Name = FileUtils.getTmpFile(\"" + nodeName + "\",\"" + extension + "\").getAbsolutePath();\n";
+            boolean hasPrefix = false;
+            JsonNode pfiJsn = currJsn.findValue("PrefixFromInput");
+            if(pfiJsn != null) {
+                codeReqSb.append(getSpace(2)+"String origFileName = \"\";\n");
+                String prefixVar =  pfiJsn.getTextValue();
+                codeReqSb.append(getSpace(2)+"URI "+ prefixVar + "TmpUri = requestObj."+getGetterName(prefixVar)+"();\n");
+                codeReqSb.append(getSpace(2)+"origFileName = StringUtils.getFilenameFromURI("+prefixVar+"TmpUri, true);\n");
+                hasPrefix = true;
+            }
+            // File name for output files 
+            String tmpFileArg = "\"";
+            if(hasPrefix) {
+                tmpFileArg = "origFileName+\"_";
+            }
+            tmpFileArg += st.getGlobalProjectPrefix()+st.getProjectMidfix()+"Service"+"_"+ nodeName + "_\",\"" + extension + "\"";
+            String ofn = getSpace(2)+"String " + nodeName + "Name = FileUtils.getTmpFile("+tmpFileArg + ").getAbsolutePath();\n";
             codeReqSb.append(ofn);
+            
             String ofn2 = getSpace(2)+"cliCmdKeyValPairs.put(\"" + mappingVar + "\", " + nodeName + "Name);\n";
             codeReqSb.append(ofn2);
         }

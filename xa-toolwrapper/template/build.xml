@@ -148,9 +148,8 @@ build.properties file." />
           <param name="tomcat.port" value="${tomcat.tomcat.public.https.port}"/>
           <param name="tomcat.axis.context" value="${tomcat.public.axis.context}"/>
           <param name="tomcat.services.path" value="${tomcat.public.services.path}"/>
-          <param name="service.config.procunit" value="${service.config.procunit}"/>
+          <param name="tomcat.public.procunitid" value="${tomcat.public.procunitid}"/>
           <param name="service.config.clicmdtmpl1" value="${service.config.clicmdtmpl1}"/>
-          <param name="service.config.clicmdtmpl2" value="${service.config.clicmdtmpl2}"/>
           <param name="service.config.pubhttpaccessdir" value="${service.config.pubhttpaccessdir}"/>
           <param name="service.config.pubhttpaccessurl" value="${service.config.pubhttpaccessurl}"/>
         </antcall>
@@ -215,15 +214,13 @@ build.properties file." />
         </javac>
 
         <replace file="${build.service.dir}/resources/services.xml"
-        token="#~PROCUNIT~#" value="${service.config.procunit}"/>
-        <replace file="${build.service.dir}/resources/services.xml"
         token="#~CLICMDTMPL1~#" value="${service.config.clicmdtmpl1}"/>
-        <replace file="${build.service.dir}/resources/services.xml"
-        token="#~CLICMDTMPL2~#" value="${service.config.clicmdtmpl2}"/>
         <replace file="${build.service.dir}/resources/services.xml"
         token="#~PUBHTTPACCESSDIR~#" value="${service.config.pubhttpaccessdir}"/>
         <replace file="${build.service.dir}/resources/services.xml"
         token="#~PUBHTTPACCESSURL~#" value="${service.config.pubhttpaccessurl}"/>
+        <replace file="${build.service.dir}/resources/services.xml"
+        token="#~PROCUNIT~#" value="${tomcat.public.procunitid}"/>
 
         <replace file="${build.service.dir}/resources/${webservice.name}.wsdl"
         token="#~HOST~#" value="${tomcat.host}"/>

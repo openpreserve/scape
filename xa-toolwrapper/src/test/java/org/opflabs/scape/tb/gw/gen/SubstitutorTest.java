@@ -42,7 +42,7 @@ public class SubstitutorTest {
     @Before
     public void setUp() {
         try {
-            st = new ProjectPropertiesSubstitutor("projectconfig.properties");
+            st = new ProjectPropertiesSubstitutor("default.properties");
             pu = st.getPropertyUtils();
         } catch (GeneratorException ex) {
             fail("Unable to create substitutor.");
