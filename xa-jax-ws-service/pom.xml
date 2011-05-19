@@ -125,4 +125,24 @@
 		<scope>compile</scope>
 	</dependency>
   </dependencies>
+<repositories>
+        <repository>
+                <id>planets-suite-snapshot-repository</id>
+                <name>The Planets Suite Maven Repository, hosted by SourceForge.</name>
+                <url>http://planets-suite.sourceforge.net/maven2/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+<repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven 2</name>
+            <url>http://download.java.net/maven/2/</url>
+        </repository>
+</repositories>
 </project>
