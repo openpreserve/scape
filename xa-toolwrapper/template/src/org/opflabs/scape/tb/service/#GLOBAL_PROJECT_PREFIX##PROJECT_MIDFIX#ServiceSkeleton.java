@@ -1,21 +1,26 @@
-/*******************************************************************************
- * Copyright (c) #GLOBAL_YEAR# The #GLOBAL_PROJECT_PREFIX# Project Partners.
+/*
+ *  Copyright (c) #GLOBAL_YEAR# The #GLOBAL_PROJECT_PREFIX# Project Partners.
  *
- * All rights reserved. This program and the accompanying
- * materials are made available under the terms of the
- * Apache License, Version 2.0 which accompanies
- * this distribution, and is available at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *******************************************************************************/
-package #PROJECT_PACKAGE_NAME#.service;
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *  under the License.
+ */
 
-import #PROJECT_PACKAGE_NAME#.Request;
-import #PROJECT_PACKAGE_NAME#.RequestType;
-import #PROJECT_PACKAGE_NAME#.Response;
-import #PROJECT_PACKAGE_NAME#.ResponseType;
-import #PROJECT_PACKAGE_NAME#.service.util.ServiceFileUtils;
-import #PROJECT_PACKAGE_NAME#.util.FileUtils;
+package #GLOBAL_PACKAGE_NAME#.service;
+
+// <!-- insert_mark:response_request_packages --> //
+
+import #GLOBAL_PACKAGE_NAME#.service.util.ServiceFileUtils;
+import #GLOBAL_PACKAGE_NAME#.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -27,8 +32,8 @@ import org.apache.axis2.context.MessageContext;
 import org.apache.axis2.databinding.types.URI;
 import org.apache.axis2.description.Parameter;
 
-import #PROJECT_PACKAGE_NAME#.*;
-import #PROJECT_PACKAGE_NAME#.util.*;
+import #GLOBAL_PACKAGE_NAME#.*;
+import #GLOBAL_PACKAGE_NAME#.util.*;
 
 /**
  * This class provides the operations of the #GLOBAL_PROJECT_PREFIX# #PROJECT_TITLE# service.
@@ -45,25 +50,38 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
     private static Logger logger =
             Logger.getLogger(#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton.class);
 
-    private boolean processing_success = false;
-    private int returncode = -1;
+    /*
+     * These variables can be mapped to an output port using the OutputMapping
+     * property in the output configuration file (data types must be the same).
+     *
+     */
+    private boolean processing_success;
     private int processing_returncode;
     private String processing_message;
-    private String processing_log = "";
+    private String processing_log;
     private int processing_time;
     private String processing_unitid;
+
+    {
+        processing_success = false;
+        processing_returncode = -1;
+        processing_message = "";
+        processing_log = "";
+        processing_time = 0;
+        processing_unitid = "http://null";
+    }
 
     /**
      * Apply process to the input object.
      * @param inImgFile Input image file.
      * @throws IOException
      */
-    private boolean process(HashMap<String, String> cliCmdKeyValPairs) {
+    private boolean process(HashMap<String, String> cliCmdKeyValPairs, int opid) {
 
         // Assigning values to the variables used in the command pattern.
         // If additional variables are required, they must be added in the
         // org.opflabs.scape.tb.service.CommandPatternVariables class.
-        String cliCmdPattern = getValueOfServiceParameter("CLICommand");
+        String cliCmdPattern = getValueOfServiceParameter("cliCommand"+opid);
 
         // Command line process
         CommandLineProcess clp =
@@ -103,70 +121,9 @@ public class #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServiceSkeleton {
 
         return processing_success;
     }
+
+    // <!-- insert_mark:operations_code --> //
     
-    /**
-     * Default operation of the web service. Takes the request message object
-     * as input, processes data and creates the response message object. This
-     * web service operation has only http references (URLs) to binary data
-     * files in the request message. See determineFileType web service operation
-     * where binary data are transmitted as attachments.
-     * @param base64BinaryRequest Request message object
-     * @return Response message object
-     * @throws java.io.IOException
-     */
-    public Response #SERVICE_DEFAULT_OPERATION#(Request Request) {
-
-        infolog("========= PROCESSING REQUEST =========");
-
-        infolog("Using service: #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#Service");
-
-        processing_unitid = this.getValueOfServiceParameter("processingUnit");
-        if(processing_unitid == null) processing_unitid = "http://#TOMCAT_PUBLIC_HOST#/#GLOBAL_PROJECT_PREFIX_LC#/null";
-        
-        // Request message object
-        RequestType requestObj = Request.getRequest();
-
-        // Response message object
-        Response Response = new Response();
-        ResponseType responseObj = new ResponseType();
-
-        // Required for copying output files
-        String publicHttpAccessDir = getValueOfServiceParameter("publicHttpAccessDir");
-
-        // Required for providing access to output files
-        String publicHttpAccessUrl = getValueOfServiceParameter("publicHttpAccessUrl");
-
-        // Command pattern variables key value pairs
-        HashMap cliCmdKeyValPairs = new HashMap<String, String>();
-
-        // <!-- input code java types - do not remove! -->
-        long startMillis = System.currentTimeMillis();
-        process(cliCmdKeyValPairs);
-        long timeMillis = System.currentTimeMillis() - startMillis;
-        processing_time = (int)timeMillis;
-        
-        // <!-- output code java types - do not remove! -->
-        
-        Response.setResponse(responseObj);
-        
-        return Response;
-    }
-
-    /**
-     * Create error message response object.
-     * @param base64BinaryResponse Response message object
-     * @param responseObj Response object
-     * @param msg Error message
-     * @return Error response message object
-     */
-    Response getErrorResponse(Response Response,
-            ResponseType responseObj) {
-        errorlog("Process terminated with error: " + processing_message);
-        responseObj.setProcessingLog(processing_log);
-        Response.setResponse(responseObj);
-        return Response;
-    }
-
     /**
      * Get the value of a service parameter defined in the
      * resources/services.xml.

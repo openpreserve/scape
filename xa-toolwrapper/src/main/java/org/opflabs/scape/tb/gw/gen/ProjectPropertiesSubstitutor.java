@@ -1,13 +1,20 @@
-/*******************************************************************************
- * Copyright (c) 2011 The IMPACT/SCAPE Project Partners.
+/*
+ *  Copyright 2011 IMPACT (www.impact-project.eu)/SCAPE (www.scape-project.eu)
  *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * All rights reserved. This program and the accompanying
- * materials are made available under the terms of the
- * Apache License, Version 2.0 which accompanies
- * this distribution, and is available at
- * http://www.apache.org/licenses/LICENSE-2.0
- *******************************************************************************/
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *  under the License.
+ */
+
 package org.opflabs.scape.tb.gw.gen;
 
 import java.util.logging.Level;
@@ -25,7 +32,7 @@ import org.opflabs.scape.tb.gw.util.StringConverterUtil;
 
 /**
  * Substitutor
- * @author IMPACT/SCAPE Project Development Team
+ * @author onbscs
  * @version 0.1
  */
 public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
@@ -54,8 +61,7 @@ public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
             pu = new PropertyUtil(propertiesFileStr);
             tool = new Tool(pu.getProp("project.title"),pu.getProp("tool.version"));
         } catch (GeneratorException ex) {
-            logger.error("Unable to load properties.");
-            throw new GeneratorException();
+            throw new GeneratorException("Unable to load properties.");
         }
 
         templateDir = pu.getProp("project.template.dir");
@@ -85,13 +91,17 @@ public class ProjectPropertiesSubstitutor extends GenericSubstitutor {
         if (key.equals("project.title")) {
             pValPairs.put("PROJECT_MIDFIX", tool.getMidfix());
             pValPairs.put("PROJECT_MIDFIX_LC", tool.getDirectory());
-        } else if (key.equals("project.package.name")) {
+        } else if (key.equals("global.package.name")) {
             String projectPackagePath = StringConverterUtil.packageNameToPackagePath(val);
             pValPairs.put("PROJECT_PACKAGE_PATH", projectPackagePath);
         } else if (key.equals("global.project.prefix")) {
             String globalProjectPrefixLc = val.toLowerCase();
             pValPairs.put("GLOBAL_PROJECT_PREFIX_LC", globalProjectPrefixLc);
         }
+    }
+
+    public void addKeyValuePair(String key, String val) {
+        pValPairs.put(key, val);
     }
 
     @Override

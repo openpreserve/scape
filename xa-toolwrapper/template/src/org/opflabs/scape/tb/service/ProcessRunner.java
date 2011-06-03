@@ -1,21 +1,26 @@
-/*******************************************************************************
- * Copyright (c) #GLOBAL_YEAR# The #GLOBAL_PROJECT_PREFIX# Project Partners.
+/*
+ *  This class is based on the PLANETS class
+ *  eu.planets_project.services.utils.ProcessRunner
  *
- * This class is based on the PLANETS class
- * eu.planets_project.services.utils.ProcessRunner
+ *  Copyright (C) 2005-2008 The State and University Library
+ *  Added to the Planets Project by the State and University Library
+ *  Author Asger Blekinge-Rasmussen
  *
- * Copyright (C) 2005-2008 The State and University Library
- * Added to the Planets Project by the State and University Library
- * Author Asger Blekinge-Rasmussen
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * All rights reserved. This program and the accompanying
- * materials are made available under the terms of the
- * Apache License, Version 2.0 which accompanies
- * this distribution, and is available at
- * http://www.apache.org/licenses/LICENSE-2.0
+ *       http://www.apache.org/licenses/LICENSE-2.0
  *
- *******************************************************************************/
-package #PROJECT_PACKAGE_NAME#.service;
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *  under the License.
+ */
+
+package #GLOBAL_PACKAGE_NAME#.service;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

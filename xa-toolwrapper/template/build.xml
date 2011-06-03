@@ -143,16 +143,7 @@ build.properties file." />
         description="Build service">
         <!--Build service-->
         <echo level="info" message="Building for public deployment ..."/>
-        <antcall target="-service.build">
-          <param name="tomcat.host" value="${tomcat.public.host}"/>
-          <param name="tomcat.port" value="${tomcat.tomcat.public.https.port}"/>
-          <param name="tomcat.axis.context" value="${tomcat.public.axis.context}"/>
-          <param name="tomcat.services.path" value="${tomcat.public.services.path}"/>
-          <param name="tomcat.public.procunitid" value="${tomcat.public.procunitid}"/>
-          <param name="service.config.clicmdtmpl1" value="${service.config.clicmdtmpl1}"/>
-          <param name="service.config.pubhttpaccessdir" value="${service.config.pubhttpaccessdir}"/>
-          <param name="service.config.pubhttpaccessurl" value="${service.config.pubhttpaccessurl}"/>
-        </antcall>
+        <antcall target="-service.build"/>
     </target>
 
     <!--
@@ -177,11 +168,7 @@ build.properties file." />
     <target name="service.deploy.public" depends="service.build.public" description="Deploy service">
         <echo level="info"
             message="Deploying ${webservice.file.name} on public server ..."/>
-        <scp file="${build.service.dir}/${webservice.file.name}"
-        todir="${public.server.user}:${public.server.pwd}@${tomcat.public.host}:${tomcat.public.axis.dir}" trust="true"/>
-        <!-- copy file="${build.service.dir}/${webservice.file.name}"
-        tofile="${tomcat.public.axis.dir}/${webservice.file.name}"
-        overwrite="true"/-->
+        <!--// insert_mark:cp_scp_switch //-->
         <echo level="info" message="Reloading Axis2 web application ..."/>
         <!--Note that the reload tasks requires the apache-tomcat cataline-ant.jar
         to be placed in the ant libraries directory.-->
@@ -212,24 +199,7 @@ build.properties file." />
             debug="true">
             <classpath refid="class.path"/>
         </javac>
-
-        <replace file="${build.service.dir}/resources/services.xml"
-        token="#~CLICMDTMPL1~#" value="${service.config.clicmdtmpl1}"/>
-        <replace file="${build.service.dir}/resources/services.xml"
-        token="#~PUBHTTPACCESSDIR~#" value="${service.config.pubhttpaccessdir}"/>
-        <replace file="${build.service.dir}/resources/services.xml"
-        token="#~PUBHTTPACCESSURL~#" value="${service.config.pubhttpaccessurl}"/>
-        <replace file="${build.service.dir}/resources/services.xml"
-        token="#~PROCUNIT~#" value="${tomcat.public.procunitid}"/>
-
-        <replace file="${build.service.dir}/resources/${webservice.name}.wsdl"
-        token="#~HOST~#" value="${tomcat.host}"/>
-        <replace file="${build.service.dir}/resources/${webservice.name}.wsdl"
-        token="#~PORT~#" value="${tomcat.port}"/>
-        <replace file="${build.service.dir}/resources/${webservice.name}.wsdl"
-        token="#~AXIS2PATH~#" value="${tomcat.axis.context}"/>
-        <replace file="${build.service.dir}/resources/${webservice.name}.wsdl"
-        token="#~SERVICES2PATH~#" value="${tomcat.services.path}"/>
+        
         <!-- Copy resource files -->
         <copy toDir="${build.service.dir}/classes/META-INF" failonerror="false">
             <fileset dir="${build.service.dir}/resources">

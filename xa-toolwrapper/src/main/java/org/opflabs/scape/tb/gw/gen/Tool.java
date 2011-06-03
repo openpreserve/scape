@@ -20,8 +20,9 @@ package org.opflabs.scape.tb.gw.gen;
 import java.util.StringTokenizer;
 
 /**
- *
+ * Tool
  * @author onbscs
+ * @version 0.1
  */
 public class Tool {
 
