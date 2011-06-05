@@ -112,6 +112,11 @@ public class Rester {
 		return sw.toString();
 	}
 
+	static MimetypesFileTypeMap map = null;
+	static {
+		map = new MimetypesFileTypeMap();
+		map.addMimeTypes("image/png png");
+	}
 
 	@GET
 	@Path("/test2")
@@ -119,10 +124,9 @@ public class Rester {
 		try {
 			String src = uriInfo.getQueryParameters().get("src").get(0);
 			String fmt = uriInfo.getQueryParameters().get("fmt").get(0);
-		ByteArrayOutputStream buf = new ByteArrayOutputStream();
-		this.getJPEG(URI.create(src), fmt, buf);
-		String mt = new MimetypesFileTypeMap().getContentType("temp."+fmt);
-		return Response.ok(buf.toByteArray(),mt).build();
+		InputStream is = this.getJPEG(URI.create(src), fmt);
+		String mt = map.getContentType("temp."+fmt);
+		return Response.ok(is,mt).build();
 		} catch( Exception e ) {
 			throw new WebApplicationException(e);
 		}
@@ -130,7 +134,7 @@ public class Rester {
 
 	
 	
-	private void getJPEG(URI src, String fmt, ByteArrayOutputStream buf) throws MalformedURLException, IOException, InterruptedException {
+	private InputStream getJPEG(URI src, String fmt) throws MalformedURLException, IOException, InterruptedException {
 		ProcessBuilder pb = new ProcessBuilder();
 		pb.command("convert", "-", fmt+":-");
 		pb.redirectErrorStream(true);
@@ -139,19 +143,7 @@ public class Rester {
 		//copy input stream to output stream
 		IOUtils.copyLarge(src.toURL().openStream() ,  p.getOutputStream() );
 		p.getOutputStream().close();
-		System.out.println("Data in...");
-		Thread.currentThread();
-		//System.out.println("Wait: "+p.waitFor());
-		//Thread.sleep(2000);
-		//copy process STDOUT input stream into the string.
-		InputStream is = p.getInputStream();
-		IOUtils.copy(is, buf );
-		//byte[] tmp = new byte[is.available()];
-		//p.getInputStream().read(tmp);
-		//System.out.println("Out: "+tmp.length);
-		//System.out.println("Out: "+new String(tmp));
-		//sw.append( new String(tmp));
-		return;
+		return p.getInputStream();
 	}
 	
 	
