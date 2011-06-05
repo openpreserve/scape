@@ -1,0 +1,3 @@
+        <copy file="\$\{build.service.dir}/\$\{webservice.file.name}"
+        tofile="\$\{tomcat.public.axis.dir}/\$\{webservice.file.name}"
+        overwrite="true"/>

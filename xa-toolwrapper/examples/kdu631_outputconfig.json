@@ -1,0 +1,48 @@
+{
+  "outputFile": {
+    "Datatype": "xsd:anyURI",
+    "CliMapping": "OUTFILE",
+    "Extension": "jp2",
+    "Required": "false",
+    "Documentation": "URL reference to output file",
+    "PrefixFromInput": "inputFile"
+  },
+  "success": {
+    "Datatype": "xsd:boolean",
+    "OutMapping": "processing_success",
+    "Required": "true",
+    "Documentation": "success/failure of service execution"
+  },
+  "processingUnit": {
+    "Datatype": "xsd:string",
+    "OutMapping": "processing_unitid",
+    "Required": "true",
+    "Documentation": "Processing unit identifier"
+  },
+  "processingLog": {
+    "Datatype": "xsd:string",
+    "OutMapping": "processing_log",
+    "Required": "true",
+    "Cardinality": "single",
+    "Documentation": "Returncode of the command execution"
+  }
+}
+// The following properties can be defined for each variable:
+//
+// - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
+// - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
+// - CliMapping - Mapping to command line pattern variable, see property
+//       service.operation.1.clicmd in default.properties.
+// - OutputMapping - Some variables are provided by the service and can be
+//       mapped to an output port (data types have to be the same):
+//       - processing_success (boolean) - success/failure of service execution
+//       - processing_returncode (int) - 0 for success >0 if an error occurred
+//       - processing_message (String)  - service execution message
+//       - processing_log (String) - service execution log
+//       - processing_time (int) - processing time in milliseconds
+//       - processing_unitid (String) - Processing unit identifier
+// - Default - Default value if using an array of allowed values (optional)
+// - Cardinality - Use "list" for a string list input
+// - Documentation - Documentation for the variable
+// - PrefixFromInput Only for file outputs (xsd:anyURI): Indicate the input
+//       file variable which should be used as a prefix for the output filename.

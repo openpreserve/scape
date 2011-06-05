@@ -1,13 +1,20 @@
-/*******************************************************************************
- * Copyright (c) 2011 The SCAPE Project Partners.
+/*
+ *  Copyright 2011 IMPACT (www.impact-project.eu)/SCAPE (www.scape-project.eu)
  *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * All rights reserved. This program and the accompanying
- * materials are made available under the terms of the
- * Apache License, Version 2.0 which accompanies
- * this distribution, and is available at
- * http://www.apache.org/licenses/LICENSE-2.0
- *******************************************************************************/
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *  under the License.
+ */
+
 package org.opflabs.scape.tb.gw.gen;
 
 import java.io.File;
@@ -31,7 +38,7 @@ import org.w3c.dom.NodeList;
 
 /**
  * XMLSchemaDatatypesCreator
- * @author SCAPE Project Development Team
+ * @author onbscs
  * @version 0.1
  */
 public class XMLSchemaDatatypesCreator implements Insertable {
@@ -45,6 +52,9 @@ public class XMLSchemaDatatypesCreator implements Insertable {
     private Node schemaNode;
     private Element reqTypeSeqElm;
     private boolean isFirstLevel;
+    private int opid;
+    ProjectPropertiesSubstitutor st;
+    private MsgType msgtype;
 
     /**
      * Get message type
@@ -71,13 +81,99 @@ public class XMLSchemaDatatypesCreator implements Insertable {
      * @param configFile Json configuration file
      * @param resultWsdl Result WSDL
      */
-    public XMLSchemaDatatypesCreator(MsgType type, String wsdlTemplate, String configFile, String resultWsdl) {
+    public XMLSchemaDatatypesCreator(ProjectPropertiesSubstitutor st, MsgType type, String wsdlTemplate, String configFile, String resultWsdl, int opid) {
         // private Constructor can only be called from Builder
         this.wsdlTemplate = new File(wsdlTemplate);
         this.configFile = new File(configFile);
         this.resultWsdl = new File(resultWsdl);
         this.type = type.toString();
         isFirstLevel = true;
+        this.opid = opid;
+        this.st = st;
+        this.msgtype = type;
+    }
+
+    private void createMessageDataTypes(Document doc) {
+        Node definitionsNode = doc.getDocumentElement();
+        NodeList portTypeNodeList = doc.getElementsByTagName("wsdl:portType");
+        Node portTypeNode = portTypeNodeList.item(0);
+        Element partElm = doc.createElement("wsdl:part");
+        partElm.setAttribute("name", this.type + opid);
+        partElm.setAttribute("element", "tns:" + this.type + opid);
+        Element msgElm = doc.createElement("wsdl:message");
+        msgElm.setAttribute("name", this.type + opid);
+        msgElm.appendChild(partElm);
+        definitionsNode.insertBefore(msgElm, portTypeNode);
+    }
+
+
+
+    private void createOperation(Document doc) throws GeneratorException {
+
+        NodeList portTypeNodeList = doc.getElementsByTagName("wsdl:portType");
+        Node portTypeNode = portTypeNodeList.item(0);
+
+        Element operationElm = doc.createElement("wsdl:operation");
+        String servOpStr = st.getPropertyUtils().getProp("service.operation." + opid);
+        if (servOpStr == null || servOpStr.equals("")) {
+            throw new GeneratorException("No service operation defined for operation " + opid);
+        }
+        operationElm.setAttribute("name", servOpStr);
+
+        Element documentationElm = doc.createElement("wsdl:documentation");
+        String servDocStr = st.getPropertyUtils().getProp("service.operation." + opid+ ".description");
+        if (servDocStr == null || servDocStr.equals("")) {
+            throw new GeneratorException("No service operation defined for operation " + opid);
+        }
+        documentationElm.setTextContent(servDocStr);
+
+        Element inputElm = doc.createElement("wsdl:input");
+        inputElm.setAttribute("message", "tns:Request"+opid);
+        inputElm.setAttribute("wsaw:Action", servOpStr);
+        Element subDocElm =  doc.createElement("wsdl:documentation");
+        inputElm.appendChild(subDocElm);
+
+        Element outputElm = doc.createElement("wsdl:output");
+        outputElm.setAttribute("message", "tns:Response"+opid);
+        outputElm.setAttribute("wsaw:Action", "http://schemas.xmlsoap.org/wsdl/"+st.getGlobalProjectPrefix()+st.getProjectMidfix()+"ServicePortType/Response"+opid);
+        Element subDocOutElm =  doc.createElement("wsdl:documentation");
+        outputElm.appendChild(subDocOutElm);
+
+        documentationElm.setTextContent(servDocStr);
+
+        operationElm.appendChild(documentationElm);
+        operationElm.appendChild(inputElm);
+        operationElm.appendChild(outputElm);
+
+        portTypeNode.appendChild(operationElm);
+
+    }
+    private void createBinding(Document doc) throws GeneratorException {
+
+        NodeList bindingNodeList = doc.getElementsByTagName("wsdl:binding");
+        Node bindingNode = bindingNodeList.item(0);
+
+        Element operationElm = doc.createElement("wsdl:operation");
+        String servOpStr = st.getPropertyUtils().getProp("service.operation." + opid);
+        if (servOpStr == null || servOpStr.equals("")) {
+            throw new GeneratorException("No service operation defined for operation " + opid);
+        }
+        operationElm.setAttribute("name", servOpStr);
+
+        Element inputElm = doc.createElement("wsdl:input");
+        Element soapElm =  doc.createElement("soap:body");
+        soapElm.setAttribute("use", "literal");
+        inputElm.appendChild(soapElm);
+        Element outputElm = doc.createElement("wsdl:output");
+        Element soapElm2 =  doc.createElement("soap:body");
+        soapElm2.setAttribute("use", "literal");
+        outputElm.appendChild(soapElm2);
+
+        operationElm.appendChild(inputElm);
+        operationElm.appendChild(outputElm);
+
+        bindingNode.appendChild(operationElm);
+
     }
 
     /**
@@ -93,7 +189,7 @@ public class XMLSchemaDatatypesCreator implements Insertable {
         schemaNode = schemaNodeList.item(0);
 
         Element cplxReqTypeElm = doc.createElement("xsd:complexType");
-        cplxReqTypeElm.setAttribute("name", this.type + "Type");
+        cplxReqTypeElm.setAttribute("name", this.type + opid + "Type");
         reqTypeSeqElm = doc.createElement("xsd:sequence");
         cplxReqTypeElm.appendChild(reqTypeSeqElm);
 
@@ -102,8 +198,8 @@ public class XMLSchemaDatatypesCreator implements Insertable {
         schemaNode.appendChild(cplxReqTypeElm);
 
         Element msgElm = doc.createElement("xsd:element");
-        msgElm.setAttribute("name", type);
-        msgElm.setAttribute("type", "tns:" + type + "Type");
+        msgElm.setAttribute("name", type + opid);
+        msgElm.setAttribute("type", "tns:" + type + opid + "Type");
         schemaNode.appendChild(msgElm);
 
     }
@@ -135,7 +231,16 @@ public class XMLSchemaDatatypesCreator implements Insertable {
             // Root node
             JsonNode rootJsn = mapper.readTree(fis);
 
+            createMessageDataTypes(doc);
+
             createSchemaDataTypes(doc, rootJsn);
+
+            if(this.msgtype == MsgType.REQUEST) {
+
+                createOperation(doc);
+                
+                createBinding(doc);
+            }
 
             fis.close();
 
@@ -234,7 +339,7 @@ public class XMLSchemaDatatypesCreator implements Insertable {
         JsonNode cardJsn = currJsn.get("Cardinality");
         boolean isList = (cardJsn != null && cardJsn.getTextValue().equalsIgnoreCase("list"));
         JsonNode defJsn = currJsn.get("Default");
-        String defaultVal = (defJsn == null)?null:defJsn.getTextValue();
+        String defaultVal = (defJsn == null) ? null : defJsn.getTextValue();
 
         // Restricted type
         if (restrJsn != null) {
@@ -260,8 +365,9 @@ public class XMLSchemaDatatypesCreator implements Insertable {
                 complexTypeElm.appendChild(sequenceElm);
                 Element elementElm = doc.createElement("xsd:element");
                 JsonNode defaultJsn = currJsn.get("Default");
-                if(defaultVal != null)
+                if (defaultVal != null) {
                     elementElm.setAttribute("default", defaultVal);
+                }
                 elementElm.setAttribute("maxOccurs", "unbounded");
                 elementElm.setAttribute("minOccurs", "0");
                 elementElm.setAttribute("name", variableNameString);
@@ -300,7 +406,7 @@ public class XMLSchemaDatatypesCreator implements Insertable {
         // Assign namespace tns to data type restricted data ypes
         if (restrJsn != null) {
             reqTypeElm.setAttribute("type", "tns:" + ((isList) ? varListName : currStr));
-        // Assign user defined xsd data type
+            // Assign user defined xsd data type
         } else {
             reqTypeElm.setAttribute("type", dataTypeJsn.getTextValue());
         }

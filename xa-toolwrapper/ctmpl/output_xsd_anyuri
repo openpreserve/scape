@@ -1,7 +1,7 @@
         File #INPUT_VARIABLE# = new File(#INPUT_VARIABLE#Name);
         if (!#INPUT_VARIABLE#.exists() || #INPUT_VARIABLE#.length() == 0) {
             processing_message = "The expected output file " + #INPUT_VARIABLE#.getName() + " is empty or has not been created successfully.";
-            return getErrorResponse(Response, responseObj);
+            return getErrorResponse#OPID#(Response#OPID#, response#OPID#Obj);
         }
         infolog("Output file of size " + #INPUT_VARIABLE#.length() + " has been created successfully");
         File public#TYPE_NAME# =
@@ -10,7 +10,7 @@
             processing_message = "The output directory "+publicHttpAccessDir+" does not exist. Check " +
                     "publicHttpAccessDir parameter in the " +
                     "resources/services.xml service configuration file";
-            return getErrorResponse(Response, responseObj);
+            return getErrorResponse#OPID#(Response#OPID#, response#OPID#Obj);
         }
         infolog("Public output file: " + public#TYPE_NAME#.toString());
         FileUtils.copyFileTo(#INPUT_VARIABLE#, public#TYPE_NAME#);
@@ -23,9 +23,9 @@
                     "publicHttpAccessUrl parameter in the " +
                     "resources/services.xml. Exception message: " +
                     ex.getMessage();
-            return getErrorResponse(Response, responseObj);
+            return getErrorResponse#OPID#(Response#OPID#, response#OPID#Obj);
         }
         infolog("Output URL: " + #INPUT_VARIABLE#Uri.toString());
-        responseObj.set#TYPE_NAME#(#INPUT_VARIABLE#Uri);
+        response#OPID#Obj.set#TYPE_NAME#(#INPUT_VARIABLE#Uri);
         #MAPPING#
         #OUTMAPPING#

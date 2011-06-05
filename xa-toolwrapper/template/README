@@ -6,8 +6,7 @@
 Important notes for a quick start
 ---------------------------------
 
-1) Install the underlying command line tool of the generic web service wrapper
-   on your system.
+1) Install the underlying command line tool of the tool wrapper on your system.
    IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE 
    INSTALLED IN A PATH WITHOUT WHITE SPACES. OTHERWISE A FULL PATH CALL TO THE
    COMMAND LINE TOOL WILL NOT WORK CORRECTLY. 
@@ -34,6 +33,9 @@ with the Axis2 web application deployed.
 - Apache Ant 1.7.0 or higher
   Please refer to the homepage at http://ant.apache.org and to the manual at
   http://ant.apache.org/manual/ for information on how to install Apache Ant.
+  NOTE: IN ORDER TO USE THE ANT DEPLOYMENT BASED ON THE RELOAD TASK, YOU MUST
+  MAKE THE catalina-ant.jar THAT YOU CAN FIND IN THE TOMCAT LIB DIRECTORY
+  AVAILABLE TO YOUR ANT INSTALLATION (COPY IT TO THE ANT LIB DIRECTORY). 
 
 - Apache Tomcat server Version 6.0.18 or higher
   Please download and install the Apache Tomcat Server 6.0.18 here
@@ -49,6 +51,10 @@ with the Axis2 web application deployed.
 
 Securing the Web Service
 ------------------------
+
+The simpliest way to secure the web service is by configuring basic
+HTTP-Authentication which can be done either in the tomcat application server
+or any web server which you are using as frontend server.
 
 Using the Apache2 webserver as frontend, you can configure the
 HTTP-Authentication as follows (example for Linux):
@@ -74,7 +80,6 @@ via basic HTTP-Authentication (example for Linux):
       /usr/local/java/apache-tomcat-6.0.18/webapps/axis2/WEB-INF/web.xml
     and add the following:
       <web-app>
-      â€¦
         <security-constraint>
           <web-resource-collection>
               <web-resource-name>secured services</web-resource-name>
@@ -96,36 +101,30 @@ via basic HTTP-Authentication (example for Linux):
        <?xml version="1.0" encoding="utf-8">
        <tomcat-users>
            <role rolename="webservice"/>
-           <user username="tomcat" password="100%OCR" roles="webservice"/>
+           <user username="tomcat" password="somepassword" roles="webservice"/>
        </tomcat-users>
-
-Note: In a productive environment the web service should be offered over SSH.
 
 Logging
 -------
-For logging log4j is used for the demonstrator platform.
-The client places logfiles in the project subdirectory "log".
-If you want the service to log in the same directory, please adapt the
+For logging log4j is used. In order to configure logging, adapt the
 Axis2 configuration accordingly. Change the log4j properties in the file
-    ${local.tomcat.base.dir}/${local.tomcat.axis.dir}/WEB-INF/classes/log4j.properties
+    ${tomcat.base.dir}/${tomcat.axis.dir}/WEB-INF/classes/log4j.properties
 e.g.
     /usr/local/java/apache-tomcat-6.0.18/webapps/axis2/WEB-INF/classes/log4j.properties
 You can indicate to create a log file:
     log4j.rootCategory=INFO, CONSOLE, LOGFILE
-and specify the log file itself:
+and specify where the log file should be created:
     log4j.appender.LOGFILE.File=log/project-service.log
+The Axis2 webapp must be reloaded or the tomcat application server restarted
+so that the changes take effect.
 
 Project structure
 -----------------
 
 - build
   This directory will only be created when the build task is executed. It
-  contains generated sources, compiled classes, and resources. This
-  directory can be deleted and will be recreated every time the ant build target
-  is executed.
-- doc
-  Documentation and presentations. This directory will be created if you execute
-  the javadoc ant task ('ant javadoc').
+  contains generated sources, compiled classes, and resources. It can be deleted
+  and will be recreated every time the ant build target is executed.
 - lib
   Libraries needed in order to compile the application.
   Note: Among other libraries, the directory contains the Axis 2 libraries which
@@ -139,7 +138,7 @@ Project structure
 - test
   Input and output testfiles.
 - README.txt
-  What you are reading.
+  This file.
 - build.properties
   Ant build properties (edit the properties).
 - build.xml

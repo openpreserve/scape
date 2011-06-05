@@ -1,12 +1,20 @@
-/*******************************************************************************
- * Copyright (c) 2011 The SCAPE Project Partners.
+/*
+ *  Copyright 2011 IMPACT (www.impact-project.eu)/SCAPE (www.scape-project.eu)
  *
- * All rights reserved. This program and the accompanying
- * materials are made available under the terms of the
- * Apache License, Version 2.0 which accompanies
- * this distribution, and is available at
- * http://www.apache.org/licenses/LICENSE-2.0
- *******************************************************************************/
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *  under the License.
+ */
+
 package org.opflabs.scape.tb.gw.gen;
 
 import java.io.File;
@@ -16,8 +24,8 @@ import org.opflabs.scape.tb.gw.util.FileUtil;
 import org.opflabs.scape.tb.gw.util.StringConverterUtil;
 
 /**
- * JavaTypesCreator
- * @author SCAPE Project Development Team
+ * Java Types Creator
+ * @author onbscs
  * @version 0.1
  */
 public final class JavaTypesCreator extends JsonTraverser implements Insertable {
@@ -31,17 +39,23 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
     IOType ioType;
     JsonNode cliMappingJsn;
     String mappingVar;
+    ProjectPropertiesSubstitutor st;
+    int opid;
+    private String defaultResponseValues;
 
     public JavaTypesCreator() {
     }
 
-    public JavaTypesCreator(IOType msgType, String jsonConfig, String srcFileAbsPath, String trgtFileAbsPath) {
+    public JavaTypesCreator(int opid, ProjectPropertiesSubstitutor st, IOType msgType, String jsonConfig, String srcFileAbsPath, String trgtFileAbsPath) {
         this.srcFileAbsPath = srcFileAbsPath;
         this.trgtFileAbsPath = trgtFileAbsPath;
         this.jsonConfig = jsonConfig;
         codeSb = new StringBuilder("");
         codeReqSb = new StringBuilder("");
         this.ioType = msgType;
+        this.st = st;
+        this.opid = opid;
+        defaultResponseValues = "";
     }
 
     protected String getTypeName(String varName) {
@@ -79,10 +93,9 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
         // Service source
         String serviceSource = FileUtil.readTxtFileIntoString(srcFile);
         if (serviceSource == null) {
-            logger.error("Service source does not exist.");
-            throw new GeneratorException();
+            throw new GeneratorException("Service source does not exist.");
         }
-        String codePoint = "// <!-- " + ioType + " code java types - do not remove! -->\n";
+        String codePoint = "//<!-- " + ioType + "_code -->//\n";
         codeSb.append(codePoint);
         codeSb.append("\n");
 
@@ -90,7 +103,38 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
 
         serviceSource = serviceSource.replaceAll(codePoint, codeSb.toString());
 
-        serviceSource = serviceSource.replaceAll("// <!-- " + ioType.INPUT + " code java types - do not remove! -->\n", "// <!-- " + ioType.INPUT + " code java types - do not remove! -->\n" + codeReqSb.toString());
+        serviceSource = serviceSource.replaceAll("//<!-- " + ioType.INPUT + "_code -->//\n", "//<!-- " + ioType.INPUT + "_code -->//\n" + codeReqSb.toString());
+
+        File targetFile = FileUtil.writeStringToFile(serviceSource, (trgtFileAbsPath));
+        if (targetFile.exists()) {
+            logger.debug("Target file " + targetFile.getPath() + " created.");
+        } else {
+            logger.error("Unable to create target file " + targetFile.getPath() + "");
+        }
+    }
+
+    /**
+     * Apply substitution
+     * @param srcFileAbsPath Source file
+     * @param trgtFileAbsPath Target file
+     */
+    public void insertSnippet(String snipStr, String point) throws GeneratorException {
+        File srcFile = new File(srcFileAbsPath);
+        StringBuilder strBuf = new StringBuilder();
+        if (srcFile.exists()) {
+            logger.debug("Template file " + srcFile.getPath() + " exists.");
+        } else {
+            logger.error("Unable to find template file " + srcFile.getPath() + "");
+        }
+        // Service source
+        String serviceSource = FileUtil.readTxtFileIntoString(srcFile);
+        if (serviceSource == null) {
+            throw new GeneratorException("Service source does not exist.");
+        }
+        strBuf.append(point);
+        strBuf.append(snipStr);
+
+        serviceSource = serviceSource.replaceAll(point, strBuf.toString());
 
         File targetFile = FileUtil.writeStringToFile(serviceSource, (trgtFileAbsPath));
         if (targetFile.exists()) {
@@ -122,6 +166,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
         // Snippet
         Snippet snippet = new Snippet("ctmpl/" + snippetName);
         if (snippet.canRead()) {
+            snippet.addKeyValuePair("OPID", Integer.toString(opid));
             snippet.addKeyValuePair("INPUT_VARIABLE", nodeName);
             String getterName = this.getGetterName(nodeName);
             snippet.addKeyValuePair("GETTER_NAME", getterName);
@@ -172,7 +217,7 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             }
             snippet.addKeyValuePair("MAPPING", mappingKeyVal);
         } else {
-            snippet.addKeyValuePair("MAPPING", "// No CLI mapping defined");
+            snippet.addKeyValuePair("MAPPING", "// No CLI mapping defined for "+nodeName);
         }
     }
 
@@ -184,11 +229,13 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             outMappingVar = outMappingJsn.getTextValue();
 
             outMappingVal = nodeName + " = " + outMappingVar + ";\n";
-            outMappingVal += getSpace(2)+"responseObj." + getSetterName(nodeName) + "(" + nodeName + ");\n";
-
+            String setterVal = getSpace(2)+"response"+opid+"Obj." + getSetterName(nodeName) + "(" + nodeName + ");\n";
+            outMappingVal += setterVal;
+            //response1Obj.setProcessingLog(processing_log);
+            defaultResponseValues +=getSpace(2)+"response"+opid+"Obj." + getSetterName(nodeName) + "(" + outMappingVar + ");\n";
             snippet.addKeyValuePair("OUTMAPPING", outMappingVal);
         } else {
-            snippet.addKeyValuePair("OUTMAPPING", "// No OUT mapping defined");
+            snippet.addKeyValuePair("OUTMAPPING", "// No OUT mapping defined for "+nodeName);
         }
     }
 
@@ -197,9 +244,24 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             JsonNode extJsn = currJsn.findValue("Extension");
             String extension = null;
             extension = (extJsn == null) ? "tmp" : extJsn.getTextValue();
-            // File name for output files that have to be
-            String ofn = getSpace(2)+"String " + nodeName + "Name = FileUtils.getTmpFile(\"" + nodeName + "\",\"" + extension + "\").getAbsolutePath();\n";
+            boolean hasPrefix = false;
+            JsonNode pfiJsn = currJsn.findValue("PrefixFromInput");
+            if(pfiJsn != null) {
+                codeReqSb.append(getSpace(2)+"String origFileName = \"\";\n");
+                String prefixVar =  pfiJsn.getTextValue();
+                codeReqSb.append(getSpace(2)+"URI "+ prefixVar + "TmpUri = request"+opid+"Obj."+getGetterName(prefixVar)+"();\n");
+                codeReqSb.append(getSpace(2)+"origFileName = StringUtils.getFilenameFromURI("+prefixVar+"TmpUri, true);\n");
+                hasPrefix = true;
+            }
+            // File name for output files 
+            String tmpFileArg = "\"";
+            if(hasPrefix) {
+                tmpFileArg = "origFileName+\"_";
+            }
+            tmpFileArg += st.getGlobalProjectPrefix()+st.getProjectMidfix()+"Service"+"_"+ nodeName + "_\",\"" + extension + "\"";
+            String ofn = getSpace(2)+"String " + nodeName + "Name = FileUtils.getTmpFile("+tmpFileArg + ").getAbsolutePath();\n";
             codeReqSb.append(ofn);
+            
             String ofn2 = getSpace(2)+"cliCmdKeyValPairs.put(\"" + mappingVar + "\", " + nodeName + "Name);\n";
             codeReqSb.append(ofn2);
         }
@@ -211,5 +273,9 @@ public final class JavaTypesCreator extends JsonTraverser implements Insertable 
             spaceSb.append("    ");
         }
         return spaceSb.toString();
+    }
+
+    public String getDefaultResponseValues() {
+        return defaultResponseValues;
     }
 }
