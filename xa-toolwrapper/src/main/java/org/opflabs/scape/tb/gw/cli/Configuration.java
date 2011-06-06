@@ -105,7 +105,7 @@ class Configuration {
     }
 
     public boolean hasInOutConf() {
-        return (currOpid != 0 && currInConf != null && currOutConf != null);
+        return (currInConf != null && currOutConf != null && currOpid != 0);
     }
 
     public void addIoConfiguration() throws GeneratorException {
