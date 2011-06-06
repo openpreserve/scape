@@ -54,6 +54,7 @@ public abstract class JsonTraverser {
             traverse(rootJsn);
         } catch (Exception ex) {
             logger.error("Unable to read json file: " + jsonPath);
+            logger.error("Exception: " + ex.getLocalizedMessage());
             throw new GeneratorException();
         } finally {
             try {
