@@ -224,7 +224,7 @@ public class GenericWrapper {
 
             // libs
             String libDirStr = st.getProjectLibDir();
-            File libPath = new File(FileUtil.makePath(libDirStr));
+            File libPath = new File(FileUtil.makePath(generatedDir, projDir, libDirStr));
             if (!libPath.exists()) {
                 String generatedDirStr = FileUtil.makePath(generatedDir, projDir, libDirStr);
                 logger.info("Copying directory " + libPath + " ...");
