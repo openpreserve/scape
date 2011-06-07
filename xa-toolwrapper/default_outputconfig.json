@@ -12,6 +12,13 @@
     "Required": "true",
     "Cardinality": "single",
     "Documentation": "Returncode of the command execution"
+  },
+  "processingLog": {
+    "Datatype": "xsd:string",
+    "OutMapping": "processing_log",
+    "Required": "true",
+    "Cardinality": "single",
+    "Documentation": "Returncode of the command execution"
   }
 }
 // The following properties can be defined for each variable:

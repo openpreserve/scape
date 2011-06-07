@@ -2,6 +2,5 @@ nbactions.xml
 target/*
 generated/*
 apache-tomcat-6.0.26/logs/*
-apache-tomcat-6.0.26/webapps/ROOT/scape/data/*
 apache-tomcat-6.0.26/webapps/ROOT/scape/tmp/*
 apache-tomcat-6.0.26/webapps/axis2/WEB-INF/services/*
