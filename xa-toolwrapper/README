@@ -4,20 +4,69 @@ Tool Wrapper
 Quick start
 -----------
 
-Note: In order to build and run the web service, you will need the Java SE
-Development Kit (JDK) version >=1.6.0, the underlying command line tool
-installed on the deployment server (no white spaces in the path!), and an
-Apache Tomcat version >=6.0.18 or equivalent servlet container with the Axis2
-version >=1.4.1 web application deployed. Apache Ant version >= 1.8.0 is
-required to build and deploy the web service. See section "Requirements" for
-further information.
+For a quick start, you need at least the Java SE Development Kit (JDK)
+version >=1.6.0 and Apache Ant version >= 1.8.1. Also make sure that the
+JAVA_HOME environment variable is defined.
 
-1) Configure the project by editing the configuration files:
+1) Run the project generator with the default arguments:
+
+       java -jar genericwrapper.jar
+
+   This will generate an example project generated/simplecopy10. This service is
+   a an example wrapper project for the linux copy command "cp" or the COPY
+   command for Windows (use "CMD.exe /C COPY" instead of "cp" in the command
+   pattern which is defined by the property service.operation.1.clicmd if you
+   are using windows).
+
+2) Start Apache Tomcat server:
+
+       cd apache-tomcat-6.0.26/bin
+       ./startup.sh
+
+3) Deploy the example service:
+
+       cd generated/simplecopy10
+       ant deploy
+
+   This will build the service and deploy it to the Apache Tomcat Axis2 environment.
+   Note that ant requires the apache-tomcat-6.0.26/lib/catalina-ant.jar for the
+   reload task (see target service.deploy.public in the ant build file
+   generated/simplecopy10/build.xml.
+
+4) Open the Axis2 services list:
+
+       http://localhost:8080/axis2/services/listServices
+
+   You should then see the deployed example SCAPESimpleCopy10Service in the list.
+
+5) Try using the web service using soapUI by creating a project using the
+   WSDL of the service:
+
+       http://localhost:8080/axis2/services/SCAPESimpleCopy10Service?wsdl
+
+   and execute it using the example value provided. You should get a response
+   that contains a reference to the copied result file:
+
+       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+         <soapenv:Body>
+            <ns1:Response1 xmlns:ns1="http://org/opflabs/scape/tb">
+               <ns1:outputFile>http://localhost:8080/scape/tmp/SCAPESimpleCopy10Service_outputFile_8116325518167881884.png</ns1:outputFile>
+               <ns1:returnCode>0</ns1:returnCode>
+            </ns1:Response1>
+         </soapenv:Body>
+      </soapenv:Envelope>
+
+Create a new project
+--------------------
+
+1) Configure the project by creating configuration files:
 
    a) default.properties
       Project configuration file defining name of the project context,
       name of the tool the web service provides access to, server
-      parameters for deploying the service, etc.
+      parameters for deploying the service, etc. The server settings in the
+      default.properties file correspond to the deployment environment that
+      is included.
 
    b) default_inputconfig.json and default_outputconfig.json
       Input and output data type configuration files, see also other example files
@@ -129,6 +178,14 @@ Project structure
 
 Requirements
 ------------
+
+In order to build and run the web service, you will need the Java SE
+Development Kit (JDK) version >=1.6.0, the underlying command line tool
+installed on the deployment server (no white spaces in the path!) and an
+Apache Tomcat version >=6.0.18 or equivalent servlet container with the Axis2
+version >=1.4.1 web application deployed. Apache Ant version >= 1.8.0 is
+required to build and deploy the web service. See section "Requirements" for
+further information.
 
 If you want to create a web service for an existing command line application
 using this java based generic web service wrapper, the following software is

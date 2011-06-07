@@ -2,39 +2,9 @@
   "inputFile": {
     "Datatype": "xsd:anyURI",
     "Required": "true",
+    "Default": "http://localhost:8080/scape/data/scape-logo.png",
     "CliMapping": "INFILE",
     "Documentation": "URL reference to input file"
-  },
-  "someBooleanParam": {
-    "Datatype": "xsd:boolean",
-    "Required": "true",
-    "Cardinality": "single",
-    "Documentation": "Some boolean parameter"
-  },
-  "someIntParam": {
-    "Datatype": "xsd:int",
-    "Required": "true",
-    "Documentation": "Some int parameter"
-  },
-  "someStringParam": {
-    "Datatype": "xsd:string",
-    "Required": "true",
-    "Documentation": "Some string parameter"
-  },
-  "someRestrictedStringParam": {
-    "Datatype": "xsd:string",
-    "Restriction": ["First","Second","Third"],
-    "Default": "Second",
-    "Required": "true",
-    "Documentation": "Some restricted string parameter"
-  },
-  "someRestrictedStringListParam": {
-    "Datatype": "xsd:string",
-    "Restriction": ["One","Two","Three"],
-    "Default": "One",
-    "Required": "true",
-    "Cardinality": "list",
-    "Documentation": "Some restricted string parameter"
   }
 }
 // The following properties can be defined for each variable:
