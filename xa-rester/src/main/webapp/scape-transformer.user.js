@@ -51,7 +51,7 @@ function annotate() {
 	if (window.annotateLinksDone) return;
 	appendStyles();
 	$("a").each( function() {
-		var anno = $("<a class=\"annlink-span\" href=\"http://localhost/scape/?src="+$(this).attr('href')+"\">[SCAPE]</a>");
+		var anno = $("<a class=\"annlink-span\" target=\"_new\" href=\"http://localhost:8080/scape/tools/test2?fmt=png&src="+$(this).get(0).href+"\">[SCAPE]</a>");
 		$(anno).hide();
 		$(anno).insertAfter($(this));
 		
@@ -75,7 +75,7 @@ function appendStyles() {
 		document.getElementsByTagName('head')[0].appendChild(styleElement);
 		var sty = document.styleSheets[document.styleSheets.length - 1];
 		sty.insertRule(".annlink-inline { }", 0);
-		sty.insertRule(".annlink-span { display: none; position:absolute}", 1);
+		sty.insertRule(".annlink-span { display: none; position: absolute; }", 1);
 		//sty.insertRule(".annlink-inline:hover .annlink-span { display: block; }", 2);
 		//sty.insertRule("@media screen { .:hover { display: block; }}", 3);
 	}
