@@ -18,6 +18,6 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Jersey Spring Web Application</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/tools/*</url-pattern>
     </servlet-mapping>
 </web-app>
