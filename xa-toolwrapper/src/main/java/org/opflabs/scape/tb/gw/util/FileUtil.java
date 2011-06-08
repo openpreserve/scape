@@ -37,7 +37,7 @@ import org.apache.log4j.Logger;
 
 /**
  * These are generic file utilities used by the client and service.
- * @author Thomas Krämer
+ * @author Thomas Kraemer
  * @author onbscs
  * @version 0.1
  */

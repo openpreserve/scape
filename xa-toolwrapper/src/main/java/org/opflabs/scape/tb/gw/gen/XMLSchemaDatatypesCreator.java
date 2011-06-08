@@ -308,6 +308,7 @@ public class XMLSchemaDatatypesCreator implements Insertable {
                 Element elementElm = doc.createElement("xsd:element");
                 elementElm.setAttribute("name", thisstr);
                 elementElm.setAttribute("type", currJsn.findValue("Datatype").getTextValue());
+
                 seqElm.appendChild(elementElm);
 
             }
@@ -388,6 +389,14 @@ public class XMLSchemaDatatypesCreator implements Insertable {
         // Only used if if Cardinality is "list"
         String varListName = currStr.substring(0, 1).toUpperCase() + currStr.substring(1) + "s";
         Element reqTypeElm = doc.createElement("xsd:element");
+
+                if (currJsn.has("Documentation")) {
+                    Element annotationElm = doc.createElement("xsd:annotation");
+                    Element documentationElm = doc.createElement("xsd:documentation");
+                    documentationElm.setTextContent(currJsn.findValue("Documentation").getTextValue());
+                    annotationElm.appendChild(documentationElm);
+                    reqTypeElm.appendChild(annotationElm);
+                }
         JsonNode defaultJn = currJsn.findValue("Default");
         JsonNode cardJsn = currJsn.get("Cardinality");
         boolean isList = (cardJsn != null && cardJsn.getTextValue().equalsIgnoreCase("list"));
