@@ -1,0 +1,29 @@
+<opj_j2k_dump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="opj_j2k_dump.xsd">
+	<image numcomps="3" x0="0" y0="0" x1="1205" y1="1917">
+		<comp index="0" dx="1" dy="1" w="1205" h="1917" prec="8" sgnd="0"/>
+		<comp index="1" dx="1" dy="1" w="1205" h="1917" prec="8" sgnd="0"/>
+		<comp index="2" dx="1" dy="1" w="1205" h="1917" prec="8" sgnd="0"/>
+	</image>
+	<coding_parameters tx0="0" ty0="0" tdx="1024" tdy="1024" tw="2" th="2">
+		<tile index="0" csty="6" prg="1" numlayers="1" mct="1" rates="0.0">
+			<tile_comp index="0" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+			<tile_comp index="1" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+			<tile_comp index="2" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+		</tile>
+		<tile index="1" csty="6" prg="1" numlayers="1" mct="1" rates="0.0">
+			<tile_comp index="0" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+			<tile_comp index="1" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+			<tile_comp index="2" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+		</tile>
+		<tile index="2" csty="6" prg="1" numlayers="1" mct="1" rates="0.0">
+			<tile_comp index="0" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+			<tile_comp index="1" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+			<tile_comp index="2" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+		</tile>
+		<tile index="3" csty="6" prg="1" numlayers="1" mct="1" rates="0.0">
+			<tile_comp index="0" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+			<tile_comp index="1" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+			<tile_comp index="2" csty="0" numres="6" cblkw="6" cblkh="6" cblksty="3e" qmfbid="0" qntsty="2" numgbits="1" roishift="0" stepsizes="(1822,14) (1770,14) (1770,14) (1724,14) (1792,13) (1792,13) (1762,13) (1868,12) (1868,12) (1892,12) (3,10) (3,10) (69,10) (2002,10) (2002,10) (1889,10) "/>
+		</tile>
+	</coding_parameters>
+</opj_j2k_dump>

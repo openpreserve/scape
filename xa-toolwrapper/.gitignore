@@ -3,3 +3,5 @@ target/*
 generated/*
 apache-tomcat-6.0.26/logs/*
 apache-tomcat-6.0.26/webapps/axis2/WEB-INF/services/*
+apache-tomcat-6.0.26/work/*
+apache-tomcat-6.0.26/temp/*

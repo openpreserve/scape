@@ -1,0 +1,3 @@
+Create an XML dump of the coding parameters using OpenJPEG.
+openjpeg_v1_4_32/opj_j2k_dump.xml is an example instance and openjpeg_v1_4_32/opj_j2k_dump.xsd is the XMLŚchema.
+The source code is in openjpeg_v1_4_32/codec/j2k_dump_xml.c and it is required to slightly modify the openjpeg_v1_4_32/codec/Makefile.am so that the new executable is compiled.

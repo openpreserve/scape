@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--W3C Schema erstellt mit XMLSpy v2008 sp1 (http://www.altova.com)-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="tile_comp">
+		<xs:annotation>
+				<xs:documentation>Tile component</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="index" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>index of tile component</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute  name="stepsizes" type="xs:string" use="required">
+				<xs:annotation>
+				  <xs:documentation>stepsizes used for quantization</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="roishift" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>region of Interest shift</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="qntsty" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>stepsizes used for quantization</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="qmfbid" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>quantisation style</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="numres" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>number of resolutions</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="numgbits" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>number of guard bits</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="csty" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>coding style</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="cblkw" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>code-blocks width</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="cblksty" use="required">
+				<xs:annotation>
+				  <xs:documentation>code-block coding style</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="cblkh" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>code-blocks height</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="tile">
+		<xs:annotation>
+				<xs:documentation>Coding/decoding parameters common to all tiles</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tile_comp" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="index" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>tile number</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="rates" type="xs:double" use="required">
+				<xs:annotation>
+				  <xs:documentation>rates of layers</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<!--
+			typedef enum PROG_ORDER {
+				PROG_UNKNOWN = -1,	/**< place-holder */
+				LRCP = 0,		/**< layer-resolution-component-precinct order */
+				RLCP = 1,		/**< resolution-layer-component-precinct order */
+				RPCL = 2,		/**< resolution-precinct-component-layer order */
+				PCRL = 3,		/**< precinct-component-resolution-layer order */
+				CPRL = 4		/**< component-precinct-resolution-layer order */
+			} OPJ_PROG_ORDER;
+			-->
+			<xs:attribute name="prg" type="xs:string" use="required">
+				<xs:annotation>
+				  <xs:documentation>progression order</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="numlayers" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>number of layers</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="mct" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>multi-component transform identifier</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="csty" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>coding style</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="opj_j2k_dump">
+		<xs:annotation>
+				<xs:documentation>OpenJPEG J2K coding parameters dump</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="image" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="coding_parameters" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="image">
+		<xs:annotation>
+				<xs:documentation>Defines image data and characteristics</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="comp" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="numcomps" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>number of components</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="x0" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>horizontal offset from the origin of the reference grid to the left side of the image area</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="y0" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>vertical offset from the origin of the reference grid to the top side of the image area</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="x1" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>width of the reference grid</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="y1" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>height of the reference grid</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="cs" type="xs:string" use="required">
+				<xs:annotation>
+				  <xs:documentation>color space</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="comp">
+		<xs:annotation>
+				<xs:documentation>Defines a single image component</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="index" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>index</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="w" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>data width</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="h" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>data height</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="dx" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>horizontal separation of a sample of ith component with respect to the reference grid</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="dy" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>vertical separation of a sample of ith component with respect to the reference grid</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="prec" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>precision</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="resno=" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>number of resolutions</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="sgnd" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>signed (1) / unsigned (0)</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="coding_parameters">
+		<xs:annotation>
+				<xs:documentation>Coding parameters</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="tile" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="ty0" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>YTOsiz</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="tx0" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>XTOsiz</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="tw" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>number of tiles in width</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="th" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>number of tiles in height</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="tdy" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>YTsiz</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="tdx" type="xs:int" use="required">
+				<xs:annotation>
+				  <xs:documentation>XTsiz</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
