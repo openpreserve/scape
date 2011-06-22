@@ -20,6 +20,8 @@ JAVA_HOME environment variable is defined.
 
 2) Start Apache Tomcat server:
 
+       cd apache-tomcat-6.0.26
+       mkdir logs
        cd apache-tomcat-6.0.26/bin
        ./startup.sh
 
@@ -195,9 +197,9 @@ required:
   without white spaces.
   Install the underlying command line tool of the generic web service wrapper
   on your system.
-  IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE 
+  IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE
   INSTALLED IN A PATH WITHOUT WHITE SPACES. OTHERWISE A FULL PATH CALL OF THE
-  COMMAND LINE TOOL WILL NOT WORK CORRECTLY. 
+  COMMAND LINE TOOL WILL NOT WORK CORRECTLY.
 
 - Java SE Development Kit (JDK), JDK 6 Update 12 or higher
   Please download the Java SE SDK for your system at
@@ -283,4 +285,3 @@ and specify where the log file should be created:
     log4j.appender.LOGFILE.File=log/project-service.log
 The Axis2 webapp must be reloaded or the tomcat application server restarted
 so that the changes take effect.
-
