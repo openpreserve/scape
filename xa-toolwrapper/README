@@ -22,7 +22,7 @@ JAVA_HOME environment variable is defined.
 
        cd apache-tomcat-6.0.26
        mkdir logs
-       cd apache-tomcat-6.0.26/bin
+       cd bin
        ./startup.sh
 
 3) Deploy the example service:
