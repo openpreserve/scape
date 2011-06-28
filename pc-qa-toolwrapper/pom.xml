@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scape-project</groupId>
-    <artifactId>xa-toolwrapper</artifactId>
+    <artifactId>pc-qa-toolwrapper</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Tool Wrapper</name>
+    <name>SCAPE QA Tools</name>
     <build>
         <plugins>
             <plugin>
@@ -83,6 +83,6 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <description>SOAP Web Service Tool Wrapper generator for command line applications</description>
+    <description>SCAPE QA WSDL services implementations using SOAP Web Service Tool Wrapper generator for command line applications</description>
 
 </project>
