@@ -44,6 +44,7 @@
 		<module>xa-pit</module>
 		<module>xa-toolwrapper</module>
 		<module>pc-qa-bitwiser</module>
+		<module>pc-qa-toolwrapper</module>
 	</modules>
 	<!-- Global build options. -->
 	<build>
