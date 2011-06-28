@@ -1,0 +1,76 @@
+{
+  "inputFile": {
+    "Datatype": "xsd:anyURI",
+    "Required": "true",
+    "Default": "http://fue.onb.ac.at/scape/testdata/19080603_0018.tif",
+    "CliMapping": "INFILE",
+    "Documentation": "URL reference to input file",
+    "PreserveName": "true"
+  },
+  "reversible": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Restriction": ["yes","no"],
+    "Default": "yes",
+    "CliMapping": "REVERSIBLE",
+    "Documentation": "Indicates if the compression is reversible (lossless) or not."
+  },
+  "rate": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Default": "-,1,0.5,0.25",
+    "CliMapping": "RATE",
+    "Documentation": "Comma separated positive floating point numbers indicating the compression rate. For example: 1.0 means irreversible compression to 1 bit/sample and 1.0,0.5,0.25 means irreversible compression to a 3 layer code-stream (3 embedded bit-rates) and  -,1,0.5,0.25 togehter with reversible=yes means reversible (lossless) compression with a progressive lossy to lossless code-stream having 4 layers (Note the use of the dash (-) to specify that the final layer should include all remaining compressed bits, not included in previous layers. Specifying a large bit-rate for one of the layers does not have exactly the same effect and may leave the code-stream not quite lossless.) , and 0.5 means irreversible colour compression (with visual weights) to 0.5 bit/pixel. In this case, the post-compression rate-distortion optimization algorithm is used to discard coding passes until the rate target is met. This is done for each quality layer.  Although more coding passes are processed by the block coder than are ultimately required, Kakadu still uses a predictive algorithm to reduce the number of wasted coding passes, so that the processing speed is essentially independent of Qstep so long as it is very small."
+  },
+  "layers": {
+    "Datatype": "xsd:int",
+    "Required": "true",
+    "Default": "4",
+    "CliMapping": "LAYERS",
+    "Documentation": "One positive Integer. Embedded quality layers. Using rate 1.0,0.04, for example, the quality would roughly logarithmically spaced between 0.04 and 1.0 bits per pixel."
+  },
+  "levels": {
+    "Datatype": "xsd:int",
+    "Required": "true",
+    "Default": "5",
+    "CliMapping": "LEVELS",
+    "Documentation": "One positive Integer. Number of wavelet decomposition levels, or stages."
+  },
+  "tiles": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Default": "{300,200}",
+    "CliMapping": "TILES",
+    "Documentation": "Two comma-separated positive Integers. After color transformation, the image is split into so-called tiles, rectangular regions of the image that are transformed and encoded separately. Tiles can be any size, and it is also possible to consider the whole image as one single tile. Once the size is chosen, all the tiles will have the same size (except optionally those on the right and bottom borders). Dividing the image into tiles is advantageous in that the decoder will need less memory to decode the image and it can opt to decode only selected tiles to achieve a partial decoding of the image."
+  },
+  "codeBlocks": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Default": "{64,64}",
+    "CliMapping": "CODEBLOCKS",
+    "Documentation": "Two comma-separated positive Integers. Codeblocks are used to partition the image for processing and make it possible to access portions of the datastream corresponding to sub-regions of the image. This data ordering means that the data for a thumbnail image occurs in a contiguous block at the start of the datastream where it can be easily and speedily accessed. This data organization makes it possible to obtain a screen-resolution image quickly from a megabyte or gigiabyte sized image compressed using JPEG 2000."
+  },
+  "precincts": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Default": "{128,128}",
+    "CliMapping": "PRECINCTS",
+    "Documentation": "Two comma-separated positive Integers."
+  },
+  "progressionOrder": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Restriction": ["LRCP","RLCP","RPCL","PCRL","CPRL"],
+    "Default": "LRCP",
+    "CliMapping": "PROGRESSIONORDER",
+    "Documentation": "String of 4 characters 'L', 'R', 'C', 'P, e.g. LRCP, in arbitrary order. Indicates the progression order. The four character identifiers have the following interpretation: L=layer; R=resolution; C=component; P=position. The first character in the identifier refers to the index which progresses most slowly, while the last refers to the index which progresses most quickly."
+  }
+}
+// The following properties can be defined for each variable:
+// - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
+// - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
+// - CliMapping - Mapping to command line pattern variable, see property
+//                service.cli.command.pattern in default.properties
+// - Default - Default value if using an array of allowed values (optional)
+// - Cardinality - Use "list" for a string list input
+// - Documentation - Documentation for the variable

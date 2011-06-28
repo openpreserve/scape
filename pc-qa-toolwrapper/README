@@ -1,0 +1,286 @@
+Tool Wrapper
+============
+
+Quick start
+-----------
+
+For a quick start, you need at least the Java SE Development Kit (JDK)
+version >=1.6.0 and Apache Ant version >= 1.8.1. Also make sure that the
+JAVA_HOME environment variable is defined.
+
+1) Run the project generator with the default arguments:
+
+       java -jar genericwrapper.jar
+
+   This will generate an example project generated/simplecopy10. This service is
+   a an example wrapper project for the linux copy command "cp" or the COPY
+   command for Windows (use "CMD.exe /C COPY" instead of "cp" in the command
+   pattern which is defined by the property service.operation.1.clicmd if you
+   are using windows).
+
+2) Start Apache Tomcat server:
+
+       cd apache-tomcat-6.0.26/bin
+       ./startup.sh
+
+3) Deploy the example service:
+
+       cd generated/simplecopy10
+       ant deploy
+
+   This will build the service and deploy it to the Apache Tomcat Axis2 environment.
+   Note that ant requires the apache-tomcat-6.0.26/lib/catalina-ant.jar for the
+   reload task (see target service.deploy.public in the ant build file
+   generated/simplecopy10/build.xml.
+
+4) Open the Axis2 services list:
+
+       http://localhost:8080/axis2/services/listServices
+
+   You should then see the deployed example SCAPESimpleCopy10Service in the list.
+
+5) Try using the web service using soapUI by creating a project using the
+   WSDL of the service:
+
+       http://localhost:8080/axis2/services/SCAPESimpleCopy10Service?wsdl
+
+   and execute it using the example value provided. You should get a response
+   that contains a reference to the copied result file:
+
+       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+         <soapenv:Body>
+            <ns1:Response1 xmlns:ns1="http://org/opflabs/scape/tb">
+               <ns1:outputFile>http://localhost:8080/scape/tmp/SCAPESimpleCopy10Service_outputFile_8116325518167881884.png</ns1:outputFile>
+               <ns1:returnCode>0</ns1:returnCode>
+            </ns1:Response1>
+         </soapenv:Body>
+      </soapenv:Envelope>
+
+Create a new project
+--------------------
+
+1) Configure the project by creating configuration files:
+
+   a) default.properties
+      Project configuration file defining name of the project context,
+      name of the tool the web service provides access to, server
+      parameters for deploying the service, etc. The server settings in the
+      default.properties file correspond to the deployment environment that
+      is included.
+
+   b) default_inputconfig.json and default_outputconfig.json
+      Input and output data type configuration files, see also other example files
+      *_inputconfig.json and *_outputconfig.json available in the root folder.
+      The following properties can be defined for each variable:
+      - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
+      - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
+      - CliMapping - Mapping to command line pattern variable, see property
+            service.operation.1.clicmd in default.properties
+      - OutputMapping - Some variables are provided by the service and can be
+            mapped to an output port (data types have to be the same):
+            - processing_success (boolean) - success/failure of service execution
+            - processing_returncode (int) - 0 for success >0 if an error occurred
+            - processing_message (String)  - service execution message
+            - processing_log (String) - service execution log
+            - processing_time (int) - processing time in milliseconds
+            - processing_unitid (String) - Processing unit identifier
+      - Default - Default value if using an array of allowed values, see property
+            "Restriction" above (optional)
+      - Cardinality - Use "list" for a string list input, the property
+            defaults to "single" if omitted.
+      - Documentation - Documentation for the variable
+      - PrefixFromInput - Only for file outputs (xsd:anyURI): Indicate the input
+            file variable which should be used as a prefix for the output filename.
+
+   See the "examples" folder which contains more configuration files.
+
+2) Run the project generator (default arguments):
+
+       java -jar genericwrapper.jar
+
+   or indicating the configuration files to be used:
+
+       java -jar genericwrapper.jar -pc default.properties -ic default_inputconfig.json -oc default_outputconfig.json [-ic default_inputconfig2.json -oc default_outputconfig2.json ...]
+
+   where:
+
+       -pc specifies the file that contains the project configuration
+       -ic specifies the file that contains the configuration of the input ports
+       -oc specifies the file that contains the configuration of the output ports
+
+   It is possible to define multiple operations, in this case multiple command
+   line interface commands are defined in the project configuration, for example:
+
+       service.operation.1=simplyCopy
+       service.operation.1.description=Copy a source file to a target file
+       service.operation.1.clicmd=cp @INFILE@ @OUTFILE@
+       service.operation.2=verboseCopy
+       service.operation.2.description=Copy a directorya source file to a target file
+       service.operation.2.clicmd=cp @INFILE@ @OUTFILE@ --verbose
+
+   and for each operation one input and one output configuration file is defined:
+
+       java -jar genericwrapper.jar -pc default.properties -ic inputconfig_operation1.json -oc outputconfig_operation1.json -ic inputconfig_operation2.json -oc outputconfig_operation2.json
+
+   The project will be created in the "generated" folder, the name of the project
+   folder being derived from the project.title property defined in the project
+   configuration.
+
+3) Follow the README file of the generated project
+
+Project structure
+-----------------
+
+- ctmpl
+  Code snippet templates used for code insertion.
+
+- examples
+  Example configuration files.
+
+- generated
+  Folder where the generated SOAP web service wrapper projects will be stored.
+
+- lib
+  Libraries required for compiling the generated axis 2 web service project
+  using ant.
+
+- src
+  Java sources of the Tool Wrapper
+
+- target
+  Build files
+
+- template
+  Project template (substitution variables in the template files), e.g.
+  #GLOBAL_PROJECT_VERSION# will be replaced by the version number defined
+  in the project configuration file (default.properties).
+
+- genericwrapper.jar
+  Java binary executable (execute "java -jar genericwrapper.jar")
+
+- default.properties
+  Project configuration file
+
+- default_inputconfig.json
+  Input data types configuration file
+
+- LICENSE
+  Apache 2 license
+
+- default_outputconfig.json
+  Output data types configuration file
+
+- pom.xml
+  Maven file
+
+- README
+  This file
+
+Requirements
+------------
+
+In order to build and run the web service, you will need the Java SE
+Development Kit (JDK) version >=1.6.0, the underlying command line tool
+installed on the deployment server (no white spaces in the path!) and an
+Apache Tomcat version >=6.0.18 or equivalent servlet container with the Axis2
+version >=1.4.1 web application deployed. Apache Ant version >= 1.8.0 is
+required to build and deploy the web service. See section "Requirements" for
+further information.
+
+If you want to create a web service for an existing command line application
+using this java based generic web service wrapper, the following software is
+required:
+
+- Underlying command line tool of this web service wrapper installed in a path
+  without white spaces.
+  Install the underlying command line tool of the generic web service wrapper
+  on your system.
+  IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE 
+  INSTALLED IN A PATH WITHOUT WHITE SPACES. OTHERWISE A FULL PATH CALL OF THE
+  COMMAND LINE TOOL WILL NOT WORK CORRECTLY. 
+
+- Java SE Development Kit (JDK), JDK 6 Update 12 or higher
+  Please download the Java SE SDK for your system at
+  http://java.sun.com/javaee/downloads/.
+
+- Apache Tomcat server Version 6.0.18 or higher
+  Please download and install the Apache Tomcat Server 6.0.18 here
+  http://tomcat.apache.org/download-60.cgi and follow the instructions
+  of the RUNNING.txt in your apache tomcat directory. There you will also find
+  the information on how to configure and start the apache tomcat server.
+
+- Apache Axis2/Java Version 1.4.1 or higher
+  Apache Axis is an implementation of the SOAP ("Simple Object Access Protocol")
+  submission  to W3C. You only need the Web Application Archive (WAR) which
+  must be deployed to your Tomcat web applications directory (webapps).
+  http://ws.apache.org/axis2
+
+Securing the Web Service
+------------------------
+
+The simpliest way to secure the web service is by configuring basic
+HTTP-Authentication which can be done either in the tomcat application server
+or any web server which you are using as frontend server.
+
+Using the Apache2 webserver as frontend, you can configure the
+HTTP-Authentication as follows (example for Linux):
+
+1) Create a password file for a new user
+       htpasswd -c /usr/local/apache2/pwds newuser
+2) Configure access restriction in your httpd.conf, e.g. in
+       /usr/local/apache2/httpd.conf
+  restricting the access to the axis2 location (depends on the path):
+    <Location /axis2>
+        AuthName "only for registered users"
+        AuthType Basic
+        AuthUserFile "/usr/local/apache2/pwds"
+        <Limit GET>
+            require valid-user
+        </Limit>
+    </Location>
+
+Also in the Apache Tomcat web server you can secure the web service
+via basic HTTP-Authentication (example for Linux):
+
+1) Configure the web.xml of the axis2 web application:
+      /usr/local/java/apache-tomcat-6.0.18/webapps/axis2/WEB-INF/web.xml
+    and add the following:
+      <web-app>
+        <security-constraint>
+          <web-resource-collection>
+              <web-resource-name>secured services</web-resource-name>
+              <url-pattern>/services/*</url-pattern>
+          </web-resource-collection>
+          <auth-constraint>
+              <role-name>webservice</role-name>
+          </auth-constraint>
+        </security-constraint>
+        <login-config>
+          <auth-method>BASIC</auth-method>
+          <realm-name>webservice</realm-name>
+        </login-config>
+     </web-app>
+
+2) This requires the user "webservice" to be defined in the tomcat-users.xml:
+       /usr/local/java/apache-tomcat-6.0.18/conf/tomcat-users.xml
+    as follows:
+       <?xml version="1.0" encoding="utf-8">
+       <tomcat-users>
+           <role rolename="webservice"/>
+           <user username="tomcat" password="somepassword" roles="webservice"/>
+       </tomcat-users>
+
+Logging
+-------
+For logging log4j is used. In order to configure logging, adapt the
+Axis2 configuration accordingly. Change the log4j properties in the file
+    ${tomcat.base.dir}/${tomcat.axis.dir}/WEB-INF/classes/log4j.properties
+e.g.
+    /usr/local/java/apache-tomcat-6.0.18/webapps/axis2/WEB-INF/classes/log4j.properties
+You can indicate to create a log file:
+    log4j.rootCategory=INFO, CONSOLE, LOGFILE
+and specify where the log file should be created:
+    log4j.appender.LOGFILE.File=log/project-service.log
+The Axis2 webapp must be reloaded or the tomcat application server restarted
+so that the changes take effect.
+

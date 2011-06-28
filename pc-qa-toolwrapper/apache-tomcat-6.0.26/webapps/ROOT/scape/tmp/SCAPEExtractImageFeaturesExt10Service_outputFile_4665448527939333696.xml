@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<characterization>
+<task level="1" name="imageMetadata">
+  <ImageWidth>1024</ImageWidth>
+  <ImageHeight>768</ImageHeight>
+  <ImageChannels>3</ImageChannels>
+</task>
+<task level="2" name="imageHistogram">
+  <bins dimension="1" numberofbins="5" range="0,255">0.567799, 0.0367724, 0.00389481, 0.0070254, 0.384445</bins>
+  <bins dimension="2" numberofbins="5" range="0,255">0.412443, 0.16591, 0.0554899, 0.210939, 0.155219</bins>
+  <bins dimension="3" numberofbins="5" range="0,255">0.193193, 0.179962, 0.254397, 0.30114, 0.071214</bins>
+</task>
+</characterization>

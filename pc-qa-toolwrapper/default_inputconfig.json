@@ -1,0 +1,17 @@
+{
+  "inputFile": {
+    "Datatype": "xsd:anyURI",
+    "Required": "true",
+    "Default": "http://localhost:8080/scape/data/scape-logo.png",
+    "CliMapping": "INFILE",
+    "Documentation": "URL reference to input file"
+  }
+}
+// The following properties can be defined for each variable:
+// - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
+// - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
+// - CliMapping - Mapping to command line pattern variable, see property
+//                service.cli.command.pattern in default.properties
+// - Default - Default value if using an array of allowed values (optional)
+// - Cardinality - Use "list" for a string list input
+// - Documentation - Documentation for the variable

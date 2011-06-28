@@ -1,0 +1,145 @@
+#GLOBAL_PROJECT_PREFIX# #PROJECT_TITLE#
+==================================================
+
+#SERVICE_DESCRIPTION#
+
+Important notes for a quick start
+---------------------------------
+
+1) Install the underlying command line tool of the tool wrapper on your system.
+   IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE 
+   INSTALLED IN A PATH WITHOUT WHITE SPACES. OTHERWISE A FULL PATH CALL TO THE
+   COMMAND LINE TOOL WILL NOT WORK CORRECTLY. 
+2) Make sure the Java SE Development Kit (JDK) and Apache Tomcat with the Axis2
+   web application deployed, and Apache Ant are installed on your system. 
+
+Below you will find more detailed instructions.
+
+Requirements
+------------
+
+In order to run deploy the web service, you will need the Java SE Development Kit
+(JDK) version 1.6.0 or higher, the underlying tool installed, a running
+Apache Tomcat 6.0.18 Servlet Container (or another equivalent Servlet container)
+with the Axis2 web application deployed.
+
+- Underlying command line tool of this web service wrapper installed in a path
+  without white spaces.
+
+- Java SE Development Kit (JDK), JDK 6 Update 12 or higher
+  Please download the Java SE SDK for your system at
+  http://java.sun.com/javaee/downloads/.
+
+- Apache Ant 1.7.0 or higher
+  Please refer to the homepage at http://ant.apache.org and to the manual at
+  http://ant.apache.org/manual/ for information on how to install Apache Ant.
+  NOTE: IN ORDER TO USE THE ANT DEPLOYMENT BASED ON THE RELOAD TASK, YOU MUST
+  MAKE THE catalina-ant.jar THAT YOU CAN FIND IN THE TOMCAT LIB DIRECTORY
+  AVAILABLE TO YOUR ANT INSTALLATION (COPY IT TO THE ANT LIB DIRECTORY). 
+
+- Apache Tomcat server Version 6.0.18 or higher
+  Please download and install the Apache Tomcat Server 6.0.18 here
+  http://tomcat.apache.org/download-60.cgi and follow the instructions
+  of the RUNNING.txt in your apache tomcat directory. There you will also find
+  the information on how to configure and start the apache tomcat server.
+
+- Apache Axis2/Java Version 1.4.1 or higher
+  Apache Axis is an implementation of the SOAP ("Simple Object Access Protocol")
+  submission  to W3C. You only need the Web Application Archive (WAR) which
+  must be deployed to your Tomcat web applications directory.
+  http://ws.apache.org/axis2
+
+Securing the Web Service
+------------------------
+
+The simpliest way to secure the web service is by configuring basic
+HTTP-Authentication which can be done either in the tomcat application server
+or any web server which you are using as frontend server.
+
+Using the Apache2 webserver as frontend, you can configure the
+HTTP-Authentication as follows (example for Linux):
+
+1) Create a password file for a new user
+       htpasswd -c /usr/local/apache2/pwds newuser
+2) Configure access restriction in your httpd.conf, e.g. in
+       /usr/local/apache2/httpd.conf
+  restricting the access to the axis2 location (depends on the path):
+    <Location /axis2>
+        AuthName "only for registered users"
+        AuthType Basic
+        AuthUserFile "/usr/local/apache2/pwds"
+        <Limit GET>
+            require valid-user
+        </Limit>
+    </Location>
+
+Also in the Apache Tomcat web server you can secure the web service
+via basic HTTP-Authentication (example for Linux):
+
+1) Configure the web.xml of the axis2 web application:
+      /usr/local/java/apache-tomcat-6.0.18/webapps/axis2/WEB-INF/web.xml
+    and add the following:
+      <web-app>
+        <security-constraint>
+          <web-resource-collection>
+              <web-resource-name>secured services</web-resource-name>
+              <url-pattern>/services/*</url-pattern>
+          </web-resource-collection>
+          <auth-constraint>
+              <role-name>webservice</role-name>
+          </auth-constraint>
+        </security-constraint>
+        <login-config>
+          <auth-method>BASIC</auth-method>
+          <realm-name>webservice</realm-name>
+        </login-config>
+     </web-app>
+
+2) This requires the user "webservice" to be defined in the tomcat-users.xml:
+       /usr/local/java/apache-tomcat-6.0.18/conf/tomcat-users.xml
+    as follows:
+       <?xml version="1.0" encoding="utf-8">
+       <tomcat-users>
+           <role rolename="webservice"/>
+           <user username="tomcat" password="somepassword" roles="webservice"/>
+       </tomcat-users>
+
+Logging
+-------
+For logging log4j is used. In order to configure logging, adapt the
+Axis2 configuration accordingly. Change the log4j properties in the file
+    ${tomcat.base.dir}/${tomcat.axis.dir}/WEB-INF/classes/log4j.properties
+e.g.
+    /usr/local/java/apache-tomcat-6.0.18/webapps/axis2/WEB-INF/classes/log4j.properties
+You can indicate to create a log file:
+    log4j.rootCategory=INFO, CONSOLE, LOGFILE
+and specify where the log file should be created:
+    log4j.appender.LOGFILE.File=log/project-service.log
+The Axis2 webapp must be reloaded or the tomcat application server restarted
+so that the changes take effect.
+
+Project structure
+-----------------
+
+- build
+  This directory will only be created when the build task is executed. It
+  contains generated sources, compiled classes, and resources. It can be deleted
+  and will be recreated every time the ant build target is executed.
+- lib
+  Libraries needed in order to compile the application.
+  Note: Among other libraries, the directory contains the Axis 2 libraries which
+  are required for building the application. At runtime the application will use
+  the libraries of the Axis2 and not the libraries in this directory.
+- resources
+  Global resources, like WSDL web service description file, global Axis2
+  configuration file axis2.xml, web service configuration file services.xml, etc.
+- src
+  Java sources
+- test
+  Input and output testfiles.
+- README.txt
+  This file.
+- build.properties
+  Ant build properties (edit the properties).
+- build.xml
+  Apache ant build file

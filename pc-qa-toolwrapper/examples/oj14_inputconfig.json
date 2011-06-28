@@ -1,0 +1,53 @@
+{
+  "inputFile": {
+    "Datatype": "xsd:anyURI",
+    "Required": "true",
+    "Default": "http://fue.onb.ac.at/scape/testdata/19080603_0018.tif",
+    "CliMapping": "INFILE",
+    "Documentation": "URL reference to input file"
+  },
+  "compression": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Default": "20,10,1",
+    "CliMapping": "COMPRESSION",
+    "Documentation": "Different compression ratios for successive layers - The rate specified for each quality level is the desired compression factor. Example: 20,10,1 means compress 20x, 10x, and lossless."
+  },
+  "resolutions": {
+    "Datatype": "xsd:int",
+    "Required": "true",
+    "Default": "3",
+    "CliMapping": "RESOLUTIONS",
+    "Documentation": "Number of resolutions"
+  },
+  "tileSize": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Default": "512,512",
+    "CliMapping": "TILESIZE",
+    "Documentation": "Size of tile, e.g. 512,512"
+  },
+  "codeBlockSize": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Default": "32,32",
+    "CliMapping": "CODEBLOCKSIZE",
+    "Documentation": "size of code block, e.g. 32,32"
+  },
+  "progressionOrder": {
+    "Datatype": "xsd:string",
+    "Required": "true",
+    "Restriction": ["LRCP","RLCP","RPCL","PCRL","CPRL"],
+    "Default": "LRCP",
+    "CliMapping": "PROGRESSIONORDER",
+    "Documentation": "progression order, e.g. LRCP, one of LRCP, RLCP, RPCL, PCRL, CPRL"
+  }
+}
+// The following properties can be defined for each variable:
+// - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
+// - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
+// - CliMapping - Mapping to command line pattern variable, see property
+//                service.cli.command.pattern in default.properties
+// - Default - Default value if using an array of allowed values (optional)
+// - Cardinality - Use "list" for a string list input
+// - Documentation - Documentation for the variable
