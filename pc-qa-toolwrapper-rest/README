@@ -1,0 +1,29 @@
+SCAPE QA package RESTful services implementation
+================================================
+
+This is a sample implementation of REST web services for SCAPE QA package. 
+
+-------------------
+Start Tomcat server
+-------------------
+
+To start the web server from the root folder use:
+
+mvn tomcat:run
+
+------------
+Requirements
+------------
+
+* Java 1.6
+* Maven 2
+
+------------
+Web Services
+------------
+
+To check supported web services use following URLs from your browser:
+1. Services description. Use URL http://localhost:8080/scape-qa-rest-example/rest/qualityassurance/
+2. Extract features service. Copy file you want to analyze in root directory (for example test.jpg). Then use URL 
+http://localhost:8080/scape-qa-rest-example/rest/qualityassurance/extractfeatures/test.jpg
+
