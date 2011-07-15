@@ -6,6 +6,7 @@ package eu.scape_project.pit.invoke;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
@@ -63,9 +64,11 @@ public class PitInvoker {
 		pb.redirectErrorStream(true);
 		Process start = pb.start();
 		try {
-			// Needs time-out.
+			// Needs time-out. 
+			InputStream procStdout = start.getInputStream();
+			IOUtils.copy( procStdout , System.out);
+			// Moved here, as will not finish until start.getInputStream is called (?)
 			int waitFor = start.waitFor();
-			IOUtils.copy( start.getInputStream() , System.out);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,7 +153,7 @@ public class PitInvoker {
 	public static void main(String[] args) throws IOException, ToolSpecNotFoundException, CommandNotFoundException {
 		PitInvoker ib = new PitInvoker("fits");
 		ib.identify("fits", 
-				new File("test.jpeg") );
+				new File("logo.png") );
 				//, 
 				//new File("test.jp2") );
 //				File.createTempFile("DISC_1",".iso") );
