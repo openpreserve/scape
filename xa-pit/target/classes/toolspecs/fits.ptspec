@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+  <id>pit-buildin-fits</id>
+  <name>File Information Tool Set</name>
+  <homepage>http://code.google.com/p/fits/</homepage>
+  <download>http://fits.googlecode.com/files/fits-0.5.0.zip</download>
+  
+  <version>0.5.0</version>
+
+  <param var="install.dir" default="c:/BritishLibrary/Eclipse/workspace-bl/scape/xa-pit/tools"/>
+
+  <tool type="identify" id="fits">
+  	<command>${install.dir}/fits-0.5.0/fits.bat -i ${inFile} </command>
+  </tool>
+
+</toolspec>

@@ -53,7 +53,7 @@ public class ToolSpec {
 	
 	static {
 		try {
-			jc  = JAXBContext.newInstance(ToolSpec.class.getPackage().getName());
+			jc  = JAXBContext.newInstance(ToolSpec.class);
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
