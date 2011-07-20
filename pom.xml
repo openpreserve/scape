@@ -94,7 +94,7 @@
 				<site>
 					<id>opf.labs.local.site</id>
 					<name>OPF Labs Maven Local Website</name>
-					<url>/var/www/maven/bamboo/scape</url>
+					<url>file:///var/www/maven/bamboo/scape</url>
 				</site>
 			</distributionManagement>
 		</profile>
