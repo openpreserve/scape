@@ -87,6 +87,14 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
 	<profiles>
 		<profile>
 			<id>profile-bamboo-ci</id>
@@ -97,14 +105,6 @@
 					<url>file:///var/www/maven/bamboo/scape</url>
 				</site>
 			</distributionManagement>
-			<reporting>
-			        <plugins>
-			            <plugin>
-			                <groupId>org.apache.maven.plugins</groupId>
-			                <artifactId>maven-project-info-reports-plugin</artifactId>
-			             </plugin>
-			         </plugins>
-			      	<reporting>
 		</profile>
 	</profiles>
 </project>
