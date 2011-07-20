@@ -97,6 +97,14 @@
 					<url>file:///var/www/maven/bamboo/scape</url>
 				</site>
 			</distributionManagement>
+			<reporting>
+			        <plugins>
+			            <plugin>
+			                <groupId>org.apache.maven.plugins</groupId>
+			                <artifactId>maven-project-info-reports-plugin</artifactId>
+			             </plugin>
+			         </plugins>
+			      	<reporting>
 		</profile>
 	</profiles>
 </project>
