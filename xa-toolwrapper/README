@@ -22,7 +22,9 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
        cd ${path.to.your.apache-tomcat}/bin
        ./startup.sh
 
-3) Deploy the example service:
+3) In order to deploy the web application archive (war), make sure the tomcat manager
+   webapp is enabled (configure in apache tomcat's conf/tomcat-users.xml) and 
+   deploy the example service:
 
        cd generated/simplecopy10
        mvn deploy
