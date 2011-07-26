@@ -1,0 +1,4 @@
+        // Output: ${output_variable}
+        String ${output_variable} = "";
+        ${mapping}
+        ${outmapping}

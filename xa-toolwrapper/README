@@ -1,5 +1,5 @@
-Tool Wrapper
-============
+Tool Wrapper v0.2
+=================
 
 Quick start
 -----------
@@ -10,7 +10,7 @@ JAVA_HOME environment variable is defined.
 
 1) Run the project generator with the default arguments:
 
-       java -jar genericwrapper.jar
+       java -jar toolwrapper.jar
 
    This will generate an example project generated/simplecopy10. This service is
    a an example wrapper project for the linux copy command "cp" or the COPY
@@ -18,28 +18,54 @@ JAVA_HOME environment variable is defined.
    pattern which is defined by the property service.operation.1.clicmd if you
    are using windows).
 
-2) Start Apache Tomcat server:
+2) Start your Apache Tomcat server:
 
-       cd apache-tomcat-6.0.26
-       mkdir logs
-       cd bin
+       cd ${path.to.your.apache-tomcat}/apache-tomcat-${tomcat-version}/bin
        ./startup.sh
 
 3) Deploy the example service:
 
        cd generated/simplecopy10
-       ant deploy
+       mvn deploy
 
-   This will build the service and deploy it to the Apache Tomcat Axis2 environment.
-   Note that ant requires the apache-tomcat-6.0.26/lib/catalina-ant.jar for the
-   reload task (see target service.deploy.public in the ant build file
-   generated/simplecopy10/build.xml.
+   A web application archive (war) will then be deployed to
 
-4) Open the Axis2 services list:
+       http://localhost:8080/scape-simplecopy10-service
 
-       http://localhost:8080/axis2/services/listServices
+4) Accessing the Axis2 service:
 
-   You should then see the deployed example SCAPESimpleCopy10Service in the list.
+   You can find the start page of the web service here:
+
+       http://localhost:8080/scape-simplecopy10-service/
+
+   And the endpoint of the service is:
+
+       http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10
+
+   Try the RESTless interface:
+
+       http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?inputUrl=http://localhost:8080/scape/data/scape-logo.png
+ 
+   and receive this response:
+
+   <ns:simpleCopyResponse>
+       <ns:return>
+           <tns:result>
+               <tns:success>true</tns:success>
+               <tns:returncode>0</tns:returncode>
+               <tns:message>Service request has been processed successfully</tns:message>
+               <tns:time>0</tns:time>
+               <tns:unitid>http://fue.onb.ac.at/scape/fue-l/tomcat1</tns:unitid>
+               <tns:log>========= PROCESSING REQUEST =========.
+               Using service: SCAPESimpleCopy10Service.
+               Parameter processingUnit from services.xml: http://fue.onb.ac.at/scape/fue-l/tomcat1.
+               URL of input file: http://fue.onb.ac.at/scape/testdata/test.tiff.
+               Service request has been processed successfully.
+               </tns:log>
+               <tns:outputFile>http://localhost:8080/scape/tmp/scape-logo-1023892389923.png</tns:outputFile>
+           </tns:result>
+       </ns:return>
+   </ns:simpleCopyResponse>
 
 5) Try using the web service using soapUI by creating a project using the
    WSDL of the service:
@@ -49,14 +75,39 @@ JAVA_HOME environment variable is defined.
    and execute it using the example value provided. You should get a response
    that contains a reference to the copied result file:
 
-       <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-         <soapenv:Body>
-            <ns1:Response1 xmlns:ns1="http://org/opflabs/scape/tb">
-               <ns1:outputFile>http://localhost:8080/scape/tmp/SCAPESimpleCopy10Service_outputFile_8116325518167881884.png</ns1:outputFile>
-               <ns1:returnCode>0</ns1:returnCode>
-            </ns1:Response1>
-         </soapenv:Body>
-      </soapenv:Envelope>
+   <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://opflabs.org/scape/services">
+      <soap:Header/>
+      <soap:Body>
+         <ser:simpleCopy>
+            <ser:inputUrl>http://localhost:8080/scape/data/scape-logo.png</ser:inputUrl>
+         </ser:simpleCopy>
+      </soap:Body>
+   </soap:Envelope>
+
+   and receive this response:
+
+   <soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
+      <soapenv:Body>
+         <ns:simpleCopyResponse xmlns:ns="http://opflabs.org/scape/services">
+            <ns:return>
+               <tns:result xmlns:tns="http://org.opflabs/scape/services">
+                  <tns:success>true</tns:success>
+                  <tns:returncode>0</tns:returncode>
+                  <tns:message>Service request has been processed successfully</tns:message>
+                  <tns:time>0</tns:time>
+                  <tns:unitid>http://fue.onb.ac.at/scape/fue-l/tomcat1</tns:unitid>
+                  <tns:log>========= PROCESSING REQUEST =========.
+                     Using service: SCAPESimpleCopy10Service.
+                     Parameter processingUnit from services.xml: http://fue.onb.ac.at/scape/fue-l/tomcat1.
+                     URL of input file: http://localhost:8080/scape/data/scape-logo.png.
+                     Service request has been processed successfully.</tns:log>
+                  <tns:outputFile>http://localhost:8080/scape/tmp/scape-logo-1023892389923.png</tns:outputFile>
+               </tns:result>
+            </ns:return>
+         </ns:simpleCopyResponse>
+      </soapenv:Body>
+   </soapenv:Envelope>
+
 
 Create a new project
 --------------------
@@ -98,11 +149,11 @@ Create a new project
 
 2) Run the project generator (default arguments):
 
-       java -jar genericwrapper.jar
+       java -jar toolwrapper.jar
 
    or indicating the configuration files to be used:
 
-       java -jar genericwrapper.jar -pc default.properties -ic default_inputconfig.json -oc default_outputconfig.json [-ic default_inputconfig2.json -oc default_outputconfig2.json ...]
+       java -jar toolwrapper.jar -pc default.properties -ic default_inputconfig.json -oc default_outputconfig.json [-ic default_inputconfig2.json -oc default_outputconfig2.json ...]
 
    where:
 
@@ -122,7 +173,7 @@ Create a new project
 
    and for each operation one input and one output configuration file is defined:
 
-       java -jar genericwrapper.jar -pc default.properties -ic inputconfig_operation1.json -oc outputconfig_operation1.json -ic inputconfig_operation2.json -oc outputconfig_operation2.json
+       java -jar toolwrapper.jar -pc default.properties -ic inputconfig_operation1.json -oc outputconfig_operation1.json -ic inputconfig_operation2.json -oc outputconfig_operation2.json
 
    The project will be created in the "generated" folder, the name of the project
    folder being derived from the project.title property defined in the project
@@ -133,18 +184,14 @@ Create a new project
 Project structure
 -----------------
 
-- ctmpl
-  Code snippet templates used for code insertion.
+- tmpl
+  Code templates used for code insertion.
 
 - examples
   Example configuration files.
 
 - generated
   Folder where the generated SOAP web service wrapper projects will be stored.
-
-- lib
-  Libraries required for compiling the generated axis 2 web service project
-  using ant.
 
 - src
   Java sources of the Tool Wrapper
@@ -153,12 +200,10 @@ Project structure
   Build files
 
 - template
-  Project template (substitution variables in the template files), e.g.
-  #GLOBAL_PROJECT_VERSION# will be replaced by the version number defined
-  in the project configuration file (default.properties).
+  Project template (substitution variables in the template files)
 
-- genericwrapper.jar
-  Java binary executable (execute "java -jar genericwrapper.jar")
+- toolwrapper.jar
+  Java binary executable (execute "java -jar toolwrapper.jar")
 
 - default.properties
   Project configuration file
@@ -190,16 +235,16 @@ required to build and deploy the web service. See section "Requirements" for
 further information.
 
 If you want to create a web service for an existing command line application
-using this java based generic web service wrapper, the following software is
+using this java based tool web service wrapper, the following software is
 required:
 
 - Underlying command line tool of this web service wrapper installed in a path
   without white spaces.
-  Install the underlying command line tool of the generic web service wrapper
+  Install the underlying command line tool of the tool web service wrapper
   on your system.
-  IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE
+  IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE 
   INSTALLED IN A PATH WITHOUT WHITE SPACES. OTHERWISE A FULL PATH CALL OF THE
-  COMMAND LINE TOOL WILL NOT WORK CORRECTLY.
+  COMMAND LINE TOOL WILL NOT WORK CORRECTLY. 
 
 - Java SE Development Kit (JDK), JDK 6 Update 12 or higher
   Please download the Java SE SDK for your system at
@@ -210,12 +255,6 @@ required:
   http://tomcat.apache.org/download-60.cgi and follow the instructions
   of the RUNNING.txt in your apache tomcat directory. There you will also find
   the information on how to configure and start the apache tomcat server.
-
-- Apache Axis2/Java Version 1.4.1 or higher
-  Apache Axis is an implementation of the SOAP ("Simple Object Access Protocol")
-  submission  to W3C. You only need the Web Application Archive (WAR) which
-  must be deployed to your Tomcat web applications directory (webapps).
-  http://ws.apache.org/axis2
 
 Securing the Web Service
 ------------------------
@@ -285,3 +324,4 @@ and specify where the log file should be created:
     log4j.appender.LOGFILE.File=log/project-service.log
 The Axis2 webapp must be reloaded or the tomcat application server restarted
 so that the changes take effect.
+

@@ -1,19 +1,19 @@
 {
-  "outputFile": {
+  "output": {
     "Datatype": "xsd:anyURI",
     "CliMapping": "OUTFILE",
     "Extension": "png",
     "Required": "false",
     "Documentation": "URL reference to output file"
   },
-  "returnCode": {
+  "return": {
     "Datatype": "xsd:int",
     "OutMapping": "processing_returncode",
     "Required": "true",
     "Cardinality": "single",
     "Documentation": "Returncode of the command execution"
   },
-  "processingLog": {
+  "log": {
     "Datatype": "xsd:string",
     "OutMapping": "processing_log",
     "Required": "true",

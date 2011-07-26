@@ -1,5 +1,5 @@
 {
-  "inputFile": {
+  "input": {
     "Datatype": "xsd:anyURI",
     "Required": "true",
     "Default": "http://localhost:8080/scape/data/scape-logo.png",

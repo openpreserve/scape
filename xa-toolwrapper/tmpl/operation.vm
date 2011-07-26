@@ -1,0 +1,49 @@
+    /**
+     * Service operation
+     * @param inputUrl Input url
+     * @return Response message subtree
+     */
+    public OMElement ${operationname}(${parameters}) {
+
+        infolog("========= PROCESSING REQUEST =========");
+        infolog("Using service: ${servicename}");
+
+        String processingUnit = this.getValueOfServiceParameter("processingUnit");
+        if (processingUnit != null && !processingUnit.isEmpty()) {
+            processing_unitid = processingUnit;
+        }
+
+        OMFactory fac = OMAbstractFactory.getOMFactory();
+        OMNamespace omNs = fac.createOMNamespace(
+                "${project_namespace}", "tns");
+
+        // Required for copying output files
+        String publicHttpAccessDir = getValueOfServiceParameter("publicHttpAccessDir");
+
+        // Required for providing access to output files
+        String publicHttpAccessUrl = getValueOfServiceParameter("publicHttpAccessUrl");
+
+        // Command pattern variables key value pairs
+        HashMap cliCmdKeyValPairs = new HashMap<String, String>();
+
+${inputsection}
+
+        // Command execution
+        long startMillis = System.currentTimeMillis();
+        process(cliCmdKeyValPairs, ${opid});
+        long timeMillis = System.currentTimeMillis() - startMillis;
+        processing_time = (int) timeMillis;
+
+${outputsection}
+
+        // success
+        processing_success = true;
+        processing_returncode = 0;
+        infolog("Service request has been processed successfully");
+        OMElement result = getResult(fac, omNs);
+        OMElement outputFileElm = fac.createOMElement("outputFile", omNs);
+        outputFileElm.setText(String.valueOf(outputFileUrl.toString()));
+        result.addChild(outputFileElm);
+
+        return result;
+    }
