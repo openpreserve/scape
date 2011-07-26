@@ -4,9 +4,8 @@ Tool Wrapper v0.2
 Quick start
 -----------
 
-For a quick start, you need at least the Java SE Development Kit (JDK)
-version >=1.6.0 and Apache Ant version >= 1.8.1. Also make sure that the
-JAVA_HOME environment variable is defined.
+You need at least the Java SE Development Kit (JDK) version >=1.6.0 and Apache
+Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
 
 1) Run the project generator with the default arguments:
 
@@ -15,12 +14,12 @@ JAVA_HOME environment variable is defined.
    This will generate an example project generated/simplecopy10. This service is
    a an example wrapper project for the linux copy command "cp" or the COPY
    command for Windows (use "CMD.exe /C COPY" instead of "cp" in the command
-   pattern which is defined by the property service.operation.1.clicmd if you
-   are using windows).
+   pattern defined by the property service.operation.1.clicmd in the project 
+   property file default.properties if you are using windows).
 
 2) Start your Apache Tomcat server:
 
-       cd ${path.to.your.apache-tomcat}/apache-tomcat-${tomcat-version}/bin
+       cd ${path.to.your.apache-tomcat}/bin
        ./startup.sh
 
 3) Deploy the example service:
@@ -34,11 +33,11 @@ JAVA_HOME environment variable is defined.
 
 4) Accessing the Axis2 service:
 
-   You can find the start page of the web service here:
+   You can find the start page of the web service at:
 
        http://localhost:8080/scape-simplecopy10-service/
 
-   And the endpoint of the service is:
+   And the endpoint of the service at:
 
        http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10
 
@@ -46,7 +45,7 @@ JAVA_HOME environment variable is defined.
 
        http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?inputUrl=http://localhost:8080/scape/data/scape-logo.png
  
-   and receive this response:
+   and - if everything is setup correctly - you would receive a response like:
 
    <ns:simpleCopyResponse>
        <ns:return>
@@ -67,13 +66,15 @@ JAVA_HOME environment variable is defined.
        </ns:return>
    </ns:simpleCopyResponse>
 
+  The service simply has copied the file available at the URL http://localhost:8080/scape/data/scape-logo.png
+  to a new location and made available by a new URL http://localhost:8080/scape/tmp/scape-logo-1023892389923.png.
+
 5) Try using the web service using soapUI by creating a project using the
    WSDL of the service:
 
        http://localhost:8080/axis2/services/SCAPESimpleCopy10Service?wsdl
 
-   and execute it using the example value provided. You should get a response
-   that contains a reference to the copied result file:
+   and execute it using the example value provided.
 
    <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://opflabs.org/scape/services">
       <soap:Header/>
@@ -84,7 +85,7 @@ JAVA_HOME environment variable is defined.
       </soap:Body>
    </soap:Envelope>
 
-   and receive this response:
+   and receive a response containing a reference to the copied result file, like:
 
    <soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
       <soapenv:Body>
@@ -310,18 +311,3 @@ via basic HTTP-Authentication (example for Linux):
            <role rolename="webservice"/>
            <user username="tomcat" password="somepassword" roles="webservice"/>
        </tomcat-users>
-
-Logging
--------
-For logging log4j is used. In order to configure logging, adapt the
-Axis2 configuration accordingly. Change the log4j properties in the file
-    ${tomcat.base.dir}/${tomcat.axis.dir}/WEB-INF/classes/log4j.properties
-e.g.
-    /usr/local/java/apache-tomcat-6.0.18/webapps/axis2/WEB-INF/classes/log4j.properties
-You can indicate to create a log file:
-    log4j.rootCategory=INFO, CONSOLE, LOGFILE
-and specify where the log file should be created:
-    log4j.appender.LOGFILE.File=log/project-service.log
-The Axis2 webapp must be reloaded or the tomcat application server restarted
-so that the changes take effect.
-
