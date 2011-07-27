@@ -16,6 +16,7 @@
  */
 package eu.scape_project.xa.tw.tmpl;
 
+import eu.scape_project.xa.tw.util.StringConverterUtil;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
@@ -60,6 +61,16 @@ public abstract class Code {
         getCtx().put(key, val);
     }
 
+
+
+    public void put(VelocityContext context) {
+        Object[] keys = (Object[]) context.getKeys();
+        for (Object obj : keys) {
+            String key = (String) obj;
+            this.getCtx().put(StringConverterUtil.propToVar(key), (String) context.get(key));
+        }
+    }
+
     /**
      * Apply the Velocity evaluation
      * @param context
@@ -67,7 +78,8 @@ public abstract class Code {
     public void evaluate() {
         StringWriter sw = new StringWriter();
         StringReader sr = new StringReader(this.getCode());
-        Velocity.evaluate(getCtx(), sw, Code.class.getName(), sr);
+        VelocityContext cont = getCtx();
+        Velocity.evaluate(cont, sw, Code.class.getName(), sr);
         this.setCode(sw.toString());
     }
 

@@ -18,6 +18,7 @@ package eu.scape_project.xa.tw.tmpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,12 +40,56 @@ public class OperationCode extends Code {
     private StringBuilder inputSection;
     private StringBuilder outputSection;
 
+    private ArrayList<String> outFileItems;
+
+    private ArrayList<String> resultElements;
+
     public OperationCode(String filePath, int opid) throws IOException {
         super(filePath);
         parameters = new ArrayList<String>();
         this.opid = opid;
         inputSection = new StringBuilder();
         outputSection = new StringBuilder();
+        outFileItems = new ArrayList<String>();
+        resultElements = new ArrayList<String>();
+    }
+
+
+    /**
+     * @param operationSnippet the operationSnippets to add
+     */
+    public void addResultElement(String resultElement) {
+        resultElements.add(resultElement);
+    }
+
+    /**
+     * @return the parameters
+     */
+    public ArrayList<String> getResultElements() {
+        return resultElements;
+    }
+
+    /**
+     * @param operationSnippet the operationSnippets to add
+     */
+    public void addOutFileItem(String outFileItem) {
+        outFileItems.add(outFileItem);
+    }
+
+    /**
+     * @return the parameters
+     */
+    public ArrayList<String> getOutFileItems() {
+        return outFileItems;
+    }
+
+    /**
+     * Add a list of operations to the Velocity context
+     * @param string Key
+     * @param listitem List of operations
+     */
+    public void put(String string, List<String> listitem) {
+        getCtx().put(string, listitem);
     }
 
     /**

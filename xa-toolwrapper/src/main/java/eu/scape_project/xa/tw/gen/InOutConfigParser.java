@@ -17,6 +17,8 @@ package eu.scape_project.xa.tw.gen;
 
 import eu.scape_project.xa.tw.gen.types.IOType;
 import eu.scape_project.xa.tw.tmpl.OperationCode;
+import eu.scape_project.xa.tw.tmpl.OutputItemCode;
+import eu.scape_project.xa.tw.tmpl.ResultElementCode;
 import eu.scape_project.xa.tw.tmpl.SectionCode;
 import java.io.IOException;
 import org.slf4j.Logger;
@@ -24,6 +26,8 @@ import org.slf4j.LoggerFactory;
 import org.codehaus.jackson.JsonNode;
 import eu.scape_project.xa.tw.util.StringConverterUtil;
 import java.io.File;
+import org.apache.commons.io.FileUtils;
+import org.apache.velocity.VelocityContext;
 
 /**
  * Input/output configuration parser which reads the configuration files and
@@ -86,9 +90,8 @@ public final class InOutConfigParser extends JsonTraverser {
         if (templateFile.canRead()) {
             try {
                 SectionCode sectCode = new SectionCode(template);
-
-
                 sectCode.put("opid", Integer.toString(currentOp.getOpid()));
+                sectCode.put("operationname", (String) currentOp.getCtx().get("operationname"));
                 if (this.iotype == IOType.INPUT) {
                     sectCode.put("input_variable", nodeName);
                     String mapping = getCliMapping(currJsn, dataType, nodeName);
@@ -100,19 +103,83 @@ public final class InOutConfigParser extends JsonTraverser {
                     sectCode.evaluate();
                     currentOp.appendInputSection(sectCode.getCode());
                 } else if (this.iotype == IOType.OUTPUT) {
-                    // TODO: output code section
                     sectCode.put("output_variable", nodeName);
                     sectCode.evaluate();
+                    if(dataType.equals("xsd:anyURI")) {
+                        OutputItemCode oic = null;
+                        // should the output file get the input file name as prefix? Different templates!
+                        String prefixinfile = getJsonNodeValueWithDefault(currJsn, "PrefixFromInput", "");
+                        if(prefixinfile == null || prefixinfile.isEmpty()) {
+                            oic = new OutputItemCode("tmpl/outfileitem.vm");
+                        }  else {
+                            oic = new OutputItemCode("tmpl/outfileitem_prefix.vm");
+                            oic.put("prefix",prefixinfile);
+                        }
+                        // put the current context
+                        oic.put(this.currentOp.getCtx());
+                        oic.put("varname",nodeName);
+                        String mapping = getJsnNodeValue(nodeName, currJsn, "CliMapping");
+                        oic.put("mapping",mapping);
+                        String extension = getJsonNodeValueWithDefault(currJsn,"Extension","tmp");
+                        oic.put("extension",extension);
+                        oic.evaluate();
+                        currentOp.addOutFileItem(oic.getCode());
+                    }
+                    ResultElementCode rec = new ResultElementCode("tmpl/resultelement.vm");
+                    rec.put("varname",nodeName);
+                    JsonNode outCliMapping = currJsn.findValue("CliMapping");
+                    String serviceresult = null;
+                    if(outCliMapping == null) {
+                        serviceresult = getJsnNodeValue(nodeName, currJsn, "ServiceResult");
+
+                    } else {
+                        serviceresult = nodeName+"FileUrl.toString()";
+                    }
+                    rec.put("serviceresult",serviceresult);
+                    
+                    rec.evaluate();
+                    currentOp.addResultElement(rec.getCode());
                     this.currentOp.appendOutputSection(sectCode.getCode());
                 }
-                currentOp.evaluate();
             } catch (IOException ex) {
                 logger.error("Unable to create code for template: " + template);
             }
         } else {
             throw new GeneratorException("Unable to read code template: " + template);
         }
+    }
 
+    private String getJsnNodeValue(String nodeName, JsonNode jsnNode, String property) {
+        if(jsnNode == null) {
+            logger.warn("Json node not available, unable to get property node of type node \""+nodeName+"\"");
+            return "NULL";
+        }
+        JsonNode propNode = jsnNode.findValue(property);
+        if(propNode == null)  {
+            logger.warn("Unable to get property node of type node \""+nodeName+"\"");
+            return "NULL";
+        }
+        String text = propNode.getTextValue();
+        if(text == null || text.isEmpty()) {
+            logger.warn("Unable to get text of property node of type node \""+nodeName+"\"");
+            return "NULL";
+        }
+        return text;
+    }
+    
+    private String getJsonNodeValueWithDefault(JsonNode jsnNode, String property, String defaultVal) {
+        if(jsnNode == null) {
+            return defaultVal;
+        }
+        JsonNode propNode = jsnNode.findValue(property);
+        if(propNode == null)  {
+            return defaultVal;
+        }
+        String text = propNode.getTextValue();
+        if(text == null || text.isEmpty()) {
+            return defaultVal;
+        }
+        return text;
     }
 
     /**

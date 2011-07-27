@@ -64,14 +64,6 @@ public class ServiceCode extends Code {
         this.operations.add(operationSnippet);
     }
 
-    public void put(VelocityContext context) {
-        Object[] keys = (Object[]) context.getKeys();
-        for (Object obj : keys) {
-            String key = (String) obj;
-            this.getCtx().put(StringConverterUtil.propToVar(key), (String) context.get(key));
-        }
-    }
-
     /**
      * Add a list of operations to the Velocity context
      * @param string Key

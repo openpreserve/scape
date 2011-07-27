@@ -2,7 +2,7 @@
         File ${output_variable}File = new File(${output_variable}FileName);
         if (!${output_variable}File.exists() || ${output_variable}File.length() == 0) {
             errorlog("The expected output file " + ${output_variable}File.getName() + " is empty or has not been created successfully.");
-            return getResult(fac, omNs);
+            return ${operationname}Result(fac, omNs);
         }
         infolog("Output file of size " + ${output_variable}File.length() + " has been created successfully");
         File ${output_variable}PublicFile =
@@ -10,7 +10,7 @@
         if (!new File(publicHttpAccessDir).isDirectory()) {
             errorlog("The output directory " + publicHttpAccessDir + " does not exist. Check "
                     + "publicHttpAccessDir parameter in the service configuration");
-            return getResult(fac, omNs);
+            return ${operationname}Result(fac, omNs);
         }
         infolog("Public output file: " + ${output_variable}PublicFile.toString());
         try {
@@ -18,7 +18,7 @@
         } catch (IOException _) {
             errorlog("An error occurred while trying to copy the result file "
                     + "to the public access directory.");
-            return getResult(fac, omNs);
+            return ${operationname}Result(fac, omNs);
         }
         URL ${output_variable}FileUrl = null;
         try {
@@ -28,8 +28,6 @@
                     + "publicHttpAccessUrl parameter in the "
                     + "resources/services.xml. Exception message: "
                     + ex.getMessage());
-            return getResult(fac, omNs);
+            return ${operationname}Result(fac, omNs);
         }
         infolog("Output URL: " + ${output_variable}FileUrl.toString());
-        ${mapping}
-        ${outmapping}

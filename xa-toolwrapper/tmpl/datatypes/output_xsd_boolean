@@ -1,4 +1,2 @@
-        // Output: #INPUT_VARIABLE#
-        boolean #INPUT_VARIABLE# = false;
-        #MAPPING#
-        #OUTMAPPING#
+        // Output: ${output_variable}
+        boolean ${output_variable} = false;

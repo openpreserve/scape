@@ -118,35 +118,6 @@ $operation.Code
 #end
 
     /**
-     *
-     * @param fac OMElement factory
-     * @param omNs OMNamespace Namespace of the elements created
-     * @return Subtree of the result message
-     */
-    OMElement getResult(OMFactory fac, OMNamespace omNs) {
-        OMElement result = fac.createOMElement("result", omNs);
-        OMElement success = fac.createOMElement("success", omNs);
-        success.setText(String.valueOf(processing_success));
-        result.addChild(success);
-        OMElement returncode = fac.createOMElement("returncode", omNs);
-        returncode.setText(String.valueOf(processing_returncode));
-        result.addChild(returncode);
-        OMElement message = fac.createOMElement("message", omNs);
-        message.setText(String.valueOf(processing_message));
-        result.addChild(message);
-        OMElement time = fac.createOMElement("time", omNs);
-        time.setText(String.valueOf(processing_time));
-        result.addChild(time);
-        OMElement unitid = fac.createOMElement("unitid", omNs);
-        unitid.setText(String.valueOf(processing_unitid));
-        result.addChild(unitid);
-        OMElement log = fac.createOMElement("log", omNs);
-        log.setText(String.valueOf(processing_log));
-        result.addChild(log);
-        return result;
-    }
-
-    /**
      * Get the value of a service parameter defined in the
      * resources/services.xml.
      * @param parm Parameter defined in the services.xml

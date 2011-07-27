@@ -132,7 +132,7 @@ Create a new project
       - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
       - CliMapping - Mapping to command line pattern variable, see property
             service.operation.1.clicmd in default.properties
-      - OutputMapping - Some variables are provided by the service and can be
+      - ServiceResult - Some variables are provided by the service and can be
             mapped to an output port (data types have to be the same):
             - processing_success (boolean) - success/failure of service execution
             - processing_returncode (int) - 0 for success >0 if an error occurred

@@ -176,6 +176,8 @@ public class ToolWrapper {
                 OperationCode oc = new OperationCode(operationTmpl, opn);
                 oc.setOperationName(st.getProp("service.operation." + opn));
                 oc.put("operationname", oc.getOperationName());
+                // add main project properties velocity context
+                oc.put(st.getContext());
                
                 ioCfgParser.setCurrentOperation(oc);
 
@@ -193,10 +195,11 @@ public class ToolWrapper {
                 oc.put("servicename", st.getContextProp("project_midfix"));
                 oc.put("project_namespace", st.getContextProp("project_namespace"));
 
+                oc.put("outfileitems", oc.getOutFileItems());
+                oc.put("resultelements", oc.getResultElements());
 
                 String ops = opnum.toString();
                 oc.put("opid", ops);
-
                 oc.evaluate();
 
                 sc.addOperation(oc);

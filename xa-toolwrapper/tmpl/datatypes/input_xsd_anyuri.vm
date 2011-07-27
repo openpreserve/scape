@@ -6,7 +6,7 @@
         } catch (MalformedURLException ex) {
             errorlog("\"" + ${input_variable} + "\" is not a valid value for the "
                     + "parameter \"${input_variable}Url\"");
-            return getResult(fac, omNs);
+            return ${operationname}Result(fac, omNs);
         }
         String ${input_variable}Ext = StringUtils.getFileExtension(${input_variable}Url.toString());
         if (${input_variable}Ext == null) {
@@ -15,7 +15,7 @@
         File ${input_variable}File = FileUtils.urlToFile(${input_variable}Url, ${input_variable}Ext);
         if (!${input_variable}File.exists()) {
             errorlog("Input file " + ${input_variable}File.toString() + " is not available");
-            return getResult(fac, omNs);
+            return ${operationname}Result(fac, omNs);
         }
         infolog("Input file created: " + ${input_variable}File.getAbsolutePath());
         // Mapping to command line pattern variable
