@@ -1,20 +1,18 @@
 /*
- *  Copyright (c) 2011 The SCAPE Project Partners.
+ * Copyright ${global_year} The ${global_project_prefix} Project Consortium
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
  *
  *       http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *  under the License.
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
  */
-
 package ${global_package_name}.util;
 
 import java.io.File;
@@ -27,18 +25,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * These are generic file utilities used by the client and service.
- * Based on PLANETS eu.planets_project.services.utils.FileUtils
+ * Some file utilities used by the client and service.
  *
- * @author Thomas Kraemer (thomas.kraemer@uni-koeln.de),
- * @author Peter Melms (peter.melms@uni-koeln.de)
- * @author shsdev (shsschlarb-scape@yahoo.de)
- * @version 0.5
+ * @author ${global_project_prefix} Project Consortium
+ * @version 0.2
  */
 public final class FileUtils {
 
     public static final String JAVA_TMP = System.getProperty("java.io.tmpdir");
-    private static final String TMP_DIR = "simplecopy10-tmp-store";
+    private static final String TMP_DIR = "${project_midfix_lc}-tmp-store";
     private static final int BUFF = 32768;
     private static Logger logger = LoggerFactory.getLogger(FileUtils.class.getName());
 

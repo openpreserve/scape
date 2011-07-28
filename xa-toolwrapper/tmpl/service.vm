@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The ${global_project_prefix} Project Consortium
+ * Copyright ${global_year} The ${global_project_prefix} Project Consortium
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -35,6 +35,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Simple copy version 10 service class.
+ *
+ * @author ${global_project_prefix} Project Consortium
+ * @version 0.2
  */
 public class ${project_midfix} {
 

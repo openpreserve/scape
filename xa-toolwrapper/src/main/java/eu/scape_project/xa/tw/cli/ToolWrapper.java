@@ -30,6 +30,8 @@ import eu.scape_project.xa.tw.gen.InOutConfigParser;
 import eu.scape_project.xa.tw.gen.WsdlCreator;
 import eu.scape_project.xa.tw.tmpl.OperationCode;
 import eu.scape_project.xa.tw.tmpl.ServiceCode;
+import eu.scape_project.xa.tw.tmpl.ServiceXml;
+import eu.scape_project.xa.tw.tmpl.ServiceXmlOp;
 
 /**
  * Command line interface of the tool wrapper.
@@ -144,11 +146,15 @@ public class ToolWrapper {
             logger.debug("Initialising service file: " + sjf);
             InOutConfigParser ioCfgParser = new InOutConfigParser();
 
-            // service template
+            // service java code template
             String serviceTmpl = st.getProp("project.template.service");
-            // operation template
+            // service operation java code template
             String operationTmpl = st.getProp("project.template.operation");
-            ServiceCode sc = new ServiceCode(serviceTmpl);            
+            ServiceCode sc = new ServiceCode(serviceTmpl);
+
+            // service xml template
+            ServiceXml sxml = new ServiceXml("tmpl/servicexml.vm");
+            sxml.put(st.getContext());
 
             OperationsIterator oi = new OperationsIterator(st);
             Iterator itr = oi.iterator();
@@ -174,7 +180,8 @@ public class ToolWrapper {
 
                 // Create service operation
                 OperationCode oc = new OperationCode(operationTmpl, opn);
-                oc.setOperationName(st.getProp("service.operation." + opn));
+                String operationName = st.getProp("service.operation." + opn);
+                oc.setOperationName(operationName);
                 oc.put("operationname", oc.getOperationName());
                 // add main project properties velocity context
                 oc.put(st.getContext());
@@ -203,6 +210,16 @@ public class ToolWrapper {
                 oc.evaluate();
 
                 sc.addOperation(oc);
+
+                ServiceXmlOp sxmlop = new ServiceXmlOp("tmpl/servicexmlop.vm");
+                sxmlop.put("operationname", oc.getOperationName());
+                String clicmd = st.getProp("service.operation." + opn+ ".clicmd");
+                sxmlop.put("clicmd", clicmd);
+                sxmlop.put("opid", String.valueOf(opn));
+
+                sxmlop.evaluate();
+
+                sxml.addOperation(sxmlop);
             }
 
             logger.debug("Writing service file: " + sjf);
@@ -210,7 +227,18 @@ public class ToolWrapper {
             sc.put(st.getContext());
             sc.put("operations", sc.getOperations());            
             sc.create(sjf);
+            String sxmlFile = FileUtil.makePath(generatedDir, projDir,
+                    "src/main/webapp/WEB-INF/services",st.getProjectMidfix(),
+                    "META-INF")+"services.xml";
+
+            // adding operations to services.xml
+            sxml.put("servxmlops", sxml.getOperations());
+            logger.debug("Writing services.xml file: " + sxmlFile);
+
+            sxml.create(sxmlFile);
+            
             logger.info("Project created in in \"" + FileUtil.makePath(generatedDir, projDir) + "\"");
+
         } catch (Exception ex) {
             logger.error("Unable to generate project: " + ex.getMessage(), ex);
             throw new GeneratorException("An error occurred, the project has not been created successfully.");

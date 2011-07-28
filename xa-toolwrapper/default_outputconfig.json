@@ -6,20 +6,6 @@
     "Required": "false",
     "Documentation": "URL reference to output file",
     "PrefixFromInput": "input"
-  },
-  "returncode": {
-    "Datatype": "xsd:int",
-    "ServiceResult": "processing_returncode",
-    "Required": "true",
-    "Cardinality": "single",
-    "Documentation": "Returncode of the command execution"
-  },
-  "log": {
-    "Datatype": "xsd:string",
-    "ServiceResult": "processing_log",
-    "Required": "true",
-    "Cardinality": "single",
-    "Documentation": "Returncode of the command execution"
   }
 }
 // The following properties can be defined for each variable:

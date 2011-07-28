@@ -40,16 +40,14 @@ ${outfileitem}
         processing_time = (int) timeMillis;
 
 ${outputsection}
-
         // success
         processing_success = true;
         processing_returncode = 0;
         infolog("Service request has been processed successfully");
         OMElement result = ${operationname}Result(fac, omNs);
-        OMElement outputFileElm = fac.createOMElement("outputFile", omNs);
-        outputFileElm.setText(String.valueOf(outputFileUrl.toString()));
-        result.addChild(outputFileElm);
-
+#foreach( $resultelement in $resultelements )
+${resultelement}
+#end
         return result;
     }
 
@@ -61,8 +59,25 @@ ${outputsection}
      */
     OMElement ${operationname}Result(OMFactory fac, OMNamespace omNs) {
         OMElement result = fac.createOMElement("result", omNs);
-#foreach( $resultelement in $resultelements )
-${resultelement}
-#end
+        // processing_success
+        OMElement successElm = fac.createOMElement("success", omNs);
+        successElm.setText(String.valueOf(processing_success));
+        result.addChild(successElm);
+        // processing_returncode
+        OMElement returncodeElm = fac.createOMElement("returncode", omNs);
+        returncodeElm.setText(String.valueOf(processing_returncode));
+        result.addChild(returncodeElm);
+        // processing_time
+        OMElement proctimeElm = fac.createOMElement("time", omNs);
+        proctimeElm.setText(String.valueOf(processing_time));
+        result.addChild(proctimeElm);
+        // processing_log
+        OMElement processingLogElm = fac.createOMElement("log", omNs);
+        processingLogElm.setText(String.valueOf(processing_log));
+        result.addChild(processingLogElm);
+        // processing_message
+        OMElement processingMsgElm = fac.createOMElement("message", omNs);
+        processingMsgElm.setText(String.valueOf(processing_message));
+        result.addChild(processingMsgElm);
         return result;
     }

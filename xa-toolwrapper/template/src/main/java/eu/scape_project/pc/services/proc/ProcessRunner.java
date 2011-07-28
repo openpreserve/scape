@@ -61,7 +61,8 @@ import org.slf4j.LoggerFactory;
  * eu.planets_project.services.utils.ProcessRunner
  *
  * @author Asger Blekinge-Rasmussen
- * @version 0.1
+ * @author ${global_project_prefix} Project Consortium
+ * @version 0.2
  */
 public class ProcessRunner implements Runnable {
 
