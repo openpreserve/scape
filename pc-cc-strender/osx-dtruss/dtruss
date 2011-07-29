@@ -267,25 +267,6 @@ dtrace='
 	/* track this parent process */
 	trackedpid[pid] = -1;
  }
-
- syscall::posix_spawn:entry
- /OPT_follow && self->start/
- {
-	/* track this parent process */
-	trackedpid[pid] = -1;
- }
- 
- syscall::posix_spawn:return
- /self->start/
- {
- }
-
- proc:::exec-success
- /self->start/
- { 
-	printf("%s()\t\t = HELO %s %s\n",probefunc,
-	    execname, stringof(curpsinfo->pr_psargs));
- }
  
  syscall::vfork:entry
  /OPT_follow && self->start/
