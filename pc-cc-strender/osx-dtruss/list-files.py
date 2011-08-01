@@ -18,21 +18,22 @@ def main():
         print "Unmatched line %r" % line
         continue
       pid, command, args, results = mo.groups()
-      if command == 'open':
+      if command == 'open' or command == 'open_nocancel':
         fn = args.split(',', 1)[0].strip('"').rstrip('0').rstrip('\\')
         fd = int(results.split(' ', 1)[0])
         openfiles[fd] = fn
-        print "OPENED:",fn,fd
-      elif command == 'read' or command == 'pread':
+        #print "OPENED:",fn,fd
+      elif command == 'read' or command == 'pread' or command =='read_nocancel':
         #if results != '0':
         fd = int(args.split(',', 1)[0],0) #.lstrip('0').lstrip('x')
         if fd in openfiles:
           filesread.add(openfiles[fd])
+          print "READ,",openfiles[fd]
         else:
 	      print "ERROR: fd",fd,"not found!"
       #else:
       #  print "Unknown command %r" % command	
-  for item in sorted(filesread):
-	print "SORTED, ",item, ", ",os.popen("file -b '"+item+"'",'r').read().rstrip()
+#  for item in filesread:
+#	print "SORTED, ",item, ", ",os.popen("file -b '"+item+"'",'r').read().rstrip()
 
 main()
