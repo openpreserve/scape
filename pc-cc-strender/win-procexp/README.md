@@ -7,3 +7,6 @@ start %PM% /quiet /minimized /backingfile C:\temp\soffice.pml
 soffice.exe
 %PM% /terminate
 
+
+Seems to be deprecated functionality. ProcExp 15.01 does not support it. There is also a program called Handle but this does not appear to have a monitoring mode, just snapshot.
+
