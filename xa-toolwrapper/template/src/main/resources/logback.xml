@@ -1,0 +1,46 @@
+
+<configuration scan="true">
+ <!-- logging to System.out -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+ <!-- logging to file -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina.base}/logs/${global_project_prefix_lc}_${project_midfix_lc}_service.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+   <!-- daily rollover -->
+            <fileNamePattern>${catalina.base}/logs/${global_project_prefix_lc}_${project_midfix_lc}_service.%d{yyyy-MM-dd}.log</fileNamePattern>
+   <!-- keep 30 days' log history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+ <!-- logging to email -->
+ <!-- <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+  <SMTPHost>smtp.onb.ac.at</SMTPHost>
+  <To>sven.schlarb@onb.ac.at</To>
+  <From>logger-adoco@servername</From>
+  <Subject>ERROR report %logger{20} - %m</Subject>
+  <layout class="ch.qos.logback.classic.PatternLayout">
+   <Pattern>%level %d %logger{35} - %msg</Pattern>
+  </layout>
+ </appender> -->
+
+ <!-- default log level is DEBUG -->
+    <root level="debug">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+  <!-- <appender-ref ref="EMAIL" /> -->
+    </root>
+
+    <logger name="${global_package_name}" level="debug"/>
+
+
+
+</configuration>

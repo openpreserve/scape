@@ -1,24 +1,11 @@
 {
-  "outputFile": {
+  "output": {
     "Datatype": "xsd:anyURI",
     "CliMapping": "OUTFILE",
     "Extension": "png",
     "Required": "false",
-    "Documentation": "URL reference to output file"
-  },
-  "returnCode": {
-    "Datatype": "xsd:int",
-    "OutMapping": "processing_returncode",
-    "Required": "true",
-    "Cardinality": "single",
-    "Documentation": "Returncode of the command execution"
-  },
-  "processingLog": {
-    "Datatype": "xsd:string",
-    "OutMapping": "processing_log",
-    "Required": "true",
-    "Cardinality": "single",
-    "Documentation": "Returncode of the command execution"
+    "Documentation": "URL reference to output file",
+    "PrefixFromInput": "input"
   }
 }
 // The following properties can be defined for each variable:
@@ -27,7 +14,7 @@
 // - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
 // - CliMapping - Mapping to command line pattern variable, see property
 //       service.operation.1.clicmd in default.properties.
-// - OutputMapping - Some variables are provided by the service and can be
+// - ServiceResult - Some variables are provided by the service and can be
 //       mapped to an output port (data types have to be the same):
 //       - processing_success (boolean) - success/failure of service execution
 //       - processing_returncode (int) - 0 for success >0 if an error occurred

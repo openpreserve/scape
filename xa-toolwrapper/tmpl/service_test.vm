@@ -1,0 +1,7 @@
+public class SomeClass {
+
+#foreach( $operation.Code in $operations )
+$operation.Code
+#end
+
+}
