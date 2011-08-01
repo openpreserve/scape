@@ -1,0 +1,11 @@
+   48 39619432 [main] convert 11276 spawn_guts: spawn_guts (512, /bin/sh)
+   40 39621275 [main] convert 11276 spawn_guts: priority class 32
+   38 39621368 [main] convert 11276 spawn_guts: null_app_name 0 (C:\cygwin\bin\sh.exe, )
+ 4580 39626837 [main] convert 11276 spawn_guts: 22200 = spawn_guts (/bin/sh, C:\cygwin\bin\sh.exe -c "\"gs\" -q -dQUIET -dPARANOIDSAFER -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dAlignToPixels=0 -dGridFitTT=0 \"-sDEVICE=pnmraw\" -dTextAlphaBits=4 -dGraphicsAlphaBits=4 \"-r72x72\"  \"-sOutputFile=/tmp/magick-z02Z35HH\" \"-f/tmp/magick-TRDMov0I\" \"-f/tmp/magick-sUoAQ9oK\"")
+   55 39627421 [main] convert 11276 spawn_guts: spawned windows pid 22200
+   44  192925 [main] sh 22200 spawn_guts: spawn_guts (3, /usr/bin/gs)
+   45  194057 [main] sh 22200 spawn_guts: priority class 32
+   68  194185 [main] sh 22200 spawn_guts: null_app_name 0 (C:\cygwin\bin\gs.exe, )
+ 6097  222036 [main] sh 22200 spawn_guts: 22200 = spawn_guts (/usr/bin/gs, C:\cygwin\bin\gs.exe -q -dQUIET -dPARANOIDSAFER -dBATCH -dNOPAUSE -dNOPROMPT -dMaxBitmap=500000000 -dAlignToPixels=0 -dGridFitTT=0 -sDEVICE=pnmraw -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r72x72 -sOutputFile=/tmp/magick-z02Z35HH -f/tmp/magick-TRDMov0I -f/tmp/magick-sUoAQ9oK)
+   62  222098 [main] sh 22200! spawn_guts: new process name \\?\C:\cygwin\bin\gs.exe
+   39  222183 [main] sh 22200! spawn_guts: spawned windows pid 12400
