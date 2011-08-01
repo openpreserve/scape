@@ -1,4 +1,0 @@
-        // Output: #INPUT_VARIABLE#
-        int #INPUT_VARIABLE# = 0;
-        #MAPPING#
-        #OUTMAPPING#

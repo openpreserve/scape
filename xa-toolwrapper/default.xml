@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+    <id>pit-buildin-fits</id>
+    <name>File Information Tool Set</name>
+    <homepage>http://code.google.com/p/fits/</homepage>
+    <download>http://fits.googlecode.com/files/fits-0.5.0.zip</download>
+    <version>0.5.0</version>
+    <service type="identify" id="fits">
+        <commands>
+            <command>
+                <pattern>c:/BritishLibrary/Eclipse/workspace-bl/scape/xa-pit/tools/fits-0.5.0/fits.bat -i ${inFile} -o ${outFile}</pattern>
+                <inputs>
+                    <input name="input">
+                        <Datatype>xsd:anyURI</Datatype>
+                        <Required>true</Required>
+                        <Default>http://localhost:8080/scape/data/scape-logo.png</Default>
+                        <CliMapping>inFile</CliMapping>
+                        <Documentation>URL reference to input file</Documentation>
+                    </input>
+                </inputs>
+                <outputs>
+                    <output name="output">
+                        <Datatype>xsd:anyURI</Datatype>
+                        <CliMapping>outFile</CliMapping>
+                        <Extension>xml</Extension>
+                        <Required>false</Required>
+                        <Documentation>URL reference to output file"</Documentation>
+                    </output>
+                    <output name="return">
+                        <Datatype>xsd:int</Datatype>
+                        <OutMapping>processing_returncode</OutMapping>
+                        <Required>true</Required>
+                        <Documentation>Returncode of the command execution</Documentation>
+                    </output>
+                    <output name="log">
+                        <Datatype>xsd:string</Datatype>
+                        <OutMapping>processing_log</OutMapping>
+                        <Required>true</Required>
+                        <Documentation>Returncode of the command execution</Documentation>
+                    </output>
+                </outputs>
+            </command>
+        </commands>
+    </service>
+    <projectcreation>
+        <!--
+        Wrapper version helps identifying which version of the wrapper was used
+        to generate the code.
+        -->
+        <toolwrapperversion>0.2</toolwrapperversion>
+        <projectyear>2011</projectyear>
+        <projectprefix>SCAPE</projectprefix>
+        <!-- derived: globalprojectprefixlc (global project prefix converted to lowercase) -->
+        <!--
+        Note: The following path must correspond to the package path of the java source
+        code files in template folder. For example, the template source code for
+        the project package name "org.opflabs.scape.tb" must be placed in
+        xa-toolwrapper/template/src/org/opflabs/scape/tb. You have to change the
+        template source code path accordingly if you change the project package
+        name below.
+        -->
+        <packagename>eu.scape_project.pc.services</packagename>
+        <!-- derived: projectpackagepath -->
+        <!-- derived: projectnamespace -->
+
+
+        <!--
+        Name of the command line tool
+        -->
+        <projecttitle>Simple Copy</projecttitle>
+        <!-- derived: project.midfix (without white space separator) -->
+        <!-- derived: project.midfix.lc (midfix converted to lowercase) -->
+        <!--
+        Version of the tool (only numbers separated by points should be used)
+        -->
+        <toolversion>1.0</toolversion>
+
+
+
+    </projectcreation>
+</toolspec>

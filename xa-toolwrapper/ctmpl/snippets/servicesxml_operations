@@ -1,5 +1,0 @@
-
-        <operation name="#SERVICE_OPERATION_#OPID##" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://#GLOBAL_PACKAGE_NAME#/#GLOBAL_PROJECT_PREFIX_LC#/">
-            <actionMapping>#SERVICE_OPERATION_#OPID##</actionMapping>
-            <outputActionMapping>//schemas.xmlsoap.org/wsdl/#GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#ServicePortType/Response#OPID#</outputActionMapping>
-        </operation>
