@@ -46,6 +46,17 @@ See also direct forced font analysis.
 Consistent with pdffonts SimulationPaper.pdf (Times-Roman, Symbol).
 
 
+anj@debian:~/scape/pc-cc-strender/debian-strace$ pdffonts /mnt/hgfs/Shared/Z39-87-2006.pdf 
+name                                 type              emb sub uni object ID
+------------------------------------ ----------------- --- --- --- ---------
+Arial-BoldMT                         TrueType          no  no  no     386  0
+ArialMT                              TrueType          no  no  no     387  0
+TimesNewRomanPSMT                    TrueType          no  no  no     340  0
+Arial-ItalicMT                       TrueType          no  no  no     342  0
+BBNPHD+SymbolMT                      CID TrueType      yes yes yes    344  0
+Arial-BoldItalicMT                   TrueType          no  no  no     348  0
+
+
 Link to package
 ---------------
 dpkg -S /path/file
