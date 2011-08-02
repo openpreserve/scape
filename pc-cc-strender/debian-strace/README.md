@@ -45,6 +45,7 @@ See also direct forced font analysis.
 
 Consistent with pdffonts SimulationPaper.pdf (Times-Roman, Symbol).
 
+NOTE: Switched from 64-bit to 32-bit to ensure I was using Adobe's distribution, but made little different to the results.
 
 anj@debian:~/scape/pc-cc-strender/debian-strace$ pdffonts /mnt/hgfs/Shared/Z39-87-2006.pdf 
 name                                 type              emb sub uni object ID
