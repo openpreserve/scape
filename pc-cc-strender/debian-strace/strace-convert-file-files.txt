@@ -1,161 +1,140 @@
-file -i /usr/lib/libMagickCore.so.3
-file -i /usr/lib/libMagickWand.so.3
-file -i /usr/lib/liblcms.so.1
-file -i /usr/lib/libtiff.so.4
-file -i /usr/lib/libfreetype.so.6
-file -i /usr/lib/libjpeg.so.62
-file -i /usr/lib/liblqr-1.so.
-file -i /lib/libglib-2.0.so.
-file -i /usr/lib/libfontconfig.so.1
-file -i /usr/lib/libXext.so.6
-file -i /usr/lib/libXt.so.6
-file -i /lib/libbz2.so.1.
-file -i /usr/lib/libz.so.1
-file -i /lib/libpthread.so.
-file -i /usr/lib/libltdl.so.7
-file -i /lib/libdl.so.2
-file -i /usr/lib/libSM.so.6
-file -i /usr/lib/libICE.so.6
-file -i /usr/lib/libX11.so.6
-file -i /usr/lib/libgomp.so.1
-file -i /lib/libm.so.6
-file -i /lib/libc.so.6
-file -i /lib/libpcre.so.3
-file -i /usr/lib/libexpat.so.1
-file -i /lib/libuuid.so.1
-file -i /usr/lib/libxcb.so.1
-file -i /lib/librt.so.1
-file -i /usr/lib/libXau.so.6
-file -i /usr/lib/libXdmcp.so.6
-file -i /proc/meminfo
-file -i /usr/lib/ImageMagick-6.6.0/modules-Q16/coders/pdf.la
-file -i /usr/lib/ImageMagick-6.6.0/modules-Q16/coders/pdf.so
-file -i /usr/share/locale/locale.alias
-file -i /mnt/hgfs/Shared/Z39-87-2006.pdf
-file -i /dev/urandom
-file -i /mnt/hgfs/Shared/Z39-87-2006.pdf
-file -i /lib/libc.so.6
-file -i /usr/lib/libgs.so.8
-file -i /lib/libc.so.6
-file -i /usr/lib/libjasper.so.1
-file -i /usr/lib/libtiff.so.4
-file -i /usr/lib/libjpeg.so.62
-file -i /usr/lib/libcupsimage.so.2
-file -i /usr/lib/libcups.so.2
-file -i /usr/lib/libgssapi_krb5.so.2
-file -i /usr/lib/libkrb5.so.3
-file -i /usr/lib/libk5crypto.so.3
-file -i /lib/libcom_err.so.2
-file -i /usr/lib/libgnutls.so.26
-file -i /usr/lib/libgcrypt.so.11
-file -i /lib/libm.so.6
-file -i /lib/libcrypt.so.1
-file -i /lib/libpng12.so.
-file -i /usr/lib/libz.so.1
-file -i /usr/lib/libjbig2dec.so.
-file -i /lib/libdl.so.2
-file -i /usr/lib/libpaper.so.1
-file -i /usr/lib/libstdc++.so.6
-file -i /usr/lib/libfontconfig.so.1
-file -i /lib/libpthread.so.
-file -i /usr/lib/libavahi-common.so.3
-file -i /usr/lib/libavahi-client.so.3
-file -i /usr/lib/libkrb5support.so.
-file -i /lib/libkeyutils.so.1
-file -i /lib/libresolv.so.2
-file -i /usr/lib/libtasn1.so.3
-file -i /usr/lib/libgpg-error.so.
-file -i /lib/libgcc_s.so.1
-file -i /usr/lib/libfreetype.so.6
-file -i /usr/lib/libexpat.so.1
-file -i /lib/libdbus-1.so.3
-file -i /lib/librt.so.1
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_init.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_std_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_il1_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_init.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_statd.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_fonts.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_init.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_cspace.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_img.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_init.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_btokn.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_dps1.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_dps2.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_type1.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_lev2.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_res.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_resmp.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_typ42.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_cidfn.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_ciddc.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_cidcm.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/xlatmap
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_fntem.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_sym_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_dbt_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Encoding/Wingdings
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_fntem.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_cidtt.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_cidfm.ps
-file -i /var/lib/ghostscript/fonts/cidfmap
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_cmap.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_setpd.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_typ32.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_frsd.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_ll3.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_mex_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_mro_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_pdf_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_wan_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/pdf_ops.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_l2img.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/pdf_rbld.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/pdf_base.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/pdf_draw.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/pdf_font.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/pdf_main.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/pdf_sec.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_css_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_cff.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_mgl_e.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_agl.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_ttf.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_icc.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_dps.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_dpnxt.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_epsf.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_fapi.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_pdfwr.ps
-file -i /usr/share/ghostscript/8.71/Resource/Init/Fontmap
-file -i /usr/share/ghostscript/8.71/Resource/Init/Fontmap.GS
-file -i /var/lib/ghostscript/fonts/Fontmap
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_init.ps
-file -i /etc/papersize
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_init.ps
-file -i /usr/share/ghostscript/8.71/Resource/ColorSpace/DefaultRGB
-file -i /proc/meminfo
-file -i /usr/share/ghostscript/8.71/Resource/ColorSpace/DefaultGray
-file -i /usr/share/ghostscript/8.71/Resource/Init/gs_init.ps
-file -i /tmp/magick-XX4jeqKN
-file -i /tmp/magick-XXfngRux
-file -i /usr/share/fonts/type1/gsfonts/n019004l.pfb
-file -i /tmp/magick-XXfngRux
-file -i /usr/share/fonts/type1/gsfonts/n019003l.pfb
-file -i /tmp/magick-XXfngRux
-file -i /etc/localtime
-file -i /tmp/magick-XXfngRux
-file -i /usr/share/fonts/type1/gsfonts/n021003l.pfb
-file -i /tmp/magick-XXfngRux
-file -i /usr/share/fonts/type1/gsfonts/n019023l.pfb
-file -i /tmp/magick-XXfngRux
-file -i /usr/share/fonts/type1/gsfonts/n019024l.pfb
-file -i /tmp/magick-XXfngRux
-file -i /tmp/magick-XXOtss13
-file -i /usr/lib/ImageMagick-6.6.0/modules-Q16/coders/pnm.la
-file -i /usr/lib/ImageMagick-6.6.0/modules-Q16/coders/pnm.so
-file -i /tmp/magick-XXOtss13
-file -i /etc/localtime
-file -i /usr/lib/ImageMagick-6.6.0/modules-Q16/coders/jpeg.la
-file -i /usr/lib/ImageMagick-6.6.0/modules-Q16/coders/jpeg.so
+/etc/ld.so.cache
+/usr/lib/libMagickCore.so.3
+/usr/lib/libMagickWand.so.3
+/usr/lib/liblcms.so.1
+/usr/lib/libtiff.so.4
+/usr/lib/libfreetype.so.6
+/usr/lib/libjpeg.so.62
+/usr/lib/liblqr-1.so.
+/lib/libglib-2.0.so.
+/usr/lib/libfontconfig.so.1
+/usr/lib/libXext.so.6
+/usr/lib/libXt.so.6
+/lib/libbz2.so.1.
+/usr/lib/libz.so.1
+/lib/libpthread.so.
+/usr/lib/libltdl.so.7
+/lib/libdl.so.2
+/usr/lib/libSM.so.6
+/usr/lib/libICE.so.6
+/usr/lib/libX11.so.6
+/usr/lib/libgomp.so.1
+/lib/libm.so.6
+/lib/libc.so.6
+/lib/libpcre.so.3
+/usr/lib/libexpat.so.1
+/lib/libuuid.so.1
+/usr/lib/libxcb.so.1
+/lib/librt.so.1
+/usr/lib/libXau.so.6
+/usr/lib/libXdmcp.so.6
+/usr/lib/locale/locale-archive
+/proc/meminfo
+/usr/lib/ImageMagick-6.6.0/config/policy.xml
+/usr/share/ImageMagick-6.6.0/config/coder.xml
+/usr/lib/ImageMagick-6.6.0/modules-Q16/coders/pdf.la
+/usr/lib/gconv/gconv-modules.cache
+/usr/lib/ImageMagick-6.6.0/modules-Q16/coders/pdf.so
+/usr/share/locale/locale.alias
+/usr/share/locale/en_GB/LC_MESSAGES/libc.mo
+/mnt/hgfs/Shared/Z39-87-2006.pdf
+/usr/share/ImageMagick-6.6.0/config/magic.xml
+/dev/urandom
+/usr/lib/ImageMagick-6.6.0/config/delegates.xml
+/usr/lib/libgs.so.8
+/usr/lib/libjasper.so.1
+/usr/lib/libcupsimage.so.2
+/usr/lib/libcups.so.2
+/usr/lib/libgssapi_krb5.so.2
+/usr/lib/libkrb5.so.3
+/usr/lib/libk5crypto.so.3
+/lib/libcom_err.so.2
+/usr/lib/libgnutls.so.26
+/usr/lib/libgcrypt.so.11
+/lib/libcrypt.so.1
+/lib/libpng12.so.
+/usr/lib/libjbig2dec.so.
+/usr/lib/libpaper.so.1
+/usr/lib/libstdc++.so.6
+/usr/lib/libavahi-common.so.3
+/usr/lib/libavahi-client.so.3
+/usr/lib/libkrb5support.so.
+/lib/libkeyutils.so.1
+/lib/libresolv.so.2
+/usr/lib/libtasn1.so.3
+/usr/lib/libgpg-error.so.
+/lib/libgcc_s.so.1
+/lib/libdbus-1.so.3
+/usr/share/ghostscript/8.71/Resource/Init/gs_init.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_std_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_il1_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_statd.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_fonts.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_cspace.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_img.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_btokn.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_dps1.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_dps2.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_type1.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_lev2.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_res.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_resmp.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_typ42.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_cidfn.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_ciddc.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_cidcm.ps
+/usr/share/ghostscript/8.71/Resource/Init/xlatmap
+/usr/share/ghostscript/8.71/Resource/Init/gs_fntem.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_sym_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_dbt_e.ps
+/usr/share/ghostscript/8.71/Resource/Encoding/Wingdings
+/usr/share/ghostscript/8.71/Resource/Init/gs_cidtt.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_cidfm.ps
+/var/lib/ghostscript/fonts/cidfmap
+/usr/share/ghostscript/8.71/Resource/Init/gs_cmap.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_setpd.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_typ32.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_frsd.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_ll3.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_mex_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_mro_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_pdf_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_wan_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/pdf_ops.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_l2img.ps
+/usr/share/ghostscript/8.71/Resource/Init/pdf_rbld.ps
+/usr/share/ghostscript/8.71/Resource/Init/pdf_base.ps
+/usr/share/ghostscript/8.71/Resource/Init/pdf_draw.ps
+/usr/share/ghostscript/8.71/Resource/Init/pdf_font.ps
+/usr/share/ghostscript/8.71/Resource/Init/pdf_main.ps
+/usr/share/ghostscript/8.71/Resource/Init/pdf_sec.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_css_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_cff.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_mgl_e.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_agl.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_ttf.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_icc.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_dps.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_dpnxt.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_epsf.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_fapi.ps
+/usr/share/ghostscript/8.71/Resource/Init/gs_pdfwr.ps
+/usr/share/ghostscript/8.71/Resource/Init/Fontmap
+/usr/share/ghostscript/8.71/Resource/Init/Fontmap.GS
+/var/lib/ghostscript/fonts/Fontmap
+/etc/papersize
+/usr/share/ghostscript/8.71/Resource/ColorSpace/DefaultRGB
+/usr/share/ghostscript/8.71/Resource/ColorSpace/DefaultGray
+/tmp/magick-XX4jeqKN
+/tmp/magick-XXfngRux
+/usr/share/fonts/type1/gsfonts/n019004l.pfb
+/usr/share/fonts/type1/gsfonts/n019003l.pfb
+/etc/localtime
+/usr/share/fonts/type1/gsfonts/n021003l.pfb
+/usr/share/fonts/type1/gsfonts/n019023l.pfb
+/usr/share/fonts/type1/gsfonts/n019024l.pfb
+/tmp/magick-XXOtss13
+/usr/lib/ImageMagick-6.6.0/modules-Q16/coders/pnm.la
+/usr/lib/ImageMagick-6.6.0/modules-Q16/coders/pnm.so
+/usr/lib/ImageMagick-6.6.0/modules-Q16/coders/jpeg.la
+/usr/lib/ImageMagick-6.6.0/modules-Q16/coders/jpeg.so
