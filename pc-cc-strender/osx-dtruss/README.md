@@ -2,7 +2,7 @@ http://developer.apple.com/mac/library/documentation/Darwin/Reference/ManPages/m
 
 sudo dtruss -f /Applications/Preview.app/Contents/MacOS/Preview ~/Documents/MCFlow-Parallel.pdf > filed.txt 2>&1
 
-With Adobe Reader, on the first run, it touched all the font files, but on the second run it only laoded the ones needed by the file.
+With Adobe Reader, on the first run, it touched all the font files, but on the second run it only laoded the ones needed by the file. It seems that it does this periodically, so that might be something to note. No, those are not proper reads.
 
 PowerPoint Presentation Gallery
 Don't show this when opening PowerPoint ?
@@ -38,3 +38,4 @@ Link to File, ticked, Save with Document unticked. Yes, the reach to the file is
 
 Okay, running convert based on brew imagemagick with no ghostscript lead to a very ugly result, but it worked with no fonts pulled in!
 Brew cannot install GS at present, so switching to MacPorts...
+No, the fonts were pulled in but OSX uses posix_spawn, not fork etc, so dtruss was not following all the children.

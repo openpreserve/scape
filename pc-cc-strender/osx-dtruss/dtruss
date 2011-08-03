@@ -701,7 +701,7 @@ dtrace='
 # data going to the target's stdout
 if [ $opt_command -eq 1 ]; then
 	/usr/sbin/dtrace -x dynvarsize=$buf -x evaltime=exec -n "$dtrace" \
-	    -c "$command" -o /dev/stderr
+	    -c "$command" -o dtruss.log
 else
-	/usr/sbin/dtrace -x dynvarsize=$buf -n "$dtrace" -o /dev/stderr
+	/usr/sbin/dtrace -x dynvarsize=$buf -n "$dtrace" -o dtruss.log
 fi
