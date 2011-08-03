@@ -57,6 +57,30 @@ Arial-ItalicMT                       TrueType          no  no  no     342  0
 BBNPHD+SymbolMT                      CID TrueType      yes yes yes    344  0
 Arial-BoldItalicMT                   TrueType          no  no  no     348  0
 
+On linux, reads DejaVu fonts but quickly closes and uses Adobe instead. I suspect the DejaVu fonts are embedded in the UI, brought in via glib.
+
+anj@debian:/mnt/hgfs/Shared$ grep open acroread-z39.87.log | grep -v ENOTDIR | grep -i "\.ttf"
+3687  open("/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf", O_RDONLY) = 6
+3687  open("/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-Bold.ttf", O_RDONLY) = 13
+anj@debian:/mnt/hgfs/Shared$ grep open acroread-z39.87.log | grep -v ENOTDIR | grep -i "\.pfb"
+3687  open("/opt/Adobe/Reader9/Reader/../Resource/Font/ZX______.PFB", O_RDONLY) = 13
+
+
+Convert on Debian.
+/usr/share/fonts/type1/gsfonts/n019004l.pfb NimbusSanL-Bold
+/usr/share/fonts/type1/gsfonts/n019003l.pfb NimbusSanL-Regu
+/usr/share/fonts/type1/gsfonts/n019023l.pfb NimbusSanL-ReguItal
+/usr/share/fonts/type1/gsfonts/n019024l.pfb NimbusSanL-BoldItal
+/usr/share/fonts/type1/gsfonts/n021003l.pfb NimbusRomNo9L-Regu
+
+Convert, gs does something odd. It translates ArialMT to Nimbus, and then ignores the fonts installed by libgs8 and uses the type1 fonts from the gsfonts package instead.
+
+/usr/share/ghostscript/8.71/Resource/Init/Fontmap.GS
+Above only maps ArialMT to Arial family.
+/usr/share/ghostscript/8.71/Resource/Init/pdf_font.ps
+Maps Arial to Helvetica
+/var/lib/ghostscript/fonts/Fontmap
+Maps Helvetica to Nimbus and then Nimbus to Type1 font files.
 
 Link to package
 ---------------
