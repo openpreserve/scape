@@ -82,8 +82,8 @@ public class SSDeep {
 	public static final int BUFFER_SIZE  = 8192;
 
 	static class roll_state_class {
-	  char[] window = new char[ROLLING_WINDOW];
-	  long h1, h2, h3;
+	  int[] window = new int[ROLLING_WINDOW];
+	  int h1, h2, h3;
 	  int n;
 	}
 	private static roll_state_class roll_state = new roll_state_class();
@@ -99,42 +99,58 @@ public class SSDeep {
 	  h3 is a shift/xor based rolling hash, and is mostly needed to ensure that
 	  we can cope with large blocksize values
 	*/
-	static int roll_hash(char c)
+	static int roll_hash(int c)
 	{
+		
+//		System.out.println(""+roll_state.h1+","+roll_state.h2+","+roll_state.h3);
 	  roll_state.h2 -= roll_state.h1;
+	  //roll_state.h2 = roll_state.h2 & 0x7fffffff;
 	  roll_state.h2 += ROLLING_WINDOW * c;
+	  //roll_state.h2 = roll_state.h2 & 0x7fffffff;
 	  
 	  roll_state.h1 += c;
-	  roll_state.h1 -= roll_state.window[roll_state.n % ROLLING_WINDOW];
+	  //roll_state.h1 = roll_state.h1 & 0x7fffffff;
+	  roll_state.h1 -= roll_state.window[(roll_state.n % ROLLING_WINDOW)];
+	  //roll_state.h1 = roll_state.h1 & 0x7fffffff;
 	  
-	  roll_state.window[roll_state.n % ROLLING_WINDOW] = c;
-	  roll_state.n++;
+	  roll_state.window[roll_state.n % ROLLING_WINDOW] = (char)c;
+	  roll_state.n = (roll_state.n+1)%ROLLING_WINDOW;
 	  
 	  /* The original spamsum AND'ed this value with 0xFFFFFFFF which
 	     in theory should have no effect. This AND has been removed 
 	     for performance (jk) */
 	  roll_state.h3 = (roll_state.h3 << 5);// & 0xFFFFFFFF;
 	  roll_state.h3 ^= c;
+	  //roll_state.h3 = roll_state.h3 & 0x7FFFFFFF;
+	  //if( roll_state.h3 > 0xEFFFFFFF ) roll_state.h3 -= 0xEFFFFFFF;
 	  
-	  return (int) (roll_state.h1 + roll_state.h2 + roll_state.h3);
+	  long result = ((roll_state.h1 + roll_state.h2 + roll_state.h3));//&0x7FFFFFFF;
+	  //System.out.println("Result: "+result);
+	  //System.out.println("Result2: "+(result&0xFFFFFFFF));
+	  //System.out.println("Result3: "+(result&0x7FFFFFFF));
+	  
+	  return (int) result;//&0xFFFFFFFF;
 	}
 
 	/*
 	  reset the state of the rolling hash and return the initial rolling hash value
 	*/
-	static int roll_reset()
+	static void roll_reset()
 	{	
-	  //memset(&roll_state, 0, sizeof(roll_state));
-	  roll_state = new roll_state_class();
-	  return 0;
+		  roll_state.h1 = 0;
+		  roll_state.h2 = 0;
+		  roll_state.h3 = 0;
+		  roll_state.n = 0;
+		  Arrays.fill(roll_state.window,(char)0);
 	}
 
 	/* a simple non-rolling hash, based on the FNV hash */
-	static long sum_hash(char c, long h)
+	static int sum_hash(int c, int h)
 	{
 	  h *= HASH_PRIME;
+	  //h = h & 0xFFFFFFFF;
 	  h ^= c;
-	  //ANJ TODO h = h & 0xFFFF;
+	  //h = h & 0xFFFFFFFF;
 	  return h;
 	}
 
@@ -142,7 +158,7 @@ public class SSDeep {
 		  char[] ret;
 		  char[] p;
 	  long total_chars;
-	  long h, h2, h3;
+	  int h, h2, h3;
 	  int j, n, i, k;
 	  int block_size;
 	  char[] ret2 = new char[SPAMSUM_LENGTH/2 + 1];
@@ -185,12 +201,10 @@ public class SSDeep {
 			      byte[] buffer, 
 			      int buffer_size)
 	{
-	  int i;
-
 	  if (null == ctx || null == buffer)
 	    return;
 
-	  for ( i = 0 ; i < buffer_size ; ++i)
+	  for ( int i = 0 ; i < buffer_size ; ++i)
 	  {
 
 	    /* 
@@ -199,16 +213,23 @@ public class SSDeep {
 	       reset value then we emit the normal hash as a
 	       element of the signature and reset both hashes
 	    */
-	    ctx.h  = roll_hash((char) buffer[i]);
-	    ctx.h2 = sum_hash((char) buffer[i], ctx.h2);
-	    ctx.h3 = sum_hash((char) buffer[i], ctx.h3);
+		  
+	    System.out.println(""+ctx.h+","+ctx.h2+","+ctx.h3);
+	    ctx.h  = roll_hash(buffer[i]);// & 0x7FFFFFFF;
+	    ctx.h2 = sum_hash(buffer[i], ctx.h2);// & 0x7FFFFFFF;
+	    ctx.h3 = sum_hash(buffer[i], ctx.h3);// & 0x7FFFFFFF;
 	    
-	    if ((ctx.h % ctx.block_size) == (ctx.block_size-1)) {
+	    if (((0xFFFFFFFFl & ctx.h) % ctx.block_size) == (ctx.block_size-1)) {
 	      /* we have hit a reset point. We now emit a
 		 hash which is based on all chacaters in the
 		 piece of the message between the last reset
 		 point and this one */
-	      ctx.p[ctx.j] = b64[(int) ((ctx.h2 & 0xFFFF ) % 64)];
+	      ctx.p[ctx.j] = b64[(int)((ctx.h2&0xFFFF) % 64)];
+	      System.out.println("::"+ctx.j+":"+new String(ctx.p));
+//	      for( char c : ctx.p ) {
+//	    	  System.out.print(c);
+//	      }
+//    	  System.out.println();	      
 	      if (ctx.j < SPAMSUM_LENGTH-1) {
 		/* we can have a problem with the tail
 		   overflowing. The easiest way to
@@ -228,8 +249,8 @@ public class SSDeep {
 	       of block_size*2. By producing dual signatures in
 	       this way the effect of small changes in the message
 	       size near a block size boundary is greatly reduced. */
-	    if ((ctx.h % (ctx.block_size*2)) == ((ctx.block_size*2)-1)) {
-	      ctx.ret2[ctx.k] = b64[(int) ((ctx.h3&0xFFFF) % 64)];
+	    if (((0xFFFFFFFFl & ctx.h) % (ctx.block_size*2)) == ((ctx.block_size*2)-1)) {
+	      ctx.ret2[ctx.k] = b64[(int) (ctx.h3&0xFFFF % 64)];
 	      if (ctx.k < SPAMSUM_LENGTH/2-1) {
 		ctx.h3 = HASH_INIT;
 		(ctx.k)++;
@@ -252,7 +273,7 @@ public class SSDeep {
 
 	  // snprintf(ctx.ret, 12, "%u:", ctx.block_size);
 	  ctx.ret = (ctx.block_size + ":").toCharArray();
-	  // FIXME ctx.p = ctx.ret + strlen(ctx.ret);  
+	  // ctx.p = ctx.ret + strlen(ctx.ret);  
 	  ctx.p = new char[SPAMSUM_LENGTH];
 	  
 	  //memset(ctx.p, 0, SPAMSUM_LENGTH+1);
@@ -262,7 +283,8 @@ public class SSDeep {
 	  
 	  ctx.k  = ctx.j  = 0;
 	  ctx.h3 = ctx.h2 = HASH_INIT;
-	  ctx.h  = roll_reset();
+	  ctx.h  = 0;
+	  roll_reset();
 
 	  System.out.println("Opening file:"+handle);
 	  FileInputStream in = new FileInputStream(handle);
@@ -279,11 +301,11 @@ public class SSDeep {
 	    ctx.ret2[ctx.k] = b64[(int) ((ctx.h3 &0xFFFF) % 64)];
 	  }
 	  
-	// FIXME strcat(ctx.p+ctx.j, ":");
-	// FIXME strcat(ctx.p+ctx.j, ctx.ret2);
+	//  strcat(ctx.p+ctx.j, ":");
+	//  strcat(ctx.p+ctx.j, ctx.ret2);
 	  ctx.ret = (new String(ctx.ret) + new String(ctx.p) + ":" + new String(ctx.ret2)).toCharArray();
 
-	// FIXME free(buffer);
+	//  free(buffer);
 	  return false;
 	}
 
@@ -301,15 +323,15 @@ public class SSDeep {
 	  if (ctx == null)
 	    return true;
 
-	// FIXME filepos = ftello(handle);
+	//  filepos = ftello(handle);
 
 	  ss_init(ctx, handle);
 	  System.out.println("bs-pre:"+ctx.block_size);
 
 	  while (!done)
 	  {
-		// FIXME if (fseeko(handle,0,SEEK_SET))
-		// FIXME   return true;
+		//  if (fseeko(handle,0,SEEK_SET))
+		//    return true;
 
 	    ss_update(ctx,handle);
 	    
@@ -323,15 +345,15 @@ public class SSDeep {
 	  }
 
 	  System.out.println("bs-post:"+ctx.block_size);
-	// FIXME strncpy(result,ctx.ret,FUZZY_MAX_RESULT);
+	// strncpy(result,ctx.ret,FUZZY_MAX_RESULT);
 	  
 	  System.out.println("RESULT:"+new String(ctx.ret));
 
 	  ss_destroy(ctx);
-	// FIXME free(ctx);
+	//  free(ctx);
 
-	// FIXME if (fseeko(handle,filepos,SEEK_SET))
-	// FIXME     return true;
+	//  if (fseeko(handle,filepos,SEEK_SET))
+	//      return true;
 
 	  return false;
 	}
@@ -350,7 +372,7 @@ public class SSDeep {
 
 	  status = fuzzy_hash_file(handle);
 	  
-	// FIXME fclose(handle);
+	//  fclose(handle);
 
 	  return status;
 	}
@@ -382,7 +404,8 @@ public class SSDeep {
 	    
 	    ctx.k  = ctx.j  = 0;
 	    ctx.h3 = ctx.h2 = HASH_INIT;
-	    ctx.h  = roll_reset();
+	    ctx.h  = 0;
+	    roll_reset();
 
 	    System.out.println("h:"+ctx.h);
 	    System.out.println("h2:"+ctx.h2);
@@ -404,16 +427,16 @@ public class SSDeep {
 		  System.out.println("ret2:"+new String(ctx.ret2));
 		    if (ctx.h != 0) 
 	      {
-		ctx.p[ctx.j] = b64[(int) (ctx.h2 % 64)];
-		ctx.ret2[ctx.k] = b64[(int) (ctx.h3 % 64)];
+		ctx.p[ctx.j] = b64[(int) ((ctx.h2&0xFFFF) % 64)];
+		ctx.ret2[ctx.k] = b64[(int) ((ctx.h3&0xFFFF) % 64)];
 	      }
 	    
-	 // FIXME strcat(ctx.p+ctx.j, ":");
-	 // FIXME strcat(ctx.p+ctx.j, ctx.ret2);
+	 //  strcat(ctx.p+ctx.j, ":");
+	 //  strcat(ctx.p+ctx.j, ctx.ret2);
 	  }
 
 
-	// FIXME strncpy(result,ctx.ret,FUZZY_MAX_RESULT);
+	//  strncpy(result,ctx.ret,FUZZY_MAX_RESULT);
 	  System.out.println("bs:"+ctx.block_size);
 	  System.out.println("ret:"+new String(ctx.ret));
 	  System.out.println("p:"+new String(ctx.p));
@@ -422,7 +445,7 @@ public class SSDeep {
 	  result = ctx.ret;
 
 	  ss_destroy(ctx);
-	// FIXME free(ctx);
+	//  free(ctx);
 	  return false;
 	}
 
@@ -441,14 +464,14 @@ public class SSDeep {
 	{
 	  int i, j;
 	  int num_hashes;
-	  int[] hashes = new int[SPAMSUM_LENGTH];
+	  long[] hashes = new long[SPAMSUM_LENGTH];
 	  
 	  /* there are many possible algorithms for common substring
 	     detection. In this case I am re-using the rolling hash code
 	     to act as a filter for possible substring matches */
 	  
 	  roll_reset();
-	// FIXME memset(hashes, 0, sizeof(hashes));
+	//  memset(hashes, 0, sizeof(hashes));
 	  
 	  /* first compute the windowed rolling hash at each offset in
 	     the first string */
@@ -466,7 +489,7 @@ public class SSDeep {
 	     candidate substring match. We then confirm that match with
 	     a direct string comparison */
 	  for (i=0;s2[i] != 0;i++) {
-	    int h = roll_hash((char)s2[i]);
+	    long h = roll_hash((char)s2[i]);
 	    if (i < ROLLING_WINDOW-1) continue;
 	    for (j=ROLLING_WINDOW-1;j<num_hashes;j++) 
 	    {
@@ -629,12 +652,11 @@ public class SSDeep {
 	 */
 	public static void main( String[] args ) throws IOException {
 		SSDeep ssd = new SSDeep();
-		byte[] b1 = { 0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x0a };
-		char[] b2 = "Hello\n".toCharArray();
-		char[] b3 = "Helli".toCharArray();
-		char[] h1 = null;
-		boolean t1 = ssd.fuzzy_hash_buf(b1, b1.length, h1);
-		System.out.println("Got "+h1);
-		ssd.fuzzy_hash_file(new File("pom.xml"));
+		byte[] b2 = "Hello World how are you today...\n".getBytes();
+		byte[] b3 = "Helli".getBytes();
+		byte[] h1 = null;
+		//boolean t1 = ssd.fuzzy_hash_buf(b2, b2.length, h1);
+		//System.out.println("Got "+h1);
+		ssd.fuzzy_hash_file(new File("test"));
 	}
 }
