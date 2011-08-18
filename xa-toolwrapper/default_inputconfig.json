@@ -2,7 +2,7 @@
   "input": {
     "Datatype": "xsd:anyURI",
     "Required": "true",
-    "Default": "http://localhost:8080/scape/data/scape-logo.png",
+    "Default": "http://localhost:8080/scape/testdata/scape-logo.png",
     "CliMapping": "INFILE",
     "Documentation": "URL reference to input file"
   }

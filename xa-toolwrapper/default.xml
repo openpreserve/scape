@@ -13,7 +13,7 @@
                     <input name="input">
                         <Datatype>xsd:anyURI</Datatype>
                         <Required>true</Required>
-                        <Default>http://localhost:8080/scape/data/scape-logo.png</Default>
+                        <Default>http://localhost:8080/scape/testdata/scape-logo.png</Default>
                         <CliMapping>inFile</CliMapping>
                         <Documentation>URL reference to input file</Documentation>
                     </input>

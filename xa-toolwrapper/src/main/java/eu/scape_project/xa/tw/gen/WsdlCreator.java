@@ -110,6 +110,15 @@ public class WsdlCreator {
 
     private void createOperation(Document doc) throws GeneratorException {
 
+        //        <wsdl:operation name="simpleCopy">
+        //            <wsdl:documentation>Copy a source file to a target file</wsdl:documentation>
+        //            <wsdl:input message="tns:Request1" wsaw:Action="simpleCopy">
+        //                <wsdl:documentation/>
+        //            </wsdl:input>
+        //            <wsdl:output message="tns:Response1" wsaw:Action="http://schemas.xmlsoap.org/wsdl/SCAPESimpleCopy10ServicePortType/Response1">
+        //                <wsdl:documentation/>
+        //            </wsdl:output>
+        //        </wsdl:operation>
         NodeList portTypeNodeList = doc.getElementsByTagName("wsdl:portType");
         Node portTypeNode = portTypeNodeList.item(0);
 
@@ -151,28 +160,95 @@ public class WsdlCreator {
     private void createBinding(Document doc) throws GeneratorException {
 
         NodeList bindingNodeList = doc.getElementsByTagName("wsdl:binding");
-        Node bindingNode = bindingNodeList.item(0);
-
-        Element operationElm = doc.createElement("wsdl:operation");
         String servOpStr = st.getPropertyUtils().getProp("service.operation." + opid);
         if (servOpStr == null || servOpStr.equals("")) {
             throw new GeneratorException("No service operation defined for operation " + opid);
         }
-        operationElm.setAttribute("name", servOpStr);
+        
+        //        <wsdl:operation name="simpleCopy">
+        //            <soap:operation soapAction="urn:simpleCopy" style="document"/>
+        //            <wsdl:input>
+        //                <soap:body use="literal"/>
+        //            </wsdl:input>
+        //            <wsdl:output>
+        //                <soap:body use="literal"/>
+        //            </wsdl:output>
+        //        </wsdl:operation>
+        Node binding1Node = bindingNodeList.item(0);
+        Element operation1Elm = doc.createElement("wsdl:operation");
+        operation1Elm.setAttribute("name", servOpStr);
+        Element soapOp1Elm = doc.createElement("soap:operation");
+        soapOp1Elm.setAttribute("soapAction", "urn:"+servOpStr);
+        soapOp1Elm.setAttribute("style", "document");
+        operation1Elm.appendChild(soapOp1Elm);
+        Element input1Elm = doc.createElement("wsdl:input");
+        Element soap1Elm1 =  doc.createElement("soap:body");
+        soap1Elm1.setAttribute("use", "literal");
+        input1Elm.appendChild(soap1Elm1);
+        Element output1Elm = doc.createElement("wsdl:output");
+        Element soap1Elm2 =  doc.createElement("soap:body");
+        soap1Elm2.setAttribute("use", "literal");
+        output1Elm.appendChild(soap1Elm2);
+        operation1Elm.appendChild(input1Elm);
+        operation1Elm.appendChild(output1Elm);
+        binding1Node.appendChild(operation1Elm);
 
-        Element inputElm = doc.createElement("wsdl:input");
-        Element soapElm =  doc.createElement("soap:body");
-        soapElm.setAttribute("use", "literal");
-        inputElm.appendChild(soapElm);
-        Element outputElm = doc.createElement("wsdl:output");
-        Element soapElm2 =  doc.createElement("soap:body");
-        soapElm2.setAttribute("use", "literal");
-        outputElm.appendChild(soapElm2);
+        //        <wsdl:operation name="simpleCopy">
+        //            <soap12:operation soapAction="urn:simpleCopy" style="document"/>
+        //            <wsdl:input>
+        //                <soap12:body use="literal"/>
+        //            </wsdl:input>
+        //            <wsdl:output>
+        //                <soap12:body use="literal"/>
+        //            </wsdl:output>
+        //        </wsdl:operation>
+        Node binding2Node = bindingNodeList.item(1);
+        Element operation2Elm = doc.createElement("wsdl:operation");
+        operation2Elm.setAttribute("name", servOpStr);
+        Element soapOp2Elm = doc.createElement("soap12:operation");
+        soapOp2Elm.setAttribute("soapAction", "urn:"+servOpStr);
+        soapOp2Elm.setAttribute("style", "document");
+        operation2Elm.appendChild(soapOp2Elm);
+        Element input2Elm = doc.createElement("wsdl:input");
+        Element soap2Elm1 =  doc.createElement("soap12:body");
+        soap2Elm1.setAttribute("use", "literal");
+        input2Elm.appendChild(soap2Elm1);
+        Element output2Elm = doc.createElement("wsdl:output");
+        Element soap2Elm2 =  doc.createElement("soap12:body");
+        soap2Elm2.setAttribute("use", "literal");
+        output2Elm.appendChild(soap2Elm2);
+        operation2Elm.appendChild(input2Elm);
+        operation2Elm.appendChild(output2Elm);
+        binding2Node.appendChild(operation2Elm);
 
-        operationElm.appendChild(inputElm);
-        operationElm.appendChild(outputElm);
-
-        bindingNode.appendChild(operationElm);
+        //        <wsdl:operation name="simpleCopy">
+        //            <http:operation location="SimpleCopy10/simpleCopy"/>
+        //            <wsdl:input>
+        //                <mime:content type="text/xml" part="simpleCopy"/>
+        //            </wsdl:input>
+        //            <wsdl:output>
+        //                <mime:content type="text/xml" part="simpleCopy"/>
+        //            </wsdl:output>
+        //        </wsdl:operation>
+        Node binding3Node = bindingNodeList.item(2);
+        Element operation3Elm = doc.createElement("wsdl:operation");
+        operation3Elm.setAttribute("name", servOpStr);
+        Element soapOp3Elm = doc.createElement("http:operation");
+        soapOp3Elm.setAttribute("location", st.getProjectMidfix()+"/"+servOpStr);
+        operation3Elm.appendChild(soapOp3Elm);
+        Element input3Elm = doc.createElement("wsdl:input");
+        Element soap3Elm1 =  doc.createElement("mime:content");
+        soap3Elm1.setAttribute("type", "text/xml");
+        soap3Elm1.setAttribute("part", servOpStr);
+        input3Elm.appendChild(soap3Elm1);
+        Element output3Elm = doc.createElement("wsdl:output");
+        Element soap3Elm2 =  doc.createElement("mime:content");
+        soap3Elm2.setAttribute("type", "text/xml");
+        soap3Elm2.setAttribute("part", servOpStr);
+        output3Elm.appendChild(soap3Elm2);
+        operation3Elm.appendChild(input3Elm);
+        operation3Elm.appendChild(output3Elm);
+        binding3Node.appendChild(operation3Elm);
 
     }
 

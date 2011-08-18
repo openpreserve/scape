@@ -8,6 +8,9 @@
         infolog("========= PROCESSING REQUEST =========");
         infolog("Using service: ${servicename}");
 
+        MessageContext msgCtx = MessageContext.getCurrentMessageContext();
+        msgCtx.setProperty("ConfigContextTimeoutInterval", "300000");
+
         String processingUnit = this.getValueOfServiceParameter("processingUnit");
         if (processingUnit != null && !processingUnit.isEmpty()) {
             processing_unitid = processingUnit;

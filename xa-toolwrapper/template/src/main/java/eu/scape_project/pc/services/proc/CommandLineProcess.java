@@ -58,7 +58,7 @@ import org.slf4j.LoggerFactory;
  * clp.init(); clp.execute();
  *
  * @author ${global_project_prefix} Project Consortium
- * @version 0.2
+ * @version ${global_wrapper_version}
  */
 public class CommandLineProcess {
 

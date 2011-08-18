@@ -7,7 +7,8 @@ Quick start
 You need at least the Java SE Development Kit (JDK) version >=1.6.0 and Apache
 Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
 
-1) Run the project generator with the default arguments:
+1) In the xa-toolwrapper directory, run the project generator with the default
+   arguments:
 
        java -jar toolwrapper.jar
 
@@ -19,33 +20,73 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
 
 2) Start your Apache Tomcat server:
 
-       cd ${path.to.your.apache-tomcat}/bin
+       cd <tomcat-install>/bin
        ./startup.sh
 
-3) In order to deploy the web application archive (war), make sure the tomcat manager
-   webapp is enabled (configure in apache tomcat's conf/tomcat-users.xml) and 
-   deploy the example service:
+   where <tomcat-install> is the directory where the Apache Tomcat server is
+   installed.
 
-       cd generated/simplecopy10
-       mvn deploy
+3) Change to the directory where the sample project has been generated:
 
-   A web application archive (war) will then be deployed to
+       cd xa-toolwrapper/generated/simplecopy10
+
+3) In order to deploy the web application archive (war), make sure
+
+   a) the tomcat manager webapp is enabled (configure in Apache Tomcat's user
+      configuration file conf/tomcat-users.xml) by defining a user, e.g.
+
+      <tomcat-users>
+        <role rolename="tomcat"/>
+        <role rolename="manager"/>
+        <user password="<password>" roles="tomcat,manager" username="tomcat"/>
+      </tomcat-users>
+
+   b) that user and password of the tomcat manager are defined in the project 
+      properties (e.g. default.properties):
+
+        tomcat.public.manager.user=tomcat
+        tomcat.public.manager.pwd=<password>
+
+   where <password> is the password that is defined for the Apache Tomcat manager
+   user, and then deploy the example service:
+
+       mvn tomcat:deploy
+
+   In case of success, the web application archive
+   generated/simplecopy10/target/scape-simplecopy10-service-0.2-SNAPSHOT.war
+   will be deployed to
 
        http://localhost:8080/scape-simplecopy10-service
 
+   Alternatively, the web application archive can be installed:
+
+       mvn install
+
+   and deployed manually afterwards.
+
+   Note that if the application is already deployed, you must use 
+
+       cd generated/simplecopy10
+       mvn tomcat:redeploy
+
+   otherwise you will get an error:
+
+     Cannot invoke Tomcat manager: FAIL - Application already exists at path
+     /scape-simplecopy10-service
+
 4) Accessing the Axis2 service:
 
-   You can find the start page of the web service at:
+   You can find the start page of the web application at:
 
        http://localhost:8080/scape-simplecopy10-service/
 
-   And the endpoint of the service at:
+   and the endpoint of the service at:
 
        http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10
 
    Try the RESTless interface:
 
-       http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?inputUrl=http://localhost:8080/scape/data/scape-logo.png
+       http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?inputUrl=http://localhost:8080/scape/testdata/scape-logo.png
  
    and - if everything is setup correctly - you would receive a response like:
 
@@ -68,49 +109,63 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
        </ns:return>
    </ns:simpleCopyResponse>
 
-  The service simply has copied the file available at the URL http://localhost:8080/scape/data/scape-logo.png
+  The service simply has copied the file available at the URL http://localhost:8080/scape/testdata/scape-logo.png
   to a new location and made available by a new URL http://localhost:8080/scape/tmp/scape-logo-1023892389923.png.
 
 5) Try using the web service using soapUI by creating a project using the
    WSDL of the service:
 
-       http://localhost:8080/axis2/services/SCAPESimpleCopy10Service?wsdl
+       http://localhost:8080/scape-simplecopy10-service/SimpleCopy10.wsdl
 
-   and execute it using the example value provided.
+   make a file available on a publicly accessible URL, e.g. by placing the
+   a sample file scape-logo.png in the webapps/ROOT/scape/tesdata/ folder
+   of your apache tomcat:
 
-   <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://opflabs.org/scape/services">
-      <soap:Header/>
-      <soap:Body>
-         <ser:simpleCopy>
-            <ser:inputUrl>http://localhost:8080/scape/data/scape-logo.png</ser:inputUrl>
-         </ser:simpleCopy>
-      </soap:Body>
-   </soap:Envelope>
+       http://localhost:8080/scape/testdata/scape-logo.png
 
-   and receive a response containing a reference to the copied result file, like:
+   And then execute a soap request:
+
+   <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://scape-project.eu/pc/services">
+       <soap:Header/>
+       <soap:Body>
+          <ser:Request1>
+             <ser:input>http://localhost:8080/scape/testdata/scape-logo.png</ser:input>
+          </ser:Request1>
+       </soap:Body>
+    </soap:Envelope>
+
+   You would then receive a response containing a reference to the copied result
+   file, like:
 
    <soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
-      <soapenv:Body>
-         <ns:simpleCopyResponse xmlns:ns="http://opflabs.org/scape/services">
-            <ns:return>
-               <tns:result xmlns:tns="http://org.opflabs/scape/services">
-                  <tns:success>true</tns:success>
-                  <tns:returncode>0</tns:returncode>
-                  <tns:message>Service request has been processed successfully</tns:message>
-                  <tns:time>0</tns:time>
-                  <tns:unitid>http://fue.onb.ac.at/scape/fue-l/tomcat1</tns:unitid>
-                  <tns:log>========= PROCESSING REQUEST =========.
-                     Using service: SCAPESimpleCopy10Service.
-                     Parameter processingUnit from services.xml: http://fue.onb.ac.at/scape/fue-l/tomcat1.
-                     URL of input file: http://localhost:8080/scape/data/scape-logo.png.
-                     Service request has been processed successfully.</tns:log>
-                  <tns:outputFile>http://localhost:8080/scape/tmp/scape-logo-1023892389923.png</tns:outputFile>
-               </tns:result>
-            </ns:return>
-         </ns:simpleCopyResponse>
-      </soapenv:Body>
-   </soapenv:Envelope>
-
+       <soapenv:Body>
+          <ns:simpleCopyResponse xmlns:ns="http://scape-project.eu/pc/services">
+             <ns:return>
+                <tns:result xmlns:tns="http://scape-project.eu/pc/services">
+                   <tns:success>true</tns:success>
+                   <tns:returncode>0</tns:returncode>
+                   <tns:time>22</tns:time>
+                   <tns:log>========= PROCESSING REQUEST =========.
+                    Using service: SimpleCopy10.
+                    URL of input file: http://localhost:8080/scape/testdata/scape-logo.png.
+                    Input file created: /usr/local/java/apache-tomcat-6.0.29/temp/simplecopy10-tmp-store/fromurl2399759179719296814.png.
+                    Pattern (before substitution): cp $INFILE $OUTFILE.
+                    OUTFILE substitution variable value: /usr/local/java/apache-tomcat-6.0.29/temp/simplecopy10-tmp-store/fromurl2399759179719296814.pngSCAPESimpleCopy10Service_outputFile_8185195208001481281.png.
+                    INFILE substitution variable value: /usr/local/java/apache-tomcat-6.0.29/temp/simplecopy10-tmp-store/fromurl2399759179719296814.png.
+                    Command (after substitution): cp /usr/local/java/apache-tomcat-6.0.29/temp/simplecopy10-tmp-store/fromurl2399759179719296814.png /usr/local/java/apache-tomcat-6.0.29/temp/simplecopy10-tmp-store/fromurl2399759179719296814.pngSCAPESimpleCopy10Service_outputFile_8185195208001481281.png.
+                    Assigned exit code: 0.
+                    Process finished successfully with code 0.
+                    Output file of size 24805 has been created successfully.
+                    Public output file: /usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/fromurl2399759179719296814.pngSCAPESimpleCopy10Service_outputFile_8185195208001481281.png.
+                    Output URL: http://localhost:8080/scape/tmp/fromurl2399759179719296814.pngSCAPESimpleCopy10Service_outputFile_8185195208001481281.png.
+                    Service request has been processed successfully.</tns:log>
+                   <tns:message>Service request has been processed successfully</tns:message>
+                   <tns:output>http://localhost:8080/scape/tmp/fromurl2399759179719296814.pngSCAPESimpleCopy10Service_outputFile_8185195208001481281.png</tns:output>
+                </tns:result>
+             </ns:return>
+          </ns:simpleCopyResponse>
+       </soapenv:Body>
+    </soapenv:Envelope>
 
 Create a new project
 --------------------

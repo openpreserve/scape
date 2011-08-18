@@ -92,11 +92,11 @@ public class PropertiesSubstitutor extends Substitutor {
             logger.debug("Note: Velocity variable \"project_package_path\" is derived from property \"global.package.name\"");
             String projectNamespace = StringConverterUtil.packageNameToNamespace(val);
             this.putKeyValuePair("project_namespace", projectNamespace);
-            logger.debug("Note: Velocity velocity variable \"project_namespace\" is derived from property \"global.package.name\"");
+            logger.debug("Note: Velocity variable \"project_namespace\" is derived from property \"global.package.name\"");
         } else if (key.equals("global.project.prefix")) {
             String globalProjectPrefixLc = val.toLowerCase();
             this.putKeyValuePair("global_project_prefix_lc", globalProjectPrefixLc);
-            logger.debug("Note: Velocity velocity variable \"global_project_prefix_lc\" is derived from property \"global.project.prefix\"");
+            logger.debug("Note: Velocity variable \"global_project_prefix_lc\" is derived from property \"global.project.prefix\"");
         }
     }
 
