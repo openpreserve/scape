@@ -1,3 +1,0 @@
-        // Input: ${input_variable}
-        Boolean ${input_variable} = ${input_variable};
-        ${mapping}

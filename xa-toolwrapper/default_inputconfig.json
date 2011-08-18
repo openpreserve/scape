@@ -5,6 +5,12 @@
     "Default": "http://localhost:8080/scape/testdata/scape-logo.png",
     "CliMapping": "INFILE",
     "Documentation": "URL reference to input file"
+  },
+  "secure": {
+    "Datatype": "xsd:boolean",
+    "Required": "true",
+    "Default": "true",
+    "Documentation": "Some boolean"
   }
 }
 // The following properties can be defined for each variable:

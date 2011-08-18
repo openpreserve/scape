@@ -31,5 +31,5 @@
             ${mapping}
         } catch(IOException ex) {
             errorlog("Unable to read from URL \"" + ${input_variable}Url + "\"");
-            return simpleCopyResult(fac, omNs);
+            return ${operationname}Result(fac, omNs);
         }
