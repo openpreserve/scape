@@ -2,8 +2,8 @@ import re
 import sys
 import os
 
-#linere = re.compile(r'^(\d+)\s+(\w+)\(([^)]+)\)\s+\=\s*(.*)$')
-linere = re.compile(r'^(\S+)\s+(\w+)\(([^)]+)\)\s+\=\s*(.*)$')
+linere = re.compile(r'^(\d+)\s+(\w+)\(([^)]+)\)\s+\=\s*(.*)$')
+#linere = re.compile(r'^(\S+)\s+(\w+)\(([^)]+)\)\s+\=\s*(.*)$')
 
 # Does not cope file-descriptor switches:
 #fcntl(3, F_DUPFD, 10)             = 10
