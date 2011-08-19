@@ -3,8 +3,9 @@
     <id>copy</id>
     <name>Copy</name>
     <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
+    <version>1.0</version>
     <services>
-        <service id="simplecopy" name="Simple Copy" version="1.0" type="migrate" package="eu.scape_project.pc.services" deployment="d1" filters="f1">
+        <service id="simplecopy" name="Simple Copy" type="migrate" package="eu.scape_project.pc.services" deployment="d1" filters="f1">
             <description>Service for copying files</description>
             <operations>
                 <operation name="simpleCopy">
