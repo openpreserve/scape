@@ -1,25 +1,25 @@
-        // Input: #INPUT_VARIABLE#
-        // Get a CSV (comma separated values) string in #INPUT_VARIABLE#Csv
-        String #INPUT_VARIABLE#Csv = null;
-        StringBuilder #INPUT_VARIABLE#CsvSb = new StringBuilder();
-        #TYPE_NAME#s #INPUT_VARIABLE#s = request#OPID#Obj.get#TYPE_NAME#();
-        if (#INPUT_VARIABLE#s != null) {
-            #TYPE_NAME#[] #INPUT_VARIABLE#List = #INPUT_VARIABLE#s.get#TYPE_NAME#();
-            if (#INPUT_VARIABLE#List != null) {
-                #TYPE_NAME# #INPUT_VARIABLE# = null;
-                String #INPUT_VARIABLE#Val = null;
-                int length = #INPUT_VARIABLE#List.length;
+        // Input: ${input_variable}
+        // Get a CSV (comma separated values) string in ${input_variable}Csv
+        String ${input_variable}Csv = null;
+        StringBuilder ${input_variable}CsvSb = new StringBuilder();
+        #TYPE_NAME#s ${input_variable}s = request#OPID#Obj.get#TYPE_NAME#();
+        if (${input_variable}s != null) {
+            #TYPE_NAME#[] ${input_variable}List = ${input_variable}s.get#TYPE_NAME#();
+            if (${input_variable}List != null) {
+                #TYPE_NAME# ${input_variable} = null;
+                String ${input_variable}Val = null;
+                int length = ${input_variable}List.length;
                 for (int i = 0; i < length; i++) {
-                    #INPUT_VARIABLE#Val = ((#TYPE_NAME#) #INPUT_VARIABLE#List[i]).getValue();
+                    ${input_variable}Val = ((#TYPE_NAME#) ${input_variable}List[i]).getValue();
 
-                    if (#INPUT_VARIABLE#Val != null) {
-                        #INPUT_VARIABLE#CsvSb.append(#INPUT_VARIABLE#Val);
+                    if (${input_variable}Val != null) {
+                        ${input_variable}CsvSb.append(${input_variable}Val);
                         if ((i + 1) < length) {
-                            #INPUT_VARIABLE#CsvSb.append(",");
+                            ${input_variable}CsvSb.append(",");
                         }
                     }
                 }
             }
         }
-        #INPUT_VARIABLE#Csv = #INPUT_VARIABLE#CsvSb.toString();
-        #MAPPING#
+        ${input_variable}Csv = ${input_variable}CsvSb.toString();
+        ${mapping}

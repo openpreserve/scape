@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  * Simple copy version 10 service class.
  *
  * @author ${global_project_prefix} Project Consortium
- * @version 0.2
+ * @version ${global_wrapper_version}
  */
 public class ${project_midfix} {
 
@@ -130,7 +130,6 @@ $operation.Code
         MessageContext msgCtx = MessageContext.getCurrentMessageContext();
         Parameter patternParameter = msgCtx.getParameter(parm);
         String ptn = (String) patternParameter.getValue();
-        infolog("Parameter " + parm + " from services.xml: " + ptn);
         return ptn;
     }
 
@@ -149,6 +148,8 @@ $operation.Code
      * @param msg Message
      */
     private void errorlog(String msg) {
+        processing_returncode = 1;
+        logger.info("Service assigned error code 1");
         processing_log += "ERROR: " + msg + ".\n";
         processing_message = "Service request processing ended with an error";
         logger.error(msg);

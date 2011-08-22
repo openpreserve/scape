@@ -21,7 +21,7 @@ import org.apache.axis2.databinding.types.URI;
  * String utilities
  *
  * @author ${global_project_prefix} Project Consortium
- * @version 0.2
+ * @version ${global_wrapper_version}
  */
 public final class StringUtils {
 

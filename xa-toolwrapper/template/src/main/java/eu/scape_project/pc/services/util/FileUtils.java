@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * Some file utilities used by the client and service.
  *
  * @author ${global_project_prefix} Project Consortium
- * @version 0.2
+ * @version ${global_wrapper_version}
  */
 public final class FileUtils {
 
@@ -96,21 +96,19 @@ public final class FileUtils {
      * @param url URL where the input file is located
      * @return Result file
      */
-    public static File urlToFile(URL url, String ext) {
+    public static File urlToFile(URL url, String ext) throws IOException {
         File fOut = null;
-        try {
-            fOut = getTmpFile("fromurl", "."+ext);
+        
+        fOut = getTmpFile("fromurl", "."+ext);
 
-            URLConnection uc = url.openConnection();
-            logger.info("ContentType: " + uc.getContentType());
-            InputStream in = uc.getInputStream();
-            org.apache.commons.io.FileUtils.copyInputStreamToFile(in, fOut);
-            logger.info("File of length " + fOut.length() + " created from URL " + url.toString());
+        URLConnection uc = url.openConnection();
+        logger.info("ContentType: " + uc.getContentType());
+        InputStream in = uc.getInputStream();
+        org.apache.commons.io.FileUtils.copyInputStreamToFile(in, fOut);
+        logger.info("File of length " + fOut.length() + " created from URL " + url.toString());
 
-            in.close();
-        } catch (IOException ex) {
-            logger.error("I/O Exception occurred while trying to read from URL " + url.toString());
-        }
+        in.close();
+       
         return fOut;
     }
    

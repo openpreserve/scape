@@ -137,6 +137,7 @@ public class ToolWrapper {
                     + projMidfix
                     + ".wsdl";
             logger.debug("WSDL file: " + wsdlAbsPath);
+            st.processFile(new File(wsdlAbsPath));
 
             // service file
             String sjf = FileUtil.makePath(generatedDir, projDir,
