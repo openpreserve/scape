@@ -10,6 +10,7 @@ linere = re.compile(r'^(\d+)\s+(\w+)\(([^)]+)\)\s+\=\s*(.*)$')
 #close(3)                          = 0
 #fcntl(10, F_SETFD, FD_CLOEXEC)    = 0
 # but this is not a Killar.
+# ALSO, is stripping a zero from the end of files, which I assume is because the OSX style code is still being used and attempting to strip the end char \0
 
 def main():
   openfiles = dict()
@@ -22,7 +23,7 @@ def main():
         continue
       pid, command, args, results = mo.groups()
       if command == 'open' or command == 'open_nocancel':
-        fn = args.split(',', 1)[0].strip('"').rstrip('0').rstrip('\\')
+        fn = args.split(',', 1)[0].strip('"') #.rstrip('0').rstrip('\\')
         fd = int(results.split(' ', 1)[0])
         openfiles[fd] = fn
         #print "OPENED:",fn,fd

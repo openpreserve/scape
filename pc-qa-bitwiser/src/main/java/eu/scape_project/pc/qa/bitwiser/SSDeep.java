@@ -654,9 +654,10 @@ public class SSDeep {
 		SSDeep ssd = new SSDeep();
 		byte[] b2 = "Hello World how are you today...\n".getBytes();
 		byte[] b3 = "Helli".getBytes();
-		byte[] h1 = null;
-		//boolean t1 = ssd.fuzzy_hash_buf(b2, b2.length, h1);
-		//System.out.println("Got "+h1);
+		char[] h1 = null;
+		boolean t1 = ssd.fuzzy_hash_buf(b2, b2.length, h1);
+		System.out.println("Got "+h1);
 		ssd.fuzzy_hash_file(new File("test"));
+		//ssd.fuzzy_hash_file(new File("pom.xml"));
 	}
 }
