@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -32,7 +31,7 @@ import org.apache.velocity.app.Velocity;
  * source code content.
  * 
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public abstract class Code {
 

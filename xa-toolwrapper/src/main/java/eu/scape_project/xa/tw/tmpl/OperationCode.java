@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * engine. Evaluation is performed by applying the Velocity context to the
  * source code content.
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public class OperationCode extends Code {
 

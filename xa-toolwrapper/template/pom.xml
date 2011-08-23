@@ -9,6 +9,18 @@
 
     <name>${global_project_prefix} ${project_title} Version ${tool_version} Service</name>
 
+
+    <profiles>
+        <profile>
+            <id>d1</id>
+            <properties>
+                <tomcat.manager.url>http://localhost:8080/manager</tomcat.manager.url>
+                <tomcat.user>tomcat</tomcat.user>
+                <tomcat.user>TxF781!P</tomcat.user>
+            </properties>
+        </profile>
+    </profiles>
+    
     <build>
         <plugins>
 
@@ -64,9 +76,9 @@
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <version>1.1</version>
                 <configuration>
-                    <url>http://${tomcat_public_host}:${tomcat_public_http_port}/${tomcat_public_manager_context}</url>
-                    <username>${tomcat_public_manager_user}</username>
-                    <password>${tomcat_public_manager_pwd}</password>
+                    <url>${tomcat.manager.url}</url>
+                    <username>${tomcat.user}</username>
+                    <password>${tomcat.password}</password>
                 </configuration>
             </plugin>
         </plugins>

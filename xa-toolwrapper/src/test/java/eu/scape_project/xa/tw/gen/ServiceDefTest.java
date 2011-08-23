@@ -24,33 +24,33 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import eu.scape_project.xa.tw.gen.Tool;
+import eu.scape_project.xa.tw.gen.ServiceDef;
 
 /**
  *
  * @author onbscs
  */
-public class ToolTest {
+public class ServiceDefTest {
 
-    Tool tool1;
-    Tool tool2;
-    Tool tool3;
+    ServiceDef servicedef1;
+    ServiceDef servicedef2;
+    ServiceDef servicedef3;
 
-    public ToolTest() {
+    public ServiceDefTest() {
     }
 
     @Before
     public void setUp() {
-        tool1 = new Tool("OpenJPEG", "1.4");
-        tool2 = new Tool("Border Removal", "1.3.5");
-        tool3 = new Tool("Open Jpeg Conversion", "1.3.5");
+        servicedef1 = new ServiceDef("OpenJPEG", "1.4");
+        servicedef2 = new ServiceDef("Border Removal", "1.3.5");
+        servicedef3 = new ServiceDef("Open Jpeg Conversion", "1.3.5");
     }
 
     @After
     public void tearDown() {
-        tool1 = null;
-        tool2 = null;
-        tool3 = null;
+        servicedef1 = null;
+        servicedef2 = null;
+        servicedef3 = null;
     }
 
     /**
@@ -59,13 +59,13 @@ public class ToolTest {
     @Test
     public void testGetName() {
         String expResult1 = "OpenJPEG";
-        String result1 = tool1.getName();
+        String result1 = servicedef1.getName();
         assertEquals(expResult1, result1);
         String expResult2 = "BorderRemoval";
-        String result2 = tool2.getName();
+        String result2 = servicedef2.getName();
         assertEquals(expResult2, result2);
         String expResult3 = "OpenJpegConversion";
-        String result3 = tool3.getName();
+        String result3 = servicedef3.getName();
         assertEquals(expResult3, result3);
     }
 
@@ -75,13 +75,13 @@ public class ToolTest {
     @Test
     public void testGetVersion() {
         String expResult1 = "14";
-        String result1 = tool1.getVersion();
+        String result1 = servicedef1.getVersion();
         assertEquals(expResult1, result1);
         String expResult2 = "135";
-        String result2 = tool2.getVersion();
+        String result2 = servicedef2.getVersion();
         assertEquals(expResult2, result2);
         String expResult3 = "135";
-        String result3 = tool3.getVersion();
+        String result3 = servicedef3.getVersion();
         assertEquals(expResult3, result3);
     }
 
@@ -91,13 +91,13 @@ public class ToolTest {
     @Test
     public void testGetDirectory() {
         String expResult1 = "openjpeg14";
-        String result1 = tool1.getDirectory();
+        String result1 = servicedef1.getDirectory();
         assertEquals(expResult1, result1);
         String expResult2 = "borderremoval135";
-        String result2 = tool2.getDirectory();
+        String result2 = servicedef2.getDirectory();
         assertEquals(expResult2, result2);
         String expResult3 = "openjpegconversion135";
-        String result3 = tool3.getDirectory();
+        String result3 = servicedef3.getDirectory();
         assertEquals(expResult3, result3);
     }
 
@@ -107,13 +107,13 @@ public class ToolTest {
     @Test
     public void testGetMidfix() {
         String expResult1 = "OpenJPEG14";
-        String result1 = tool1.getMidfix();
+        String result1 = servicedef1.getMidfix();
         assertEquals(expResult1, result1);
         String expResult2 = "BorderRemoval135";
-        String result2 = tool2.getMidfix();
+        String result2 = servicedef2.getMidfix();
         assertEquals(expResult2, result2);
         String expResult3 = "OpenJpegConversion135";
-        String result3 = tool3.getMidfix();
+        String result3 = servicedef3.getMidfix();
         assertEquals(expResult3, result3);
     }
 

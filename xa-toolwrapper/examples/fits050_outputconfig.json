@@ -1,9 +1,0 @@
-{
-  "output": {
-    "Datatype": "xsd:anyURI",
-    "CliMapping": "OUTFILE",
-    "Extension": "xml",
-    "Required": "false",
-    "Documentation": "URL reference to output file"
-  }
-}

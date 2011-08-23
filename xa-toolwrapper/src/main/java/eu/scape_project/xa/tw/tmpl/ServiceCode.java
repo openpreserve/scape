@@ -16,12 +16,10 @@
  */
 package eu.scape_project.xa.tw.tmpl;
 
-import eu.scape_project.xa.tw.util.StringConverterUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.velocity.VelocityContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * engine. Evaluation is performed by applying the Velocity context to the
  * source code content.
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public class ServiceCode extends Code {
     

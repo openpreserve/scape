@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * GeneratorException
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public class GeneratorException extends Exception {
     private static Logger logger = LoggerFactory.getLogger(GeneratorException.class.getName());

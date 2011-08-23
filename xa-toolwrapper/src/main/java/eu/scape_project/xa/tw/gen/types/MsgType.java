@@ -18,7 +18,7 @@ package eu.scape_project.xa.tw.gen.types;
 /**
  * Message Type
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public enum MsgType {
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="c:\owndata\scape\toolspec.xsd">
+    <id>openjpeg</id>
+    <name>OpenJPEG</name>
+    <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
+    <version>1.4</version>
+    <services>
+        <service sid="1" name="OpenJPEG" type="migrate" servicepackage="eu.scape_project.pc.services">
+            <description>Service for converting a Grayscale/RGB TIFF image to JPEG2000 (JP2)</description>
+            <operations>
+                <operation oid="1" name="convertTiffImageToJp2">
+                    <description>Convert a Grayscale/RGB TIFF image to JP2 (Non Grayscale/RGB TIFF not supported!)</description>
+                    <command>image_to_j2k_v1_4 -i @INFILE@ -o @OUTFILE@ -r @COMPRESSION@ -t @TILESIZE@ -n @RESOLUTIONS@ -b @CODEBLOCKSIZE@ -p @PROGRESSIONORDER@</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://fue.onb.ac.at/scape/testdata/19080603_0018.tif</Default>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                        </input>
+                        <input name="compression">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <Default>20,10,1</Default>
+                            <CliMapping>COMPRESSION</CliMapping>
+                            <Documentation>Different compression ratios for successive layers - The rate specified for each quality level is the desired compression factor. Example: 20,10,1 means compress 20x, 10x, and lossless.</Documentation>
+                        </input>
+                        <input name="resolutions">
+                            <Datatype>xsd:int</Datatype>
+                            <Required>true</Required>
+                            <Default>3</Default>
+                            <CliMapping>RESOLUTIONS</CliMapping>
+                            <Documentation>Number of resolutions</Documentation>
+                        </input>
+                        <input name="tileSize">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <Default>512,512</Default>
+                            <CliMapping>TILESIZE</CliMapping>
+                            <Documentation>Size of tile, e.g. 512,512</Documentation>
+                        </input>
+                        <input name="codeBlockSize">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <Default>32,32</Default>
+                            <CliMapping>CODEBLOCKSIZE</CliMapping>
+                            <Documentation>Size of code block, e.g. 32,32</Documentation>
+                        </input>
+                        <input name="progressionOrder">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <Default>LRCP</Default>
+                            <CliMapping>PROGRESSIONORDER</CliMapping>
+                            <Documentation>Progression order, e.g. LRCP, one of LRCP, RLCP, RPCL, PCRL, CPRL</Documentation>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>OUTFILE</CliMapping>
+                            <Required>false</Required>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>jp2</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+            </operations>
+            <deploymentKeys>
+                <deploymentKey ref="d1"/>
+            </deploymentKeys>
+            <filterKeys>
+                <filterKey ref="f1"/>
+            </filterKeys>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="d1">
+            <identifier>http://localhost:8080/scape/default/tomcat</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>TxF781!P</password>
+            </manager>
+            <dataexchange>
+                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+    <filters id="f1">
+        <filter>^(https?)://([a-zA-Z\\.]{1,20})([:]?)([0-9]{0,4})([a-zA-Z0-9-_/]{1,200})([\\.]?)([a-z]){0,4}</filter>
+    </filters>
+</toolspec>

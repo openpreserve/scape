@@ -20,19 +20,19 @@ import java.util.StringTokenizer;
 /**
  * Tool
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
-public class Tool {
+public class ServiceDef {
 
     private String name;
     private String version;
     private String midfix;
     private String directory;
 
-    private Tool() {
+    private ServiceDef() {
     }
 
-    public Tool(String name, String version) {
+    public ServiceDef(String name, String version) {
         this.name = getCleanName(name);
         this.version = getCleanVersion(version);
         midfix = getMidfixByNameAndVersion();

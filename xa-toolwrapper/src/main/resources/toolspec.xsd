@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="version" type="xs:double"/>
+	<xs:element name="user" type="xs:string"/>
+	<xs:element name="toolspec">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="id"/>
+				<xs:element ref="name"/>
+				<xs:element ref="homepage"/>
+				<xs:element ref="version"/>
+				<xs:element ref="services"/>
+				<xs:element ref="deployments"/>
+				<xs:element ref="filters"/>
+			</xs:sequence>
+			<xs:attribute name="model" type="xs:double" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="services">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="service" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deploymentKey">
+		<xs:complexType>
+			<xs:attribute name="ref" type="xs:IDREF"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deploymentKeys">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="deploymentKey" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="filterKey">
+		<xs:complexType>
+			<xs:attribute name="ref" type="xs:IDREF"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="filterKeys">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="filterKey" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="service">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="description"/>
+				<xs:element ref="operations"/>
+				<xs:element ref="deploymentKeys"/>
+				<xs:element ref="filterKeys"/>
+			</xs:sequence>
+			<xs:attribute name="type" type="xs:string" use="required"/>
+			<xs:attribute name="servicepackage" type="xs:string" use="required"/>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="id" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ports">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="port" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="port">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:int">
+					<xs:attribute name="type" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="password" type="xs:string"/>
+	<xs:element name="outputs">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="output" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="output">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Datatype"/>
+				<xs:element ref="CliMapping"/>
+				<xs:element ref="Required"/>
+				<xs:element ref="Documentation"/>
+				<xs:element name="PrefixFromInput" type="xs:string"/>
+				<xs:element name="Extension" type="xs:string"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="operations">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="operation"  minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="operation">
+		<xs:complexType>
+			<xs:sequence>
+                                <xs:element name="description" type="xs:string"/>
+				<xs:element ref="command"/>
+				<xs:element ref="inputs"/>
+				<xs:element ref="outputs"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="oid" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="name" type="xs:string"/>
+	<xs:element name="manager">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="user"/>
+				<xs:element ref="password"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="inputs">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="input" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="input">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Datatype"/>
+				<xs:element ref="Required"/>
+				<xs:element ref="Default"/>
+				<xs:element ref="CliMapping"/>
+				<xs:element ref="Documentation"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="identifier" type="xs:string"/>
+	<xs:element name="id" type="xs:ID"/>
+	<xs:element name="host" type="xs:string"/>
+	<xs:element name="homepage" type="xs:string"/>
+	<xs:element name="description" type="xs:string"/>
+	
+	<xs:element name="deployments">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="deployment" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deployment">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="identifier"/>
+				<xs:element ref="host"/>
+				<xs:element ref="ports"/>
+				<xs:element ref="manager"/>
+				<xs:element ref="dataexchange"/>
+			</xs:sequence>
+			<xs:attribute name="ref" type="xs:string"/>
+			<xs:attribute name="id" type="xs:ID"/>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="filters">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="filter" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="dataexchange">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="accessdir"/>
+				<xs:element ref="accessurl"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="command" type="xs:string"/>
+	<xs:element name="accessurl" type="xs:string"/>
+	<xs:element name="accessdir" type="xs:string"/>
+	<xs:element name="Required" type="xs:string"/>
+	<xs:element name="Documentation" type="xs:string"/>
+	<xs:element name="Default" type="xs:string"/>
+	<xs:element name="Datatype" type="xs:string"/>
+	<xs:element name="CliMapping" type="xs:string"/>
+</xs:schema>

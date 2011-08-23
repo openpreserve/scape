@@ -23,11 +23,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import eu.scape_project.xa.tw.util.StringConverterUtil;
+import org.apache.velocity.VelocityContext;
 
 /**
  * PropertiesSubstitutor
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public class PropertiesSubstitutor extends Substitutor {
 
@@ -35,7 +36,7 @@ public class PropertiesSubstitutor extends Substitutor {
     private PropertyUtil pu;
     private String templateDir;
     private String generateDir;
-    private Tool tool;
+    private ServiceDef serviceDef;
 
     /**
      * Default constructor
@@ -48,18 +49,17 @@ public class PropertiesSubstitutor extends Substitutor {
      * and creates the substitution variable map.
      * @throws GeneratorException
      */
-    public PropertiesSubstitutor(String propertiesFileStr) throws GeneratorException {
+    public PropertiesSubstitutor(String propertiesAbsPath) throws GeneratorException {
         super();
         try {
-            pu = new PropertyUtil(propertiesFileStr);
-            tool = new Tool(pu.getProp("project.title"), pu.getProp("tool.version"));
+            pu = new PropertyUtil(propertiesAbsPath);
         } catch (GeneratorException ex) {
             throw new GeneratorException("Unable to load properties.");
         }
 
         templateDir = pu.getProp("project.template.dir");
         generateDir = pu.getProp("project.generate.dir");
-
+        
         // Substitution variables
         Map<String, String> map = pu.getKeyValuePairs();
         Set propertySet = map.entrySet();
@@ -68,46 +68,48 @@ public class PropertiesSubstitutor extends Substitutor {
             String key = (String) entry.getKey();
             String val = (String) entry.getValue();
             this.putKeyValuePair(key, val);
-            addDerivedVariables(key, val);
-        }
-    }
-    
-
-    /**
-     * Add variables that can be de derived from property values.
-     * Note that velocity context variables have an underscore (_) instead of
-     * the dot (.) as the string parts separator sign!
-     * @param key property where value is derived from
-     * @param val derived value
-     */
-    private void addDerivedVariables(String key, String val) {
-        if (key.equals("project.title")) {
-            this.putKeyValuePair("project_midfix", tool.getMidfix());
-            logger.debug("Note: Velocity variable \"project_midfix\" is derived from property \"project.title\"");
-            this.putKeyValuePair("project_midfix_lc", tool.getDirectory());
-            logger.debug("Note: Velocity variable \"project_midfix_lc\" is derived from property \"project.title\"");
-        } else if (key.equals("global.package.name")) {
-            String projectPackagePath = StringConverterUtil.packageNameToPackagePath(val);
-            this.putKeyValuePair("project_package_path", projectPackagePath);
-            logger.debug("Note: Velocity variable \"project_package_path\" is derived from property \"global.package.name\"");
-            String projectNamespace = StringConverterUtil.packageNameToNamespace(val);
-            this.putKeyValuePair("project_namespace", projectNamespace);
-            logger.debug("Note: Velocity variable \"project_namespace\" is derived from property \"global.package.name\"");
-        } else if (key.equals("global.project.prefix")) {
-            String globalProjectPrefixLc = val.toLowerCase();
-            this.putKeyValuePair("global_project_prefix_lc", globalProjectPrefixLc);
-            logger.debug("Note: Velocity variable \"global_project_prefix_lc\" is derived from property \"global.project.prefix\"");
         }
     }
 
-    public void addKeyValuePair(String key, String val) {
+    public void addVariable(String key, String val) {
         this.putKeyValuePair(key, val);
+    }
+
+    public void deriveVariables() throws GeneratorException {
+        if(serviceDef == null) {
+            throw new GeneratorException("Service definition missing, unable "
+                    + "to derive variables");
+        }
+        VelocityContext vc = getContext();
+        Object[] keys = (Object[]) vc.getKeys();
+        for (Object key : keys) {
+            String keyStr = (String)key;
+            String val =  (String) vc.get(keyStr);
+            if (key.equals("project_title")) {
+                this.putKeyValuePair("project_midfix", serviceDef.getMidfix());
+                logger.debug("Note: Velocity variable \"project_midfix\" is derived from property \"project.title\"");
+                this.putKeyValuePair("project_midfix_lc", serviceDef.getDirectory());
+                logger.debug("Note: Velocity variable \"project_midfix_lc\" is derived from property \"project.title\"");
+            } else if (key.equals("global_package_name")) {
+                String projectPackagePath = StringConverterUtil.packageNameToPackagePath(val);
+                this.putKeyValuePair("project_package_path", projectPackagePath);
+                logger.debug("Note: Velocity variable \"project_package_path\" is derived from property \"global.package.name\"");
+                String projectNamespace = StringConverterUtil.packageNameToNamespace(val);
+                this.putKeyValuePair("project_namespace", projectNamespace);
+                logger.debug("Note: Velocity variable \"project_namespace\" is derived from property \"global.package.name\"");
+            } else if (key.equals("global_project_prefix")) {
+                String globalProjectPrefixLc = val.toLowerCase();
+                this.putKeyValuePair("global_project_prefix_lc", globalProjectPrefixLc);
+                logger.debug("Note: Velocity variable \"global_project_prefix_lc\" is derived from property \"global.project.prefix\"");
+            }
+        }
+
     }
 
     @Override
     public void processFile(File path) {
         String trgtFilePath = replaceVars(path.getPath());
-        trgtFilePath = trgtFilePath.replace(pu.getProp("project.template.dir"), pu.getProp("project.generate.dir") + "/" + tool.getDirectory());
+        trgtFilePath = trgtFilePath.replace(pu.getProp("project.template.dir"), pu.getProp("project.generate.dir") + "/" + serviceDef.getDirectory());
         String trgtDirStr = trgtFilePath.substring(0, trgtFilePath.lastIndexOf(File.separator));
         FileUtil.mkdirs(new File(trgtDirStr));
         trgtFilePath = replaceVars(trgtFilePath);
@@ -121,7 +123,6 @@ public class PropertiesSubstitutor extends Substitutor {
     public String getGlobalProjectPrefix() {
         return pu.getProp("global.project.prefix");
     }
-
     /**
      * Getter for the resources directory
      * @return resources directory
@@ -129,15 +130,13 @@ public class PropertiesSubstitutor extends Substitutor {
     public String getProjectResourcesDir() {
         return pu.getProp("project.resources.dir");
     }
-
     /**
      * Getter for the library directory
      * @return library directory
      */
-    public String getProjectLibDir() {
-        return pu.getProp("project.lib.dir");
-    }
-
+//    public String getProjectLibDir() {
+//        return pu.getProp("project.lib.dir");
+//    }
     /**
      * Getter for the template directory
      * @return template directory
@@ -145,7 +144,6 @@ public class PropertiesSubstitutor extends Substitutor {
     public String getTemplateDir() {
         return templateDir;
     }
-
     /**
      * Getter for the generated directory
      * @return the generated directory
@@ -153,31 +151,27 @@ public class PropertiesSubstitutor extends Substitutor {
     public String getGenerateDir() {
         return generateDir;
     }
-
     /**
      * Getter for the project midfix (e.g. SomeTool)
      * @return project midfix
      */
     public String getProjectMidfix() {
-        return tool.getMidfix();
+        return serviceDef.getMidfix();
     }
-
     /**
      * Getter for the project midfix (e.g. SomeTool)
      * @return project midfix
      */
-    public String getProjectVersion() {
-        return tool.getVersion();
-    }
-
+//    public String getProjectVersion() {
+//        return servicedef.getVersion();
+//    }
     /**
      * Getter for the project midfix (e.g. SomeTool)
      * @return project midfix
      */
     public String getProjectDirectory() {
-        return tool.getDirectory();
+        return serviceDef.getDirectory();
     }
-
     /**
      * Getter for the property utils
      * @return property utils
@@ -185,39 +179,34 @@ public class PropertiesSubstitutor extends Substitutor {
     public PropertyUtil getPropertyUtils() {
         return pu;
     }
-
     /**
      * Getter for the project midfix (e.g. SomeTool)
      * @return project midfix
      */
     public String getProjectPackagePath() {
-        String ppp = (String)this.getContext().get("project_package_path");
+        String ppp = (String) this.getContext().get("project_package_path");
         return ppp;
     }
-
     /**
      * Getter for the project midfix (e.g. SomeTool)
      * @return project midfix
      */
-    public String getProjectNamespace() {
-        String pn = (String)this.getContext().get("project_namespace");
-        return pn;
-    }
-
+//    public String getProjectNamespace() {
+//        String pn = (String) this.getContext().get("project_namespace");
+//        return pn;
+//    }
     /**
-     * @return the tool
+     * @return the servicedef
      */
-    public Tool getTool() {
-        return tool;
-    }
-
+//    public ServiceDef getServiceDef() {
+//        return servicedef;
+//    }
     /**
-     * @param tool the tool to set
+     * @param servicedef the servicedef to set
      */
-    public void setTool(Tool tool) {
-        this.tool = tool;
-    }
-
+//    public void setServiceDef(ServiceDef servicedef) {
+//        this.servicedef = servicedef;
+//    }
     /**
      * Note that the properties are dot separated like defined in the properties
      * file (e.g. some.variable=value).
@@ -237,10 +226,28 @@ public class PropertiesSubstitutor extends Substitutor {
      * @return Value
      */
     public String getContextProp(String string) {
-        if(this.getContext() != null) {
-            return (String)this.getContext().get(string);
+        if (this.getContext() != null) {
+            return (String) this.getContext().get(string);
         } else {
             return "NULL";
         }
+    }
+
+    /**
+     * @return the serviceDef
+     */
+    public ServiceDef getServiceDef() {
+        return serviceDef;
+    }
+
+    /**
+     * @param serviceDef the serviceDef to set
+     */
+    public void setServiceDef(ServiceDef serviceDef) {
+        this.serviceDef = serviceDef;
+    }
+
+    public void printContext() {
+        getContext().toString();
     }
 }

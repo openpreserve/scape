@@ -34,7 +34,7 @@ import org.apache.velocity.exception.VelocityException;
  * Test class for the template-based service code generator.
  * 
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public class TestServiceCodeTemplate extends TestCase {
 
@@ -71,7 +71,7 @@ public class TestServiceCodeTemplate extends TestCase {
     public void testTemplateEvaluation() throws IOException, VelocityException {
 
         ServiceCode sc = new ServiceCode(serviceTmpl);
-        
+
         OperationCode operation1 = new OperationCode(operationTmpl, 1);
         operation1.setOperationName("doSomething");
         operation1.put("operationname", operation1.getOperationName() );
@@ -92,7 +92,7 @@ public class TestServiceCodeTemplate extends TestCase {
         operation2.put("parameters", operation2.getParametersCsList());
         operation2.evaluate();
         sc.addOperation(operation2);
-        
+
         sc.put("operations", sc.getOperations());
 
         sc.evaluate();

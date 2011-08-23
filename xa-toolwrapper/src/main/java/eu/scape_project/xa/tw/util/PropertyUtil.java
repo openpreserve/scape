@@ -17,10 +17,8 @@
 
 package eu.scape_project.xa.tw.util;
 
-import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -31,7 +29,7 @@ import eu.scape_project.xa.tw.gen.GeneratorException;
 /**
  * PropertyUtils
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public class PropertyUtil {
 

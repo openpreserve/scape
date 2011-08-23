@@ -1,4 +1,4 @@
-Tool Wrapper v0.2
+Tool Wrapper v0.3
 =================
 
 Quick start
@@ -53,7 +53,7 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
        mvn tomcat:deploy
 
    In case of success, the web application archive
-   generated/simplecopy10/target/scape-simplecopy10-service-0.2-SNAPSHOT.war
+   generated/simplecopy10/target/scape-simplecopy10-service-0.3-SNAPSHOT.war
    will be deployed to
 
        http://localhost:8080/scape-simplecopy10-service
@@ -172,36 +172,13 @@ Create a new project
 
 1) Configure the project by creating configuration files:
 
-   a) default.properties
-      Project configuration file defining name of the project context,
-      name of the tool the web service provides access to, server
-      parameters for deploying the service, etc. The server settings in the
-      default.properties file correspond to the deployment environment that
-      is included.
+   a) toolwrapper.properties
+      Project configuration file defining the main project generation properties
+      that will be used for all tools and services.
 
-   b) default_inputconfig.json and default_outputconfig.json
-      Input and output data type configuration files, see also other example files
-      *_inputconfig.json and *_outputconfig.json available in the root folder.
-      The following properties can be defined for each variable:
-      - Datatype - one of xsd:anyURI, xsd:string, xsd:boolean, xsd:int (required)
-      - Restriction - An array of allowed values, e.g. ["One","Two","Three"] (optional)
-      - CliMapping - Mapping to command line pattern variable, see property
-            service.operation.1.clicmd in default.properties
-      - ServiceResult - Some variables are provided by the service and can be
-            mapped to an output port (data types have to be the same):
-            - processing_success (boolean) - success/failure of service execution
-            - processing_returncode (int) - 0 for success >0 if an error occurred
-            - processing_message (String)  - service execution message
-            - processing_log (String) - service execution log
-            - processing_time (int) - processing time in milliseconds
-            - processing_unitid (String) - Processing unit identifier
-      - Default - Default value if using an array of allowed values, see property
-            "Restriction" above (optional)
-      - Cardinality - Use "list" for a string list input, the property
-            defaults to "single" if omitted.
-      - Documentation - Documentation for the variable
-      - PrefixFromInput - Only for file outputs (xsd:anyURI): Indicate the input
-            file variable which should be used as a prefix for the output filename.
+   b) default.xml
+      Tool, service and service input/output data type defintions which must
+      comply with the toolspec.xsd schema.
 
    See the "examples" folder which contains more configuration files.
 
@@ -211,27 +188,16 @@ Create a new project
 
    or indicating the configuration files to be used:
 
-       java -jar toolwrapper.jar -pc default.properties -ic default_inputconfig.json -oc default_outputconfig.json [-ic default_inputconfig2.json -oc default_outputconfig2.json ...]
+       java -jar toolwrapper.jar -pc toolwrapper.properties -xc default.xml
 
    where:
 
        -pc specifies the file that contains the project configuration
-       -ic specifies the file that contains the configuration of the input ports
-       -oc specifies the file that contains the configuration of the output ports
+       -xc Tool, service and service input/output data type defintions
 
-   It is possible to define multiple operations, in this case multiple command
-   line interface commands are defined in the project configuration, for example:
-
-       service.operation.1=simplyCopy
-       service.operation.1.description=Copy a source file to a target file
-       service.operation.1.clicmd=cp @INFILE@ @OUTFILE@
-       service.operation.2=verboseCopy
-       service.operation.2.description=Copy a directorya source file to a target file
-       service.operation.2.clicmd=cp @INFILE@ @OUTFILE@ --verbose
-
-   and for each operation one input and one output configuration file is defined:
-
-       java -jar toolwrapper.jar -pc default.properties -ic inputconfig_operation1.json -oc outputconfig_operation1.json -ic inputconfig_operation2.json -oc outputconfig_operation2.json
+   It is possible to define multiple services for each tool, and each service
+   can have multiple operations which correspond to specific commands. Some
+   examples of tool configuration files are provided in the "examples" directory.
 
    The project will be created in the "generated" folder, the name of the project
    folder being derived from the project.title property defined in the project
@@ -242,14 +208,21 @@ Create a new project
 Project structure
 -----------------
 
+- examples
+  Example tool configuration files
+
+- generated
+  The default directory where projects will be created (can be configured in
+  the toolwrapper.properties file)
+
 - tmpl
   Code templates used for code insertion.
 
-- examples
-  Example configuration files.
-
 - generated
   Folder where the generated SOAP web service wrapper projects will be stored.
+
+- logs
+  The log files will be stored in this folder
 
 - src
   Java sources of the Tool Wrapper
@@ -263,20 +236,18 @@ Project structure
 - toolwrapper.jar
   Java binary executable (execute "java -jar toolwrapper.jar")
 
-- default.properties
+- toolwrapper.properties
   Project configuration file
 
-- default_inputconfig.json
-  Input data types configuration file
+- default.xml
+  Example for tool, service and service input/output data type defintions which
+  is used by default and corresponds to the "copy" command.
 
 - LICENSE
   Apache 2 license
 
-- default_outputconfig.json
-  Output data types configuration file
-
 - pom.xml
-  Maven file
+  Maven project configuration file
 
 - README
   This file
@@ -284,13 +255,8 @@ Project structure
 Requirements
 ------------
 
-In order to build and run the web service, you will need the Java SE
-Development Kit (JDK) version >=1.6.0, the underlying command line tool
-installed on the deployment server (no white spaces in the path!) and an
-Apache Tomcat version >=6.0.18 or equivalent servlet container with the Axis2
-version >=1.4.1 web application deployed. Apache Ant version >= 1.8.0 is
-required to build and deploy the web service. See section "Requirements" for
-further information.
+You need at least the Java SE Development Kit (JDK) version >=1.6.0 and Apache
+Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
 
 If you want to create a web service for an existing command line application
 using this java based tool web service wrapper, the following software is

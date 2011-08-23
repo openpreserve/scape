@@ -16,22 +16,33 @@
 package eu.scape_project.xa.tw.cli;
 
 import eu.scape_project.xa.tw.conf.Configuration;
-import eu.scape_project.xa.tw.gen.OperationsIterator;
 import java.io.File;
-import java.util.Iterator;
+import java.util.logging.Level;
+import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import eu.scape_project.xa.tw.gen.GeneratorException;
-import eu.scape_project.xa.tw.gen.types.IOType;
-import eu.scape_project.xa.tw.gen.types.MsgType;
-import eu.scape_project.xa.tw.util.FileUtil;
 import eu.scape_project.xa.tw.gen.PropertiesSubstitutor;
-import eu.scape_project.xa.tw.gen.InOutConfigParser;
+import eu.scape_project.xa.tw.gen.ServiceCodeCreator;
+import eu.scape_project.xa.tw.gen.ServiceDef;
 import eu.scape_project.xa.tw.gen.WsdlCreator;
-import eu.scape_project.xa.tw.tmpl.OperationCode;
+import eu.scape_project.xa.tw.gen.types.MsgType;
 import eu.scape_project.xa.tw.tmpl.ServiceCode;
 import eu.scape_project.xa.tw.tmpl.ServiceXml;
-import eu.scape_project.xa.tw.tmpl.ServiceXmlOp;
+import eu.scape_project.xa.tw.toolspec.Deployment;
+import eu.scape_project.xa.tw.toolspec.DeploymentKey;
+import eu.scape_project.xa.tw.toolspec.DeploymentKeys;
+import eu.scape_project.xa.tw.toolspec.Input;
+import eu.scape_project.xa.tw.toolspec.Operation;
+import eu.scape_project.xa.tw.toolspec.Service;
+import eu.scape_project.xa.tw.toolspec.Services;
+import eu.scape_project.xa.tw.toolspec.Toolspec;
+import eu.scape_project.xa.tw.util.FileUtil;
+import java.io.IOException;
+import java.util.List;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Unmarshaller;
 
 /**
  * Command line interface of the tool wrapper.
@@ -39,7 +50,7 @@ import eu.scape_project.xa.tw.tmpl.ServiceXmlOp;
  * a soap/rest web service.
  *
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public class ToolWrapper {
 
@@ -70,23 +81,13 @@ public class ToolWrapper {
                 if ((i + 1) < args.length) {
                     argval = args[i + 1];
                 }
-
-                // input configuration
-                if (arg.equals("-ic") && argval != null) {
-                    currOpid++;
-                    ioc.setCurrOpid(currOpid);
-                    ioc.setCurrInConf(argval);
-                }
-                // output configuration
-                if (arg.equals("-oc") && argval != null) {
-                    ioc.setCurrOutConf(argval);
-                }
                 // project configuration
                 if (arg.equals("-pc") && argval != null) {
                     ioc.setProjConf(argval);
                 }
-                if (ioc.hasInOutConf()) {
-                    ioc.addIoConfiguration();
+                // xml configuration
+                if (arg.equals("-xc") && argval != null) {
+                    ioc.setXmlConf(argval);
                 }
             }
         }
@@ -105,144 +106,100 @@ public class ToolWrapper {
         if (args.length == 0) {
             logger.info("Reading default configuration files from working "
                     + "directory ...");
-            ioc.setCurrOpid(1);
-            ioc.setCurrInConf("default_inputconfig.json");
-            ioc.setCurrOutConf("default_outputconfig.json");
-            ioc.setProjConf("default.properties");
-            if (ioc.hasInOutConf()) {
-                ioc.addIoConfiguration();
-            }
+            ioc.setXmlConf("default.xml");
+            ioc.setProjConf("toolwrapper.properties");
             logger.info("Use arguments:");
-            logger.info("-pc <default.properties> -ic <inputconfig1.json> -oc "
-                    + "<outputconfig1.json> [-ic <inputconfig2.json> -oc "
-                    + "<outputconfig2.json> ...]");
+            logger.info("-pc <toolwrapper.properties> -xc <toolspec.xml>");
             logger.info("in order to load other configuration files.");
         } else {
             initParamsFromArgs(args);
         }
-
-        logger.debug("Initialising project properties and substitution variable "
-                + "context ...");
-        PropertiesSubstitutor st = new PropertiesSubstitutor(ioc.getProjConf());
-        File dir = new File(st.getTemplateDir());
-        try {
-            st.processDirectory(dir);
-            String generatedDir = st.getGenerateDir();
-            String projMidfix = st.getProjectMidfix();
-            String projDir = st.getProjectDirectory();
-
-            // wsdl file
-            String wsdlAbsPath = FileUtil.makePath(generatedDir, projDir,
-                    "src", "main", "webapp")
-                    + projMidfix
-                    + ".wsdl";
-            logger.debug("WSDL file: " + wsdlAbsPath);
-            st.processFile(new File(wsdlAbsPath));
-
-            // service file
-            String sjf = FileUtil.makePath(generatedDir, projDir,
-                    "src", "main", "java", st.getProjectPackagePath())
-                    + projMidfix
-                    + ".java";
-            logger.debug("Initialising service file: " + sjf);
-            InOutConfigParser ioCfgParser = new InOutConfigParser();
-
-            // service java code template
-            String serviceTmpl = st.getProp("project.template.service");
-            // service operation java code template
-            String operationTmpl = st.getProp("project.template.operation");
-            ServiceCode sc = new ServiceCode(serviceTmpl);
-
-            // service xml template
-            ServiceXml sxml = new ServiceXml("tmpl/servicexml.vm");
-            sxml.put(st.getContext());
-
-            OperationsIterator oi = new OperationsIterator(st);
-            Iterator itr = oi.iterator();
-
-            while (itr.hasNext()) {
-
-                // operation number
-                Integer opnum = ((Integer) itr.next());
-                int opn = opnum.intValue();
-
-                // create WSDL
-                logger.debug("Inserting data types in WSDL ...");
-                WsdlCreator respSdc = new WsdlCreator(st,
-                        MsgType.REQUEST, wsdlAbsPath, ioc.getInCfgFile(opn), wsdlAbsPath, opn);
-                respSdc.insertDataTypes();
-                WsdlCreator reqSdc = new WsdlCreator(st,
-                        MsgType.RESPONSE, wsdlAbsPath, ioc.getOutCfgFile(opn), wsdlAbsPath, opn);
-                reqSdc.insertDataTypes();
-
-                if (st.getProjectPackagePath() == null || st.getProjectPackagePath().equals("")) {
-                    throw new GeneratorException("Project package path is not defined!");
-                }
-
-                // Create service operation
-                OperationCode oc = new OperationCode(operationTmpl, opn);
-                String operationName = st.getProp("service.operation." + opn);
-                oc.setOperationName(operationName);
-                oc.put("operationname", oc.getOperationName());
-                // add main project properties velocity context
-                oc.put(st.getContext());
-               
-                ioCfgParser.setCurrentOperation(oc);
-
-                // Input code section
-                logger.debug("Creating input code section ...");
-                ioCfgParser.apply(ioc.getInCfgFile(opn), IOType.INPUT);
-
-                // Output code section
-                logger.debug("Creating output code section ...");
-                ioCfgParser.apply(ioc.getOutCfgFile(opn), IOType.OUTPUT);
-
-                oc.put("inputsection", oc.getInputSection());
-                oc.put("outputsection", oc.getOutputSection());
-                
-                oc.put("servicename", st.getContextProp("project_midfix"));
-                oc.put("project_namespace", st.getContextProp("project_namespace"));
-
-                oc.put("outfileitems", oc.getOutFileItems());
-                oc.put("resultelements", oc.getResultElements());
-
-                String ops = opnum.toString();
-                oc.put("opid", ops);
-                oc.evaluate();
-
-                sc.addOperation(oc);
-
-                ServiceXmlOp sxmlop = new ServiceXmlOp("tmpl/servicexmlop.vm");
-                sxmlop.put("operationname", oc.getOperationName());
-                String clicmd = st.getProp("service.operation." + opn+ ".clicmd");
-                sxmlop.put("clicmd", clicmd);
-                sxmlop.put("opid", String.valueOf(opn));
-
-                sxmlop.evaluate();
-
-                sxml.addOperation(sxmlop);
-            }
-
-            logger.debug("Writing service file: " + sjf);
-            // add project properties velocity context
-            sc.put(st.getContext());
-            sc.put("operations", sc.getOperations());            
-            sc.create(sjf);
-            String sxmlFile = FileUtil.makePath(generatedDir, projDir,
-                    "src/main/webapp/WEB-INF/services",st.getProjectMidfix(),
-                    "META-INF")+"services.xml";
-
-            // adding operations to services.xml
-            sxml.put("servxmlops", sxml.getOperations());
-            logger.debug("Writing services.xml file: " + sxmlFile);
-
-            sxml.create(sxmlFile);
-            
-            logger.info("Project created in in \"" + FileUtil.makePath(generatedDir, projDir) + "\"");
-
-        } catch (Exception ex) {
-            logger.error("Unable to generate project: " + ex.getMessage(), ex);
-            throw new GeneratorException("An error occurred, the project has not been created successfully.");
+        if (!ioc.hasConfig()) {
+            throw new GeneratorException("No configuration available.");
         }
+        JAXBContext context;
+        try {
+            context = JAXBContext.newInstance("eu.scape_project.xa.tw.toolspec");
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            Toolspec toolspec = (Toolspec) unmarshaller.unmarshal(new File(ioc.getXmlConf()));
+            // general tool specification properties
+            logger.info("Toolspec model: " + toolspec.getModel());
+            logger.info("Tool id: " + toolspec.getId());
+            logger.info("Tool name: " + toolspec.getName());
+            logger.info("Tool version: " + toolspec.getVersion());
+
+            List<Service> services = toolspec.getServices().getService();
+            // for each service a different maven project will be generated
+            for (Service service : services) {
+                createService(service, toolspec.getVersion());
+            }
+        } catch (IOException ex) {
+            java.util.logging.Logger.getLogger(ToolWrapper.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JAXBException ex) {
+            throw new GeneratorException("Unable to create XML binding for toolspec");
+        }
+    }
+
+    private static void createService(Service service, double toolVersion) throws GeneratorException, IOException {
+        logger.info("Service id: " + service.getId());
+        logger.info("Service name: " + service.getName());
+        logger.info("Service type: " + service.getType());
+        // Properties substitutor is created for each service
+        PropertiesSubstitutor st = new PropertiesSubstitutor(ioc.getProjConf());
+        // Service name is composed of Service Name and Tool Version
+        ServiceDef sdef = new ServiceDef(service.getName(), Double.toString(toolVersion));
+        st.setServiceDef(sdef);
+        st.addVariable("tool_version", sdef.getVersion());
+        st.addVariable("project_title", sdef.getName());
+        st.addVariable("global_package_name", service.getServicepackage());
+        st.deriveVariables();
+        File dir = new File(st.getTemplateDir());
+        st.processDirectory(dir);
+        String generatedDir = st.getGenerateDir();
+        String projMidfix = st.getProjectMidfix();
+        String projDir = st.getProjectDirectory();
+
+        // service wsdl
+        String wsdlAbsPath = FileUtil.makePath(generatedDir, projDir,
+                "src", "main", "webapp")
+                + projMidfix + ".wsdl";
+        logger.debug("WSDL file: " + wsdlAbsPath);
+        st.processFile(new File(wsdlAbsPath));
+
+        List<Operation> operations = service.getOperations().getOperation();
+        WsdlCreator wsdlCreator = new WsdlCreator(st, wsdlAbsPath, operations);
+        wsdlCreator.insertDataTypes();
+
+        // service code
+        String sjf = FileUtil.makePath(generatedDir, projDir,
+                "src", "main", "java", st.getProjectPackagePath())
+                + projMidfix
+                + ".java";
+        logger.debug("Initialising service file: " + sjf);
+        String serviceTmpl = st.getProp("project.template.service");
+        // service operation java code template
+        ServiceCode sc = new ServiceCode(serviceTmpl);
+        // service xml
+        ServiceXml sxml = new ServiceXml("tmpl/servicexml.vm");
+        sxml.put(st.getContext());
+        ServiceCodeCreator scc = new ServiceCodeCreator(st, sc, sxml, operations);
+        scc.createOperations();
+
+        logger.debug("Writing service file: " + sjf);
+        // add project properties velocity context
+        sc.put(st.getContext());
+        sc.put("operations", sc.getOperations());
+        sc.create(sjf);
+        String sxmlFile = FileUtil.makePath(generatedDir, projDir,
+                "src/main/webapp/WEB-INF/services", st.getProjectMidfix(),
+                "META-INF") + "services.xml";
+
+        // adding operations to services.xml
+        sxml.put("servxmlops", sxml.getOperations());
+        logger.debug("Writing services.xml file: " + sxmlFile);
+
+        sxml.create(sxmlFile);
+
+        logger.info("Project created in in \"" + FileUtil.makePath(generatedDir, projDir) + "\"");
     }
 }

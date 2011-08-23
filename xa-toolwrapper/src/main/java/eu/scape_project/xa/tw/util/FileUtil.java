@@ -18,21 +18,11 @@
 
 package eu.scape_project.xa.tw.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +30,7 @@ import org.slf4j.LoggerFactory;
  * These are generic file utilities used by the client and service.
  * @author Thomas Kraemer
  * @author shsdev https://github.com/shsdev
- * @version 0.2
+ * @version 0.3
  */
 public final class FileUtil {
 
