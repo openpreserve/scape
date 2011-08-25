@@ -11,6 +11,6 @@ $servxmlop.Code
     <parameter name="processingUnit">${tomcat_public_procunitid}</parameter>
     <parameter name="publicHttpAccessDir">${tomcat_public_http_access_dir}</parameter>
     <parameter name="publicHttpAccessUrl">${tomcat_public_http_access_url}</parameter>
-    <parameter name="serviceUrlFilter">${service_url_filter}</parameter>
+    <parameter name="serviceUrlFilter">${url_filter}</parameter>
   </service>
 </serviceGroup>

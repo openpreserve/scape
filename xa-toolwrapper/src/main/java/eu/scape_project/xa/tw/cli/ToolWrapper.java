@@ -22,26 +22,20 @@ import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import eu.scape_project.xa.tw.gen.GeneratorException;
+import eu.scape_project.xa.tw.gen.DeploymentCreator;
 import eu.scape_project.xa.tw.gen.PropertiesSubstitutor;
 import eu.scape_project.xa.tw.gen.ServiceCodeCreator;
 import eu.scape_project.xa.tw.gen.ServiceDef;
 import eu.scape_project.xa.tw.gen.WsdlCreator;
-import eu.scape_project.xa.tw.gen.types.MsgType;
 import eu.scape_project.xa.tw.tmpl.ServiceCode;
 import eu.scape_project.xa.tw.tmpl.ServiceXml;
-import eu.scape_project.xa.tw.toolspec.Deployment;
-import eu.scape_project.xa.tw.toolspec.DeploymentKey;
-import eu.scape_project.xa.tw.toolspec.DeploymentKeys;
-import eu.scape_project.xa.tw.toolspec.Input;
 import eu.scape_project.xa.tw.toolspec.Operation;
 import eu.scape_project.xa.tw.toolspec.Service;
-import eu.scape_project.xa.tw.toolspec.Services;
 import eu.scape_project.xa.tw.toolspec.Toolspec;
 import eu.scape_project.xa.tw.util.FileUtil;
 import java.io.IOException;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 
 /**
@@ -197,8 +191,13 @@ public class ToolWrapper {
         // adding operations to services.xml
         sxml.put("servxmlops", sxml.getOperations());
         logger.debug("Writing services.xml file: " + sxmlFile);
-
+        sxml.put("url_filter", st.getProp("url.filter"));
         sxml.create(sxmlFile);
+
+        // pom.xml
+        String pomPath = FileUtil.makePath(generatedDir, projDir) + "pom.xml";
+        DeploymentCreator pomCreator = new DeploymentCreator(pomPath, service, st);
+        pomCreator.createPom();
 
         logger.info("Project created in in \"" + FileUtil.makePath(generatedDir, projDir) + "\"");
     }

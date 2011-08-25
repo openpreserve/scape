@@ -10,16 +10,7 @@
     <name>${global_project_prefix} ${project_title} Version ${tool_version} Service</name>
 
 
-    <profiles>
-        <profile>
-            <id>d1</id>
-            <properties>
-                <tomcat.manager.url>http://localhost:8080/manager</tomcat.manager.url>
-                <tomcat.user>tomcat</tomcat.user>
-                <tomcat.user>TxF781!P</tomcat.user>
-            </properties>
-        </profile>
-    </profiles>
+    <profiles/>
     
     <build>
         <plugins>
@@ -79,7 +70,47 @@
                     <url>${tomcat.manager.url}</url>
                     <username>${tomcat.user}</username>
                     <password>${tomcat.password}</password>
+                    <warFile>${project.build.directory}/${project.build.finalName}-${war.suffix}.war</warFile>
+                    <path>/scape-${project_midfix_lc}-service</path>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <executions>
+                    <!--execution>
+                        <id>package-deployment1</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <classifier>deployment1</classifier>
+                            <webappDirectory>${project.build.directory}/${project.build.finalName}_deployment1</webappDirectory>
+                            <webResources>
+                                <resource>
+                                    <directory>src/env/deployment1</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>package-deployment2</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <classifier>deployment2</classifier>
+                            <webappDirectory>${project.build.directory}/${project.build.finalName}_deployment2</webappDirectory>
+                            <webResources>
+                                <resource>
+                                    <directory>src/env/deployment2</directory>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                    </execution-->
+                </executions>
             </plugin>
         </plugins>
     </build>

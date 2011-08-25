@@ -247,7 +247,4 @@ public class PropertiesSubstitutor extends Substitutor {
         this.serviceDef = serviceDef;
     }
 
-    public void printContext() {
-        getContext().toString();
-    }
 }

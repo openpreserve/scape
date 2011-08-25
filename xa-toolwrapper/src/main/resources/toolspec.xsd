@@ -11,7 +11,6 @@
 				<xs:element ref="version"/>
 				<xs:element ref="services"/>
 				<xs:element ref="deployments"/>
-				<xs:element ref="filters"/>
 			</xs:sequence>
 			<xs:attribute name="model" type="xs:double" use="required"/>
 		</xs:complexType>
@@ -23,27 +22,16 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="deploymentKey">
+	<xs:element name="deployref">
 		<xs:complexType>
 			<xs:attribute name="ref" type="xs:IDREF"/>
+                        <xs:attribute name="default" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="deploymentKeys">
+	<xs:element name="deployto">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="deploymentKey" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="filterKey">
-		<xs:complexType>
-			<xs:attribute name="ref" type="xs:IDREF"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="filterKeys">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="filterKey" maxOccurs="unbounded"/>
+				<xs:element ref="deployref" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -52,8 +40,7 @@
 			<xs:sequence>
 				<xs:element ref="description"/>
 				<xs:element ref="operations"/>
-				<xs:element ref="deploymentKeys"/>
-				<xs:element ref="filterKeys"/>
+				<xs:element ref="deployto"/>
 			</xs:sequence>
 			<xs:attribute name="type" type="xs:string" use="required"/>
 			<xs:attribute name="servicepackage" type="xs:string" use="required"/>
@@ -169,14 +156,6 @@
 			</xs:sequence>
 			<xs:attribute name="ref" type="xs:string"/>
 			<xs:attribute name="id" type="xs:ID"/>
-		</xs:complexType>
-	</xs:element>
-
-	<xs:element name="filters">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="filter" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 
