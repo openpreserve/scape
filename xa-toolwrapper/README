@@ -15,12 +15,12 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
    This will generate an example project generated/simplecopy10. This service is
    a an example wrapper project for the linux copy command "cp" or the COPY
    command for Windows (use "CMD.exe /C COPY" instead of "cp" in the command
-   pattern defined by the property service.operation.1.clicmd in the project 
-   property file default.properties if you are using windows).
+   pattern defined in the tool specification default.xml in node
+   toolspec/services/service/operations/operation/command if you are using windows).
 
 2) Start your Apache Tomcat server:
 
-       cd <tomcat-install>/bin
+       cd <apache-tomcat-install-dir>/bin
        ./startup.sh
 
    where <tomcat-install> is the directory where the Apache Tomcat server is
@@ -33,7 +33,8 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
 3) In order to deploy the web application archive (war), make sure
 
    a) the tomcat manager webapp is enabled (configure in Apache Tomcat's user
-      configuration file conf/tomcat-users.xml) by defining a user, e.g.
+      configuration file <apache-tomcat-install-dir>/conf/tomcat-users.xml)
+      by defining a user, e.g.
 
       <tomcat-users>
         <role rolename="tomcat"/>
@@ -41,23 +42,22 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
         <user password="<password>" roles="tomcat,manager" username="tomcat"/>
       </tomcat-users>
 
-   b) that user and password of the tomcat manager are defined in the project 
-      properties (e.g. default.properties):
-
-        tomcat.public.manager.user=tomcat
-        tomcat.public.manager.pwd=<password>
+   b) that user and password of the tomcat manager are defined in a corresponding
+      deployment (toolspec/deployments/deployment) and that the deployment is
+      referenced in the toolspec/services/service/deployto section.
 
    where <password> is the password that is defined for the Apache Tomcat manager
    user, and then deploy the example service:
 
        mvn tomcat:deploy
 
-   Note that multiple deployments are supported, therefore, using "tomcat:deploy"
-   the default deployment environment will be used (where the "deployref" element's
+   Note that multiple deployments are supported, using "tomcat:deploy" the
+   default deployment environment will be used (where the "deployref" element's
    attribute "default" is true).
 
-   In case you want to use another deployment environment, use the corresponding
-   profile by referencing the "id" attribute value of the deployment, e.g.:
+   In case you want to deploy to another deployment environment, use the
+   corresponding profile by referencing the "id" attribute value of the
+   deployment, e.g.:
 
        mvn tomcat:deploy -P deployment2
 
@@ -204,9 +204,15 @@ Create a new project
        -pc specifies the file that contains the project configuration
        -xc Tool, service and service input/output data type defintions
 
-   It is possible to define multiple services for each tool, and each service
-   can have multiple operations which correspond to specific commands. Some
-   examples of tool configuration files are provided in the "examples" directory.
+   It is possible to define multiple services for each tool, for each service
+   a separate maven project will be created. Each service can have multiple
+   operations which correspond to specific commands. Some examples of tool
+   configuration files are provided in the "examples" directory.
+
+   It is possible to assign multiple deployment environments to a service,
+   different web application archives (war) will be created for deployment.
+   Using the corresponding profile in the depoyment, a specific deployment
+   environment can be selected (e.g. mvn tomcat:deploy -P deployment1).
 
    The project will be created in the "generated" folder, the name of the project
    folder being derived from the project.title property defined in the project
