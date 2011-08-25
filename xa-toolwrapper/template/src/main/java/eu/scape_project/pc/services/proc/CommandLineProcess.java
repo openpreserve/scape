@@ -149,7 +149,7 @@ public class CommandLineProcess {
             String value = paramValuePairs.get(key);
             infolog(key + " substitution variable value: " + value);
             try {
-                pattern = pattern.replace("$" + key, value);
+                pattern = pattern.replace("${" + key + "}", value);
             } catch (NullPointerException ex) {
                 errorlog("Variable " + key + " is not defined.");
             }

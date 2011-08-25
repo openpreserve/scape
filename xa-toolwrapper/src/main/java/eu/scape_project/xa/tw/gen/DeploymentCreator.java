@@ -210,7 +210,7 @@ public class DeploymentCreator {
                 String projMidfix = st.getProjectMidfix();
                 String projDir = st.getProjectDirectory();
                 String servDir = FileUtil.makePath(generatedDir, projDir,
-                        "src/env",d.getId(),"WEB-INF/services",projMidfix,
+                        "src/env", d.getId(), "WEB-INF/services", projMidfix,
                         "META-INF");
                 FileUtils.forceMkdir(new File(servDir));
 
@@ -219,29 +219,47 @@ public class DeploymentCreator {
                         "META-INF") + "services.xml";
 
                 GenericCode deplDepServXmlCode = new GenericCode(sxmlFile);
-                
+
                 //<parameter name="cliCommand1">${clicmd}</parameter>
                 //<parameter name="processingUnit">${tomcat_public_procunitid}</parameter>
                 //<parameter name="publicHttpAccessDir">${tomcat_public_http_access_dir}</parameter>
                 //<parameter name="publicHttpAccessUrl">${tomcat_public_http_access_url}</parameter>
                 //<parameter name="serviceUrlFilter">${service_url_filter}</parameter>
 
-                
+
                 List<Operation> operations = service.getOperations().getOperation();
-                for(Operation operation : operations) {
-                    deplDepServXmlCode.put("cli_cmd_"+String.valueOf(operation.getOid()), operation.getCommand());
+                for (Operation operation : operations) {
+                    deplDepServXmlCode.put("cli_cmd_" + String.valueOf(operation.getOid()), operation.getCommand());
                 }
-                deplDepServXmlCode.put("tomcat_public_procunitid", d.getIdentifier() );
+                deplDepServXmlCode.put("tomcat_public_procunitid", d.getIdentifier());
                 Dataexchange de = d.getDataexchange();
 
-                deplDepServXmlCode.put("tomcat_public_http_access_dir", de.getAccessdir() );
-                deplDepServXmlCode.put("tomcat_public_http_access_url", de.getAccessurl() );
+                deplDepServXmlCode.put("tomcat_public_http_access_dir", de.getAccessdir());
+                deplDepServXmlCode.put("tomcat_public_http_access_url", de.getAccessurl());
                 // TODO: filter
                 //deplDepServXmlCode.put("service_url_filter", );
                 deplDepServXmlCode.evaluate();
-                
-                deplDepServXmlCode.create(servDir+"services.xml");
-                logger.debug("Writing: "+servDir+"services.xml");
+
+                deplDepServXmlCode.create(servDir + "services.xml");
+                logger.debug("Writing: " + servDir + "services.xml");
+
+
+                // source
+                String htmlIndexSourcePath = FileUtil.makePath(generatedDir, projDir,
+                        "src/main", "webapp") + "index.html";
+                // substitution
+                GenericCode htmlSourceIndexCode = new GenericCode(htmlIndexSourcePath);
+                htmlSourceIndexCode.put("service_description", service.getDescription());
+                htmlSourceIndexCode.put("tomcat_public_host", d.getHost());
+                htmlSourceIndexCode.put("tomcat_public_http_port", port);
+                // target
+                String htmlIndexDir = FileUtil.makePath(generatedDir, projDir,"src/env", d.getId());
+                logger.debug("Creating dir:"+htmlIndexDir);
+                FileUtils.forceMkdir(new File(htmlIndexDir));
+                String htmlIndexTargetPath = FileUtil.makePath(generatedDir, projDir,
+                        "src/env", d.getId()) + "index.html";
+                htmlSourceIndexCode.create(htmlIndexTargetPath);
+
 
             }
 

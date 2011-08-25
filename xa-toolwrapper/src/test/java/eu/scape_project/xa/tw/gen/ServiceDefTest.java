@@ -35,6 +35,7 @@ public class ServiceDefTest {
     ServiceDef servicedef1;
     ServiceDef servicedef2;
     ServiceDef servicedef3;
+    ServiceDef servicedef4;
 
     public ServiceDefTest() {
     }
@@ -44,6 +45,7 @@ public class ServiceDefTest {
         servicedef1 = new ServiceDef("OpenJPEG", "1.4");
         servicedef2 = new ServiceDef("Border Removal", "1.3.5");
         servicedef3 = new ServiceDef("Open Jpeg Conversion", "1.3.5");
+        servicedef4 = new ServiceDef("Fits", "0.5.0");
     }
 
     @After
@@ -51,6 +53,7 @@ public class ServiceDefTest {
         servicedef1 = null;
         servicedef2 = null;
         servicedef3 = null;
+        servicedef4 = null;
     }
 
     /**
@@ -67,6 +70,9 @@ public class ServiceDefTest {
         String expResult3 = "OpenJpegConversion";
         String result3 = servicedef3.getName();
         assertEquals(expResult3, result3);
+        String expResult4 = "Fits";
+        String result4 = servicedef4.getName();
+        assertEquals(expResult4, result4);
     }
 
     /**
@@ -83,6 +89,9 @@ public class ServiceDefTest {
         String expResult3 = "135";
         String result3 = servicedef3.getVersion();
         assertEquals(expResult3, result3);
+        String expResult4 = "050";
+        String result4 = servicedef4.getVersion();
+        assertEquals(expResult4, result4);
     }
 
     /**
@@ -99,6 +108,9 @@ public class ServiceDefTest {
         String expResult3 = "openjpegconversion135";
         String result3 = servicedef3.getDirectory();
         assertEquals(expResult3, result3);
+        String expResult4 = "fits050";
+        String result4 = servicedef4.getDirectory();
+        assertEquals(expResult4, result4);
     }
 
     /**
@@ -115,6 +127,9 @@ public class ServiceDefTest {
         String expResult3 = "OpenJpegConversion135";
         String result3 = servicedef3.getMidfix();
         assertEquals(expResult3, result3);
+        String expResult4 = "Fits050";
+        String result4 = servicedef4.getMidfix();
+        assertEquals(expResult4, result4);
     }
 
 }

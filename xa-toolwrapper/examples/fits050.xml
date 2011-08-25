@@ -32,17 +32,14 @@
                     </outputs>
                 </operation>
             </operations>
-            <deploymentKeys>
-                <deploymentKey ref="d1"/>
-            </deploymentKeys>
-            <filterKeys>
-                <filterKey ref="f1"/>
-            </filterKeys>
+            <deployto>
+                <deployref default="true" ref="deployment1"/>
+            </deployto>
         </service>
     </services>
     <deployments>
-        <deployment id="d1">
-            <identifier>http://localhost:8080/scape/default/tomcat</identifier>
+        <deployment id="deployment1">
+            <identifier>http://localhost:8080/scape/default/tomcat1</identifier>
             <host>localhost</host>
             <ports>
                 <port type="http">8080</port>
@@ -58,7 +55,4 @@
             </dataexchange>
         </deployment>
     </deployments>
-    <filters id="f1">
-        <filter>^(https?)://([a-zA-Z\\.]{1,20})([:]?)([0-9]{0,4})([a-zA-Z0-9-_/]{1,200})([\\.]?)([a-z]){0,4}</filter>
-    </filters>
 </toolspec>

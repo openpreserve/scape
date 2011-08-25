@@ -27,6 +27,7 @@
                             <Required>false</Required>
                             <Documentation>URL reference to output file</Documentation>
                             <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>png</Extension>
                         </output>
                     </outputs>
                 </operation>

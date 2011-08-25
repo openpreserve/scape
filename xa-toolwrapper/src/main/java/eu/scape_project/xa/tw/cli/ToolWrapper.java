@@ -134,14 +134,14 @@ public class ToolWrapper {
         }
     }
 
-    private static void createService(Service service, double toolVersion) throws GeneratorException, IOException {
+    private static void createService(Service service, String toolVersion) throws GeneratorException, IOException {
         logger.info("Service id: " + service.getId());
         logger.info("Service name: " + service.getName());
         logger.info("Service type: " + service.getType());
         // Properties substitutor is created for each service
         PropertiesSubstitutor st = new PropertiesSubstitutor(ioc.getProjConf());
         // Service name is composed of Service Name and Tool Version
-        ServiceDef sdef = new ServiceDef(service.getName(), Double.toString(toolVersion));
+        ServiceDef sdef = new ServiceDef(service.getName(), toolVersion);
         st.setServiceDef(sdef);
         st.addVariable("tool_version", sdef.getVersion());
         st.addVariable("project_title", sdef.getName());
