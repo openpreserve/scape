@@ -52,6 +52,15 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
 
        mvn tomcat:deploy
 
+   Note that multiple deployments are supported, therefore, using "tomcat:deploy"
+   the default deployment environment will be used (where the "deployref" element's
+   attribute "default" is true).
+
+   In case you want to use another deployment environment, use the corresponding
+   profile by referencing the "id" attribute value of the deployment, e.g.:
+
+       mvn tomcat:deploy -P deployment2
+
    In case of success, the web application archive
    generated/simplecopy10/target/scape-simplecopy10-service-0.3-SNAPSHOT.war
    will be deployed to
