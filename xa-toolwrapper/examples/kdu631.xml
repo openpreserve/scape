@@ -10,7 +10,7 @@
             <operations>
                 <operation oid="1" name="convertTiffImageToJp2">
                     <description>Convert a TIFF image to JP2</description>
-                    <command>/usr/local/kakadu/kdu631/kdu_compress -i @INFILE@ -o @OUTFILE@ Creversible=@REVERSIBLE@ -rate @RATE@ Clayers=@LAYERS@ Clevels=@LEVELS@ Stiles=@TILES@ Cblk=@CODEBLOCKS@ Corder=@PROGRESSIONORDER@ Cprecincts=@PRECINCTS@ Cuse_sop=yes Cuse_eph=yes</command>
+                    <command>/usr/local/kakadu/kdu631/kdu_compress -i ${input} -o ${output} Creversible=${reversible} -rate ${rate} Clayers=${layers} Clevels=${levels} Stiles=${tiles} Cblk=${codeBlocks} Corder=${progressionOrder} Cprecincts=${precincts} Cuse_sop=yes Cuse_eph=yes</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
@@ -89,7 +89,7 @@
                 </operation>
                 <operation oid="2" name="getRecord">
                     <description>Get the record for a JP2 file</description>
-                    <command>/usr/local/kakadu/kdu631/kdu_expand -record @OUTFILE@ -i @INFILE@</command>
+                    <command>/usr/local/kakadu/kdu631/kdu_expand -record ${OUTFILE} -i ${INFILE}</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>

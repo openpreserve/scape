@@ -254,11 +254,25 @@ public class DeploymentCreator {
                 htmlSourceIndexCode.put("tomcat_public_http_port", port);
                 // target
                 String htmlIndexDir = FileUtil.makePath(generatedDir, projDir,"src/env", d.getId());
-                logger.debug("Creating dir:"+htmlIndexDir);
                 FileUtils.forceMkdir(new File(htmlIndexDir));
                 String htmlIndexTargetPath = FileUtil.makePath(generatedDir, projDir,
                         "src/env", d.getId()) + "index.html";
                 htmlSourceIndexCode.create(htmlIndexTargetPath);
+
+
+                // source
+                String wsdlSourcePath = FileUtil.makePath(generatedDir, projDir,
+                        "src/main", "webapp") + st.getProjectMidfix()+".wsdl";
+                // substitution
+                GenericCode wsdlSourceCode = new GenericCode(wsdlSourcePath);
+                wsdlSourceCode.put("tomcat_public_host", d.getHost());
+                wsdlSourceCode.put("tomcat_public_http_port", port);
+                // target
+                String wsdlDir = FileUtil.makePath(generatedDir, projDir,"src/env", d.getId());
+                FileUtils.forceMkdir(new File(wsdlDir));
+                String wsdlTargetPath = FileUtil.makePath(generatedDir, projDir,
+                        "src/env", d.getId()) + st.getProjectMidfix()+".wsdl";
+                wsdlSourceCode.create(wsdlTargetPath);
 
 
             }

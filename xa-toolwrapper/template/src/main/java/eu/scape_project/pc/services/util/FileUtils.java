@@ -43,6 +43,12 @@ public final class FileUtils {
     private FileUtils() {
     }
 
+    public static String getFileNameFromUrl(URL inputUrl) {
+        String urlStr = inputUrl.toString();
+        String fileName = urlStr.substring(urlStr.lastIndexOf("/")+1);
+        return fileName;
+    }
+
     /**
      * Get system's JAVA temporary directory.
      * @return System's JAVA temporary directory

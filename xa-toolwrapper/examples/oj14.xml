@@ -10,7 +10,7 @@
             <operations>
                 <operation oid="1" name="convertTiffImageToJp2">
                     <description>Convert a Grayscale/RGB TIFF image to JP2 (Non Grayscale/RGB TIFF not supported!)</description>
-                    <command>image_to_j2k_v1_4 -i @INFILE@ -o @OUTFILE@ -r @COMPRESSION@ -t @TILESIZE@ -n @RESOLUTIONS@ -b @CODEBLOCKSIZE@ -p @PROGRESSIONORDER@</command>
+                    <command>image_to_j2k_v1_4 -i ${input} -o ${output} -r ${compression} -t ${tileSize} -n ${resolutions} -b ${codeBlockSize} -p ${progressionOrder}</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>

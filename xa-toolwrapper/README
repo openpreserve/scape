@@ -46,8 +46,7 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
       deployment (toolspec/deployments/deployment) and that the deployment is
       referenced in the toolspec/services/service/deployto section.
 
-   where <password> is the password that is defined for the Apache Tomcat manager
-   user, and then deploy the example service:
+   and then deploy the example service:
 
        mvn tomcat:deploy
 
@@ -187,7 +186,7 @@ Create a new project
 
    b) default.xml
       Tool, service and service input/output data type defintions which must
-      comply with the toolspec.xsd schema.
+      comply with the xa-toolwrapper/src/main/resources/toolspec.xsd schema.
 
    See the "examples" folder which contains more configuration files.
 
@@ -211,12 +210,11 @@ Create a new project
 
    It is possible to assign multiple deployment environments to a service,
    different web application archives (war) will be created for deployment.
-   Using the corresponding profile in the depoyment, a specific deployment
+   Using the corresponding profile in the deployment, a specific deployment
    environment can be selected (e.g. mvn tomcat:deploy -P deployment1).
 
    The project will be created in the "generated" folder, the name of the project
-   folder being derived from the project.title property defined in the project
-   configuration.
+   folder being derived from the service name and the tool version.
 
 3) Follow the README file of the generated project
 
