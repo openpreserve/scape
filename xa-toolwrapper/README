@@ -26,10 +26,6 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
    where <tomcat-install> is the directory where the Apache Tomcat server is
    installed.
 
-3) Change to the directory where the sample project has been generated:
-
-       cd xa-toolwrapper/generated/simplecopy10
-
 3) In order to deploy the web application archive (war), make sure
 
    a) the tomcat manager webapp is enabled (configure in Apache Tomcat's user
@@ -45,6 +41,10 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
    b) that user and password of the tomcat manager are defined in a corresponding
       deployment (toolspec/deployments/deployment) and that the deployment is
       referenced in the toolspec/services/service/deployto section.
+
+4) Change to the directory where the sample project has been generated:
+
+       cd xa-toolwrapper/generated/simplecopy10
 
    and then deploy the example service:
 
@@ -82,7 +82,7 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
      Cannot invoke Tomcat manager: FAIL - Application already exists at path
      /scape-simplecopy10-service
 
-4) Accessing the Axis2 service:
+5) Accessing the Axis2 service:
 
    You can find the start page of the web application at:
 
@@ -120,7 +120,7 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
   The service simply has copied the file available at the URL http://localhost:8080/scape/testdata/scape-logo.png
   to a new location and made available by a new URL http://localhost:8080/scape/tmp/scape-logo-1023892389923.png.
 
-5) Try using the web service using soapUI by creating a project using the
+5) Try out the SOAP web service with soapUI by creating a project using the
    WSDL of the service:
 
        http://localhost:8080/scape-simplecopy10-service/SimpleCopy10.wsdl

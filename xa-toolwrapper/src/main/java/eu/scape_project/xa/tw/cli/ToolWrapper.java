@@ -130,12 +130,13 @@ public class ToolWrapper {
         } catch (IOException ex) {
             java.util.logging.Logger.getLogger(ToolWrapper.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JAXBException ex) {
+            logger.error("JAXBException", ex);
             throw new GeneratorException("Unable to create XML binding for toolspec");
         }
     }
 
     private static void createService(Service service, String toolVersion) throws GeneratorException, IOException {
-        logger.info("Service id: " + service.getId());
+        logger.info("Service id: " + service.getSid());
         logger.info("Service name: " + service.getName());
         logger.info("Service type: " + service.getType());
         // Properties substitutor is created for each service

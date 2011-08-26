@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:element name="version" type="xs:string"/>
+	<xs:element name="os">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="installation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="os" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="user" type="xs:string"/>
 	<xs:element name="toolspec">
 		<xs:complexType>
@@ -9,6 +25,7 @@
 				<xs:element ref="name"/>
 				<xs:element ref="homepage"/>
 				<xs:element ref="version"/>
+				<xs:element ref="installation"/>
 				<xs:element ref="services"/>
 				<xs:element ref="deployments"/>
 			</xs:sequence>
@@ -25,7 +42,7 @@
 	<xs:element name="deployref">
 		<xs:complexType>
 			<xs:attribute name="ref" type="xs:IDREF"/>
-                        <xs:attribute name="default" type="xs:boolean" use="required"/>
+			<xs:attribute name="default" type="xs:boolean" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="deployto">
@@ -45,7 +62,7 @@
 			<xs:attribute name="type" type="xs:string" use="required"/>
 			<xs:attribute name="servicepackage" type="xs:string" use="required"/>
 			<xs:attribute name="name" type="xs:string" use="required"/>
-			<xs:attribute name="id" type="xs:int" use="required"/>
+			<xs:attribute name="sid" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ports">
@@ -88,14 +105,14 @@
 	<xs:element name="operations">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="operation"  minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element ref="operation" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="operation">
 		<xs:complexType>
 			<xs:sequence>
-                                <xs:element name="description" type="xs:string"/>
+				<xs:element name="description" type="xs:string"/>
 				<xs:element ref="command"/>
 				<xs:element ref="inputs"/>
 				<xs:element ref="outputs"/>
@@ -116,7 +133,7 @@
 	<xs:element name="inputs">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="input" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element ref="input" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -137,11 +154,10 @@
 	<xs:element name="host" type="xs:string"/>
 	<xs:element name="homepage" type="xs:string"/>
 	<xs:element name="description" type="xs:string"/>
-	
 	<xs:element name="deployments">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="deployment" minOccurs="1" maxOccurs="unbounded"/>
+				<xs:element ref="deployment" maxOccurs="unbounded"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -158,7 +174,6 @@
 			<xs:attribute name="id" type="xs:ID"/>
 		</xs:complexType>
 	</xs:element>
-
 	<xs:element name="dataexchange">
 		<xs:complexType>
 			<xs:sequence>

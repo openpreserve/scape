@@ -193,6 +193,22 @@ public class CommandLineProcess {
             }
         }
         infolog("Assigned exit code: " + code + "");
+        if (pr.getErrInputStream() != null) {
+            try {
+                IOUtils.copy(pr.getStdInputStream(), writer);
+            } catch (IOException ex) {
+                logger.warn("Unable to read standard output of tool message");
+            }
+            String toolMsg = writer.toString();
+            if (output == null || output.equals("")) {
+                output = toolMsg;
+            } else {
+                output += toolMsg;
+            }
+            if (toolMsg != null && !toolMsg.equals("")) {
+                debuglog(toolMsg);
+            }
+        }
         return code;
     }
 

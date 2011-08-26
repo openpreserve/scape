@@ -2,8 +2,24 @@
 <toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="c:\owndata\scape\toolspec.xsd">
     <id>kakadu</id>
     <name>Kakadu</name>
-    <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
+    <homepage>http://www.kakadusoftware.com</homepage>
     <version>6.3.1</version>
+    <installation>
+        <os type="linux">
+            Download file from http://www.kakadusoftware.com/executables/Linux-x86-32.zip
+            and unpackage it using "unzip", the package contains the required
+            executables in the "bin" folder. Make sure the commands defined for each
+            operation correspond with your installation directory or set symbolic links
+            accordingly, e.g.
+            ln -s /opt/Linux-x86-32/bin/kdu_compress /usr/local/bin/kdu_compress
+            and
+            ln -s /opt/Linux-x86-32/bin/kdu_expand  /usr/local/bin/kdu_expand
+            for the commands used in the service operations.
+        </os>
+        <os type="windows">
+            Version 6.3.1 is not available for Windows.
+        </os>
+    </installation>
     <services>
         <service sid="1" name="Kakadu" type="migrate" servicepackage="eu.scape_project.pc.services">
             <description>Service for JPEG2000 (JP2) image migration using Kakadu</description>
