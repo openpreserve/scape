@@ -242,6 +242,9 @@ public class DeploymentCreator {
 
                 deplDepServXmlCode.create(servDir + "services.xml");
                 logger.debug("Writing: " + servDir + "services.xml");
+                if (isDefaultDeployment) {
+                    deplDepServXmlCode.create(sxmlFile);
+                }
 
 
                 // source
@@ -258,6 +261,9 @@ public class DeploymentCreator {
                 String htmlIndexTargetPath = FileUtil.makePath(generatedDir, projDir,
                         "src/env", d.getId()) + "index.html";
                 htmlSourceIndexCode.create(htmlIndexTargetPath);
+                if (isDefaultDeployment) {
+                    htmlSourceIndexCode.create(htmlIndexSourcePath);
+                }
 
 
                 // source
@@ -273,6 +279,9 @@ public class DeploymentCreator {
                 String wsdlTargetPath = FileUtil.makePath(generatedDir, projDir,
                         "src/env", d.getId()) + st.getProjectMidfix()+".wsdl";
                 wsdlSourceCode.create(wsdlTargetPath);
+                if (isDefaultDeployment) {
+                    wsdlSourceCode.create(wsdlSourcePath);
+                }
 
 
             }

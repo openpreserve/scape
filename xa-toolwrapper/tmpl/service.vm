@@ -148,7 +148,8 @@ $operation.Code
      * @param msg Message
      */
     private void errorlog(String msg) {
-        processing_returncode = 1;
+        if(processing_returncode == 0)
+            processing_returncode = 1;
         logger.info("Service assigned error code 1");
         processing_log += "ERROR: " + msg + ".\n";
         processing_message = "Service request processing ended with an error";

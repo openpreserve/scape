@@ -3,83 +3,83 @@
     <id>kakadu</id>
     <name>Kakadu</name>
     <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
-    <version>0.5.0</version>
+    <version>6.3.1</version>
     <services>
         <service sid="1" name="Kakadu" type="migrate" servicepackage="eu.scape_project.pc.services">
             <description>Service for JPEG2000 (JP2) image migration using Kakadu</description>
             <operations>
                 <operation oid="1" name="convertTiffImageToJp2">
                     <description>Convert a TIFF image to JP2</description>
-                    <command>/usr/local/kakadu/kdu631/kdu_compress -i ${input} -o ${output} Creversible=${reversible} -rate ${rate} Clayers=${layers} Clevels=${levels} Stiles=${tiles} Cblk=${codeBlocks} Corder=${progressionOrder} Cprecincts=${precincts} Cuse_sop=yes Cuse_eph=yes</command>
+                    <command>/usr/local/bin/kdu_compress -i ${input} -o ${output} Creversible=${reversible} -rate ${rate} Clayers=${layers} Clevels=${levels} Stiles=${tiles} Cblk=${codeBlocks} Corder=${progressionOrder} Cprecincts=${precincts} Cuse_sop=yes Cuse_eph=yes</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
                             <Default>http://fue.onb.ac.at/scape/testdata/19080603_0018.tif</Default>
-                            <CliMapping>INFILE</CliMapping>
+                            <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
                         </input>
                         <input name="reversible">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
                             <Default>yes</Default>
-                            <CliMapping>REVERSIBLE</CliMapping>
+                            <CliMapping>reversible</CliMapping>
                             <Documentation>Indicates if the compression is reversible (lossless) or not.</Documentation>
                         </input>
                         <input name="rate">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
                             <Default>-,1,0.5,0.25</Default>
-                            <CliMapping>RATE</CliMapping>
+                            <CliMapping>rate</CliMapping>
                             <Documentation>Comma separated positive floating point numbers indicating the compression rate. For example: 1.0 means irreversible compression to 1 bit/sample and 1.0,0.5,0.25 means irreversible compression to a 3 layer code-stream (3 embedded bit-rates) and  -,1,0.5,0.25 togehter with reversible=yes means reversible (lossless) compression with a progressive lossy to lossless code-stream having 4 layers (Note the use of the dash (-) to specify that the final layer should include all remaining compressed bits, not included in previous layers. Specifying a large bit-rate for one of the layers does not have exactly the same effect and may leave the code-stream not quite lossless.) , and 0.5 means irreversible colour compression (with visual weights) to 0.5 bit/pixel. In this case, the post-compression rate-distortion optimization algorithm is used to discard coding passes until the rate target is met. This is done for each quality layer.  Although more coding passes are processed by the block coder than are ultimately required, Kakadu still uses a predictive algorithm to reduce the number of wasted coding passes, so that the processing speed is essentially independent of Qstep so long as it is very small.</Documentation>
                         </input>
                         <input name="layers">
                             <Datatype>xsd:int</Datatype>
                             <Required>true</Required>
                             <Default>4</Default>
-                            <CliMapping>LAYERS</CliMapping>
+                            <CliMapping>layers</CliMapping>
                             <Documentation>One positive Integer. Embedded quality layers. Using rate 1.0,0.04, for example, the quality would roughly logarithmically spaced between 0.04 and 1.0 bits per pixel.</Documentation>
                         </input>
                         <input name="levels">
                             <Datatype>xsd:int</Datatype>
                             <Required>true</Required>
                             <Default>5</Default>
-                            <CliMapping>LEVELS</CliMapping>
+                            <CliMapping>levels</CliMapping>
                             <Documentation>One positive Integer. Number of wavelet decomposition levels, or stages.</Documentation>
                         </input>
                         <input name="tiles">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
                             <Default>{300,200}</Default>
-                            <CliMapping>TILES</CliMapping>
+                            <CliMapping>tiles</CliMapping>
                             <Documentation>Two comma-separated positive Integers. After color transformation, the image is split into so-called tiles, rectangular regions of the image that are transformed and encoded separately. Tiles can be any size, and it is also possible to consider the whole image as one single tile. Once the size is chosen, all the tiles will have the same size (except optionally those on the right and bottom borders). Dividing the image into tiles is advantageous in that the decoder will need less memory to decode the image and it can opt to decode only selected tiles to achieve a partial decoding of the image.</Documentation>
                         </input>
                         <input name="codeBlocks">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
                             <Default>{64,64}</Default>
-                            <CliMapping>CODEBLOCKS</CliMapping>
+                            <CliMapping>codeBlocks</CliMapping>
                             <Documentation>Two comma-separated positive Integers. Codeblocks are used to partition the image for processing and make it possible to access portions of the datastream corresponding to sub-regions of the image. This data ordering means that the data for a thumbnail image occurs in a contiguous block at the start of the datastream where it can be easily and speedily accessed. This data organization makes it possible to obtain a screen-resolution image quickly from a megabyte or gigiabyte sized image compressed using JPEG 2000.</Documentation>
                         </input>
                         <input name="precincts">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
                             <Default>{128,128}</Default>
-                            <CliMapping>PRECINCTS</CliMapping>
+                            <CliMapping>precincts</CliMapping>
                             <Documentation>Two comma-separated positive Integers.</Documentation>
                         </input>
                         <input name="progressionOrder">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
                             <Default>LRCP</Default>
-                            <CliMapping>PROGRESSIONORDER</CliMapping>
+                            <CliMapping>progressionOrder</CliMapping>
                             <Documentation>String of 4 characters 'L', 'R', 'C', 'P, e.g. LRCP, in arbitrary order. Indicates the progression order. The four character identifiers have the following interpretation: L=layer; R=resolution; C=component; P=position. The first character in the identifier refers to the index which progresses most slowly, while the last refers to the index which progresses most quickly.</Documentation>
                         </input>
                     </inputs>
                     <outputs>
                         <output name="output">
                             <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>OUTFILE</CliMapping>
+                            <CliMapping>output</CliMapping>
                             <Required>false</Required>
                             <Documentation>URL reference to output file</Documentation>
                             <PrefixFromInput>input</PrefixFromInput>
@@ -95,14 +95,14 @@
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
                             <Default>http://fue.onb.ac.at/scape/testdata/19080603_0018.tif</Default>
-                            <CliMapping>INFILE</CliMapping>
+                            <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
                         </input>
                     </inputs>
                     <outputs>
                         <output name="output">
                             <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>OUTFILE</CliMapping>
+                            <CliMapping>output</CliMapping>
                             <Required>false</Required>
                             <Documentation>URL reference to output file</Documentation>
                             <PrefixFromInput>input</PrefixFromInput>
@@ -111,16 +111,13 @@
                     </outputs>
                 </operation>
             </operations>
-            <deploymentKeys>
-                <deploymentKey ref="d1"/>
-            </deploymentKeys>
-            <filterKeys>
-                <filterKey ref="f1"/>
-            </filterKeys>
+            <deployto>
+                <deployref default="true" ref="deployment1"/>
+            </deployto>
         </service>
     </services>
     <deployments>
-        <deployment id="d1">
+        <deployment id="deployment1">
             <identifier>http://localhost:8080/scape/default/tomcat</identifier>
             <host>localhost</host>
             <ports>
@@ -137,7 +134,4 @@
             </dataexchange>
         </deployment>
     </deployments>
-    <filters id="f1">
-        <filter>^(https?)://([a-zA-Z\\.]{1,20})([:]?)([0-9]{0,4})([a-zA-Z0-9-_/]{1,200})([\\.]?)([a-z]){0,4}</filter>
-    </filters>
 </toolspec>

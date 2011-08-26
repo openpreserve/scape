@@ -82,6 +82,8 @@ public class WsdlCreator {
                 createOperation(doc, operation);
 
                 createBinding(doc, operation);
+
+
             }
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -105,13 +107,9 @@ public class WsdlCreator {
         NodeList portTypeNodeList = doc.getElementsByTagName("wsdl:portType");
         Node portTypeNode = portTypeNodeList.item(0);
         List<Input> inputs = operation.getInputs().getInput();
-        for (Input input : inputs) {
-            createMessageDataType(definitionsNode, portTypeNode, MsgType.REQUEST, operation.getOid());
-        }
+        createMessageDataType(definitionsNode, portTypeNode, MsgType.REQUEST, operation.getOid());
         List<Output> outputs = operation.getOutputs().getOutput();
-        for (Output output : outputs) {
-            createMessageDataType(definitionsNode, portTypeNode, MsgType.RESPONSE, operation.getOid());
-        }
+        createMessageDataType(definitionsNode, portTypeNode, MsgType.RESPONSE, operation.getOid());
 
     }
 
@@ -223,7 +221,7 @@ public class WsdlCreator {
         Element documentationElm = doc.createElement("wsdl:documentation");
         String servDocStr = operation.getDescription();
         if (servDocStr == null || servDocStr.equals("")) {
-            throw new GeneratorException("No documentation for service operation id " + opid +" available ");
+            throw new GeneratorException("No documentation for service operation id " + opid + " available ");
         }
         documentationElm.setTextContent(servDocStr);
 
@@ -270,15 +268,15 @@ public class WsdlCreator {
         Element operation1Elm = doc.createElement("wsdl:operation");
         operation1Elm.setAttribute("name", servOpStr);
         Element soapOp1Elm = doc.createElement("soap:operation");
-        soapOp1Elm.setAttribute("soapAction", "urn:"+servOpStr);
+        soapOp1Elm.setAttribute("soapAction", "urn:" + servOpStr);
         soapOp1Elm.setAttribute("style", "document");
         operation1Elm.appendChild(soapOp1Elm);
         Element input1Elm = doc.createElement("wsdl:input");
-        Element soap1Elm1 =  doc.createElement("soap:body");
+        Element soap1Elm1 = doc.createElement("soap:body");
         soap1Elm1.setAttribute("use", "literal");
         input1Elm.appendChild(soap1Elm1);
         Element output1Elm = doc.createElement("wsdl:output");
-        Element soap1Elm2 =  doc.createElement("soap:body");
+        Element soap1Elm2 = doc.createElement("soap:body");
         soap1Elm2.setAttribute("use", "literal");
         output1Elm.appendChild(soap1Elm2);
         operation1Elm.appendChild(input1Elm);
@@ -298,15 +296,15 @@ public class WsdlCreator {
         Element operation2Elm = doc.createElement("wsdl:operation");
         operation2Elm.setAttribute("name", servOpStr);
         Element soapOp2Elm = doc.createElement("soap12:operation");
-        soapOp2Elm.setAttribute("soapAction", "urn:"+servOpStr);
+        soapOp2Elm.setAttribute("soapAction", "urn:" + servOpStr);
         soapOp2Elm.setAttribute("style", "document");
         operation2Elm.appendChild(soapOp2Elm);
         Element input2Elm = doc.createElement("wsdl:input");
-        Element soap2Elm1 =  doc.createElement("soap12:body");
+        Element soap2Elm1 = doc.createElement("soap12:body");
         soap2Elm1.setAttribute("use", "literal");
         input2Elm.appendChild(soap2Elm1);
         Element output2Elm = doc.createElement("wsdl:output");
-        Element soap2Elm2 =  doc.createElement("soap12:body");
+        Element soap2Elm2 = doc.createElement("soap12:body");
         soap2Elm2.setAttribute("use", "literal");
         output2Elm.appendChild(soap2Elm2);
         operation2Elm.appendChild(input2Elm);
@@ -326,15 +324,15 @@ public class WsdlCreator {
         Element operation3Elm = doc.createElement("wsdl:operation");
         operation3Elm.setAttribute("name", servOpStr);
         Element soapOp3Elm = doc.createElement("http:operation");
-        soapOp3Elm.setAttribute("location", st.getProjectMidfix()+"/"+servOpStr);
+        soapOp3Elm.setAttribute("location", st.getProjectMidfix() + "/" + servOpStr);
         operation3Elm.appendChild(soapOp3Elm);
         Element input3Elm = doc.createElement("wsdl:input");
-        Element soap3Elm1 =  doc.createElement("mime:content");
+        Element soap3Elm1 = doc.createElement("mime:content");
         soap3Elm1.setAttribute("type", "text/xml");
         soap3Elm1.setAttribute("part", servOpStr);
         input3Elm.appendChild(soap3Elm1);
         Element output3Elm = doc.createElement("wsdl:output");
-        Element soap3Elm2 =  doc.createElement("mime:content");
+        Element soap3Elm2 = doc.createElement("mime:content");
         soap3Elm2.setAttribute("type", "text/xml");
         soap3Elm2.setAttribute("part", servOpStr);
         output3Elm.appendChild(soap3Elm2);

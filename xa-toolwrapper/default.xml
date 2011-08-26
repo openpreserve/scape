@@ -56,7 +56,7 @@
             </dataexchange>
         </deployment>
         <deployment id="deployment2">
-            <identifier>>http://127.0.0.1:8080/scape/default/tomcat2</identifier>
+            <identifier>http://127.0.0.1:8080/scape/default/tomcat2</identifier>
             <host>127.0.0.1</host>
             <ports>
                 <port type="http">8080</port>
