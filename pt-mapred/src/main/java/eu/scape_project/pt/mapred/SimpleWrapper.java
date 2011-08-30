@@ -47,7 +47,7 @@ import org.apache.hadoop.mapred.lib.MultipleOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import eu.planets_project.services.utils.ProcessRunner;
+import eu.scape_project.pit.invoke.PitInvoker;
 
 /**
  * A very simple wrapper to execute cmd-line tools using mapReduce
@@ -203,6 +203,8 @@ public class SimpleWrapper extends Configured implements Tool {
 		LOG.debug("OS: "+System.getProperty("os.name"));
 		
 		SimpleWrapper mr = new SimpleWrapper();
+		
+		PitInvoker invoker = new PitInvoker("ps2pdf");
 		
 		int res =-1;
 		try {
