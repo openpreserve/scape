@@ -27,9 +27,7 @@ import eu.scape_project.pit.tools.Template;
  */
 public class PitInvoker {
 	
-	private ToolSpec ts;
-
-	
+	protected ToolSpec ts;
 
 	public PitInvoker( String toolspec_id ) throws ToolSpecNotFoundException {
 		try {
@@ -42,7 +40,7 @@ public class PitInvoker {
 		
 	}
 	
-	private Tool findTool( String command_id ) throws CommandNotFoundException {
+	protected Tool findTool( String command_id ) throws CommandNotFoundException {
 		Tool cmd = null;
 		for( Tool c : ts.getTools() ) {
 			if( c.getId() != null && c.getId().equals(command_id) ) cmd = c;
