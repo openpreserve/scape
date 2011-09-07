@@ -1,14 +1,14 @@
 <!-- Tufts VUE 3.1.1 concept-map (SCAPE-Overview.vue) 2011-09-07 -->
 <!-- Tufts VUE: http://vue.tufts.edu/ -->
 <!-- Do Not Remove: VUE mapping @version(1.1) jar:file:/Applications/VUE.app/Contents/VUE.jar!/tufts/vue/resources/lw_mapping_1_1.xml -->
-<!-- Do Not Remove: Saved date Wed Sep 07 12:22:07 BST 2011 by andy on platform Mac OS X 10.7.1 in JVM 1.6.0_26-b03-383-11A511 -->
+<!-- Do Not Remove: Saved date Wed Sep 07 15:31:17 BST 2011 by andy on platform Mac OS X 10.7.1 in JVM 1.6.0_26-b03-383-11A511 -->
 <!-- Do Not Remove: Saving version @(#)VUE: built March 16 2011 at 1142 by vue on Linux 2.4.21-63.EL i386 JVM 1.5.0_06-b05(bits=32) -->
 <?xml version="1.0" encoding="US-ASCII"?>
 <LW-MAP xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="none" ID="0"
     label="SCAPE-Overview.vue" created="1314476338929" x="0.0" y="0.0"
     width="2085.2744" height="1201.7234" strokeWidth="0.0" autoSized="false">
-    <resource referenceCreated="1315394528015" size="152272"
+    <resource referenceCreated="1315405877193" size="152272"
         spec="/Users/andy/Documents/workspace/scape/doc/WP.02.XA.Technical.Coordination/images/SCAPE-Overview.vue"
         type="1" xsi:type="URLResource">
         <title>SCAPE-Overview.vue</title>
@@ -890,7 +890,7 @@
     </child>
     <child ID="152" label="Hosted By?" layerID="1"
         created="1314910997842" x="81.26045" y="182.91656"
-        width="78.35498" height="88.605835" strokeWidth="1.0"
+        width="77.85498" height="88.605835" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#AD0C03</textColor>
@@ -911,9 +911,9 @@
         <ctrlPoint0 x="137.20056" y="185.80888" xsi:type="point"/>
     </child>
     <child ID="154" label="Using..." layerID="1" created="1315322306242"
-        x="-231.3161" y="420.55582" width="57.545227"
-        height="103.701385" strokeWidth="1.0" autoSized="false"
-        controlCount="1" arrowState="2" xsi:type="link">
+        x="-231.22607" y="420.55582" width="57.4552" height="103.701385"
+        strokeWidth="1.0" autoSized="false" controlCount="1"
+        arrowState="2" xsi:type="link">
         <notes>Preservation plans use the policy language to express the decision criteria.</notes>
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#000000</textColor>
@@ -982,7 +982,7 @@
     </child>
     <child ID="158" label="Simulates Plans On..." layerID="1"
         created="1315322569477" x="-141.493" y="193.42955"
-        width="141.64142" height="204.95247" strokeWidth="1.0"
+        width="141.14142" height="204.95247" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#000000</textColor>
@@ -1004,8 +1004,8 @@
         <ctrlPoint0 x="18.18587" y="172.16924" xsi:type="point"/>
     </child>
     <child ID="159" label="Simulates Events On..." layerID="1"
-        created="1315322603000" x="-272.3022" y="220.70836"
-        width="112.0" height="64.25697" strokeWidth="1.0"
+        created="1315322603000" x="-271.8022" y="220.70836"
+        width="111.0" height="64.25697" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#000000</textColor>
@@ -1646,9 +1646,9 @@
         <ID2 xsi:type="node">66</ID2>
         <ctrlPoint0 x="992.27386" y="102.064575" xsi:type="point"/>
     </child>
-    <child ID="125" layerID="1" created="1314717780685" x="809.77576"
-        y="-56.119335" width="114.15723" height="8.299812"
-        strokeWidth="1.0" autoSized="false" controlCount="0"
+    <child ID="125" layerID="1" created="1314717780685" x="808.1493"
+        y="-62.46045" width="114.32593" height="10.750916"
+        strokeWidth="1.0" autoSized="false" controlCount="1"
         arrowState="2" xsi:type="link">
         <strokeColor>#000000</strokeColor>
         <textColor>#404040</textColor>
@@ -1663,14 +1663,15 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/1b688389c0a800d7018a3745b0c4fe92</URIString>
-        <point1 x="923.433" y="-55.619335"/>
-        <point2 x="810.27576" y="-48.319523"/>
+        <point1 x="921.9752" y="-61.96045"/>
+        <point2 x="808.6493" y="-52.209534"/>
         <ID1 xsi:type="node">34</ID1>
         <ID2 xsi:type="node">123</ID2>
+        <ctrlPoint0 x="863.6612" y="-61.052277" xsi:type="point"/>
     </child>
-    <child ID="80" layerID="1" created="1314716209438" x="784.1356"
-        y="-67.67706" width="138.33954" height="2.6187363"
-        strokeWidth="1.0" autoSized="false" controlCount="0"
+    <child ID="80" layerID="1" created="1314716209438" x="784.13544"
+        y="-70.37711" width="138.60815" height="2.3392258"
+        strokeWidth="1.0" autoSized="false" controlCount="1"
         arrowState="2" xsi:type="link">
         <strokeColor>#000000</strokeColor>
         <textColor>#404040</textColor>
@@ -1685,14 +1686,15 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/1b688388c0a800d7018a3745bbf6cb70</URIString>
-        <point1 x="921.9752" y="-65.55832"/>
-        <point2 x="784.6357" y="-67.177055"/>
+        <point1 x="922.2436" y="-68.837296"/>
+        <point2 x="784.63544" y="-68.53789"/>
         <ID1 xsi:type="node">34</ID1>
         <ID2 xsi:type="node">75</ID2>
+        <ctrlPoint0 x="861.6583" y="-71.066635" xsi:type="point"/>
     </child>
-    <child ID="79" layerID="1" created="1314716206050" x="803.1356"
-        y="-96.25333" width="119.33954" height="3.3170624"
-        strokeWidth="1.0" autoSized="false" controlCount="0"
+    <child ID="79" layerID="1" created="1314716206050" x="803.1357"
+        y="-97.25899" width="119.47833" height="2.5633621"
+        strokeWidth="1.0" autoSized="false" controlCount="1"
         arrowState="2" xsi:type="link">
         <strokeColor>#000000</strokeColor>
         <textColor>#404040</textColor>
@@ -1707,14 +1709,15 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/1b688389c0a800d7018a37450065d7bd</URIString>
-        <point1 x="921.9752" y="-93.436264"/>
-        <point2 x="803.6357" y="-95.75333"/>
+        <point1 x="922.114" y="-95.195625"/>
+        <point2 x="803.6357" y="-96.75899"/>
         <ID1 xsi:type="node">33</ID1>
         <ID2 xsi:type="node">76</ID2>
+        <ctrlPoint0 x="865.66406" y="-97.10398" xsi:type="point"/>
     </child>
     <child ID="78" layerID="1" created="1314716203658" x="824.1357"
-        y="-130.36707" width="98.981445" height="6.1793365"
-        strokeWidth="1.0" autoSized="false" controlCount="0"
+        y="-130.24612" width="98.94818" height="6.223175"
+        strokeWidth="1.0" autoSized="false" controlCount="1"
         arrowState="2" xsi:type="link">
         <strokeColor>#000000</strokeColor>
         <textColor>#404040</textColor>
@@ -1729,10 +1732,11 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/1b688389c0a800d7018a37458e12cade</URIString>
-        <point1 x="922.6171" y="-124.68773"/>
-        <point2 x="824.6357" y="-129.86707"/>
+        <point1 x="922.58386" y="-124.52295"/>
+        <point2 x="824.6357" y="-129.74612"/>
         <ID1 xsi:type="node">32</ID1>
         <ID2 xsi:type="node">77</ID2>
+        <ctrlPoint0 x="871.67267" y="-127.147064" xsi:type="point"/>
     </child>
     <child ID="6" label="Testbeds (TB)" layerID="1"
         created="1314476391066" x="-534.4342" y="-160.07367"
@@ -2639,6 +2643,71 @@
         <ID2 xsi:type="node">97</ID2>
         <ctrlPoint0 x="-510.29044" y="477.4493" xsi:type="point"/>
     </child>
+    <child ID="298" label="QA Knowledge Base" layerID="1"
+        created="1315405542422" x="462.64996" y="-62.535053"
+        width="152.0" height="27.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
+        <notes>D11.4 Knowledge base of characterisation%nl;and migration errors.</notes>
+        <fillColor>#FEFEC9</fillColor>
+        <strokeColor>#000000</strokeColor>
+        <textColor>#000000</textColor>
+        <font>Arial-plain-12</font>
+        <metadata-list category-list-size="1" other-list-size="0"
+            ontology-list-size="0" RCategoryListSize="0">
+            <ontology-list-string></ontology-list-string>
+            <metadata xsi:type="vue-metadata-element">
+                <value></value>
+                <key>http://vue.tufts.edu/vue.rdfs#none</key>
+                <type>1</type>
+            </metadata>
+        </metadata-list>
+        <URIString>http://vue.tufts.edu/rdf/resource/444cd068c0a800f9006d70fc5442a633</URIString>
+        <shape arcwidth="20.0" archeight="20.0" xsi:type="roundRect"/>
+    </child>
+    <child ID="299" layerID="1" created="1315405771935" x="565.98584"
+        y="-51.00836" width="467.72925" height="74.57908"
+        strokeWidth="1.0" autoSized="false" controlCount="1"
+        arrowState="2" xsi:type="link">
+        <strokeColor>#000000</strokeColor>
+        <textColor>#404040</textColor>
+        <font>Arial-plain-11</font>
+        <metadata-list category-list-size="1" other-list-size="0"
+            ontology-list-size="0" RCategoryListSize="0">
+            <ontology-list-string></ontology-list-string>
+            <metadata xsi:type="vue-metadata-element">
+                <value></value>
+                <key>http://vue.tufts.edu/vue.rdfs#none</key>
+                <type>1</type>
+            </metadata>
+        </metadata-list>
+        <URIString>http://vue.tufts.edu/rdf/resource/444cd068c0a800f9006d70fc1948e112</URIString>
+        <point1 x="1033.2151" y="-50.50836"/>
+        <point2 x="566.48584" y="-35.535065"/>
+        <ID1 xsi:type="node">34</ID1>
+        <ID2 xsi:type="node">298</ID2>
+        <ctrlPoint0 x="823.60376" y="89.16315" xsi:type="point"/>
+    </child>
+    <child ID="300" label="Hosted By?" layerID="1"
+        created="1315405798944" x="464.5896" y="-169.70738"
+        width="94.90259" height="107.672226" strokeWidth="1.0"
+        autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
+        <strokeColor>#AD0C03</strokeColor>
+        <textColor>#AD0C03</textColor>
+        <font>Arial-bold-11</font>
+        <metadata-list category-list-size="1" other-list-size="0"
+            ontology-list-size="0" RCategoryListSize="0">
+            <ontology-list-string></ontology-list-string>
+            <metadata xsi:type="vue-metadata-element">
+                <value></value>
+                <key>http://vue.tufts.edu/vue.rdfs#none</key>
+                <type>1</type>
+            </metadata>
+        </metadata-list>
+        <URIString>http://vue.tufts.edu/rdf/resource/444cd069c0a800f9006d70fc8c0c77a4</URIString>
+        <point1 x="540.4679" y="-62.535156"/>
+        <point2 x="465.0896" y="-169.20738"/>
+        <ID1 xsi:type="node">298</ID1>
+        <ctrlPoint0 x="554.2056" y="-164.55191" xsi:type="point"/>
+    </child>
     <layer ID="293" label="Areas" created="1315390970084" x="0.0"
         y="0.0" width="1.4E-45" height="1.4E-45" locked="true"
         strokeWidth="0.0" autoSized="false">
@@ -2656,7 +2725,7 @@
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/0ce5826ec0a800d7018a3745c8a39c40</URIString>
     </layer>
-    <userZoom>0.6806433100171225</userZoom>
+    <userZoom>0.49928295118156113</userZoom>
     <userOrigin x="-614.61536" y="-365.53043"/>
     <presentationBackground>#202020</presentationBackground>
     <PathwayList currentPathway="0" revealerIndex="-1">
