@@ -1,6 +1,7 @@
 package eu.scape_project.pt.mapred;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -22,6 +23,7 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import joptsimple.OptionParser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,13 +50,17 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import eu.scape_project.pit.invoke.PitInvoker;
+import eu.scape_project.pt.pit.invoke.PTInvoker;
+import eu.scape_project.pt.util.ArgsParser;
 
 /**
  * A very simple wrapper to execute cmd-line tools using mapReduce
- */
+ * @author Rainer Schmidt [rschmidt13]
+ */ 
 public class SimpleWrapper extends Configured implements Tool {
 
 	private static Log LOG = LogFactory.getLog(SimpleWrapper.class);
+	public static String TOOLSPEC = "TOOLSPEC";
 	
 	public static class MyMapper extends Mapper<Object, Text, Text, IntWritable> {
 		
@@ -182,8 +188,13 @@ public class SimpleWrapper extends Configured implements Tool {
 		
 		//job.setOutputFormatClass(MultipleOutputFormat.class);
 		
-		FileInputFormat.addInputPath(job, new Path(args[0]));
-		FileOutputFormat.setOutputPath(job, new Path("output/"+args[1]));
+		//FileInputFormat.addInputPath(job, new Path(args[0])); ArgsParser.INFILE
+		//FileOutputFormat.setOutputPath(job, new Path(args[1])); ArgsParser.OUTDIR
+		FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE))); 
+		FileOutputFormat.setOutputPath(job, new Path(conf.get(ArgsParser.OUTDIR))); 
+		
+		//add command to job configuration
+		//conf.set(TOOLSPEC, args[2]);
 		
 		//job.setNumReduceTasks(Integer.parseInt(args[2]));
 
@@ -196,20 +207,41 @@ public class SimpleWrapper extends Configured implements Tool {
 		return 0;
 	}
 
-
 	public static void main(String[] args) throws Exception {
 
-		boolean windows = ((System.getProperty("os.name").toLowerCase().indexOf("windows") < 0) ? false : true);
-		LOG.debug("OS: "+System.getProperty("os.name"));
-		
+		int res = 1;
 		SimpleWrapper mr = new SimpleWrapper();
+        Configuration conf = new Configuration();
+
+		//System.out.println("detecting execution with/out Haddop:"+args[0]+"=="+SimpleWrapper.class.getSimpleName());
+		if(args[0].equals(SimpleWrapper.class.getName())) {
+			System.out.println("detected execution without Hadoop");
+		} else {
+			System.out.println("detected execution on Hadoop");
+		}
 		
-		PitInvoker invoker = new PitInvoker("ps2pdf");
-		
-		int res =-1;
 		try {
+			ArgsParser pargs = new ArgsParser("i:o:", args);
+			System.out.println("input: "+ pargs.getValue("i"));
+			System.out.println("output: "+pargs.getValue("o"));
+	        conf.set(ArgsParser.INFILE, pargs.getValue("i"));
+	        conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
+
+		} catch (Exception e) {
+			System.out.println("usage: SimpleWrapper -i inFile -o outFile");
+			LOG.info(e);
+			System.exit(-1);
+		}
+		
+		//build cmd_line string here
+		//PTInvoker invoker = new PTInvoker(tools_spec);
+		//eu.scape_project.pit.tools.Tool tool = invoker.findTool(tool_name);
+		//System.out.println("cmd: "+ invoker.substituteTemplates(tool));
+		//Tool findTool( String command_id )
+
+        try {
 			LOG.info("Running MapReduce ..." );
-			res = ToolRunner.run(new Configuration(), mr, args);
+			res = ToolRunner.run(conf, mr, args);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
