@@ -7,7 +7,8 @@ public class ArgsParser {
 
 	static public final String INFILE = "INFILE";
 	static public final String OUTDIR = "OUTDIR";
-
+	static public final String TOOL = "TOOL";
+	
 	private OptionParser parser = null;
 	private OptionSet options = null;
 	

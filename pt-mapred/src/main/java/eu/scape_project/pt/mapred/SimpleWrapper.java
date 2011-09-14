@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import joptsimple.OptionParser;
 
@@ -46,27 +47,27 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapred.lib.MultipleOutputFormat;
-import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import eu.scape_project.pit.invoke.PitInvoker;
+import eu.scape_project.pt.pit.ToolMap;
 import eu.scape_project.pt.pit.invoke.PTInvoker;
 import eu.scape_project.pt.util.ArgsParser;
+import eu.scape_project.pt.util.FNRecordParser;
+import eu.scape_project.pt.pit.Tool;
 
 /**
  * A very simple wrapper to execute cmd-line tools using mapReduce
  * @author Rainer Schmidt [rschmidt13]
  */ 
-public class SimpleWrapper extends Configured implements Tool {
+public class SimpleWrapper extends Configured implements org.apache.hadoop.util.Tool {
 
 	private static Log LOG = LogFactory.getLog(SimpleWrapper.class);
-	public static String TOOLSPEC = "TOOLSPEC";
 	
 	public static class MyMapper extends Mapper<Object, Text, Text, IntWritable> {
 		
 		//TODO
 		//use logger for writing to std. out
-		//use tools spec. for selecting tools and specifying arguments
     
 	    //Mapper<Text, Buffer, Text, IntWritable> {
 		private final static IntWritable one = new IntWritable(1);
@@ -74,28 +75,32 @@ public class SimpleWrapper extends Configured implements Tool {
 			
 		public void setup( Context context ) {
 		}
-			      
+
 	    public void map(Object key, Text value, Context context
 	                    ) throws IOException, InterruptedException {
 	    	
-	    	
 	    	System.out.println("MyMapper.map key:"+key.toString()+" value:"+value.toString());
-
+	    	FNRecordParser rparser = new FNRecordParser(value.toString());
+	    	String str = context.getConfiguration().get(ArgsParser.TOOL);
+	    	Tool tool = Tool.fromString(str);
+	    	
+	    	
+	    	//Let's implement a simple workflow
+	    	//read file (1) -> execute (2) -> write file (3)
+	    	
+	    	if(rparser.isHDFS(rparser.getInFile()) && !tool.inFileAsStream()) 
+	    		System.out.println("retrieving tmp-file from hdfs");
+	    	
 	    	FileSystem hdfs = FileSystem.get(new Configuration());
 	    	Path inFile = new Path("hdfs://"+value.toString());
 	    	Path outFile = new Path("hdfs://"+value.toString()+".pdf");
 	    	Path fs_outFile = new Path("/home/rainer/tmp/"+inFile.getName()+".pdf");
-
-	    	
-	    	
-	    	if (!hdfs.exists(inFile)) {
-	    	  System.out.println("Input file not found");
-	    	  return;
-	    	}
 	    	
 	    	String fn = inFile.getName();
 	    	System.out.println("procsssing file: "+fn);
 	    	
+	    	/** STREAMING works but we'll integrate that later
+	    	 
 	    	String[] cmds = {"ps2pdf", "-", "/home/rainer/tmp"+fn+".pdf"};
 	    	//Process p = new ProcessBuilder(cmds[0],cmds[1],cmds[2]).start();
 	    	Process p = new ProcessBuilder(cmds[0],cmds[1],cmds[1]).start();
@@ -124,6 +129,8 @@ public class SimpleWrapper extends Configured implements Tool {
 			
 			toProc.join();	    	
 			toHdfs.join();
+			
+			*/
 	    }
 	    
     	private Thread pipe(final InputStream src, final PrintStream dest, final char debugToken) throws IOException {
@@ -166,12 +173,9 @@ public class SimpleWrapper extends Configured implements Tool {
 		}
 	}
 	
-	
-
 	public int run(String[] args) throws Exception {
 
 		Configuration conf = getConf();
-
 		Job job = new Job(conf);
 		
 		job.setJobName("mrexample");
@@ -192,7 +196,7 @@ public class SimpleWrapper extends Configured implements Tool {
 		//FileOutputFormat.setOutputPath(job, new Path(args[1])); ArgsParser.OUTDIR
 		FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE))); 
 		FileOutputFormat.setOutputPath(job, new Path(conf.get(ArgsParser.OUTDIR))); 
-		
+				
 		//add command to job configuration
 		//conf.set(TOOLSPEC, args[2]);
 		
@@ -206,12 +210,15 @@ public class SimpleWrapper extends Configured implements Tool {
 		job.waitForCompletion(true);
 		return 0;
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 
 		int res = 1;
 		SimpleWrapper mr = new SimpleWrapper();
         Configuration conf = new Configuration();
+        ToolMap tools = new ToolMap();
+        tools.initialize();
+        
 
 		//System.out.println("detecting execution with/out Haddop:"+args[0]+"=="+SimpleWrapper.class.getSimpleName());
 		if(args[0].equals(SimpleWrapper.class.getName())) {
@@ -221,24 +228,20 @@ public class SimpleWrapper extends Configured implements Tool {
 		}
 		
 		try {
-			ArgsParser pargs = new ArgsParser("i:o:", args);
-			System.out.println("input: "+ pargs.getValue("i"));
-			System.out.println("output: "+pargs.getValue("o"));
-	        conf.set(ArgsParser.INFILE, pargs.getValue("i"));
+			ArgsParser pargs = new ArgsParser("i:o:t:", args);
+			LOG.info("input: "+ pargs.getValue("i"));
+			LOG.info("output: "+pargs.getValue("o"));
+			LOG.info("tool: "+pargs.getValue("t")+" -> "+tools.get(pargs.getValue("t")).toString());			
+			conf.set(ArgsParser.INFILE, pargs.getValue("i"));
 	        conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
-
+	        conf.set(ArgsParser.TOOL, tools.get(pargs.getValue("t")).toString());
+	        
 		} catch (Exception e) {
-			System.out.println("usage: SimpleWrapper -i inFile -o outFile");
+			System.out.println("usage: SimpleWrapper -t cmd -i inFile -o outFile");
 			LOG.info(e);
 			System.exit(-1);
 		}
 		
-		//build cmd_line string here
-		//PTInvoker invoker = new PTInvoker(tools_spec);
-		//eu.scape_project.pit.tools.Tool tool = invoker.findTool(tool_name);
-		//System.out.println("cmd: "+ invoker.substituteTemplates(tool));
-		//Tool findTool( String command_id )
-
         try {
 			LOG.info("Running MapReduce ..." );
 			res = ToolRunner.run(conf, mr, args);
