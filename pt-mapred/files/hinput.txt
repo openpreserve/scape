@@ -1,1 +1,1 @@
-file:///home/rainer/data/projects/scape/github/scape/pt-mapred/files/paper.ps file:///home/rainer/data/projects/scape/github/scape/pt-mapred/files/paper.ps
+-i hdfs:///user/rainer/docs/paper.ps hdfs:///user/rainer/docs/paper2.ps -o hdfs:///user/rainer/docs/paper.ps.pdf

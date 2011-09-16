@@ -25,5 +25,9 @@ public class ArgsParser {
 		if (options.hasArgument(opt)) return options.valueOf(opt).toString();
 		return null;
 	}
+	
+	public boolean hasOption(String opt) {
+		return options.has(opt);
+	}
 
 }

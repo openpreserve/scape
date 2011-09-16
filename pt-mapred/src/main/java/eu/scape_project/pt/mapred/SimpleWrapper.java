@@ -14,6 +14,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -55,6 +56,7 @@ import eu.scape_project.pt.pit.invoke.PTInvoker;
 import eu.scape_project.pt.util.ArgsParser;
 import eu.scape_project.pt.util.FNRecordParser;
 import eu.scape_project.pt.pit.Tool;
+import eu.scape_project.pt.fs.util.HDFSFiler;
 
 /**
  * A very simple wrapper to execute cmd-line tools using mapReduce
@@ -62,14 +64,15 @@ import eu.scape_project.pt.pit.Tool;
  */ 
 public class SimpleWrapper extends Configured implements org.apache.hadoop.util.Tool {
 
-	private static Log LOG = LogFactory.getLog(SimpleWrapper.class);
+	//private static Log LOG = LogFactory.getLog(SimpleWrapper.class);
+	private static Log LOG = LogFactory.getLog("eu.scape_project.pt.Noodle");
 	
 	public static class MyMapper extends Mapper<Object, Text, Text, IntWritable> {
+	    //Mapper<Text, Buffer, Text, IntWritable> {
 		
 		//TODO
 		//use logger for writing to std. out
     
-	    //Mapper<Text, Buffer, Text, IntWritable> {
 		private final static IntWritable one = new IntWritable(1);
 	    private Text word = new Text();
 			
@@ -84,20 +87,41 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	String str = context.getConfiguration().get(ArgsParser.TOOL);
 	    	Tool tool = Tool.fromString(str);
 	    	
-	    	
 	    	//Let's implement a simple workflow
 	    	//read file (1) -> execute (2) -> write file (3)
 	    	
-	    	if(rparser.isHDFS(rparser.getInFile()) && !tool.inFileAsStream()) 
-	    		System.out.println("retrieving tmp-file from hdfs");
+	    	try {
+		    	if(rparser.isHDFS(rparser.getInFiles()[0])) 
+		    		System.out.println("retrieving tmp-file from hdfs");
+	    	} catch(URISyntaxException e) {
+	    		e.printStackTrace();
+	    	}
 	    	
+	    	// this is bugging me 
+	    	LOG.fatal("********FATAL**********");
+	    	LOG.error("********ERROR**********");
+	    	LOG.info("********INFO**********");
+	    	LOG.warn("********WARN**********");
+	    	LOG.debug("********DEBUG**********");
+	    	
+	    	//TODO
+	    	//prepare execution (download files, attach pipes)
+	    	//start execution 
+	    	//finish execution (write output files)
+	    	
+	    	//TODO 
+	    	//move this to Process object
 	    	FileSystem hdfs = FileSystem.get(new Configuration());
-	    	Path inFile = new Path("hdfs://"+value.toString());
-	    	Path outFile = new Path("hdfs://"+value.toString()+".pdf");
-	    	Path fs_outFile = new Path("/home/rainer/tmp/"+inFile.getName()+".pdf");
+	    	HDFSFiler filer = new HDFSFiler(hdfs);
+	    	String[] f = rparser.getInFiles();
+	    	System.out.println("inFile0: "+f[0]);
+	    	File inFile = filer.createTempFileFromHDFSReference(f[0]);
+	    	System.out.println("tempFile: "+inFile.getCanonicalPath()+" with name: "+inFile.getName());
 	    	
-	    	String fn = inFile.getName();
-	    	System.out.println("procsssing file: "+fn);
+	    	//Path inFile = new Path("hdfs://"+value.toString());
+	    	//Path outFile = new Path("hdfs://"+value.toString()+".pdf");
+	    	//Path fs_outFile = new Path("/home/rainer/tmp/"+inFile.getName()+".pdf");
+	    	
 	    	
 	    	/** STREAMING works but we'll integrate that later
 	    	 
@@ -122,7 +146,7 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 			System.out.println("streaming data to process");
 			Thread toProc = pipe(hdfs_in, new PrintStream(p_out), '>');
 			
-			System.out.println("streaming data to hdfs");
+			System.out.println("streaming data to hdfs");()
 			Thread toHdfs = pipe(p_in, new PrintStream(hdfs_out), 'h'); 
 			
 			//pipe(process.getErrorStream(), System.err);
@@ -185,6 +209,8 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 		job.setOutputValueClass(IntWritable.class);
 		
 		job.setMapperClass(MyMapper.class);
+	
+		
 		//job.setReducerClass(MyReducer.class);
 
 		//job.setInputFormatClass(VideoInputFormat.class);
@@ -194,8 +220,9 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 		
 		//FileInputFormat.addInputPath(job, new Path(args[0])); ArgsParser.INFILE
 		//FileOutputFormat.setOutputPath(job, new Path(args[1])); ArgsParser.OUTDIR
-		FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE))); 
-		FileOutputFormat.setOutputPath(job, new Path(conf.get(ArgsParser.OUTDIR))); 
+		FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE)));
+		String outDir = (conf.get(ArgsParser.OUTDIR) == null) ? "out/"+System.currentTimeMillis()%1000 : conf.get(ArgsParser.OUTDIR); 
+		FileOutputFormat.setOutputPath(job, new Path(outDir) ); 
 				
 		//add command to job configuration
 		//conf.set(TOOLSPEC, args[2]);
@@ -212,36 +239,34 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	}
 	
 	public static void main(String[] args) throws Exception {
-
+		
 		int res = 1;
 		SimpleWrapper mr = new SimpleWrapper();
         Configuration conf = new Configuration();
         ToolMap tools = new ToolMap();
         tools.initialize();
-        
-
-		//System.out.println("detecting execution with/out Haddop:"+args[0]+"=="+SimpleWrapper.class.getSimpleName());
-		if(args[0].equals(SimpleWrapper.class.getName())) {
-			System.out.println("detected execution without Hadoop");
-		} else {
-			System.out.println("detected execution on Hadoop");
-		}
-		
+        		
 		try {
-			ArgsParser pargs = new ArgsParser("i:o:t:", args);
+			ArgsParser pargs = new ArgsParser("i:o:t:x", args);
 			LOG.info("input: "+ pargs.getValue("i"));
 			LOG.info("output: "+pargs.getValue("o"));
-			LOG.info("tool: "+pargs.getValue("t")+" -> "+tools.get(pargs.getValue("t")).toString());			
+			LOG.info("tool: "+pargs.getValue("t")+" ...lookup returned: "+tools.get(pargs.getValue("t")));		
+			
 			conf.set(ArgsParser.INFILE, pargs.getValue("i"));
-	        conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
 	        conf.set(ArgsParser.TOOL, tools.get(pargs.getValue("t")).toString());
+	        if (pargs.hasOption(ArgsParser.OUTDIR)) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
 	        
+	        //don't run hadoop
+	        if(pargs.hasOption("x")) {
+	        	System.out.println("option x detected");
+	        	System.exit(1);
+	        }
 		} catch (Exception e) {
-			System.out.println("usage: SimpleWrapper -t cmd -i inFile -o outFile");
+			System.out.println("usage: SimpleWrapper -i inFile [-o outFile] -t cmd");
 			LOG.info(e);
 			System.exit(-1);
 		}
-		
+				
         try {
 			LOG.info("Running MapReduce ..." );
 			res = ToolRunner.run(conf, mr, args);
