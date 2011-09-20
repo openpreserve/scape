@@ -16,13 +16,16 @@
   <version>5.04</version>
 <!-- Future automatic version.
   <version>
-    <command>file -v</command>
-    <match>file-(.*)</match>
+    <action>
+      <command>file -v</command>
+      <match>file-(.*)</match>
+      <test>.\...</test>
+    </action>
   </version>
  -->
 
   <parameters>
-	<parameter name="exclude">
+	<parameter name="Exclude Tests" var="exclude">
 	  <default>tokens</default>
 	  <documentation>Matching to exclude,one of XXX, TBA...</documentation>
 	  <!-- All datatypes are xsd:string by default. -->
@@ -33,22 +36,27 @@
  
   <action type="identify" id="file-stdin">
   	<command>file -</command>
+  	<!--  ideas  -->
+  	<input stdin="true"/>
+  	<output>
+  	  <transform class="net.XXXX.transform.???"/>
+  	</output>
   </action>
 
   <action type="identify" id="file">
-  	<command>file ${inFile}</command>
+  	<command>file ${input}</command>
   </action>
 
   <action type="identify" id="file-exclude">
-  	<command>file -e ${exclude} ${inFile}</command>
+  	<command>file -e ${exclude} ${input}</command>
   </action>
 
   <action type="identify" id="file-mime">
-  	<command>file -b --mime-type ${inFile}</command>
+  	<command>file -b --mime-type ${input}</command>
   </action>
 
   <action type="identify" id="file-mime-exclude">
-  	<command>file -b --mime-type -e ${exclude} ${inFile}</command>
+  	<command>file -b --mime-type -e ${exclude} ${input}</command>
   </action>
 
 </toolspec>

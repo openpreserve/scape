@@ -90,7 +90,7 @@ public class PitInvoker {
 		HashMap<String,String> vars = new HashMap<String,String>();
 		if( ts.getParam() != null ) {
 			for( Parameter v : ts.getParam() ) {
-				vars.put(v.getVar(), v.getDefaultValue());
+				vars.put(v.getVar(), v.getDefault());
 			}
 		}
 		// TODO Check input file exists!
