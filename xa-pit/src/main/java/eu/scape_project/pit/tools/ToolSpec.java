@@ -32,7 +32,7 @@ public class ToolSpec {
 	private Version version;
 	
 	@XmlElement()
-	private Install install;
+	private Installation installation;
 	
 	@XmlElement()
 	private List<Var> env;
@@ -46,8 +46,8 @@ public class ToolSpec {
 	@XmlElement()
 	private Parameters parameters;
 	
-	@XmlElement( name="tool" )
-	private List<Tool> tools;
+	@XmlElement( name="action" )
+	private List<Action> actions;
 		
 	private static JAXBContext jc;
 	
@@ -94,15 +94,15 @@ public class ToolSpec {
 	/**
 	 * @return the install
 	 */
-	public Install getInstall() {
-		return install;
+	public Installation getInstallation() {
+		return installation;
 	}
 
 	/**
 	 * @param install the install to set
 	 */
-	public void setInstall(Install install) {
-		this.install = install;
+	public void setInstallation(Installation install) {
+		this.installation = install;
 	}
 
 	/**
@@ -162,17 +162,17 @@ public class ToolSpec {
 	}
 
 	/**
-	 * @return the convert
+	 * @return the actions
 	 */
-	public List<Tool> getTools() {
-		return tools;
+	public List<Action> getActions() {
+		return actions;
 	}
 
 	/**
-	 * @param tools the convert to set
+	 * @param actions the actions to set
 	 */
-	public void setTools(List<Tool> tools) {
-		this.tools = tools;
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
 	}
 
 	String toXMlFormatted() throws JAXBException, UnsupportedEncodingException {

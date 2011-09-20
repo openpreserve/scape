@@ -66,5 +66,5 @@ public class ToolSpecTest {
 		ToolSpec isobuster = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(ISOBUSTER_SPEC));
 		System.out.println("Tools "+isobuster.getName());
 	}
-
+	
 }

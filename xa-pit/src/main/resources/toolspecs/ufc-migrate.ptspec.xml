@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+  <id>ufc-migrate</id>
+  <name>UfcMigrate</name>
+  <homepage></homepage>
+  
+  <!-- Should come from service description!? -->
+  <version>5.04</version>
+
+  <action type="migrate" id='ufc-migrate">
+    <service>http://132.230.8.85:8080/psuite-pa-ufcmigrate/UfcMigrate?wsdl</service>
+  </action>
+
+</toolspec>
