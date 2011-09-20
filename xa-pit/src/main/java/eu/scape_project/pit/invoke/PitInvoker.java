@@ -52,7 +52,7 @@ public class PitInvoker {
 	private void runCommand( String[] cmd_template ) throws IOException {
 		// Build the command:
 		ProcessBuilder pb = new ProcessBuilder(cmd_template);
-		System.out.println("Command : "+pb.command());
+		System.out.println("Executing: "+pb.command());
 		/*
 		for( String command : pb.command() ) {
 			System.out.println("Command : "+command);			
@@ -116,6 +116,30 @@ public class PitInvoker {
 		runCommand(cmd_template);
 	}
 	
+	/**
+	 * Generic invocation method:
+	 * @param command_id
+	 * @param parameters
+	 * @throws IOException 
+	 * @throws CommandNotFoundException 
+	 */
+	public void execute( String command_id, HashMap<String,String> parameters) throws IOException, CommandNotFoundException {
+		Action cmd = findTool(command_id);
+		String[] cmd_template = substituteTemplates(cmd);
+		// FIXME This is the part that needs close consideration - See README
+		HashMap<String, String> vars = getStandardVars(cmd, new File(parameters.get("input")));
+		
+		for( String key : vars.keySet() ) {
+			System.out.println("Key: "+key+" = "+vars.get(key));
+		}
+		
+		// Now substitute the parameters:
+		replaceAll(cmd_template,vars);
+
+		// Now run the command:
+		runCommand(cmd_template);
+	}
+	
 	public void convert( String command_id, File input, File output) throws CommandNotFoundException, IOException {
 		Action cmd = findTool(command_id);
 		String[] cmd_template = substituteTemplates(cmd);
@@ -158,8 +182,13 @@ public class PitInvoker {
 		/* Third argument specifies the input file. */
 		String inputFile = args[2];
 
+		HashMap<String,String> par = new HashMap<String,String>();
+		par.put("input", inputFile);
+		
 		/* For identification actions, we invoke like this. */
-		ib.identify(action, new File( inputFile ) );
+		ib.execute(action, par);
+		
+		//ib.identify(action, new File( inputFile ) );
 				//, 
 				//new File("test.jp2") );
 //				File.createTempFile("DISC_1",".iso") );
