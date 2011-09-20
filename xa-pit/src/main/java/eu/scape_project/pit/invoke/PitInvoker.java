@@ -95,8 +95,8 @@ public class PitInvoker {
 		}
 		// TODO Check input file exists!
 		// Create standard parameters.
-		vars.put("inFile", input.getAbsolutePath());
-		vars.put("logFile", File.createTempFile(ts.getName()+"-"+cmd.getId(), ".log").getAbsolutePath());
+		vars.put("input", input.getAbsolutePath());
+		vars.put("logFile", File.createTempFile(ts.getTool().getName()+"-"+cmd.getId(), ".log").getAbsolutePath());
 		return vars;
 	}
 
@@ -122,7 +122,7 @@ public class PitInvoker {
 		HashMap<String, String> vars = getStandardVars(cmd, input);
 		
 		// TODO Check output file does not exist!
-		vars.put("outFile", output.getAbsolutePath());
+		vars.put("output", output.getAbsolutePath());
 
 		// Now substitute the parameters:
 		replaceAll(cmd_template,vars);

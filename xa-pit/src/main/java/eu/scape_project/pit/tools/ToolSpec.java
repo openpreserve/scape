@@ -24,16 +24,13 @@ public class ToolSpec {
 	
 	@XmlElement()
 	private String id;
-
-	@XmlElement()
-	private String name;
 	
 	@XmlElement()
 	private Version version;
 	
 	@XmlElement()
-	private Installation installation;
-	
+	private Tool tool;
+
 	@XmlElement()
 	private List<Var> env;
 	
@@ -64,20 +61,6 @@ public class ToolSpec {
 	
 
 	/**
-	 * @return the tool
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the tool to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the version
 	 */
 	public Version getVersion() {
@@ -92,17 +75,17 @@ public class ToolSpec {
 	}
 
 	/**
-	 * @return the install
+	 * @return
 	 */
-	public Installation getInstallation() {
-		return installation;
+	public Tool getTool() {
+		return tool;
 	}
 
 	/**
-	 * @param install the install to set
+	 * @param tool
 	 */
-	public void setInstallation(Installation install) {
-		this.installation = install;
+	public void setTool(Tool tool) {
+		this.tool = tool;
 	}
 
 	/**

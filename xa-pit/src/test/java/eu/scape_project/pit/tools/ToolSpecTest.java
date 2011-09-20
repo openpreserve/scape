@@ -60,11 +60,11 @@ public class ToolSpecTest {
 	@Test
 	public void testFromInputstream() throws FileNotFoundException, JAXBException {
 		ToolSpec kakadu = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(KAKADU_SPEC));
-		System.out.println("Tools "+kakadu.getName());
+		System.out.println("Tools "+kakadu.getTool().getName());
 		ToolSpec jhove2 = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(JHOVE2_SPEC));
-		System.out.println("Tools "+jhove2.getName());
+		System.out.println("Tools "+jhove2.getTool().getName());
 		ToolSpec isobuster = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(ISOBUSTER_SPEC));
-		System.out.println("Tools "+isobuster.getName());
+		System.out.println("Tools "+isobuster.getTool().getName());
 	}
 	
 }
