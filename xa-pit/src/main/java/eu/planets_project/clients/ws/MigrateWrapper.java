@@ -3,6 +3,11 @@
  */
 package eu.planets_project.clients.ws;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -13,8 +18,15 @@ import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceClient;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.text.FormatFactory;
+
 import com.sun.xml.ws.developer.JAXWSProperties;
 
+import eu.planets_project.ifr.core.techreg.formats.Format;
+import eu.planets_project.ifr.core.techreg.formats.FormatRegistry;
+import eu.planets_project.ifr.core.techreg.formats.FormatRegistryFactory;
+import eu.planets_project.services.datatypes.Content;
 import eu.planets_project.services.datatypes.DigitalObject;
 import eu.planets_project.services.datatypes.Parameter;
 import eu.planets_project.services.datatypes.ServiceDescription;
@@ -99,4 +111,27 @@ public class MigrateWrapper extends Service implements Migrate {
         return m.migrate(digitalObject, inputFormat, outputFormat, parameters);
     }
 
+    /**
+     * 
+     * @param args
+     * @throws Exception
+     */
+    public static void main( String[] args ) throws Exception {
+    	FormatRegistry fr = FormatRegistryFactory.getFormatRegistry();
+    	URI rtf = fr.createExtensionUri("rtf");
+    	URI wpd = fr.createExtensionUri("wpd");
+    	Format f = fr.getFormatForUri( rtf );
+    	URI service  = URI.create("http://132.230.8.85:8080/psuite-pa-ufcmigrate/UfcMigrate?wsdl");
+    	Migrate m = MigrateWrapper.createWrapper(service.toURL());
+    	System.out.println("Description: "+m.describe().toXmlFormatted());
+    	DigitalObject.Builder doin = new DigitalObject.Builder(Content.byValue( new File("/Users/andy/Downloads/Aspen letter 2.wpd") ));
+    	// Do It:
+    	MigrateResult mr = m.migrate(doin.build(), wpd, rtf, null);
+    	InputStream migout = mr.getDigitalObject().getContent().getInputStream();
+    	FileOutputStream fout = new FileOutputStream( new File("test.rtf"));
+    	IOUtils.copy(migout, fout);
+    	migout.close();
+    	fout.close();
+    }
+    
 }
