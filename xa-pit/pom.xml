@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
   <groupId>eu.scape-project</groupId>
   <artifactId>xa-pit</artifactId>
-  <version>${project.parent.version}</version>
+  <version>0.0.1-SNAPSHOT</version>
   <name>SCAPE Preservation-action Invocation Tool</name>
   <description>Defines and invokes portable preservation action tool specifications.</description>
 	<build>
@@ -65,15 +65,6 @@
 		</plugins>
 	</build>
   <dependencies>
-  	<!--
-  	<dependency>
-  		<groupId>planets-suite</groupId>
-  		<artifactId>planets-core-techreg</artifactId>
-  		<version>1.0.1-SNAPSHOT</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  	</dependency>
-  	 -->
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
@@ -124,40 +115,25 @@
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
-  		<groupId>org.opf_labs.suite</groupId>
+  		<groupId>org.opf_labs.planets</groupId>
   		<artifactId>core-services</artifactId>
-  		<version>1.1.0</version>
+  		<version>1.0.1</version>
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
-  		<groupId>org.opf_labs.suite</groupId>
+  		<groupId>org.opf_labs.planets</groupId>
   		<artifactId>core-utils</artifactId>
-  		<version>1.1.0</version>
+  		<version>1.0.1</version>
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
-  		<groupId>org.opf_labs.suite</groupId>
+  		<groupId>org.opf_labs.planets</groupId>
   		<artifactId>core-techreg</artifactId>
-  		<version>1.1.0</version>
+  		<version>1.0.1</version>
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   </dependencies>
-	<repositories>
-        <repository>
-        	<id>planets-suite-snapshot-repository</id>
-        	<name>The Planets Suite Maven Repository, hosted by SourceForge.</name>
-        	<url>http://planets-suite.sourceforge.net/maven2/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>
