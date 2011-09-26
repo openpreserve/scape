@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toolspec>
-  <id>pit-buildin-kakadu</id>
+<toolspec id="pit-buildin-kakadu">
   <name>Kakadu</name>
 
   <!-- Information on how to install this tool. Should be actionable where possible, manual by default. -->
@@ -33,8 +32,8 @@
        Use ${in} or ${input} or ${inDir} for input specification
        Use ${out} or ${output} or ${outDir} for output specification -->
 
-  <!-- Fully lossless compression, using default values for everything. -->
-  <action type="convert" id="lossless">
+  <!-- Fully lossless compression, using default values for everything else. -->
+  <action id="lossless" type="convert">
     <command>$KAKADU_HOME/kdu_compress -i ${input} -o ${output} -rate - Creversible=yes</command>
     <formats in="tif,bmp,pnm" out="jp2"/>
     <formats in="pnm" out="jp2"/>

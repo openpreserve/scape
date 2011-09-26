@@ -19,7 +19,6 @@ import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceClient;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.text.FormatFactory;
 
 import com.sun.xml.ws.developer.JAXWSProperties;
 

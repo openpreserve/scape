@@ -11,7 +11,8 @@ Move tool spec. into PIT, allow local deployment.
 Focus WSDL and REST exposure in xa-toolwrapper (->xa-toolserver?)
 Consider separating REST from WSDL, to build some richness on the REST.
 Use standard names for input, output, and do all that automatically.
-Use template to define required parameters, declarations are optional. i.e. do we really need the 'Required' field when we have 'Default'?
+Use template to define required parameters, declarations are optional. 
+i.e. do we really need the 'Required' field when we have 'Default'?
 Declarations can be at the top level, so that they can be shared.
 Do inputs/parameters need a name and a cliMapping?
 Datatypes default to string.
@@ -24,12 +25,14 @@ Use result instead of output - stdout/etc, ${output},
 ROADMAP: Allow commands instead of literals for version returns, etc.
 ROADMAP: Allow download URL etc, for some. platform not os.
 Support tempFile, tempFolder, create if present.
-NOT Clear whether ENV should be supported/encouraged, because we want to record the expanded value, not the variable.
+NOT Clear whether ENV should be supported/encouraged, because we want to record the expanded 
+value, not the variable.
 
 Define default process invocation behaviour and returns.
 Add code to extract all parameters (${.*}) and use that to auto-construct interface and invocation.
 Add 'typed' action support, allow parameters to be validated as far as possible.
-TODO Generate XSD from classes? Or otherwise support integration with xa-toolwrapper, perhaps by published schema AND Maven dependency? Is that necessary?
+TODO Generate XSD from classes? Or otherwise support integration with xa-toolwrapper, perhaps 
+by published schema AND Maven dependency? Is that necessary?
 
 How to cope with parameters that map to files.
 In the deployed context, this means moving files to the right place or piping into stdin.
@@ -56,4 +59,5 @@ Service wrapper moves the output to the exposed folder and passes back the new U
 So, process invocation needs to populate a result object that records what happened, 
 (inc. output file location).
 
+ROADMAP: SCAPE WSDL requires URI, so needs to call back for resource, which is messy when invoking locally.
 
