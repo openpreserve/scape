@@ -115,21 +115,21 @@
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
-  		<groupId>org.opf_labs.planets</groupId>
+  		<groupId>org.opf-labs.planets</groupId>
   		<artifactId>core-services</artifactId>
   		<version>1.0.1</version>
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
-  		<groupId>org.opf_labs.planets</groupId>
+  		<groupId>org.opf-labs.planets</groupId>
   		<artifactId>core-utils</artifactId>
   		<version>1.0.1</version>
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
-  		<groupId>org.opf_labs.planets</groupId>
+  		<groupId>org.opf-labs.planets</groupId>
   		<artifactId>core-techreg</artifactId>
   		<version>1.0.1</version>
   		<type>jar</type>
