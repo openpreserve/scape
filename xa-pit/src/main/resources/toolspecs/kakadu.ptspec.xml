@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec id="pit-buildin-kakadu">
-  <name>Kakadu</name>
+  <tool>
+    <name>Kakadu</name>
 
-  <!-- Information on how to install this tool. Should be actionable where possible, manual by default. -->
-  <installation/>
+    <!-- Information on how to install this tool. Should be actionable where possible, manual by default. -->
+    <installation/>
+  </tool>
 
   <!-- Specify environment variables required to run this tool. 
   It should be possible to override these in the deployment. -->
