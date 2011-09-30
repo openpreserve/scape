@@ -55,6 +55,8 @@ public class DeploymentCreator {
     private Document doc;
     private Service service;
     private PropertiesSubstitutor st;
+    private String defDeplOrig;
+    private String defDeplTarget;
 
     public DeploymentCreator(String pomAbsPath, Service service, PropertiesSubstitutor st) {
         this.pomAbsPath = pomAbsPath;
@@ -90,6 +92,8 @@ public class DeploymentCreator {
                 boolean isDefaultDeployment = dk.isDefault();
                 Deployment d = (Deployment) dk.getRef();
 
+                String host = d.getHost();
+                String id = d.getId();
 
                 //<profile>
                 //    <id>deployment1</id>
@@ -137,8 +141,11 @@ public class DeploymentCreator {
                         type = p.getType();
                     }
                 }
+                
                 Element tomcatManagerUrlElm = doc.createElement("tomcat.manager.url");
-                tomcatManagerUrlElm.setTextContent(type + "://" + d.getHost() + ":" + port + "/manager");
+                String managerPath = d.getManager().getPath();
+                managerPath = (managerPath!=null&&!managerPath.isEmpty())?managerPath:"manager";
+                tomcatManagerUrlElm.setTextContent(type + "://" + d.getHost() + ":" + port + "/"+managerPath);
 
 
                 propertiesElm.appendChild(tomcatManagerUrlElm);
@@ -231,11 +238,16 @@ public class DeploymentCreator {
                 for (Operation operation : operations) {
                     deplDepServXmlCode.put("cli_cmd_" + String.valueOf(operation.getOid()), operation.getCommand());
                 }
+                
                 deplDepServXmlCode.put("tomcat_public_procunitid", d.getIdentifier());
                 Dataexchange de = d.getDataexchange();
 
-                deplDepServXmlCode.put("tomcat_public_http_access_dir", de.getAccessdir());
-                deplDepServXmlCode.put("tomcat_public_http_access_url", de.getAccessurl());
+                String accessDir = FileUtil.makePath(de.getAccessdir());
+                String accessUrl = de.getAccessurl();
+
+                
+                deplDepServXmlCode.put("tomcat_public_http_access_dir", accessDir);
+                deplDepServXmlCode.put("tomcat_public_http_access_url", accessUrl);
                 // TODO: filter
                 //deplDepServXmlCode.put("service_url_filter", );
                 deplDepServXmlCode.evaluate();
@@ -243,9 +255,9 @@ public class DeploymentCreator {
                 deplDepServXmlCode.create(servDir + "services.xml");
                 logger.debug("Writing: " + servDir + "services.xml");
                 if (isDefaultDeployment) {
-                    deplDepServXmlCode.create(sxmlFile);
+                    defDeplOrig = servDir + "services.xml";
+                    defDeplTarget = sxmlFile;
                 }
-
 
                 // source
                 String htmlIndexSourcePath = FileUtil.makePath(generatedDir, projDir,
@@ -265,7 +277,6 @@ public class DeploymentCreator {
                     htmlSourceIndexCode.create(htmlIndexSourcePath);
                 }
 
-
                 // source
                 String wsdlSourcePath = FileUtil.makePath(generatedDir, projDir,
                         "src/main", "webapp") + st.getProjectMidfix()+".wsdl";
@@ -282,8 +293,9 @@ public class DeploymentCreator {
                 if (isDefaultDeployment) {
                     wsdlSourceCode.create(wsdlSourcePath);
                 }
-
-
+            }
+            if(defDeplOrig != null && !defDeplOrig.isEmpty()) {
+                    FileUtils.copyFile(new File(defDeplOrig), new File(defDeplTarget));
             }
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();

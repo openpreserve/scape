@@ -124,6 +124,7 @@
             <manager>
                 <user>tomcat</user>
                 <password>TxF781!P</password>
+		<path>manager</path>
             </manager>
             <dataexchange>
                 <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>

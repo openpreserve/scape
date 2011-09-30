@@ -1,6 +1,15 @@
 Tool Wrapper v0.3
 =================
 
+About
+-----
+
+The Tool Wrapper is a Java based application for creating a web service wrapper
+project for command line tools. Based on an XML tool description, the application
+creates a maven project for the tool which includes web services and web service
+operations allowing to execute a command line tool via SOAP, RESTless, and Java
+API interfaces.
+
 Quick start
 -----------
 
@@ -17,6 +26,15 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
    command for Windows (use "CMD.exe /C COPY" instead of "cp" in the command
    pattern defined in the tool specification default.xml in node
    toolspec/services/service/operations/operation/command if you are using windows).
+
+   Customized project properties or another tool specification can be used:
+
+       java -jar toolwrapper.jar -pc toolwrapper.properties -xc default.xml
+
+   where:
+
+       -pc specifies the file that contains the project configuration
+       -xc Tool, service and service input/output data type defintions
 
 2) Start your Apache Tomcat server:
 

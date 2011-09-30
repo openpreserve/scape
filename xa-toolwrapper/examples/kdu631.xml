@@ -26,7 +26,7 @@
             <operations>
                 <operation oid="1" name="convertTiffImageToJp2">
                     <description>Convert a TIFF image to JP2</description>
-                    <command>/usr/local/bin/kdu_compress -i ${input} -o ${output} Creversible=${reversible} -rate ${rate} Clayers=${layers} Clevels=${levels} Stiles=${tiles} Cblk=${codeBlocks} Corder=${progressionOrder} Cprecincts=${precincts} Cuse_sop=yes Cuse_eph=yes</command>
+                    <command>/usr/local/kakadu/kdu631/bin/kdu_compress -i ${input} -o ${output} Creversible=${reversible} -rate ${rate} Clayers=${layers} Clevels=${levels} Stiles=${tiles} Cblk=${codeBlocks} Corder=${progressionOrder} Cprecincts=${precincts} Cuse_sop=yes Cuse_eph=yes</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
@@ -128,12 +128,12 @@
                 </operation>
             </operations>
             <deployto>
-                <deployref default="true" ref="deployment1"/>
+                <deployref default="true" ref="local"/>
             </deployto>
         </service>
     </services>
     <deployments>
-        <deployment id="deployment1">
+        <deployment id="local">
             <identifier>http://localhost:8080/scape/default/tomcat</identifier>
             <host>localhost</host>
             <ports>
@@ -143,6 +143,7 @@
             <manager>
                 <user>tomcat</user>
                 <password>TxF781!P</password>
+		<path>manager</path>
             </manager>
             <dataexchange>
                 <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>

@@ -82,6 +82,7 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="password" type="xs:string"/>
+	<xs:element name="path" type="xs:string"/>
 	<xs:element name="outputs">
 		<xs:complexType>
 			<xs:sequence>
@@ -127,6 +128,7 @@
 			<xs:sequence>
 				<xs:element ref="user"/>
 				<xs:element ref="password"/>
+				<xs:element ref="path"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
