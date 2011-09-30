@@ -55,8 +55,15 @@ public class DeploymentCreator {
     private Document doc;
     private Service service;
     private PropertiesSubstitutor st;
-    private String defDeplOrig;
-    private String defDeplTarget;
+    private String defaultDeplServicesFile;
+    private String defaultServicesFile;
+
+
+    private String defaultDeplHtmlFile;
+    private String defaultHtmlFile;
+
+    private String defaultDeplWsdlFile;
+    private String defaultWsdlFile;
 
     public DeploymentCreator(String pomAbsPath, Service service, PropertiesSubstitutor st) {
         this.pomAbsPath = pomAbsPath;
@@ -178,7 +185,6 @@ public class DeploymentCreator {
                 //</execution>
 
                 Element executionElm = doc.createElement("execution");
-                thirdExecutionsNode.appendChild(executionElm);
                 Element id2Elm = doc.createElement("id");
                 id2Elm.setTextContent("package-" + d.getId());
                 executionElm.appendChild(id2Elm);
@@ -205,6 +211,13 @@ public class DeploymentCreator {
                 Element goalElm = doc.createElement("goal");
                 goalElm.setTextContent("war");
                 goalsElm.appendChild(goalElm);
+                thirdExecutionsNode.appendChild(executionElm);
+
+                if(isDefaultDeployment) {
+                    NodeList directories = doc.getElementsByTagName("directory");
+                    Node directoryNode = directories.item(0);
+                    directoryNode.setTextContent("src/env/" + d.getId());
+                }
 
                 // Create different environment dependent configuration files.
                 // Deployment environment dependent files will be stored in
@@ -255,8 +268,8 @@ public class DeploymentCreator {
                 deplDepServXmlCode.create(servDir + "services.xml");
                 logger.debug("Writing: " + servDir + "services.xml");
                 if (isDefaultDeployment) {
-                    defDeplOrig = servDir + "services.xml";
-                    defDeplTarget = sxmlFile;
+                    defaultDeplServicesFile = servDir + "services.xml";
+                    defaultServicesFile = sxmlFile;
                 }
 
                 // source
@@ -274,7 +287,8 @@ public class DeploymentCreator {
                         "src/env", d.getId()) + "index.html";
                 htmlSourceIndexCode.create(htmlIndexTargetPath);
                 if (isDefaultDeployment) {
-                    htmlSourceIndexCode.create(htmlIndexSourcePath);
+                    this.defaultDeplHtmlFile = htmlIndexTargetPath;
+                    this.defaultHtmlFile = htmlIndexSourcePath;
                 }
 
                 // source
@@ -291,11 +305,14 @@ public class DeploymentCreator {
                         "src/env", d.getId()) + st.getProjectMidfix()+".wsdl";
                 wsdlSourceCode.create(wsdlTargetPath);
                 if (isDefaultDeployment) {
-                    wsdlSourceCode.create(wsdlSourcePath);
+                    this.defaultDeplWsdlFile = wsdlTargetPath;
+                    this.defaultWsdlFile = wsdlSourcePath;
                 }
             }
-            if(defDeplOrig != null && !defDeplOrig.isEmpty()) {
-                    FileUtils.copyFile(new File(defDeplOrig), new File(defDeplTarget));
+            if(defaultDeplServicesFile != null && !defaultDeplServicesFile.isEmpty()) {
+                    FileUtils.copyFile(new File(defaultDeplServicesFile), new File(defaultServicesFile));
+                    FileUtils.copyFile(new File(this.defaultDeplHtmlFile), new File(this.defaultHtmlFile));
+                    FileUtils.copyFile(new File(this.defaultDeplWsdlFile), new File(this.defaultWsdlFile));
             }
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();

@@ -79,11 +79,11 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <classifier>deployment0</classifier>
-                    <webappDirectory>${project.build.directory}/${project.build.finalName}_deployment0</webappDirectory>
+                    <classifier>default</classifier>
+                    <webappDirectory>${project.build.directory}/${project.build.finalName}_default</webappDirectory>
                     <webResources>
                         <resource>
-                            <directory>src/env/deployment1</directory>
+                            <directory></directory>
                             <includes>
                                 <include>**/*</include>
                             </includes>
