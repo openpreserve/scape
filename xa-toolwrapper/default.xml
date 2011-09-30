@@ -42,7 +42,6 @@
             </operations>
             <deployto>
                 <deployref default="true" ref="deployment1"/>
-                <deployref default="false" ref="deployment2"/>
             </deployto>
         </service>
     </services>
@@ -57,26 +56,11 @@
             <manager>
                 <user>tomcat</user>
                 <password>TxF781!P</password>
+                <path>manager</path>
             </manager>
             <dataexchange>
-                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
+                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>
-            </dataexchange>
-        </deployment>
-        <deployment id="deployment2">
-            <identifier>http://127.0.0.1:8080/scape/default/tomcat2</identifier>
-            <host>127.0.0.1</host>
-            <ports>
-                <port type="http">8080</port>
-                <port type="https">8043</port>
-            </ports>
-            <manager>
-                <user>tomcat</user>
-                <password>TxF781!P</password>
-            </manager>
-            <dataexchange>
-                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
-                <accessurl>http://127.0.0.1:8080/scape/tmp/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>

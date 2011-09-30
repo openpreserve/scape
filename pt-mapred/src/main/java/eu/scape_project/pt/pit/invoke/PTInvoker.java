@@ -3,6 +3,7 @@ package eu.scape_project.pt.pit.invoke;
 import eu.scape_project.pit.invoke.CommandNotFoundException;
 import eu.scape_project.pit.invoke.PitInvoker;
 import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
+import eu.scape_project.pit.tools.Action;
 import eu.scape_project.pit.tools.Tool;
 
 /* 
@@ -18,7 +19,7 @@ public class PTInvoker extends PitInvoker {
 	}
 
 	@Deprecated
-	public Tool findTool( String command_id ) throws CommandNotFoundException {
+	public Action findTool( String command_id ) throws CommandNotFoundException {
 		return findTool(command_id);
 	}
 

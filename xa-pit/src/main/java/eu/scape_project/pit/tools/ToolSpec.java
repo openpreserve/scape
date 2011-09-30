@@ -24,16 +24,13 @@ public class ToolSpec {
 	
 	@XmlElement()
 	private String id;
-
-	@XmlElement()
-	private String name;
 	
 	@XmlElement()
 	private Version version;
 	
 	@XmlElement()
-	private Install install;
-	
+	private Tool tool;
+
 	@XmlElement()
 	private List<Var> env;
 	
@@ -46,8 +43,8 @@ public class ToolSpec {
 	@XmlElement()
 	private Parameters parameters;
 	
-	@XmlElement( name="tool" )
-	private List<Tool> tools;
+	@XmlElement( name="action" )
+	private List<Action> actions;
 		
 	private static JAXBContext jc;
 	
@@ -64,20 +61,6 @@ public class ToolSpec {
 	
 
 	/**
-	 * @return the tool
-	 */
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the tool to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return the version
 	 */
 	public Version getVersion() {
@@ -92,17 +75,17 @@ public class ToolSpec {
 	}
 
 	/**
-	 * @return the install
+	 * @return
 	 */
-	public Install getInstall() {
-		return install;
+	public Tool getTool() {
+		return tool;
 	}
 
 	/**
-	 * @param install the install to set
+	 * @param tool
 	 */
-	public void setInstall(Install install) {
-		this.install = install;
+	public void setTool(Tool tool) {
+		this.tool = tool;
 	}
 
 	/**
@@ -162,17 +145,17 @@ public class ToolSpec {
 	}
 
 	/**
-	 * @return the convert
+	 * @return the actions
 	 */
-	public List<Tool> getTools() {
-		return tools;
+	public List<Action> getActions() {
+		return actions;
 	}
 
 	/**
-	 * @param tools the convert to set
+	 * @param actions the actions to set
 	 */
-	public void setTools(List<Tool> tools) {
-		this.tools = tools;
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
 	}
 
 	String toXMlFormatted() throws JAXBException, UnsupportedEncodingException {

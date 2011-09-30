@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
   <groupId>eu.scape-project</groupId>
   <artifactId>pt-mapred</artifactId>
-  <version>${parent.version}</version>
+  <version>0.0.1-SNAPSHOT</version>
   <name>SCAPE MapReduce Wrappers</name>
   <description>Invokes SPAPE preservation tools in on Hadoop MapReduce environments</description>
 	<build>
@@ -60,7 +60,7 @@
 	  	<dependency>
 	  		<groupId>eu.scape-project</groupId>
 	  		<artifactId>xa-pit</artifactId>
-	  		<version>0.0.2-SNAPSHOT</version>
+	  		<version>0.0.1-SNAPSHOT</version>
 	  		<scope>compile</scope>
 	  	</dependency>  	
 	  	<dependency>

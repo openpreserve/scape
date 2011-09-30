@@ -2,4 +2,6 @@ nbactions.xml
 target/*
 generated/*
 logs/scape_*
+production/*
 
+/target

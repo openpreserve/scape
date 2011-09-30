@@ -58,8 +58,8 @@ public abstract class Code {
      */
     public void put(String key, String val) {
         getCtx().put(key, val);
-    }
 
+    }
 
 
     public void put(VelocityContext context) {

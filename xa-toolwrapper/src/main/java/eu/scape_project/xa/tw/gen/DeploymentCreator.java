@@ -55,6 +55,15 @@ public class DeploymentCreator {
     private Document doc;
     private Service service;
     private PropertiesSubstitutor st;
+    private String defaultDeplServicesFile;
+    private String defaultServicesFile;
+
+
+    private String defaultDeplHtmlFile;
+    private String defaultHtmlFile;
+
+    private String defaultDeplWsdlFile;
+    private String defaultWsdlFile;
 
     public DeploymentCreator(String pomAbsPath, Service service, PropertiesSubstitutor st) {
         this.pomAbsPath = pomAbsPath;
@@ -90,6 +99,8 @@ public class DeploymentCreator {
                 boolean isDefaultDeployment = dk.isDefault();
                 Deployment d = (Deployment) dk.getRef();
 
+                String host = d.getHost();
+                String id = d.getId();
 
                 //<profile>
                 //    <id>deployment1</id>
@@ -137,8 +148,11 @@ public class DeploymentCreator {
                         type = p.getType();
                     }
                 }
+                
                 Element tomcatManagerUrlElm = doc.createElement("tomcat.manager.url");
-                tomcatManagerUrlElm.setTextContent(type + "://" + d.getHost() + ":" + port + "/manager");
+                String managerPath = d.getManager().getPath();
+                managerPath = (managerPath!=null&&!managerPath.isEmpty())?managerPath:"manager";
+                tomcatManagerUrlElm.setTextContent(type + "://" + d.getHost() + ":" + port + "/"+managerPath);
 
 
                 propertiesElm.appendChild(tomcatManagerUrlElm);
@@ -171,7 +185,6 @@ public class DeploymentCreator {
                 //</execution>
 
                 Element executionElm = doc.createElement("execution");
-                thirdExecutionsNode.appendChild(executionElm);
                 Element id2Elm = doc.createElement("id");
                 id2Elm.setTextContent("package-" + d.getId());
                 executionElm.appendChild(id2Elm);
@@ -198,6 +211,13 @@ public class DeploymentCreator {
                 Element goalElm = doc.createElement("goal");
                 goalElm.setTextContent("war");
                 goalsElm.appendChild(goalElm);
+                thirdExecutionsNode.appendChild(executionElm);
+
+                if(isDefaultDeployment) {
+                    NodeList directories = doc.getElementsByTagName("directory");
+                    Node directoryNode = directories.item(0);
+                    directoryNode.setTextContent("src/env/" + d.getId());
+                }
 
                 // Create different environment dependent configuration files.
                 // Deployment environment dependent files will be stored in
@@ -231,11 +251,16 @@ public class DeploymentCreator {
                 for (Operation operation : operations) {
                     deplDepServXmlCode.put("cli_cmd_" + String.valueOf(operation.getOid()), operation.getCommand());
                 }
+                
                 deplDepServXmlCode.put("tomcat_public_procunitid", d.getIdentifier());
                 Dataexchange de = d.getDataexchange();
 
-                deplDepServXmlCode.put("tomcat_public_http_access_dir", de.getAccessdir());
-                deplDepServXmlCode.put("tomcat_public_http_access_url", de.getAccessurl());
+                String accessDir = FileUtil.makePath(de.getAccessdir());
+                String accessUrl = de.getAccessurl();
+
+                
+                deplDepServXmlCode.put("tomcat_public_http_access_dir", accessDir);
+                deplDepServXmlCode.put("tomcat_public_http_access_url", accessUrl);
                 // TODO: filter
                 //deplDepServXmlCode.put("service_url_filter", );
                 deplDepServXmlCode.evaluate();
@@ -243,9 +268,9 @@ public class DeploymentCreator {
                 deplDepServXmlCode.create(servDir + "services.xml");
                 logger.debug("Writing: " + servDir + "services.xml");
                 if (isDefaultDeployment) {
-                    deplDepServXmlCode.create(sxmlFile);
+                    defaultDeplServicesFile = servDir + "services.xml";
+                    defaultServicesFile = sxmlFile;
                 }
-
 
                 // source
                 String htmlIndexSourcePath = FileUtil.makePath(generatedDir, projDir,
@@ -262,9 +287,9 @@ public class DeploymentCreator {
                         "src/env", d.getId()) + "index.html";
                 htmlSourceIndexCode.create(htmlIndexTargetPath);
                 if (isDefaultDeployment) {
-                    htmlSourceIndexCode.create(htmlIndexSourcePath);
+                    this.defaultDeplHtmlFile = htmlIndexTargetPath;
+                    this.defaultHtmlFile = htmlIndexSourcePath;
                 }
-
 
                 // source
                 String wsdlSourcePath = FileUtil.makePath(generatedDir, projDir,
@@ -280,10 +305,14 @@ public class DeploymentCreator {
                         "src/env", d.getId()) + st.getProjectMidfix()+".wsdl";
                 wsdlSourceCode.create(wsdlTargetPath);
                 if (isDefaultDeployment) {
-                    wsdlSourceCode.create(wsdlSourcePath);
+                    this.defaultDeplWsdlFile = wsdlTargetPath;
+                    this.defaultWsdlFile = wsdlSourcePath;
                 }
-
-
+            }
+            if(defaultDeplServicesFile != null && !defaultDeplServicesFile.isEmpty()) {
+                    FileUtils.copyFile(new File(defaultDeplServicesFile), new File(defaultServicesFile));
+                    FileUtils.copyFile(new File(this.defaultDeplHtmlFile), new File(this.defaultHtmlFile));
+                    FileUtils.copyFile(new File(this.defaultDeplWsdlFile), new File(this.defaultWsdlFile));
             }
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();

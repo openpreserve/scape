@@ -3,21 +3,23 @@ package eu.scape_project.pit.tools;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Parameter {
-
-	@XmlAttribute
-	String var;
 	
 	@XmlAttribute
 	String name;
 	
 	@XmlAttribute
-	String allowed;
+	String var;
 	
-	@XmlAttribute(name="default")
+	@XmlElement( name = "default")
 	String defaultValue;
+	
+	String datatype; // Default interpretation = "xsd:string"
+	
+	String documentation;
 
 	/**
 	 * @return the name
@@ -48,30 +50,16 @@ public class Parameter {
 	}
 
 	/**
-	 * @return the allowed
-	 */
-	public String getAllowed() {
-		return allowed;
-	}
-
-	/**
-	 * @param allowed the allowed to set
-	 */
-	public void setAllowed(String allowed) {
-		this.allowed = allowed;
-	}
-
-	/**
 	 * @return the defaultValue
 	 */
-	public String getDefaultValue() {
+	public String getDefault() {
 		return defaultValue;
 	}
 
 	/**
 	 * @param defaultValue the defaultValue to set
 	 */
-	public void setDefaultValue(String defaultValue) {
+	public void setDefault(String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
 

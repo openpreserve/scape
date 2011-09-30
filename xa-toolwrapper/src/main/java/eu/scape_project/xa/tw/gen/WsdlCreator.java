@@ -83,7 +83,6 @@ public class WsdlCreator {
 
                 createBinding(doc, operation);
 
-
             }
 
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -107,18 +106,23 @@ public class WsdlCreator {
         NodeList portTypeNodeList = doc.getElementsByTagName("wsdl:portType");
         Node portTypeNode = portTypeNodeList.item(0);
         List<Input> inputs = operation.getInputs().getInput();
-        createMessageDataType(definitionsNode, portTypeNode, MsgType.REQUEST, operation.getOid());
+        createMessageDataType(definitionsNode, portTypeNode, MsgType.REQUEST, operation);
         List<Output> outputs = operation.getOutputs().getOutput();
-        createMessageDataType(definitionsNode, portTypeNode, MsgType.RESPONSE, operation.getOid());
+        createMessageDataType(definitionsNode, portTypeNode, MsgType.RESPONSE, operation);
 
     }
 
-    private void createMessageDataType(Node definitionsNode, Node portTypeNode, MsgType type, int oid) {
+    private void createMessageDataType(Node definitionsNode, Node portTypeNode, MsgType type, Operation operation) {
         Element partElm = doc.createElement("wsdl:part");
-        partElm.setAttribute("name", type + String.valueOf(oid));
-        partElm.setAttribute("element", "tns:" + type + String.valueOf(oid));
+
+        String partNameAttr = operation.getName()+type;
+        String partNsNameAttr = "tns:" + partNameAttr;
+        partElm.setAttribute("element", partNsNameAttr);
+        partElm.setAttribute("name", partNameAttr);
+
         Element msgElm = doc.createElement("wsdl:message");
-        msgElm.setAttribute("name", type + String.valueOf(oid));
+        String msgNameAttr = operation.getName()+type;
+        msgElm.setAttribute("name", msgNameAttr);
         msgElm.appendChild(partElm);
         definitionsNode.insertBefore(msgElm, portTypeNode);
     }
@@ -140,29 +144,98 @@ public class WsdlCreator {
 
     private void createSchemaDataType(Operation operation, MsgType type, Node schemaNode, String oid) {
         Element cplxReqTypeElm = doc.createElement("xsd:complexType");
-        cplxReqTypeElm.setAttribute("name", type + oid + "Type");
         Element reqTypeSeqElm = doc.createElement("xsd:sequence");
+        Element msgElm = doc.createElement("xsd:element");
         if (type.equals(MsgType.REQUEST)) {
+            //<xsd:complexType name="simpleCopyRequestType">
+            //    <xsd:sequence>
+            //        <xsd:element default="http://localhost:8080/scape/testdata/scape-logo.png" maxOccurs="1" minOccurs="1" name="input" type="xsd:anyURI">
+            //            <xsd:annotation>
+            //                <xsd:documentation>URL reference to input file</xsd:documentation>
+            //            </xsd:annotation>
+            //        </xsd:element>
+            //    </xsd:sequence>
+            //</xsd:complexType>
+            cplxReqTypeElm.setAttribute("name", operation.getName() + type + "Type");
             List<Input> inputs = operation.getInputs().getInput();
             for (Input input : inputs) {
                 createMsgElm(reqTypeSeqElm, input.getName(), input.getDatatype(),
                         input.getDefault(), input.getCliMapping(), input.getRequired(),
                         input.getDocumentation());
             }
+            msgElm.setAttribute("type", "tns:" + operation.getName() + type + "Type");
+            msgElm.setAttribute("name", operation.getName() + type);
         }
         if (type.equals(MsgType.RESPONSE)) {
+            //<xsd:complexType name="simpleCopyResponseType">
+            //    <xsd:sequence>
+            //        <xsd:element maxOccurs="0" name="return" type="tns:simpleCopyReturnType"/>
+            //    </xsd:sequence>
+            //</xsd:complexType>
+            Element respCplx = doc.createElement("xsd:complexType");
+            respCplx.setAttribute("name", operation.getName() + "ResponseType");
+            Element respSeq = doc.createElement("xsd:sequence");
+            respCplx.appendChild(respSeq);
+            Element respElm = doc.createElement("xsd:element");
+            respElm.setAttribute("maxOccurs", "1");
+            respElm.setAttribute("minOccurs", "0");
+            respElm.setAttribute("name", "return");
+            respElm.setAttribute("type", "tns:"+ operation.getName() + "ReturnType");
+            respSeq.appendChild(respElm);
+            schemaNode.appendChild(respCplx);
+            //<xsd:complexType name="simpleCopyReturnType">
+            //    <xsd:sequence>
+            //        <xsd:element maxOccurs="0" name="result" type="tns:simpleCopyResultType"/>
+            //    </xsd:sequence>
+            //</xsd:complexType>
+            Element rtCplx = doc.createElement("xsd:complexType");
+            rtCplx.setAttribute("name", operation.getName() + "ReturnType");
+            Element rtSeq = doc.createElement("xsd:sequence");
+            rtCplx.appendChild(rtSeq);
+            Element rtElm = doc.createElement("xsd:element");
+            rtElm.setAttribute("maxOccurs", "1");
+            rtElm.setAttribute("minOccurs", "0");
+            rtElm.setAttribute("name", "result");
+            rtElm.setAttribute("type", "tns:"+ operation.getName() + "ResultType");
+            rtSeq.appendChild(rtElm);
+            schemaNode.appendChild(rtCplx);
+            //<xsd:complexType name="simpleCopyResultType">
+            //    <xsd:sequence>
+            //        <xsd:element maxOccurs="1" minOccurs="0" name="output" type="xsd:anyURI">
+            //            <xsd:annotation>
+            //                <xsd:documentation>URL reference to output file</xsd:documentation>
+            //            </xsd:annotation>
+            //        </xsd:element>
+            //    </xsd:sequence>
+            //</xsd:complexType>
+            cplxReqTypeElm.setAttribute("name", operation.getName() + "ResultType");
             List<Output> outputs = operation.getOutputs().getOutput();
             for (Output output : outputs) {
                 createMsgElm(reqTypeSeqElm, output.getName(), output.getDatatype(),
                         null, output.getCliMapping(), output.getRequired(),
                         output.getDocumentation());
             }
+            msgElm.setAttribute("type", "tns:" + operation.getName() + type+"Type");
+            msgElm.setAttribute("name", operation.getName()+type);
+            // additional output ports
+            createMsgElm(reqTypeSeqElm, "success", "xsd:boolean",
+                        null, null, "true",
+                        "Success/failure of process execution");
+            createMsgElm(reqTypeSeqElm, "returncode", "xsd:int",
+                        null, null, "true",
+                        "Returncode of the underlying command line application");
+            createMsgElm(reqTypeSeqElm, "time", "xsd:int",
+                        null, null, "false",
+                        "Execution time in milliseconds");
+            createMsgElm(reqTypeSeqElm, "log", "xsd:string",
+                        null, null, "false",
+                        "Process execution log");
+            createMsgElm(reqTypeSeqElm, "message", "xsd:string",
+                        null, null, "false",
+                        "Process execution message");
         }
         cplxReqTypeElm.appendChild(reqTypeSeqElm);
         schemaNode.appendChild(cplxReqTypeElm);
-        Element msgElm = doc.createElement("xsd:element");
-        msgElm.setAttribute("name", type + oid);
-        msgElm.setAttribute("type", "tns:" + type + oid + "Type");
         schemaNode.appendChild(msgElm);
     }
 
@@ -226,14 +299,14 @@ public class WsdlCreator {
         documentationElm.setTextContent(servDocStr);
 
         Element inputElm = doc.createElement("wsdl:input");
-        inputElm.setAttribute("message", "tns:Request" + opid);
+        inputElm.setAttribute("message", "tns:"+operation.getName()+"Request");
         inputElm.setAttribute("wsaw:Action", servOpStr);
         Element subDocElm = doc.createElement("wsdl:documentation");
         inputElm.appendChild(subDocElm);
 
         Element outputElm = doc.createElement("wsdl:output");
-        outputElm.setAttribute("message", "tns:Response" + opid);
-        outputElm.setAttribute("wsaw:Action", "http://schemas.xmlsoap.org/wsdl/" + st.getGlobalProjectPrefix() + st.getProjectMidfix() + "ServicePortType/Response" + opid);
+        outputElm.setAttribute("message", "tns:"+operation.getName()+"Response");
+        outputElm.setAttribute("wsaw:Action", "http://schemas.xmlsoap.org/wsdl/" + st.getGlobalProjectPrefix() + st.getProjectMidfix() + "ServicePortType/"+operation.getName()+"Response");
         Element subDocOutElm = doc.createElement("wsdl:documentation");
         outputElm.appendChild(subDocOutElm);
 

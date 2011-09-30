@@ -18,39 +18,15 @@
     
     <wsdl:binding name="ServiceSoap11Binding" type="tns:ServicePortType">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<!--        <wsdl:operation name="simpleCopy">
-            <soap:operation soapAction="urn:simpleCopy" style="document"/>
-            <wsdl:input>
-                <soap:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap:body use="literal"/>
-            </wsdl:output>
-        </wsdl:operation>-->
+
     </wsdl:binding>
     <wsdl:binding name="ServiceSoap12Binding" type="tns:ServicePortType">
         <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<!--        <wsdl:operation name="simpleCopy">
-            <soap12:operation soapAction="urn:simpleCopy" style="document"/>
-            <wsdl:input>
-                <soap12:body use="literal"/>
-            </wsdl:input>
-            <wsdl:output>
-                <soap12:body use="literal"/>
-            </wsdl:output>
-        </wsdl:operation>-->
+
     </wsdl:binding>
     <wsdl:binding name="ServiceHttpBinding" type="tns:ServicePortType">
         <http:binding verb="POST"/>
-<!--        <wsdl:operation name="simpleCopy">
-            <http:operation location="SimpleCopy10/simpleCopy"/>
-            <wsdl:input>
-                <mime:content type="text/xml" part="simpleCopy"/>
-            </wsdl:input>
-            <wsdl:output>
-                <mime:content type="text/xml" part="simpleCopy"/>
-            </wsdl:output>
-        </wsdl:operation>-->
+
     </wsdl:binding>
     <wsdl:service name="${project_midfix}">
         <wsdl:port name="ServiceHttpSoap11Endpoint" binding="tns:ServiceSoap11Binding">
