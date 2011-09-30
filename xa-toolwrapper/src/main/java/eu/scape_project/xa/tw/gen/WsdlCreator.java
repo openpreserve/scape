@@ -169,7 +169,7 @@ public class WsdlCreator {
         if (type.equals(MsgType.RESPONSE)) {
             //<xsd:complexType name="simpleCopyResponseType">
             //    <xsd:sequence>
-            //        <xsd:element maxOccurs="0" name="simpleCopyReturn" type="tns:simpleCopyReturnType"/>
+            //        <xsd:element maxOccurs="0" name="return" type="tns:simpleCopyReturnType"/>
             //    </xsd:sequence>
             //</xsd:complexType>
             Element respCplx = doc.createElement("xsd:complexType");
@@ -179,13 +179,13 @@ public class WsdlCreator {
             Element respElm = doc.createElement("xsd:element");
             respElm.setAttribute("maxOccurs", "1");
             respElm.setAttribute("minOccurs", "0");
-            respElm.setAttribute("name", operation.getName() + "Return");
+            respElm.setAttribute("name", "return");
             respElm.setAttribute("type", "tns:"+ operation.getName() + "ReturnType");
             respSeq.appendChild(respElm);
             schemaNode.appendChild(respCplx);
             //<xsd:complexType name="simpleCopyReturnType">
             //    <xsd:sequence>
-            //        <xsd:element maxOccurs="0" name="simpleCopyResult" type="tns:simpleCopyResultType"/>
+            //        <xsd:element maxOccurs="0" name="result" type="tns:simpleCopyResultType"/>
             //    </xsd:sequence>
             //</xsd:complexType>
             Element rtCplx = doc.createElement("xsd:complexType");
@@ -195,7 +195,7 @@ public class WsdlCreator {
             Element rtElm = doc.createElement("xsd:element");
             rtElm.setAttribute("maxOccurs", "1");
             rtElm.setAttribute("minOccurs", "0");
-            rtElm.setAttribute("name", operation.getName() + "Result");
+            rtElm.setAttribute("name", "result");
             rtElm.setAttribute("type", "tns:"+ operation.getName() + "ResultType");
             rtSeq.appendChild(rtElm);
             schemaNode.appendChild(rtCplx);
@@ -217,6 +217,22 @@ public class WsdlCreator {
             }
             msgElm.setAttribute("type", "tns:" + operation.getName() + type+"Type");
             msgElm.setAttribute("name", operation.getName()+type);
+            // additional output ports
+            createMsgElm(reqTypeSeqElm, "success", "xsd:boolean",
+                        null, null, "true",
+                        "Success/failure of process execution");
+            createMsgElm(reqTypeSeqElm, "returncode", "xsd:int",
+                        null, null, "true",
+                        "Returncode of the underlying command line application");
+            createMsgElm(reqTypeSeqElm, "time", "xsd:int",
+                        null, null, "false",
+                        "Execution time in milliseconds");
+            createMsgElm(reqTypeSeqElm, "log", "xsd:string",
+                        null, null, "false",
+                        "Process execution log");
+            createMsgElm(reqTypeSeqElm, "message", "xsd:string",
+                        null, null, "false",
+                        "Process execution message");
         }
         cplxReqTypeElm.appendChild(reqTypeSeqElm);
         schemaNode.appendChild(cplxReqTypeElm);
