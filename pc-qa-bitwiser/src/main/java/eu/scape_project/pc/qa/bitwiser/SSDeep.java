@@ -38,6 +38,7 @@
   If you wish to distribute this code under the terms of a different
   free software license then please ask me. If there is a good reason
   then I will probably say yes.
+  
 */
 package eu.scape_project.pc.qa.bitwiser;
 
@@ -49,7 +50,16 @@ import java.util.Arrays;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * @author andy
+ * SSDeep
+ *
+ * <p>
+ * A Java version of the ssdeep algorithm, based on the fuzzy.c source 
+ * code, taken from version 2.6 of the ssdeep package.
+ * 
+ * <p>
+ * Transliteration/port to Java from C by...
+ * 
+ * @author Andrew Jackson <Andrew.Jackson@bl.uk>
  *
  */
 public class SSDeep {

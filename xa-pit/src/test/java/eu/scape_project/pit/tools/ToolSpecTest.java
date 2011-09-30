@@ -22,7 +22,7 @@ import eu.scape_project.pit.tools.ToolSpec;
  */
 public class ToolSpecTest {
 	
-	private static final String KAKADU_SPEC = "/toolspecs/kakadu.ptspec";
+	private static final String KAKADU_SPEC = "/toolspecs/kakadu.ptspec.xml";
 	private static final String JASPER_SPEC = "/toolspecs/jasper.ptspec";
 	private static final String JHOVE2_SPEC = "/toolspecs/jhove2.ptspec";
 	private static final String ISOBUSTER_SPEC = "/toolspecs/isobuster.ptspec";
@@ -42,7 +42,7 @@ public class ToolSpecTest {
 	 */
 	@Test
 	public void testToXMlFormatted() throws FileNotFoundException, JAXBException, UnsupportedEncodingException {
-		ToolSpec pts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(JASPER_SPEC));
+		ToolSpec pts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(KAKADU_SPEC));
 		System.out.println("In = "+pts.toXMlFormatted());
 		String xml = pts.toXMlFormatted();
 		ToolSpec pts2 = ToolSpec.fromInputStream( new ByteArrayInputStream( xml.getBytes("UTF-8") ));
@@ -60,11 +60,13 @@ public class ToolSpecTest {
 	@Test
 	public void testFromInputstream() throws FileNotFoundException, JAXBException {
 		ToolSpec kakadu = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(KAKADU_SPEC));
-		System.out.println("Tools "+kakadu.getName());
+		System.out.println("Tool name: "+kakadu.getTool().getName());
+		/*
 		ToolSpec jhove2 = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(JHOVE2_SPEC));
-		System.out.println("Tools "+jhove2.getName());
+		System.out.println("Tools "+jhove2.getTool().getName());
 		ToolSpec isobuster = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream(ISOBUSTER_SPEC));
-		System.out.println("Tools "+isobuster.getName());
+		System.out.println("Tools "+isobuster.getTool().getName());
+		*/
 	}
-
+	
 }

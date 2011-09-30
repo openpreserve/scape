@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
   <groupId>eu.scape-project</groupId>
   <artifactId>xa-pit</artifactId>
-  <version>${parent.version}</version>
+  <version>0.0.1-SNAPSHOT</version>
   <name>SCAPE Preservation-action Invocation Tool</name>
   <description>Defines and invokes portable preservation action tool specifications.</description>
 	<build>
@@ -47,32 +47,24 @@
           </excludes>
         </configuration>
       </plugin>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>0.8.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <generatePackage>eu.scape_project.xa.pit.toolspec</generatePackage>
+                </configuration>
+            </plugin>      
 		</plugins>
 	</build>
   <dependencies>
-  	<dependency>
-  		<groupId>planets-suite</groupId>
-  		<artifactId>planets-core-services</artifactId>
-  		<version>1.0.1-SNAPSHOT</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  	</dependency>
-  	<dependency>
-  		<groupId>planets-suite</groupId>
-  		<artifactId>planets-core-utils</artifactId>
-  		<version>1.0.1-SNAPSHOT</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  	</dependency>
-  	<!--
-  	<dependency>
-  		<groupId>planets-suite</groupId>
-  		<artifactId>planets-core-techreg</artifactId>
-  		<version>1.0.1-SNAPSHOT</version>
-  		<type>jar</type>
-  		<scope>compile</scope>
-  	</dependency>
-  	 -->
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
             <artifactId>jaxws-rt</artifactId>
@@ -108,20 +100,40 @@
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
+  	<dependency>
+  		<groupId>org.slf4j</groupId>
+  		<artifactId>slf4j-log4j12</artifactId>
+  		<version>1.6.2</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>commons-io</groupId>
+  		<artifactId>commons-io</artifactId>
+  		<version>2.0.1</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.opf-labs.planets</groupId>
+  		<artifactId>core-services</artifactId>
+  		<version>1.0.1</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.opf-labs.planets</groupId>
+  		<artifactId>core-utils</artifactId>
+  		<version>1.0.1</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.opf-labs.planets</groupId>
+  		<artifactId>core-techreg</artifactId>
+  		<version>1.0.1</version>
+  		<type>jar</type>
+  		<scope>compile</scope>
+  	</dependency>
   </dependencies>
-	<repositories>
-        <repository>
-        	<id>planets-suite-snapshot-repository</id>
-        	<name>The Planets Suite Maven Repository, hosted by SourceForge.</name>
-        	<url>http://planets-suite.sourceforge.net/maven2/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>

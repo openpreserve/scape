@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec>
+  <!-- A unique ID for this tool spec. -->
+  <id>pit-buildin-file</id>
+  <!-- The version for this tool spec. -->
+  <version>0.1</version>
+  
+  <!-- Tool Information -->
+  <tool>
+    <name>Fine Free File</name>
+    <homepage></homepage>
+    <version>5.04</version>
+<!-- Future automatic version.
+  <version>
+    <action>
+      <command>file -v</command>
+      <match>file-(.*)</match>
+      <test>.\...</test>
+    </action>
+  </version>
+ -->  
+    <installation>
+  	  <os type="linux">
+		Available by default.
+      </os>
+	  <os type="windows">
+		Use "CMD.exe /C COPY" instead of "/bin/cp" in the commands defined below.
+	  </os>
+    </installation>
+  </tool>
+  
+  <!-- Shared parameter definitions -->
+  <parameters>
+	<parameter name="Exclude Tests" var="exclude">
+	  <default>tokens</default>
+	  <documentation>Matching to exclude,one of XXX, TBA...</documentation>
+	  <!-- All datatypes are xsd:string by default. -->
+	  <datatype>xsd:string</datatype>
+	</parameter>
+  </parameters>
+ 
+  <!-- Actions -->
+  <action type="identify" id="file-stdin">
+  	<command>file -</command>
+  	<!--  ideas  -->
+  	<input stdin="true"/>
+  	<output>
+  	  <transform class="net.XXXX.transform.???"/>
+  	</output>
+  </action>
+
+  <action type="identify" id="file">
+  	<command>file ${input}</command>
+  </action>
+
+  <action type="identify" id="file-exclude">
+  	<command>file -e ${exclude} ${input}</command>
+  </action>
+
+  <action type="identify" id="file-mime">
+  	<command>file -b --mime-type ${input}</command>
+  </action>
+
+  <action type="identify" id="file-mime-exclude">
+  	<command>file -b --mime-type -e ${exclude} ${input}</command>
+  </action>
+
+</toolspec>

@@ -1,87 +1,82 @@
 package eu.scape_project.pit.tools;
 
+import java.net.URL;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+/**
+ *  
+ * @author Andrew Jackson <Andrew.Jackson@bl.uk>
+ *
+ */
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Tool {
 
-	@XmlAttribute
-	private String id;
+	@XmlElement()
+	private Version version;
 	
-	@XmlAttribute
-	private String type;
+	@XmlElement()
+	private String name;
 	
-	private String command;
-
-	List<PathwaySpec> formats;
-
-	List<PathwaySpec> fmt;
-
+	@XmlElement()
+	private Installation installation;
+	
+	/** For JAXB */
 	public Tool() {
 		super();
 	}
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
 
 	/**
-	 * @param id the id to set
+	 * @return the version
 	 */
-	public void setId(String id) {
-		this.id = id;
+	public Version getVersion() {
+		return version;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
 
 	/**
-	 * @param type the type to set
+	 * @param version the version to set
 	 */
-	public void setType(String type) {
-		this.type = type;
+	public void setVersion(Version version) {
+		this.version = version;
 	}
 
-	/**
-	 * @return the command
-	 */
-	public String getCommand() {
-		return command;
-	}
 
 	/**
-	 * @param command the command to set
+	 * @return the name
 	 */
-	public void setCommand(String command) {
-		this.command = command;
-	}
-	
-	/**
-	 * @return the formats
-	 */
-	public List<PathwaySpec> getFormats() {
-		return formats;
+	public String getName() {
+		return name;
 	}
 
+
 	/**
-	 * @param formats the formats to set
+	 * @param name the name to set
 	 */
-	public void setFormats(List<PathwaySpec> formats) {
-		this.formats = formats;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	
+
+	/**
+	 * @return the installation
+	 */
+	public Installation getInstallation() {
+		return installation;
+	}
+
+
+	/**
+	 * @param installation the installation to set
+	 */
+	public void setInstallation(Installation installation) {
+		this.installation = installation;
+	}	
 
 }

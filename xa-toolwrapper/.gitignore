@@ -4,3 +4,4 @@ generated/*
 logs/scape_*
 productive/*
 
+/target

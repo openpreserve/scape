@@ -69,8 +69,10 @@
     <command>jasper -f %{inFile} -F ${tmpFile}.pnm</command>
     <test>
       <input url="http://etc.com/location.jp2"/>
+      <output>
       <match contains="Kakadu .* Error"/>
       <match not="Processed using the multi-threaded environment, with"/>
+      </output>
     </test>
   </tool>
   
