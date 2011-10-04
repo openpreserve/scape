@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
@@ -50,11 +51,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapred.lib.MultipleOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
-import eu.scape_project.pit.invoke.PitInvoker;
+//import eu.scape_project.pit.invoke.PitInvoker;
 import eu.scape_project.pt.pit.ToolMap;
-import eu.scape_project.pt.pit.invoke.PTInvoker;
+//import eu.scape_project.pt.pit.invoke.PTInvoker;
 import eu.scape_project.pt.util.ArgsParser;
-import eu.scape_project.pt.util.FNRecordParser;
+import eu.scape_project.pt.util.PtRecordParser;
 import eu.scape_project.pt.pit.Tool;
 import eu.scape_project.pt.fs.util.HDFSFiler;
 
@@ -64,8 +65,7 @@ import eu.scape_project.pt.fs.util.HDFSFiler;
  */ 
 public class SimpleWrapper extends Configured implements org.apache.hadoop.util.Tool {
 
-	//private static Log LOG = LogFactory.getLog(SimpleWrapper.class);
-	private static Log LOG = LogFactory.getLog("eu.scape_project.pt.Noodle");
+	private static Log LOG = LogFactory.getLog(SimpleWrapper.class);
 	
 	public static class MyMapper extends Mapper<Object, Text, Text, IntWritable> {
 	    //Mapper<Text, Buffer, Text, IntWritable> {
@@ -83,7 +83,7 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	                    ) throws IOException, InterruptedException {
 	    	
 	    	System.out.println("MyMapper.map key:"+key.toString()+" value:"+value.toString());
-	    	FNRecordParser rparser = new FNRecordParser(value.toString());
+	    	PtRecordParser rparser = new PtRecordParser(value.toString());
 	    	String str = context.getConfiguration().get(ArgsParser.TOOL);
 	    	Tool tool = Tool.fromString(str);
 	    	
@@ -96,14 +96,7 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	} catch(URISyntaxException e) {
 	    		e.printStackTrace();
 	    	}
-	    	
-	    	// this is bugging me 
-	    	LOG.fatal("********FATAL**********");
-	    	LOG.error("********ERROR**********");
-	    	LOG.info("********INFO**********");
-	    	LOG.warn("********WARN**********");
-	    	LOG.debug("********DEBUG**********");
-	    	
+	    		    	
 	    	//TODO
 	    	//prepare execution (download files, attach pipes)
 	    	//start execution 
@@ -213,7 +206,7 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 		
 		//job.setReducerClass(MyReducer.class);
 
-		//job.setInputFormatClass(VideoInputFormat.class);
+		job.setInputFormatClass(PtInputFormat.class);
 		//job.setOutputFormatClass(FileOutputFormat.class);
 		
 		//job.setOutputFormatClass(MultipleOutputFormat.class);
@@ -248,9 +241,13 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
         		
 		try {
 			ArgsParser pargs = new ArgsParser("i:o:t:x", args);
+			//input file
 			LOG.info("input: "+ pargs.getValue("i"));
+			//hadoop's output 
 			LOG.info("output: "+pargs.getValue("o"));
+			//tool to select
 			LOG.info("tool: "+pargs.getValue("t")+" ...lookup returned: "+tools.get(pargs.getValue("t")));		
+			//TODO user defined parameter list
 			
 			conf.set(ArgsParser.INFILE, pargs.getValue("i"));
 	        conf.set(ArgsParser.TOOL, tools.get(pargs.getValue("t")).toString());
@@ -258,7 +255,44 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	        
 	        //don't run hadoop
 	        if(pargs.hasOption("x")) {
-	        	System.out.println("option x detected");
+
+	        	/*
+	        	String[] pres = null;
+	        	String[] execs = null;
+	        	String[] posts = null;
+	        	
+	        	String rec = "-exec file1 file2 file3 -pre in1 in2 -post out1 out2";
+	        	String recs[] = rec.trim().split(" ");
+	        	//int find = Arrays.asList(recs).indexOf("file1");
+	        	List<String> lrecs = Arrays.asList(recs);
+	        	
+	        	Vector<Integer> vtokens = new Vector<Integer>();
+	        	Integer exec = new Integer(lrecs.indexOf(PtRecordParser.EXEC_CONDITION));
+	        	Integer pre = new Integer(lrecs.indexOf(PtRecordParser.PRE_CONDITION));
+	        	Integer post = new Integer(lrecs.indexOf(PtRecordParser.POST_CONDITION));
+	        	Integer eol = new Integer(lrecs.size());
+
+	        	vtokens.add(exec);
+	        	vtokens.add(pre);
+	        	vtokens.add(post);
+	        	vtokens.add(eol);
+	        	Collections.sort(vtokens);
+	        	
+	        		        	
+				if(exec > -1) 
+	        		execs= lrecs.subList(exec.intValue()+1, vtokens.get(vtokens.indexOf(exec)+1)).toArray(new String[0]);
+	        	if(pre > -1) 
+	        		pres = (String[])lrecs.subList(pre+1, vtokens.get(vtokens.indexOf(pre)+1)).toArray(new String[0]);
+	        	if(post > -1)
+	        		posts = (String[])lrecs.subList(post+1, vtokens.get(vtokens.indexOf(post)+1)).toArray(new String[0]);
+	        		
+	        	
+	        	System.out.println("exec is: "+Arrays.toString(execs));
+	        	System.out.println("pre is: "+Arrays.toString(pres));
+	        	System.out.println("post is: "+Arrays.toString(posts));
+	        	*/
+	        	
+	        	System.out.println("option x detected");	        	
 	        	System.exit(1);
 	        }
 		} catch (Exception e) {
