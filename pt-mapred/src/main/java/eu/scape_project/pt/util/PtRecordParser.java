@@ -34,15 +34,13 @@ public class PtRecordParser {
 	public static String PRE_CONDITION = "-pre";
 	public static String POST_CONDITION = "-post";
 	
-	protected String inFiles[] = null;
-	protected String outFiles[] = null;
-	protected String cmdFiles[] = null;
+	private String inFiles[] = null;
+	private String outFiles[] = null;
+	private String cmdArguments[] = null;
 	
 	public PtRecordParser(String record) {
     	
-		//generate a list of all items in the record
-    	String rec = "-exec file1 file2 file3 -pre in1 in2 -post out1 out2";
-    	String recs[] = rec.trim().split(" ");
+    	String recs[] = record.trim().split(" ");
     	List<String> lrecs = Arrays.asList(recs);
     	
     	Integer exec = new Integer(lrecs.indexOf(PtRecordParser.EXEC_CONDITION));
@@ -60,30 +58,18 @@ public class PtRecordParser {
     		        	
     	//collect the values between a particular token and the next one in the list
 		if(exec > -1) 
-    		cmdFiles= lrecs.subList(exec.intValue()+1, vtokens.get(vtokens.indexOf(exec)+1)).toArray(new String[0]);
+    		cmdArguments= lrecs.subList(exec.intValue()+1, vtokens.get(vtokens.indexOf(exec)+1)).toArray(new String[0]);
     	if(pre > -1) 
     		inFiles = (String[])lrecs.subList(pre+1, vtokens.get(vtokens.indexOf(pre)+1)).toArray(new String[0]);
     	if(post > -1)
     		outFiles = (String[])lrecs.subList(post+1, vtokens.get(vtokens.indexOf(post)+1)).toArray(new String[0]);
     		
     	
-    	LOG.info("exec params are: "+Arrays.toString(cmdFiles));
+    	LOG.info("exec params are: "+Arrays.toString(cmdArguments));
     	LOG.info("pre params are: "+Arrays.toString(inFiles));
     	LOG.info("post params are: "+Arrays.toString(outFiles));
 	}
 	
-	public String getScheme(String uri) throws URISyntaxException {
-		return (new URI(uri)).getScheme();
-	}
-		
-	public boolean isHDFS(String uri) throws URISyntaxException {
-		return this.getScheme(uri).toLowerCase().equals("hdfs");
-	}
-	
-	public boolean isFILE(String uri) throws URISyntaxException {
-		return this.getScheme(uri).toLowerCase().equals("file");
-	}
-
 	public String[] getInFiles() {
 		return inFiles;
 	}
@@ -100,11 +86,11 @@ public class PtRecordParser {
 		this.outFiles = outFiles;
 	}
 	
-	public String[] getCmdFiles() {
-		return cmdFiles;
+	public String[] getCmdArguments() {
+		return cmdArguments;
 	}
 	
 	protected void setCmdFiles(String[] cmdFiles) {
-		this.cmdFiles = cmdFiles;
+		this.cmdArguments = cmdFiles;
 	}
 }

@@ -51,12 +51,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapred.lib.MultipleOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
-//import eu.scape_project.pit.invoke.PitInvoker;
+//import eu.scape_project.pit.invoke.Peu.scape_project.pt.mapreditInvoker;
 import eu.scape_project.pt.pit.ToolMap;
 //import eu.scape_project.pt.pit.invoke.PTInvoker;
 import eu.scape_project.pt.util.ArgsParser;
 import eu.scape_project.pt.util.PtRecordParser;
 import eu.scape_project.pt.pit.Tool;
+import eu.scape_project.pt.proc.Preprocessor;
 import eu.scape_project.pt.fs.util.HDFSFiler;
 
 /**
@@ -82,7 +83,7 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    public void map(Object key, Text value, Context context
 	                    ) throws IOException, InterruptedException {
 	    	
-	    	System.out.println("MyMapper.map key:"+key.toString()+" value:"+value.toString());
+	    	LOG.info("MyMapper.map key:"+key.toString()+" value:"+value.toString());
 	    	PtRecordParser rparser = new PtRecordParser(value.toString());
 	    	String str = context.getConfiguration().get(ArgsParser.TOOL);
 	    	Tool tool = Tool.fromString(str);
@@ -90,33 +91,32 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	//Let's implement a simple workflow
 	    	//read file (1) -> execute (2) -> write file (3)
 	    	
-	    	try {
-		    	if(rparser.isHDFS(rparser.getInFiles()[0])) 
-		    		System.out.println("retrieving tmp-file from hdfs");
-	    	} catch(URISyntaxException e) {
-	    		e.printStackTrace();
-	    	}
-	    		    	
+	    	String[] inFiles = rparser.getInFiles();
+	    	String[] outFiles = rparser.getOutFiles();
+	    	String[] cmdArgs = rparser.getCmdArguments();
+	    	
 	    	//TODO
 	    	//prepare execution (download files, attach pipes)
 	    	//start execution 
 	    	//finish execution (write output files)
 	    	
+	    	FileSystem hdfs = FileSystem.get(new Configuration());
+	    	Preprocessor preProcessor = new Preprocessor(inFiles, hdfs);
+	    	
+	    	try {
+	    		preProcessor.retrieveFiles();
+	    	} catch(Exception e) {
+	    		LOG.error(e.getMessage(), e);
+	    		e.printStackTrace();
+	    	}
 	    	//TODO 
 	    	//move this to Process object
-	    	FileSystem hdfs = FileSystem.get(new Configuration());
-	    	HDFSFiler filer = new HDFSFiler(hdfs);
-	    	String[] f = rparser.getInFiles();
-	    	System.out.println("inFile0: "+f[0]);
-	    	File inFile = filer.createTempFileFromHDFSReference(f[0]);
-	    	System.out.println("tempFile: "+inFile.getCanonicalPath()+" with name: "+inFile.getName());
 	    	
+	    	/** STREAMING works but we'll integrate that later
 	    	//Path inFile = new Path("hdfs://"+value.toString());
 	    	//Path outFile = new Path("hdfs://"+value.toString()+".pdf");
 	    	//Path fs_outFile = new Path("/home/rainer/tmp/"+inFile.getName()+".pdf");
-	    	
-	    	
-	    	/** STREAMING works but we'll integrate that later
+
 	    	 
 	    	String[] cmds = {"ps2pdf", "-", "/home/rainer/tmp"+fn+".pdf"};
 	    	//Process p = new ProcessBuilder(cmds[0],cmds[1],cmds[2]).start();

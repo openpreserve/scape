@@ -5,7 +5,7 @@ import org.apache.hadoop.fs.Path;
 import java.io.File;
 import java.io.IOException;
 
-public class HDFSFiler extends MapSessionFiler{
+public class HDFSFiler extends MapSessionFiler implements Filer{
 	
 	protected FileSystem hdfs = null;
 	
@@ -19,7 +19,7 @@ public class HDFSFiler extends MapSessionFiler{
 		return hdfs.exists(path);
 	}
 	
-	public File createTempFileFromHDFSReference(String hdfsRef) throws IOException {
+	public File createTempFileFromReference(String hdfsRef) throws IOException {
 		Path path = new Path(hdfsRef);
 		if(!hdfs.exists(path)) throw new IOException("file does not exist! "+hdfsRef.toString());
 		File temp = File.createTempFile(path.getName(), "", tempDir);

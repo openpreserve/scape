@@ -10,31 +10,17 @@ public class PtRecordReader extends LineRecordReader {
 
 	public static char COMMENT_CHARACTER = '#';
 	
+	/*
+	 * Ignore lines that start with comment character '#'
+	 */
 	@Override
-	public LongWritable getCurrentKey() {
-		checkForComments();
-		return super.getCurrentKey();
-	}
-
-	@Override
-	public Text getCurrentValue() {
-		checkForComments();
-		return super.getCurrentValue();
-	}
-
-	@Override
-	public float getProgress() {
-		checkForComments();
-		return super.getProgress();
-	}
-
-	protected void checkForComments() {
-		if(getCurrentValue().toString().startsWith(new Character(COMMENT_CHARACTER).toString()))
-			try {
-				super.nextKeyValue();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			}
+	public boolean nextKeyValue() throws IOException { 
+		boolean ret = super.nextKeyValue();
+		Text currentVal = getCurrentValue();
+		if(currentVal != null && currentVal.toString().startsWith(new Character(COMMENT_CHARACTER).toString())) {
+			//System.out.println("PTRecordReader caught: "+currentVal.toString());
+			ret = this.nextKeyValue();
+		}
+		return ret;
 	}
 }

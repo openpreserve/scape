@@ -15,11 +15,10 @@ public class MapSessionFiler {
 	
 	public MapSessionFiler() {
 		String t = System.getProperty("java.io.tmpdir");
-		LOG.debug("Using Temp. Directory:" + t);
+		LOG.info("Using Temp. Directory:" + t);
 		tempDir = new File(t);
 		if(!tempDir.exists()) {
 			tempDir.mkdir();
 		}
 	}		
-
 }
