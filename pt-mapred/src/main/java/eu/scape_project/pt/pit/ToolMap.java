@@ -7,9 +7,10 @@ public class ToolMap {
 	protected HashMap<String, Tool> tools = new HashMap<String, Tool>();
 	
 	public ToolMap() {
+		initialize();
 	}
 	
-	public void initialize() {
+	private void initialize() {
 		for(Tool t : Tool.cmds) {
 			tools.put(t.getName(), t);
 		}

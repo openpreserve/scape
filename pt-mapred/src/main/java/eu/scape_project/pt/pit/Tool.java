@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import eu.scape_project.pt.mapred.SimpleWrapper;
+import eu.scape_project.pt.proc.Executable;
 
 /*
  *  Represents a command-line tool to be executed by the wrapper. 
@@ -20,7 +21,9 @@ import eu.scape_project.pt.mapred.SimpleWrapper;
  *	@param ...cmd-line parameters are specified when submitting a job 
  *
  */
-public class Tool {
+public class Tool extends Executable {
+	
+	//TODO implement proper serialization
 	
 	public static Tool[] cmds = {
 		new Tool("filefile", "ps2pdf @file @file"), 
@@ -30,7 +33,7 @@ public class Tool {
 	};
 
 	public static String FILE = "@file";
-	public static String PARAM = "@outfile";
+	public static String PARAM = "@param";
 	
 	private static Log LOG = LogFactory.getLog(Tool.class);
 	
@@ -44,30 +47,36 @@ public class Tool {
 	
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(name).append(' ');
+		buffer.append(name).append(" ");
 		buffer.append(cmd);
 		return buffer.toString();
 	}
 	
 	public static Tool fromString(String str) {
-		String[] a = str.split(Pattern.quote(" "));
-    	Tool tool = new Tool(a[0], a[1]);
+		//String[] a = str.split(Pattern.quote(" "));
+		int i = str.indexOf(' ');
+		String name = str.substring(0, i);
+		String cmd = str.substring(i+1);
+    	Tool tool = new Tool(name, cmd);
 		return tool;
 	}
 		
-	public String replaceToken(String token, String[] vals) {    	
+	public int replaceToken(String token, String[] vals) {
+		LOG.debug("replace Token called: cmd: " + cmd + " token: "+token+" vals: "+Arrays.toString(vals));
+		if(vals == null) return 0;
 		String[] cmds = cmd.split(Pattern.quote(token));    	
 		if(cmds.length != vals.length) {
     		LOG.error("cannot replace token in command: "+cmd+" with array: "+Arrays.toString(vals));
-    		return cmd;
+    		return -1;
     	}
     	int i = 0;
-    	StringBuffer ret = new StringBuffer();
+    	StringBuffer res = new StringBuffer();
     	for(String item : cmds) {
-    		ret.append(item).append(vals[i++]);
+    		res.append(item).append(vals[i++]);
     	}
-    	LOG.info("cmd after replacement: "+ret.toString());
-		return ret.toString();
+		cmd = res.toString();
+    	LOG.info("cmd after replacement: "+res.toString());
+    	return cmds.length;
 	}
 			
 	public String getName() {
@@ -85,4 +94,8 @@ public class Tool {
 	public void setCmd(String cmd) {
 		this.cmd = cmd;
 	}	
+	
+	public int getExecutableType() {
+		return Executable.NATIVE_EXEC;
+	}
 }

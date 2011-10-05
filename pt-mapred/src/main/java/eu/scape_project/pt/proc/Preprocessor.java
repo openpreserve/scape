@@ -3,6 +3,7 @@ package eu.scape_project.pt.proc;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,6 +11,7 @@ import org.apache.hadoop.fs.FileSystem;
 
 import eu.scape_project.pt.fs.util.Filer;
 import eu.scape_project.pt.fs.util.HDFSFiler;
+import eu.scape_project.pt.fs.util.MapSessionFiler;
 import eu.scape_project.pt.fs.util.PtFileUtil;
 import eu.scape_project.pt.mapred.SimpleWrapper;
 
@@ -33,17 +35,21 @@ public class Preprocessor {
 		this.hdfs = hdfs;
 	}
 	
-	public int retrieveFiles() throws IOException, URISyntaxException {
-		int i=0;
+	public File[] retrieveFiles() throws IOException, URISyntaxException {
+		ArrayList<File> files = new ArrayList();
 		for(String file : inFiles) {			
 			LOG.info("trying to retrieve file: "+file);
 			Filer filer = getFiler(file);
 			if(filer == null) continue;
 	    	File inFile = filer.createTempFileFromReference(file);
-	    	i++;
-	    	System.out.println("tempFile: "+inFile.getCanonicalPath()+" with name: "+inFile.getName());
+	    	files.add(inFile);
+	    	LOG.info("retrieving file: "+inFile.getName());
 		}	
-		return i;
+		return files.toArray(new File[0]);
+	}
+	
+	public File getTempDir() {
+		return new MapSessionFiler().getTempDir();
 	}
 	
 	private Filer getFiler(String file) throws URISyntaxException {

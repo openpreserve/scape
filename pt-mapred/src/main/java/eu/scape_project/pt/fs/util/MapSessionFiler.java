@@ -20,5 +20,9 @@ public class MapSessionFiler {
 		if(!tempDir.exists()) {
 			tempDir.mkdir();
 		}
+	}
+
+	public File getTempDir() {
+		return tempDir;
 	}		
 }

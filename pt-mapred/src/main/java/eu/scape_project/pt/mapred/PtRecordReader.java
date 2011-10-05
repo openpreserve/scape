@@ -6,13 +6,15 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.lib.input.LineRecordReader;
 
+/*
+ * Extends LineRecordReader to ignore lines starting with '#'
+ * 
+ * @author Rainer Schmidt [rschmidt13]
+ */
 public class PtRecordReader extends LineRecordReader {
 
 	public static char COMMENT_CHARACTER = '#';
 	
-	/*
-	 * Ignore lines that start with comment character '#'
-	 */
 	@Override
 	public boolean nextKeyValue() throws IOException { 
 		boolean ret = super.nextKeyValue();
