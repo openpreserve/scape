@@ -15,29 +15,43 @@ import eu.scape_project.pt.fs.util.MapSessionFiler;
 import eu.scape_project.pt.fs.util.PtFileUtil;
 import eu.scape_project.pt.mapred.SimpleWrapper;
 
-public class Preprocessor {
+public class FileProcessor implements PreProcessor, PostProcessor {
 	
-	private static Log LOG = LogFactory.getLog(Preprocessor.class);
+	private static Log LOG = LogFactory.getLog(FileProcessor.class);
 	
-	protected String[] inFiles = null;
+	protected String[] inRefs = null;
+	protected String[] outRefs = null;
 	protected FileSystem hdfs = null;
 	
-	public Preprocessor(String[] inFiles) {
-		this.inFiles = inFiles;
+	private File[] inputFiles = null;
+	
+	
+	public FileProcessor(String[] inFiles) {
+		this.inRefs = inFiles;
 	}
 	
-	public Preprocessor(String[] inFiles, FileSystem hdfs) {
-		this.inFiles = inFiles;
+	public FileProcessor(String[] inRefs, String[] outRefs, FileSystem hdfs) {
+		this.inRefs = inRefs;
+		this.outRefs = outRefs;
 		this.hdfs = hdfs;
 	}
 	
+	public void setInRefs(String[] inRefs) {
+		this.inRefs = inRefs;
+	}
+	
+	public void setOutRefs(String[] outRefs) {
+		this.outRefs = outRefs;
+	}
+
 	public void setHadoopFS(FileSystem hdfs) {
 		this.hdfs = hdfs;
 	}
 	
-	public File[] retrieveFiles() throws IOException, URISyntaxException {
+	@Override
+	public void resolvePrecondition() throws IOException, URISyntaxException {
 		ArrayList<File> files = new ArrayList();
-		for(String file : inFiles) {			
+		for(String file : inRefs) {			
 			LOG.info("trying to retrieve file: "+file);
 			Filer filer = getFiler(file);
 			if(filer == null) continue;
@@ -45,19 +59,26 @@ public class Preprocessor {
 	    	files.add(inFile);
 	    	LOG.info("retrieving file: "+inFile.getName());
 		}	
-		return files.toArray(new File[0]);
+		this.inputFiles = files.toArray(new File[0]);
 	}
 	
-	public File getTempDir() {
-		return new MapSessionFiler().getTempDir();
+	public File[] getInputFiles() {
+		return inputFiles;
 	}
 	
+	public void resolvePoscondition() {
+		ArrayList<File> files = new ArrayList();
+		for(String file : outRefs) {			
+		}
+	}
+		
 	private Filer getFiler(String file) throws URISyntaxException {
 		if(PtFileUtil.isHdfsUri(file)) {
 			if(hdfs == null) {
 				LOG.error("Cannot create HDFSFiler. Hadoop FileSystem not set!");
 				return null;
 			}
+			//TODO don't do this for each file
 			return new HDFSFiler(hdfs);
 		} else if(PtFileUtil.isFileUri(file)) {
 			LOG.error("Cannot create FileFiler. Not implemented!");

@@ -21,30 +21,33 @@ import eu.scape_project.pt.proc.Executable;
  *	@param ...cmd-line parameters are specified when submitting a job 
  *
  */
-public class Tool extends Executable {
+public class ToolSpec extends Executable {
 	
 	//TODO implement proper serialization
-	
-	public static Tool[] cmds = {
-		new Tool("filefile", "ps2pdf @file @file"), 
-		new Tool("streamfile", "ps2pdf - @file"), 
-		new Tool("streamstream", "ps2pdf - -"),
-		new Tool("dummy", "myTool -x=13 -foo @file -bar @param @file")
-	};
 
-	public static String FILE = "@file";
-	public static String PARAM = "@param";
+	//TODO read tool_specs from file
+	public static ToolSpec[] SPECS = {
+		new ToolSpec("filefile", "ps2pdf @file @file"), 
+		new ToolSpec("streamfile", "ps2pdf - @file"), 
+		new ToolSpec("streamstream", "ps2pdf - -"),
+		new ToolSpec("dummy", "myTool -x=13 -foo @file -bar @param @file")
+	};
 	
-	private static Log LOG = LogFactory.getLog(Tool.class);
+	private static Log LOG = LogFactory.getLog(ToolSpec.class);
+
+	public static String EXEC_DIR = "EXEC_DIR";
+	
+	public static String FILE = "@file";
+	public static String PARAM = "@param";	
 	
 	private String name = null;
 	private String cmd = null;	
 	
-	public Tool (String name, String cmd) {
-		this.name = name;
-		this.cmd = cmd;
+	public ToolSpec (String name, String cmd) {
+		this.name = name.trim();
+		this.cmd = cmd.trim();
 	}
-	
+		
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(name).append(" ");
@@ -52,16 +55,16 @@ public class Tool extends Executable {
 		return buffer.toString();
 	}
 	
-	public static Tool fromString(String str) {
+	public static ToolSpec fromString(String str) {
 		//String[] a = str.split(Pattern.quote(" "));
 		int i = str.indexOf(' ');
 		String name = str.substring(0, i);
 		String cmd = str.substring(i+1);
-    	Tool tool = new Tool(name, cmd);
+    	ToolSpec tool = new ToolSpec(name, cmd);
 		return tool;
 	}
 		
-	public int replaceToken(String token, String[] vals) {
+	public int replaceTokenInCmd(String token, String[] vals) {
 		LOG.debug("replace Token called: cmd: " + cmd + " token: "+token+" vals: "+Arrays.toString(vals));
 		if(vals == null) return 0;
 		String[] cmds = cmd.split(Pattern.quote(token));    	
@@ -77,6 +80,15 @@ public class Tool extends Executable {
 		cmd = res.toString();
     	LOG.info("cmd after replacement: "+res.toString());
     	return cmds.length;
+	}
+	
+	public int toolNameToPath(Tools tools) {
+		String toolName = cmd.substring(0, cmd.indexOf(' '));
+		String path = tools.find(toolName);
+		if(path==null) return -1;
+		cmd = cmd.replaceFirst(Pattern.quote(toolName), path);
+		LOG.info("replaced tool name: "+toolName+" with: "+path);
+		return 1;
 	}
 			
 	public String getName() {

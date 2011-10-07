@@ -52,14 +52,15 @@ import org.apache.hadoop.mapred.lib.MultipleOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
 //import eu.scape_project.pit.invoke.Peu.scape_project.pt.mapreditInvoker;
+import eu.scape_project.pt.fs.util.MapSessionFiler;
 import eu.scape_project.pt.pit.ToolMap;
 //import eu.scape_project.pt.pit.invoke.PTInvoker;
 import eu.scape_project.pt.util.ArgsParser;
 import eu.scape_project.pt.util.PtRecordParser;
-import eu.scape_project.pt.pit.Tool;
-import eu.scape_project.pt.proc.Preprocessor;
+import eu.scape_project.pt.pit.ToolSpec;
+import eu.scape_project.pt.proc.FileProcessor;
 import eu.scape_project.pt.proc.Processor;
-import eu.scape_project.pt.fs.util.HDFSFiler;
+import eu.scape_project.pt.proc.TaskProcessor;
 
 /**
  * A very simple wrapper to execute cmd-line tools using mapReduce
@@ -81,13 +82,13 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 		public void setup( Context context ) {
 		}
 
-	    public void map(Object key, Text value, Context context
+		public void map(Object key, Text value, Context context
 	                    ) throws IOException, InterruptedException {
 	    	
 	    	LOG.info("MyMapper.map key:"+key.toString()+" value:"+value.toString());
 	    	PtRecordParser rparser = new PtRecordParser(value.toString());
 	    	String tstr = context.getConfiguration().get(ArgsParser.TOOLSTRING);
-	    	Tool tool = Tool.fromString(tstr);
+	    	ToolSpec toolSpec = ToolSpec.fromString(tstr);
 	    	
 	    	String pstr = context.getConfiguration().get(ArgsParser.PARAMETERLIST);
 	    	String[] params = (pstr == null ? null : pstr.split(Pattern.quote(" ")));
@@ -106,18 +107,21 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	
 	    	//pre
 	    	FileSystem hdfs = FileSystem.get(new Configuration());
-	    	Preprocessor preProcessor = new Preprocessor(inFiles, hdfs);
+	    	FileProcessor fileProcessor = new FileProcessor(inFiles, outFiles, hdfs);
 	    	
 	    	try {
-	    		preProcessor.retrieveFiles();
+	    		fileProcessor.resolvePrecondition();
 	    	} catch(Exception e_pre) {
 	    		LOG.error("Exception in propocessing phase: " + e_pre.getMessage(), e_pre);
 	    		e_pre.printStackTrace();
 	    	}	    	
 	    	
-	    	tool.replaceToken(Tool.FILE, cmdArgs);
-	    	tool.replaceToken(Tool.PARAM, params);
-	    	Processor processor = new Processor(tool);
+	    	toolSpec.replaceTokenInCmd(ToolSpec.FILE, cmdArgs);
+	    	toolSpec.replaceTokenInCmd(ToolSpec.PARAM, params);
+			File execDir = MapSessionFiler.getExecDir();
+	    	//TODO use sthg. like contextObject to manage type safety
+	    	toolSpec.getContext().put(ToolSpec.EXEC_DIR, execDir);
+	    	Processor processor = new TaskProcessor(toolSpec);
 	    	int exitCode = 0;
 	    	
 	    	//exec
@@ -131,7 +135,8 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	}	    		    		
 	    	
 	    	//post
-	    	for(String s : preProcessor.getTempDir().list()) {
+	    	//TODO resolvePostcondtion()
+	    	for(String s : MapSessionFiler.getExecDir().list()) {
 	    		File f = new File(s);
 	    		LOG.info("in tmp dir: "+ f.getName()+ " " +f.getTotalSpace());
 	    	}
@@ -169,7 +174,6 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	//pipe(process.getErrorStream(), System.err);
 	    	
 	    	toProc.join();	    	
-	    	toHdfs.join();
 	    	
 	    	*/
 
@@ -247,7 +251,8 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 			LOG.info("parameters: "+pargs.getValue("p"));
 			
 			conf.set(ArgsParser.INFILE, pargs.getValue("i"));			
-			Tool tool = toolMap.get(pargs.getValue("t"));
+			toolMap.initialize();
+			ToolSpec tool = toolMap.get(pargs.getValue("t"));
 			if(tool != null) conf.set(ArgsParser.TOOLSTRING, tool.toString());
 	        if (pargs.hasOption(ArgsParser.OUTDIR)) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
 	        if (pargs.hasOption(ArgsParser.PARAMETERLIST)) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
@@ -258,6 +263,30 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 			}
 	        //don't run hadoop
 	        if(pargs.hasOption("x")) {
+	        	
+	        	/*
+	        	String t = System.getProperty("java.io.tmpdir");
+	    		LOG.info("Using Temp. Directory:" + t);
+	    		File execDir = new File(t);
+	    		if(!execDir.exists()) {
+	    			execDir.mkdir();
+	    		}
+	        	
+	    		LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
+	    		File paper_ps = new File(execDir.toString()+"/paper.ps");
+	    		LOG.info("Looking for this file: "+paper_ps);
+	    		LOG.info("Is paper.ps a file: "+paper_ps.isFile());
+	    		
+	    		//LOG.info("trying ps2pdf in without args.....");
+	    		String cmd = "/usr/bin/ps2pdf paper.ps paper.ps.pdf";
+	    		String[] cmds = cmd.split(" ");
+	    		System.out.println("cmds.length "+cmds.length);
+	    		ProcessBuilder pb = new ProcessBuilder(cmds);
+	    		pb.directory(execDir);
+	    		Process p1 = pb.start();
+	    		//LOG.info(".....");
+	        	*/
+	        	
 	        	
 	        	System.out.println("option x detected.");	        	
 	        	System.exit(1);

@@ -11,18 +11,16 @@ public class MapSessionFiler {
 	
 	private static Log LOG = LogFactory.getLog(MapSessionFiler.class);
 	
-	protected File tempDir = null;
-	
 	public MapSessionFiler() {
-		String t = System.getProperty("java.io.tmpdir");
-		LOG.info("Using Temp. Directory:" + t);
-		tempDir = new File(t);
-		if(!tempDir.exists()) {
-			tempDir.mkdir();
-		}
 	}
 
-	public File getTempDir() {
-		return tempDir;
+	public static File getExecDir() {
+		String t = System.getProperty("java.io.tmpdir");
+		LOG.info("Using Temp. Directory:" + t);
+		File tmpDir = new File(t);
+		if(!tmpDir.exists()) {
+			tmpDir.mkdir();
+		}
+		return tmpDir;
 	}		
 }

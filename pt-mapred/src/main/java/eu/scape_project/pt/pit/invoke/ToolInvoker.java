@@ -1,32 +1,45 @@
 package eu.scape_project.pt.pit.invoke;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import eu.scape_project.pt.pit.Tool;
+import eu.scape_project.pt.pit.ToolSpec;
+import eu.scape_project.pt.proc.Processor;
 
 /*
  * Class to invoke tools as native processes. Supports IO via files and streams.
  * @author Rainer Schmidt [rschmidt13]
  */ 
-public class ToolInvoker implements Invoker {
+public class ToolInvoker {
 	
 	private static Log LOG = LogFactory.getLog(ToolInvoker.class);
 	
-	private Tool tool = null;
+	private ToolSpec toolSpec = null;
 	
-	public ToolInvoker(Tool tool) {
-		this.tool = tool;
+	public ToolInvoker(ToolSpec tool) {
+		this.toolSpec = tool;
 	}
 	
-	@Override
-	public int execute() throws IOException {
-		//String[] cmds = {"ps2pdf", "-", "/home/rainer/tmp"+fn+".pdf"};
-		Process p = new ProcessBuilder(tool.getCmd()).start();
+	public int execute() throws IOException, InterruptedException {
+		
+		File execDir = (File)toolSpec.getContext().get(ToolSpec.EXEC_DIR);
+		LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
+		
+		
+		//TODO check if a simple split(" ") is sufficient for complexer parameter lists
+		//Perhaps a specific delimiter for parameters will be required 
+		String[] cmds = toolSpec.getCmd().split(Pattern.quote(" "));
+		
+		ProcessBuilder processBuilder = new ProcessBuilder(cmds);
+		processBuilder.directory((File)toolSpec.getContext().get(ToolSpec.EXEC_DIR));
+		Process p = processBuilder.start();
+		p.waitFor();
 		return p.exitValue();
 	}	
 	
@@ -92,12 +105,12 @@ public class ToolInvoker implements Invoker {
 	    return t;
 	}
 
-	public Tool getTool() {
-		return tool;
+	public ToolSpec getToolSpec() {
+		return toolSpec;
 	}
 
-	public void setTool(Tool tool) {
-		this.tool = tool;
+	public void setTool(ToolSpec tool) {
+		this.toolSpec = tool;
 	}
 
 }
