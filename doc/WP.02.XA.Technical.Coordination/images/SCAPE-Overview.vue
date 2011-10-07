@@ -1,14 +1,14 @@
-<!-- Tufts VUE 3.1.1 concept-map (SCAPE-Overview.vue) 2011-09-16 -->
+<!-- Tufts VUE 3.1.1 concept-map (SCAPE-Overview.vue) 2011-10-07 -->
 <!-- Tufts VUE: http://vue.tufts.edu/ -->
 <!-- Do Not Remove: VUE mapping @version(1.1) jar:file:/Applications/VUE.app/Contents/VUE.jar!/tufts/vue/resources/lw_mapping_1_1.xml -->
-<!-- Do Not Remove: Saved date Fri Sep 16 21:54:15 CEST 2011 by andy on platform Mac OS X 10.7.1 in JVM 1.6.0_26-b03-383-11A511 -->
+<!-- Do Not Remove: Saved date Fri Oct 07 10:41:53 BST 2011 by andy on platform Mac OS X 10.7.1 in JVM 1.6.0_26-b03-383-11A511 -->
 <!-- Do Not Remove: Saving version @(#)VUE: built March 16 2011 at 1142 by vue on Linux 2.4.21-63.EL i386 JVM 1.5.0_06-b05(bits=32) -->
 <?xml version="1.0" encoding="US-ASCII"?>
 <LW-MAP xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="none" ID="0"
     label="SCAPE-Overview.vue" created="1314476338929" x="0.0" y="0.0"
     width="2085.2744" height="1201.7234" strokeWidth="0.0" autoSized="false">
-    <resource referenceCreated="1316202855698" size="158113"
+    <resource referenceCreated="1317980513494" size="158410"
         spec="/Users/andy/Documents/workspace/scape/doc/WP.02.XA.Technical.Coordination/images/SCAPE-Overview.vue"
         type="1" xsi:type="URLResource">
         <title>SCAPE-Overview.vue</title>
@@ -360,11 +360,12 @@
         <URIString>http://vue.tufts.edu/rdf/resource/1b688380c0a800d7018a3745470319e2</URIString>
         <shape arcwidth="20.0" archeight="20.0" xsi:type="roundRect"/>
     </child>
-    <child ID="97" label="Planning Tool" layerID="1"
-        created="1314716625200" x="-283.9375" y="404.5487" width="115.0"
+    <child ID="97" label="PLATO Planning Tool" layerID="1"
+        created="1314716625200" x="-283.9375" y="404.5487" width="157.0"
         height="44.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
         <notes>Based on PLATO%nl;Integrated with one of the Fedora repositories</notes>
-        <resource referenceCreated="0"
+        <resource referenceCreated="0" accessAttempted="1317980380018"
+            accessSuccessful="1317980380076"
             spec="http://www.ifs.tuwien.ac.at/dp/plato/" type="2" xsi:type="URLResource">
             <property key="URL" value="http://www.ifs.tuwien.ac.at/dp/plato/"/>
         </resource>
@@ -866,8 +867,8 @@
         <ctrlPoint0 x="-197.93213" y="2.0059001" xsi:type="point"/>
     </child>
     <child ID="151" label="Queries..." layerID="1"
-        created="1314910987893" x="-224.805" y="3.4829524"
-        width="561.7327" height="401.56583" strokeWidth="1.0"
+        created="1314910987893" x="-204.9106" y="3.4829524"
+        width="541.8383" height="401.56595" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#404040</textColor>
@@ -882,14 +883,14 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/26ce9f1ac0a8001400e31ef2ccd00c8e</URIString>
-        <point1 x="-224.305" y="404.5487"/>
+        <point1 x="-204.4106" y="404.54883"/>
         <point2 x="336.42773" y="3.9829524"/>
         <ID1 xsi:type="node">97</ID1>
         <ID2 xsi:type="node">149</ID2>
         <ctrlPoint0 x="-185.93213" y="8.672566" xsi:type="point"/>
     </child>
     <child ID="154" label="Using..." layerID="1" created="1315322306242"
-        x="-329.50876" y="448.0487" width="99.96893" height="87.54175"
+        x="-301.95728" y="470.0487" width="90.02994" height="65.54175"
         strokeWidth="1.0" autoSized="false" controlCount="1"
         arrowState="2" xsi:type="link">
         <notes>Preservation plans use the policy language to express the decision criteria.</notes>
@@ -906,15 +907,15 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/40695bf6c0a80208004a25d5055b83fc</URIString>
-        <point1 x="-230.03983" y="448.5487"/>
-        <point2 x="-329.00876" y="535.09045"/>
-        <ID1 xsi:type="node">97</ID1>
+        <point1 x="-212.42734" y="470.5487"/>
+        <point2 x="-301.45728" y="535.09045"/>
+        <ID1 xsi:type="node">304</ID1>
         <ID2 xsi:type="node">96</ID2>
-        <ctrlPoint0 x="-235.59912" y="482.50024" xsi:type="point"/>
+        <ctrlPoint0 x="-231.2653" y="516.7013" xsi:type="point"/>
     </child>
     <child ID="155" label="Installs new trigger..." layerID="1"
         created="1315322436190" x="-288.06262" y="281.40442"
-        width="108.13434" height="123.64429" strokeWidth="1.0"
+        width="112.54663" height="123.642456" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#000000</textColor>
@@ -929,15 +930,15 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/40695c02c0a80208004a25d568bb2949</URIString>
-        <point1 x="-222.95285" y="404.5487"/>
+        <point1 x="-205.30368" y="404.54688"/>
         <point2 x="-287.56262" y="281.90442"/>
         <ID1 xsi:type="node">97</ID1>
         <ID2 xsi:type="node">94</ID2>
         <ctrlPoint0 x="-204.5988" y="288.67258" xsi:type="point"/>
     </child>
     <child ID="156" label="Triggers Action..." layerID="1"
-        created="1315322438732" x="-379.2974" y="294.63208"
-        width="95.85989" height="120.73694" strokeWidth="1.0"
+        created="1315322438732" x="-379.21097" y="294.63208"
+        width="96.1192" height="118.70404" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#000000</textColor>
@@ -953,14 +954,14 @@
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/40695c17c0a80208004a25d5cdbe1e83</URIString>
         <point1 x="-348.0538" y="295.13208"/>
-        <point2 x="-283.9375" y="414.86902"/>
+        <point2 x="-283.59177" y="412.83612"/>
         <ID1 xsi:type="node">94</ID1>
         <ID2 xsi:type="node">97</ID2>
         <ctrlPoint0 x="-359.59912" y="399.50024" xsi:type="point"/>
     </child>
     <child ID="158" label="Simulates Plans On..." layerID="1"
-        created="1315322569477" x="-210.36276" y="184.76419"
-        width="135.84229" height="220.28452" strokeWidth="1.0"
+        created="1315322569477" x="-199.52087" y="184.76419"
+        width="129.76111" height="220.28452" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#000000</textColor>
@@ -975,7 +976,7 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/40695c2dc0a80208004a25d56daacd21</URIString>
-        <point1 x="-209.86276" y="404.5487"/>
+        <point1 x="-190.81998" y="404.5487"/>
         <point2 x="-199.02087" y="185.26419"/>
         <ID1 xsi:type="node">97</ID1>
         <ID2 xsi:type="node">95</ID2>
@@ -1327,8 +1328,8 @@
         <ctrlPoint0 x="370.0675" y="529.83356" xsi:type="point"/>
     </child>
     <child ID="103" label="Install new plan..." layerID="1"
-        created="1314716832618" x="-182.08522" y="448.0487"
-        width="272.2494" height="41.82953" strokeWidth="1.0"
+        created="1314716832618" x="-127.4375" y="424.81046"
+        width="303.7243" height="58.0231" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#404040</textColor>
@@ -1343,11 +1344,11 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/1b688383c0a800d7018a3745e47def2c</URIString>
-        <point1 x="-181.58522" y="448.5487"/>
-        <point2 x="89.66416" y="489.37823"/>
+        <point1 x="-126.9375" y="425.31046"/>
+        <point2 x="175.7868" y="482.33356"/>
         <ID1 xsi:type="node">97</ID1>
         <ID2 xsi:type="node">302</ID2>
-        <ctrlPoint0 x="-124.59917" y="476.50024" xsi:type="point"/>
+        <ctrlPoint0 x="80.7347" y="422.03464" xsi:type="point"/>
     </child>
     <child ID="68" layerID="1" created="1314715990189" x="194.77023"
         y="552.834" width="94.190735" height="275.96576"
@@ -2556,7 +2557,7 @@
         <ctrlPoint0 x="-704.82806" y="463.05438" xsi:type="point"/>
     </child>
     <child ID="100" layerID="1" created="1314716704848" x="-587.0051"
-        y="280.93774" width="303.56763" height="147.59311"
+        y="280.93774" width="303.56763" height="147.91223"
         strokeWidth="1.0" autoSized="false" controlCount="1"
         arrowState="2" xsi:type="link">
         <strokeColor>#000000</strokeColor>
@@ -2573,7 +2574,7 @@
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/1b688382c0a800d7018a374503b784e8</URIString>
         <point1 x="-584.6785" y="281.43774"/>
-        <point2 x="-283.9375" y="427.78214"/>
+        <point2 x="-283.9375" y="428.14523"/>
         <ID1 xsi:type="node">16</ID1>
         <ID2 xsi:type="node">97</ID2>
         <ctrlPoint0 x="-610.2904" y="434.78265" xsi:type="point"/>
@@ -2756,6 +2757,49 @@
         <ID2 xsi:type="node">149</ID2>
         <ctrlPoint0 x="372.73468" y="-80.66077" xsi:type="point"/>
     </child>
+    <child ID="304" label="Policy Element Catalogue" layerID="1"
+        created="1317980340355" x="-283.9375" y="448.5487" width="152.0"
+        height="22.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
+        <fillColor>#FEFEC9</fillColor>
+        <strokeColor>#000000</strokeColor>
+        <textColor>#000000</textColor>
+        <font>Arial-plain-12</font>
+        <metadata-list category-list-size="1" other-list-size="0"
+            ontology-list-size="0" RCategoryListSize="0">
+            <ontology-list-string></ontology-list-string>
+            <metadata xsi:type="vue-metadata-element">
+                <value></value>
+                <key>http://vue.tufts.edu/vue.rdfs#none</key>
+                <type>1</type>
+            </metadata>
+        </metadata-list>
+        <URIString>http://vue.tufts.edu/rdf/resource/ddc2a578c0a8020801da1f998d189c33</URIString>
+        <shape arcwidth="20.0" archeight="20.0" xsi:type="roundRect"/>
+    </child>
+    <child ID="305" label="Policy Element Catalogue" layerID="1"
+        created="1317980359085" x="409.90137" y="-173.2987"
+        width="180.0" height="27.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
+        <resource referenceCreated="0" accessAttempted="1317980380018"
+            accessSuccessful="1317980380076"
+            spec="http://www.ifs.tuwien.ac.at/dp/plato/" type="2" xsi:type="URLResource">
+            <property key="URL" value="http://www.ifs.tuwien.ac.at/dp/plato/"/>
+        </resource>
+        <fillColor>#FEFEC9</fillColor>
+        <strokeColor>#000000</strokeColor>
+        <textColor>#000000</textColor>
+        <font>Arial-plain-12</font>
+        <metadata-list category-list-size="1" other-list-size="0"
+            ontology-list-size="0" RCategoryListSize="0">
+            <ontology-list-string></ontology-list-string>
+            <metadata xsi:type="vue-metadata-element">
+                <value></value>
+                <key>http://vue.tufts.edu/vue.rdfs#none</key>
+                <type>1</type>
+            </metadata>
+        </metadata-list>
+        <URIString>http://vue.tufts.edu/rdf/resource/ddc2a579c0a8020801da1f99b0a3556d</URIString>
+        <shape arcwidth="20.0" archeight="20.0" xsi:type="roundRect"/>
+    </child>
     <layer ID="293" label="Areas" created="1315390970084" x="0.0"
         y="0.0" width="1.4E-45" height="1.4E-45" locked="true"
         strokeWidth="0.0" autoSized="false">
@@ -2774,7 +2818,7 @@
         <URIString>http://vue.tufts.edu/rdf/resource/0ce5826ec0a800d7018a3745c8a39c40</URIString>
     </layer>
     <userZoom>0.75</userZoom>
-    <userOrigin x="-990.4491" y="-367.49557"/>
+    <userOrigin x="-918.449" y="-317.47403"/>
     <presentationBackground>#202020</presentationBackground>
     <PathwayList currentPathway="0" revealerIndex="-1">
         <pathway ID="0" label="Untitled Pathway" created="1314476338879"
