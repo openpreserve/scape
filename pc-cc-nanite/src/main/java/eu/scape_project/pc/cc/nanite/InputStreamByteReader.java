@@ -21,24 +21,22 @@ public class InputStreamByteReader implements ByteReader {
 	public InputStreamByteReader( InputStream in ) {
 		this.in = new BufferedInputStream(in);
 		this.nextpos = 0;
-		this.in.mark(10*1024);
+		// The 'reset' logic will fail if this is not big enough.
+		// Not sure this is a good idea for v large files!
+		this.in.mark(1024*1024*1024);
 	}
 
 	@Override
 	public byte readByte(long position) {
-		System.out.println("Reading "+position);
+		//System.out.println("Reading "+position);
 		try {
-			in.reset();
-			in.skip(position);
 			// If skipping back, skip back.
-			/*
 			if( position < this.nextpos ) {
 				in.reset();
 				in.skip(position);
 			} else if( position > this.nextpos ) {
 				in.skip( position - this.nextpos );
 			}
-			*/
 			this.nextpos = position+1;
 			return (byte)in.read();
 		} catch (IOException e) {
