@@ -11,24 +11,24 @@ problems.
 
 Build it using:
 
-<code>
-  mvn package
-</code>
+```
+$  mvn package
+```
 
 Run it using:
 
-<code>
-  java -jar target/pc-cc-nanite-0.0.1-SNAPSHOT-jar-with-dependencies.jar {input file} 
-</code>
+```
+$  java -jar target/pc-cc-nanite-0.0.1-SNAPSHOT-jar-with-dependencies.jar {input file} 
+```
 
 Example output:
 
 ```
-  opf:pc-cc-nanite andy$ java -jar target/pc-cc-nanite-0.0.1-SNAPSHOT-jar-with-dependencies.jar ~/Downloads/168-777-1-PB.pdf
-  2011-10-13 11:11:14,209  WARN Signature [id:293] will always scan up to maximum bytes.  Matches formats:  [Name:Internet Message Format] [PUID:fmt/278]
-  2011-10-13 11:11:14,257  WARN Signature [id:305] will always scan up to maximum bytes.  Matches formats:  [Name:WARC] [PUID:fmt/289]
-  MATCHING: fmt/18, Acrobat PDF 1.4 - Portable Document Format 1.4
-  Content-Type: application/pdf; version=1.4
+opf:pc-cc-nanite andy$ java -jar target/pc-cc-nanite-0.0.1-SNAPSHOT-jar-with-dependencies.jar ~/Downloads/168-777-1-PB.pdf
+2011-10-13 11:11:14,209  WARN Signature [id:293] will always scan up to maximum bytes.  Matches formats:  [Name:Internet Message Format] [PUID:fmt/278]
+2011-10-13 11:11:14,257  WARN Signature [id:305] will always scan up to maximum bytes.  Matches formats:  [Name:WARC] [PUID:fmt/289]
+MATCHING: fmt/18, Acrobat PDF 1.4 - Portable Document Format 1.4
+Content-Type: application/pdf; version=1.4
 ```
 
 Note use of extended MIME types to act as interoperable identifiers.
