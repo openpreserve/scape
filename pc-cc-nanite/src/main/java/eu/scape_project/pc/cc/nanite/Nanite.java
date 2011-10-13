@@ -177,9 +177,9 @@ public class Nanite {
         //identifier.setParentResourceId(parentId);
         //identifier.setResourceId(nodeId);
         
-        IdentificationRequest ir = new FileSystemIdentificationRequest(metaData, identifier);
+        IdentificationRequest ir = new InputStreamIdentificationRequest(metaData, identifier, in);
         // Attach the byte arrays of content:
-        ir.open(in);
+        //ir.open(in);
 		return ir;
 	}
 	
@@ -222,9 +222,11 @@ public class Nanite {
 		File file = new File(args[0]);
 		//IdentificationRequest ir = createFileIdentificationRequest(file);
 		
-		byte[] data =  org.apache.commons.io.FileUtils.readFileToByteArray(file);
-		IdentificationRequest ir = createByteArrayIdentificationRequest(file.toURI(), data);		
-		
+		//byte[] data =  org.apache.commons.io.FileUtils.readFileToByteArray(file);
+		//IdentificationRequest ir = createByteArrayIdentificationRequest(file.toURI(), data);		
+
+		IdentificationRequest ir = createInputStreamIdentificationRequest(file.toURI(), new FileInputStream(file) );		
+
 		Nanite nan = new Nanite();
 		
 		IdentificationResultCollection resultCollection = nan.identify(ir);
