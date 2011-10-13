@@ -38,6 +38,8 @@ import uk.gov.nationalarchives.droid.core.interfaces.signature.SignatureType;
  * - AsyncDroid subtype SubmissionGateway, 
  * - which calls DroidCore,
  * - which calls uk.gov.nationalarchives.droid.core.BinarySignatureIdentifier
+ * - Following which, SubmissionGateway does some handleContainer stuff, 
+ * executes the container matching engine and does some complex logic to resolve the result.
  * 
  * Also found 
  * - uk.gov.nationalarchives.droid.command.action.DownloadSignatureUpdateCommand
@@ -45,6 +47,11 @@ import uk.gov.nationalarchives.droid.core.interfaces.signature.SignatureType;
  * but perhaps the SignatureManagerImpl does all that is needed?
  * 
  * @author Andrew Jackson <Andrew.Jackson@bl.uk>
+ * @author Fabian Steeg
+ * @author <a href="mailto:carl.wilson@bl.uk">Carl Wilson</a> <a
+ *         href="http://sourceforge.net/users/carlwilson-bl"
+ *         >carlwilson-bl@SourceForge</a> <a
+ *         href="https://github.com/carlwilson-bl">carlwilson-bl@github</a>
  *
  */
 public class Nanite {
@@ -58,7 +65,6 @@ public class Nanite {
 	public Nanite() throws IOException, SignatureFileException {
 		System.setProperty("consoleLogThreshold","INFO");
 		System.setProperty("logFile", "./nanite.log");
-		
 		PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("log4j.properties"));
 		
 		// System.getProperty("java.io.tmpdir")
@@ -75,18 +81,19 @@ public class Nanite {
 		}
 		System.setProperty(DROID_USER, droidDir.getAbsolutePath());
 		
+		// Fire up required classes via Spring:
 		context = new ClassPathXmlApplicationContext("classpath*:/META-INF/ui-spring.xml");
         context.registerShutdownHook();
+		sm = (SignatureManager) context.getBean("signatureManager");
         
-		// TODO Auto-generated method stub
+		// Without Spring, you need something like...		
 /*		DroidGlobalConfig dgc = new DroidGlobalConfig();	
 		dgc.init();
 		System.out.println("Tjhis: "+dgc.getProperties());
 		SignatureManagerImpl sm = new SignatureManagerImpl();
 		sm.setConfig(dgc);
-*/		
-		sm = (SignatureManager) context.getBean("signatureManager");
-/*		Map<SignatureType, SignatureUpdateService> signatureUpdateServices = new HashMap<SignatureType, SignatureUpdateService>();
+		
+		Map<SignatureType, SignatureUpdateService> signatureUpdateServices = new HashMap<SignatureType, SignatureUpdateService>();
 		PronomSignatureService pss = new PronomSignatureService();
 		pss.setFilenamePattern("DROID_SignatureFile_V%s.xml");
 		PronomService pronomService;
@@ -99,18 +106,28 @@ public class Nanite {
 		
 		//SignatureFileInfo latest = sm.downloadLatest(SignatureType.BINARY);
 		
-		
-		//?? DownloadSignatureUpdateCommand dsuc = new DownloadSignatureUpdateCommand();
-		
+		// Now set up the Binary Signature Identifier with the right signature from the manager:
 		bsi = new BinarySignatureIdentifier();
 		bsi.setSignatureFile(sm.getDefaultSignatures().get(SignatureType.BINARY).getFile().getAbsolutePath());
 		bsi.init();
 	}
 
+	/**
+	 * 
+	 * @param ir
+	 * @return
+	 */
 	public IdentificationResultCollection identify(IdentificationRequest ir) {
 		return bsi.matchBinarySignatures(ir);
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public static IdentificationRequest createFileIdentificationRequest( File file ) throws FileNotFoundException, IOException {
 		URI uri = file.toURI();
         RequestMetaData metaData = new RequestMetaData( file.length(), file
@@ -142,6 +159,13 @@ public class Nanite {
 	}
 
 
+	/**
+	 * 
+	 * @param uri
+	 * @param in
+	 * @return
+	 * @throws IOException
+	 */
 	public static IdentificationRequest createInputStreamIdentificationRequest( URI uri, InputStream in ) throws IOException {
         RequestMetaData metaData = new RequestMetaData( (long)in.available(), null, uri.toString() );
         
@@ -156,21 +180,32 @@ public class Nanite {
 		return ir;
 	}
 	
+	/**
+	 * 
+	 * @param res
+	 * @return
+	 */
 	public static String getMimeTypeFromResult( IdentificationResult res ) {
-		String droidType = res.getMimeType();
-		if( droidType != null && ! "".equals(droidType) ) {
-			if( res.getVersion() != null && ! "".equals(res.getVersion()) ) {
-				droidType += "; version="+res.getVersion();
+		String mimeType = res.getMimeType();
+		// Is there a mimeType?
+		if( mimeType != null && ! "".equals(mimeType) ) {
+			// Patch on a version parameter if there isn't one there already:
+			if( !mimeType.contains("version=") && 
+					res.getVersion() != null && ! "".equals(res.getVersion()) ) {
+				mimeType += "; version="+res.getVersion();
 			}
 		} else {
+			// If there isn't a MIME type, make one up:
 			String name = res.getName();
 			if( res.getVersion() != null && ! "".equals(res.getVersion()) ) {
 				name += "-" + res.getVersion();
 			}
+			name = name.replace("\"", "");
 			name = name.replace(" ", "-").toLowerCase();
-			droidType = "application/x-"+name+"; puid="+res.getPuid();
+			// Add the puid as a parameter:
+			mimeType = "application/x-"+name+"; puid="+res.getPuid();
 		}
-		return droidType;
+		return mimeType;
 	}
 
 	/**
