@@ -41,8 +41,11 @@ import uk.gov.nationalarchives.droid.core.interfaces.signature.SignatureType;
  * - Following which, SubmissionGateway does some handleContainer stuff, 
  * executes the container matching engine and does some complex logic to resolve the result.
  * 
+ * @see uk.gov.nationalarchives.droid.submitter.SubmissionGateway
+ * @see uk.gov.nationalarchives.droid.core.BinarySignatureIdentifier
+ * 
  * Also found 
- * - uk.gov.nationalarchives.droid.command.action.DownloadSignatureUpdateCommand
+ * @see uk.gov.nationalarchives.droid.command.action.DownloadSignatureUpdateCommand
  * which indicates how to download the latest sig file, 
  * but perhaps the SignatureManagerImpl does all that is needed?
  * 
