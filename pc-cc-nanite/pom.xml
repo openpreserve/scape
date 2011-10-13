@@ -50,7 +50,7 @@
               <archive>
                     <manifest>
                       <addClasspath>true</addClasspath>
-                      <mainClass>eu.scape_project.pc.cc.blitt.Nanite</mainClass>
+                      <mainClass>eu.scape_project.pc.cc.nanite.Nanite</mainClass>
                     </manifest>
               </archive>
             </configuration>
@@ -62,7 +62,7 @@
             <configuration>
             <archive>
                     <manifest>
-                        <mainClass>eu.scape_project.pc.cc.blitt.Nanite</mainClass>
+                        <mainClass>eu.scape_project.pc.cc.nanite.Nanite</mainClass>
                     </manifest>
                 </archive>
               <descriptorRefs>

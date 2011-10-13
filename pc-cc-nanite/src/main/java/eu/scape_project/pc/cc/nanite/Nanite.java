@@ -56,12 +56,15 @@ public class Nanite {
 
 
 	public Nanite() throws IOException, SignatureFileException {
+		System.setProperty("consoleLogThreshold","INFO");
+		System.setProperty("logFile", "./nanite.log");
+		
 		PropertyConfigurator.configure(this.getClass().getClassLoader().getResource("log4j.properties"));
 		
 		// System.getProperty("java.io.tmpdir")
 		//String droidDirname = System.getProperty("user.home")+File.separator+".droid6";
 		String droidDirname = System.getProperty("java.io.tmpdir")+File.separator+"droid6";
-		System.out.println("GOT: "+droidDirname);
+		//System.out.println("GOT: "+droidDirname);
 		File droidDir = new File(droidDirname);
 		if( ! droidDir.isDirectory() ) {
 			if( ! droidDir.exists() ) {
@@ -178,7 +181,7 @@ public class Nanite {
 	 * @throws SignatureFileException 
 	 */
 	public static void main(String[] args) throws IOException, SignatureManagerException, ConfigurationException, SignatureFileException {
-		File file = new File("/Users/andy/Downloads/ANSI_NISO_Z39.86-2006.pdf");
+		File file = new File(args[0]);
 		//IdentificationRequest ir = createFileIdentificationRequest(file);
 		
 		byte[] data =  org.apache.commons.io.FileUtils.readFileToByteArray(file);
@@ -187,13 +190,14 @@ public class Nanite {
 		Nanite nan = new Nanite();
 		
 		IdentificationResultCollection resultCollection = nan.identify(ir);
-		System.out.println("MATCHING: "+resultCollection.getResults());
+		//System.out.println("MATCHING: "+resultCollection.getResults());
 		for( IdentificationResult result : resultCollection.getResults() ) {
 			String mimeType = result.getMimeType();
 			if( result.getVersion() != null && ! "".equals(result.getVersion())) {
 				mimeType += ";version="+result.getVersion();
 			}
-			System.out.println("MATCHING: "+result.getPuid()+", "+mimeType+", "+result.getName());
+			System.out.println("MATCHING: "+result.getPuid()+", "+result.getName()+" "+result.getVersion());
+			System.out.println("Content-Type: "+Nanite.getMimeTypeFromResult(result));
 		}
 		
 	}
