@@ -52,4 +52,5 @@ can operate directly on streams instead of spooling to tmp. Note that this all o
 somewhat with JHOVE2.
 * Consider stripping log4j config out of /droid-core-interfaces/src/main/resources/log4j.properties because this overrides local config when assembling one jar.
 * Consider cleaning up Droid and Planets dependencies, e.g. multiple Spring versions. Perhaps no longer an issue as dependency on planets-suite:core-utils has been dropped.
+* Consider cleaning up the SubmissionGateway from droid-results so that the logic that calls the container identification engine and combines the results is put together while keeping it separate from all the threading and other UI-oriented stuff.
 
