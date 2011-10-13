@@ -22,8 +22,8 @@ public class InputStreamByteReader implements ByteReader {
 		this.in = new BufferedInputStream(in);
 		this.nextpos = 0;
 		// The 'reset' logic will fail if this is not big enough.
-		// Not sure this is a good idea for v large files!
-		this.in.mark(1024*1024*1024);
+		// Not sure this very large readLimit is a good idea!
+		this.in.mark(Integer.MAX_VALUE);
 	}
 
 	@Override
