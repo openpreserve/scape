@@ -52,13 +52,15 @@ import org.apache.hadoop.mapred.lib.MultipleOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
 //import eu.scape_project.pit.invoke.Peu.scape_project.pt.mapreditInvoker;
+import eu.scape_project.pt.fs.util.MapSessionFiler;
 import eu.scape_project.pt.pit.ToolMap;
 //import eu.scape_project.pt.pit.invoke.PTInvoker;
 import eu.scape_project.pt.util.ArgsParser;
 import eu.scape_project.pt.util.PtRecordParser;
-import eu.scape_project.pt.pit.Tool;
-import eu.scape_project.pt.proc.Preprocessor;
-import eu.scape_project.pt.fs.util.HDFSFiler;
+import eu.scape_project.pt.pit.ToolSpec;
+import eu.scape_project.pt.proc.FileProcessor;
+import eu.scape_project.pt.proc.Processor;
+import eu.scape_project.pt.proc.TaskProcessor;
 
 /**
  * A very simple wrapper to execute cmd-line tools using mapReduce
@@ -80,13 +82,16 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 		public void setup( Context context ) {
 		}
 
-	    public void map(Object key, Text value, Context context
+		public void map(Object key, Text value, Context context
 	                    ) throws IOException, InterruptedException {
 	    	
 	    	LOG.info("MyMapper.map key:"+key.toString()+" value:"+value.toString());
 	    	PtRecordParser rparser = new PtRecordParser(value.toString());
-	    	String str = context.getConfiguration().get(ArgsParser.TOOL);
-	    	Tool tool = Tool.fromString(str);
+	    	String tstr = context.getConfiguration().get(ArgsParser.TOOLSTRING);
+	    	ToolSpec toolSpec = ToolSpec.fromString(tstr);
+	    	
+	    	String pstr = context.getConfiguration().get(ArgsParser.PARAMETERLIST);
+	    	String[] params = (pstr == null ? null : pstr.split(Pattern.quote(" ")));
 	    	
 	    	//Let's implement a simple workflow
 	    	//read file (1) -> execute (2) -> write file (3)
@@ -100,17 +105,41 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	//start execution 
 	    	//finish execution (write output files)
 	    	
+	    	//pre
 	    	FileSystem hdfs = FileSystem.get(new Configuration());
-	    	Preprocessor preProcessor = new Preprocessor(inFiles, hdfs);
+	    	FileProcessor fileProcessor = new FileProcessor(inFiles, outFiles, hdfs);
 	    	
 	    	try {
-	    		preProcessor.retrieveFiles();
-	    	} catch(Exception e) {
-	    		LOG.error(e.getMessage(), e);
-	    		e.printStackTrace();
+	    		fileProcessor.resolvePrecondition();
+	    	} catch(Exception e_pre) {
+	    		LOG.error("Exception in propocessing phase: " + e_pre.getMessage(), e_pre);
+	    		e_pre.printStackTrace();
+	    	}	    	
+	    	
+	    	toolSpec.replaceTokenInCmd(ToolSpec.FILE, cmdArgs);
+	    	toolSpec.replaceTokenInCmd(ToolSpec.PARAM, params);
+			File execDir = MapSessionFiler.getExecDir();
+	    	//TODO use sthg. like contextObject to manage type safety
+	    	toolSpec.getContext().put(ToolSpec.EXEC_DIR, execDir);
+	    	Processor processor = new TaskProcessor(toolSpec);
+	    	int exitCode = 0;
+	    	
+	    	//exec
+	    	try {
+	    		processor.initialize();
+	    		exitCode = processor.execute();
+	    		LOG.info("Execution terminated with code: "+exitCode);
+	    	} catch(Exception e_exec) {
+	    		LOG.error("Exception in execution phase: " + e_exec.getMessage(), e_exec);
+	    		e_exec.printStackTrace();
+	    	}	    		    		
+	    	
+	    	//post
+	    	//TODO resolvePostcondtion()
+	    	for(String s : MapSessionFiler.getExecDir().list()) {
+	    		File f = new File(s);
+	    		LOG.info("in tmp dir: "+ f.getName()+ " " +f.getTotalSpace());
 	    	}
-	    	//TODO 
-	    	//move this to Process object
 	    	
 	    	/** STREAMING works but we'll integrate that later
 	    	//Path inFile = new Path("hdfs://"+value.toString());
@@ -132,54 +161,26 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	OutputStream p_out = p.getOutputStream();
 	    	InputStream p_in = p.getInputStream();
 	    	//TODO copy outstream and send to log file
-			
+	    	
 	    	byte[] buffer = new byte[1024];
-			int bytesRead = -1;
-			
-			System.out.println("streaming data to process");
-			Thread toProc = pipe(hdfs_in, new PrintStream(p_out), '>');
-			
-			System.out.println("streaming data to hdfs");()
-			Thread toHdfs = pipe(p_in, new PrintStream(hdfs_out), 'h'); 
-			
-			//pipe(process.getErrorStream(), System.err);
-			
-			toProc.join();	    	
-			toHdfs.join();
-			
-			*/
+	    	int bytesRead = -1;
+	    	
+	    	System.out.println("streaming data to process");
+	    	Thread toProc = pipe(hdfs_in, new PrintStream(p_out), '>');
+	    	
+	    	System.out.println("streaming data to hdfs");()
+	    	Thread toHdfs = pipe(p_in, new PrintStream(hdfs_out), 'h'); 
+	    	
+	    	//pipe(process.getErrorStream(), System.err);
+	    	
+	    	toProc.join();	    	
+	    	
+	    	*/
+
+
 	    }
-	    
-    	private Thread pipe(final InputStream src, final PrintStream dest, final char debugToken) throws IOException {
-    		System.out.println("Starting piping "+ debugToken);
-    	    Thread t = new Thread(new Runnable() {
-    	        public void run() {
-    	            try {
-    	                byte[] buffer = new byte[1024];
-    	                for (int n = 0; n != -1; n = src.read(buffer)) {
-    	                	System.out.print(debugToken);
-    	                    dest.write(buffer, 0, n);
-    	                    System.out.println("/"+debugToken);
-    	                }
-    	                //reader at EOF, flush writer, and close streams
-    	                System.out.print("EOF, flushing, and closing \n");
-    	                dest.flush();
-    	                src.close();
-    	                dest.close();
-    	                return;
-    	            } catch (IOException e) { // just exit
-    	            	System.out.println(e);
-    	            	return;
-    	            }
-    	        }
-    	    });
-    	    t.start();
-    	    return t;
-    	}
 	}
-
-  
-
+	  
 
 	public static class MyReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 		
@@ -236,67 +237,62 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 		int res = 1;
 		SimpleWrapper mr = new SimpleWrapper();
         Configuration conf = new Configuration();
-        ToolMap tools = new ToolMap();
-        tools.initialize();
+		ToolMap toolMap = new ToolMap();
         		
 		try {
-			ArgsParser pargs = new ArgsParser("i:o:t:x", args);
+			ArgsParser pargs = new ArgsParser("i:o:t:p:x", args);
 			//input file
 			LOG.info("input: "+ pargs.getValue("i"));
 			//hadoop's output 
 			LOG.info("output: "+pargs.getValue("o"));
 			//tool to select
-			LOG.info("tool: "+pargs.getValue("t")+" ...lookup returned: "+tools.get(pargs.getValue("t")));		
-			//TODO user defined parameter list
+			LOG.info("tool: "+pargs.getValue("t")+" ...lookup returned: "+toolMap.get(pargs.getValue("t")));		
+			//defined parameter list
+			LOG.info("parameters: "+pargs.getValue("p"));
 			
-			conf.set(ArgsParser.INFILE, pargs.getValue("i"));
-	        conf.set(ArgsParser.TOOL, tools.get(pargs.getValue("t")).toString());
+			conf.set(ArgsParser.INFILE, pargs.getValue("i"));			
+			toolMap.initialize();
+			ToolSpec tool = toolMap.get(pargs.getValue("t"));
+			if(tool != null) conf.set(ArgsParser.TOOLSTRING, tool.toString());
 	        if (pargs.hasOption(ArgsParser.OUTDIR)) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
+	        if (pargs.hasOption(ArgsParser.PARAMETERLIST)) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
 	        
+			if(tool == null) {
+				System.out.println("Cannot find tool: "+pargs.getValue("t"));
+				System.exit(-1);
+			}
 	        //don't run hadoop
 	        if(pargs.hasOption("x")) {
-
+	        	
 	        	/*
-	        	String[] pres = null;
-	        	String[] execs = null;
-	        	String[] posts = null;
+	        	String t = System.getProperty("java.io.tmpdir");
+	    		LOG.info("Using Temp. Directory:" + t);
+	    		File execDir = new File(t);
+	    		if(!execDir.exists()) {
+	    			execDir.mkdir();
+	    		}
 	        	
-	        	String rec = "-exec file1 file2 file3 -pre in1 in2 -post out1 out2";
-	        	String recs[] = rec.trim().split(" ");
-	        	//int find = Arrays.asList(recs).indexOf("file1");
-	        	List<String> lrecs = Arrays.asList(recs);
-	        	
-	        	Vector<Integer> vtokens = new Vector<Integer>();
-	        	Integer exec = new Integer(lrecs.indexOf(PtRecordParser.EXEC_CONDITION));
-	        	Integer pre = new Integer(lrecs.indexOf(PtRecordParser.PRE_CONDITION));
-	        	Integer post = new Integer(lrecs.indexOf(PtRecordParser.POST_CONDITION));
-	        	Integer eol = new Integer(lrecs.size());
-
-	        	vtokens.add(exec);
-	        	vtokens.add(pre);
-	        	vtokens.add(post);
-	        	vtokens.add(eol);
-	        	Collections.sort(vtokens);
-	        	
-	        		        	
-				if(exec > -1) 
-	        		execs= lrecs.subList(exec.intValue()+1, vtokens.get(vtokens.indexOf(exec)+1)).toArray(new String[0]);
-	        	if(pre > -1) 
-	        		pres = (String[])lrecs.subList(pre+1, vtokens.get(vtokens.indexOf(pre)+1)).toArray(new String[0]);
-	        	if(post > -1)
-	        		posts = (String[])lrecs.subList(post+1, vtokens.get(vtokens.indexOf(post)+1)).toArray(new String[0]);
-	        		
-	        	
-	        	System.out.println("exec is: "+Arrays.toString(execs));
-	        	System.out.println("pre is: "+Arrays.toString(pres));
-	        	System.out.println("post is: "+Arrays.toString(posts));
+	    		LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
+	    		File paper_ps = new File(execDir.toString()+"/paper.ps");
+	    		LOG.info("Looking for this file: "+paper_ps);
+	    		LOG.info("Is paper.ps a file: "+paper_ps.isFile());
+	    		
+	    		//LOG.info("trying ps2pdf in without args.....");
+	    		String cmd = "/usr/bin/ps2pdf paper.ps paper.ps.pdf";
+	    		String[] cmds = cmd.split(" ");
+	    		System.out.println("cmds.length "+cmds.length);
+	    		ProcessBuilder pb = new ProcessBuilder(cmds);
+	    		pb.directory(execDir);
+	    		Process p1 = pb.start();
+	    		//LOG.info(".....");
 	        	*/
 	        	
-	        	System.out.println("option x detected");	        	
+	        	
+	        	System.out.println("option x detected.");	        	
 	        	System.exit(1);
 	        }
 		} catch (Exception e) {
-			System.out.println("usage: SimpleWrapper -i inFile [-o outFile] -t cmd");
+			System.out.println("usage: SimpleWrapper -i inFile [-o outFile] [-p \"parameterList\"] -t cmd");
 			LOG.info(e);
 			System.exit(-1);
 		}

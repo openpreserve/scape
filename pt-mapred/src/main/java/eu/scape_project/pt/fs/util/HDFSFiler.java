@@ -22,7 +22,8 @@ public class HDFSFiler extends MapSessionFiler implements Filer{
 	public File createTempFileFromReference(String hdfsRef) throws IOException {
 		Path path = new Path(hdfsRef);
 		if(!hdfs.exists(path)) throw new IOException("file does not exist! "+hdfsRef.toString());
-		File temp = File.createTempFile(path.getName(), "", tempDir);
+		//File temp = File.createTempFile(path.getName(), "", tempDir);
+		File temp = new File(getExecDir(), path.getName());
 		hdfs.copyToLocalFile(path, new Path(temp.toString()));
 		return temp;
 	}

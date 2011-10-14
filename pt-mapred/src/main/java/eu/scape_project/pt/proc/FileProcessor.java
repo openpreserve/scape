@@ -3,6 +3,7 @@ package eu.scape_project.pt.proc;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,48 +11,74 @@ import org.apache.hadoop.fs.FileSystem;
 
 import eu.scape_project.pt.fs.util.Filer;
 import eu.scape_project.pt.fs.util.HDFSFiler;
+import eu.scape_project.pt.fs.util.MapSessionFiler;
 import eu.scape_project.pt.fs.util.PtFileUtil;
 import eu.scape_project.pt.mapred.SimpleWrapper;
 
-public class Preprocessor {
+public class FileProcessor implements PreProcessor, PostProcessor {
 	
-	private static Log LOG = LogFactory.getLog(Preprocessor.class);
+	private static Log LOG = LogFactory.getLog(FileProcessor.class);
 	
-	protected String[] inFiles = null;
+	protected String[] inRefs = null;
+	protected String[] outRefs = null;
 	protected FileSystem hdfs = null;
 	
-	public Preprocessor(String[] inFiles) {
-		this.inFiles = inFiles;
+	private File[] inputFiles = null;
+	
+	
+	public FileProcessor(String[] inFiles) {
+		this.inRefs = inFiles;
 	}
 	
-	public Preprocessor(String[] inFiles, FileSystem hdfs) {
-		this.inFiles = inFiles;
+	public FileProcessor(String[] inRefs, String[] outRefs, FileSystem hdfs) {
+		this.inRefs = inRefs;
+		this.outRefs = outRefs;
 		this.hdfs = hdfs;
 	}
 	
+	public void setInRefs(String[] inRefs) {
+		this.inRefs = inRefs;
+	}
+	
+	public void setOutRefs(String[] outRefs) {
+		this.outRefs = outRefs;
+	}
+
 	public void setHadoopFS(FileSystem hdfs) {
 		this.hdfs = hdfs;
 	}
 	
-	public int retrieveFiles() throws IOException, URISyntaxException {
-		int i=0;
-		for(String file : inFiles) {			
+	@Override
+	public void resolvePrecondition() throws IOException, URISyntaxException {
+		ArrayList<File> files = new ArrayList();
+		for(String file : inRefs) {			
 			LOG.info("trying to retrieve file: "+file);
 			Filer filer = getFiler(file);
 			if(filer == null) continue;
 	    	File inFile = filer.createTempFileFromReference(file);
-	    	i++;
-	    	System.out.println("tempFile: "+inFile.getCanonicalPath()+" with name: "+inFile.getName());
+	    	files.add(inFile);
+	    	LOG.info("retrieving file: "+inFile.getName());
 		}	
-		return i;
+		this.inputFiles = files.toArray(new File[0]);
 	}
 	
+	public File[] getInputFiles() {
+		return inputFiles;
+	}
+	
+	public void resolvePoscondition() {
+		ArrayList<File> files = new ArrayList();
+		for(String file : outRefs) {			
+		}
+	}
+		
 	private Filer getFiler(String file) throws URISyntaxException {
 		if(PtFileUtil.isHdfsUri(file)) {
 			if(hdfs == null) {
 				LOG.error("Cannot create HDFSFiler. Hadoop FileSystem not set!");
 				return null;
 			}
+			//TODO don't do this for each file
 			return new HDFSFiler(hdfs);
 		} else if(PtFileUtil.isFileUri(file)) {
 			LOG.error("Cannot create FileFiler. Not implemented!");
