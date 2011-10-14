@@ -1,12 +1,12 @@
 /*
  *  Copyright 2011 The SCAPE Project Consortium.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *       http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,13 +45,15 @@ import org.w3c.dom.NodeList;
 public class WsdlCreator {
 
     private static Logger logger = LoggerFactory.getLogger(WsdlCreator.class.getName());
-    PropertiesSubstitutor st;
-    private String wsdlAbsPath;
+    private PropertiesSubstitutor st;
+    private String wsdlTargetPath;
+    private String wsdlSourcePath;
     private Document doc;
     private List<Operation> operations;
 
-    public WsdlCreator(PropertiesSubstitutor st, String wsdlAbsPath, List<Operation> operations) {
-        this.wsdlAbsPath = wsdlAbsPath;
+    public WsdlCreator(PropertiesSubstitutor st, String wsdlSourcePath, String wsdlTargetAbsPath, List<Operation> operations) {
+        this.wsdlSourcePath = wsdlSourcePath;
+        this.wsdlTargetPath = wsdlTargetAbsPath;
         this.st = st;
         this.operations = operations;
     }
@@ -63,15 +65,15 @@ public class WsdlCreator {
      * Insert data types
      */
     public void insertDataTypes() throws GeneratorException {
-        File wsdlTemplate = new File(this.wsdlAbsPath);
+        File wsdlTemplate = new File(this.wsdlSourcePath);
         if (!wsdlTemplate.canRead()) {
-            throw new GeneratorException("Unable to read WSDL Template file: " + this.wsdlAbsPath);
+            throw new GeneratorException("Unable to read WSDL Template file: " + this.wsdlSourcePath);
         }
         try {
 
             DocumentBuilderFactory docBuildFact = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuildFact.newDocumentBuilder();
-            doc = docBuilder.parse(this.wsdlAbsPath);
+            doc = docBuilder.parse(this.wsdlSourcePath);
 
             for (Operation operation : operations) {
 
@@ -92,10 +94,13 @@ public class WsdlCreator {
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
             DOMSource source = new DOMSource(doc);
-            FileOutputStream fos = new FileOutputStream(this.wsdlAbsPath);
+            FileOutputStream fos = new FileOutputStream(this.wsdlTargetPath);
             StreamResult result = new StreamResult(fos);
             transformer.transform(source, result);
             fos.close();
+            if(!((new File(wsdlTargetPath)).exists())) {
+                throw new GeneratorException("WSDL file has not been created successfully.");
+            }
         } catch (Exception ex) {
             logger.error("An exception occurred: " + ex.getMessage());
         }
@@ -240,7 +245,7 @@ public class WsdlCreator {
     }
 
     /**
-     * 
+     *
      * @param reqTypeSeqElm
      * @param name
      * @param dataType
