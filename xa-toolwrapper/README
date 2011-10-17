@@ -101,6 +101,16 @@ Also make sure the JAVA_HOME environment variable is defined.
        ...
      </deployment>
 
+     
+     Keep in mind to adapt:
+	<dataexchange>
+		<accessdir>PLATFORMDEPENDINGPATH/webapps/ROOT/scape/tmp/</accessdir>
+     appropriately to your environment. 
+
+     Remember to regenerate the project if you made and changes in this section!
+ 
+     
+
 4) Change to the directory where the sample project has been generated:
 
        cd xa-toolwrapper/generated/simplecopy10
