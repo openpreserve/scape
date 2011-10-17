@@ -52,7 +52,6 @@ import org.apache.hadoop.mapred.lib.MultipleOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
 //import eu.scape_project.pit.invoke.Peu.scape_project.pt.mapreditInvoker;
-import eu.scape_project.pt.fs.util.MapSessionFiler;
 import eu.scape_project.pt.pit.ToolMap;
 //import eu.scape_project.pt.pit.invoke.PTInvoker;
 import eu.scape_project.pt.util.ArgsParser;
@@ -90,6 +89,9 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	String tstr = context.getConfiguration().get(ArgsParser.TOOLSTRING);
 	    	ToolSpec toolSpec = ToolSpec.fromString(tstr);
 	    	
+	    	String outDir = context.getConfiguration().get(ArgsParser.OUTDIR);
+	    	toolSpec.getContext().put(ToolSpec.RESULT_DIR, outDir);
+	    	
 	    	String pstr = context.getConfiguration().get(ArgsParser.PARAMETERLIST);
 	    	String[] params = (pstr == null ? null : pstr.split(Pattern.quote(" ")));
 	    	
@@ -112,15 +114,14 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	try {
 	    		fileProcessor.resolvePrecondition();
 	    	} catch(Exception e_pre) {
-	    		LOG.error("Exception in propocessing phase: " + e_pre.getMessage(), e_pre);
+	    		LOG.error("Exception in preprocessing phase: " + e_pre.getMessage(), e_pre);
 	    		e_pre.printStackTrace();
 	    	}	    	
 	    	
 	    	toolSpec.replaceTokenInCmd(ToolSpec.FILE, cmdArgs);
 	    	toolSpec.replaceTokenInCmd(ToolSpec.PARAM, params);
-			File execDir = MapSessionFiler.getExecDir();
 	    	//TODO use sthg. like contextObject to manage type safety
-	    	toolSpec.getContext().put(ToolSpec.EXEC_DIR, execDir);
+	    	//toolSpec.getContext().put(ToolSpec.EXEC_DIR, execDir);
 	    	Processor processor = new TaskProcessor(toolSpec);
 	    	int exitCode = 0;
 	    	
@@ -134,12 +135,20 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    		e_exec.printStackTrace();
 	    	}	    		    		
 	    	
-	    	//post
+	    	//some logging
+	    	//for(String s : MapSessionFiler.getExecDir().list()) {
+	    	//	File f = new File(s);
+	    	//	LOG.info("in tmp dir: "+ f.getName()+ " " +f.getTotalSpace());
+	    	//}
+	    	
 	    	//TODO resolvePostcondtion()
-	    	for(String s : MapSessionFiler.getExecDir().list()) {
-	    		File f = new File(s);
-	    		LOG.info("in tmp dir: "+ f.getName()+ " " +f.getTotalSpace());
+	    	try {
+	    		fileProcessor.resolvePostcondition();
+	    	} catch(Exception e_post) {
+	    		LOG.error("Exception in postprocessing phase: " + e_post.getMessage(), e_post);
+	    		e_post.printStackTrace();
 	    	}
+	    	
 	    	
 	    	/** STREAMING works but we'll integrate that later
 	    	//Path inFile = new Path("hdfs://"+value.toString());
@@ -216,6 +225,7 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 		//FileOutputFormat.setOutputPath(job, new Path(args[1])); ArgsParser.OUTDIR
 		FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE)));
 		String outDir = (conf.get(ArgsParser.OUTDIR) == null) ? "out/"+System.currentTimeMillis()%1000 : conf.get(ArgsParser.OUTDIR); 
+		conf.set(ArgsParser.OUTDIR, outDir);
 		FileOutputFormat.setOutputPath(job, new Path(outDir) ); 
 				
 		//add command to job configuration
