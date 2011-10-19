@@ -67,7 +67,7 @@ public abstract class Substitutor {
      * @param srcFileAbsPath Source file
      * @param trgtFileAbsPath Target file
      */
-    public void applySubstitution(String srcFileAbsPath, String trgtFileAbsPath) {
+    public void applySubstitution(String srcFileAbsPath, String trgtFileAbsPath) throws GeneratorException {
         File srcFile = new File(srcFileAbsPath);
         if (srcFile.exists()) {
             logger.debug("Processing \"" + srcFile.getPath() + "\"");
@@ -80,17 +80,17 @@ public abstract class Substitutor {
 
             content = org.apache.commons.io.FileUtils.readFileToString(srcFile);
             String result = replaceVars(content);
-            
+
             targetFile = new File(trgtFileAbsPath);
 
             org.apache.commons.io.FileUtils.writeStringToFile(targetFile, result);
         } catch (IOException ex) {
-            logger.error("An error occurred. ");
+            throw new GeneratorException("An IOException occurred");
         }
         if (targetFile != null && targetFile.exists()) {
             logger.debug("Target file " + targetFile.getPath() + " created.");
         } else {
-            logger.error("Unable to create target file " + targetFile.getPath() + "");
+            throw new GeneratorException("Unable to create target file because it is null");
         }
     }
 
@@ -110,7 +110,7 @@ public abstract class Substitutor {
      * @param path Path to start with
      * @throws IOException
      */
-    public void processDirectory(File path) throws IOException {
+    public void processDirectory(File path) throws IOException, GeneratorException {
         if (path.isDirectory()) {
             String[] children = path.list();
             for (int i = 0; i < children.length; i++) {
@@ -124,7 +124,7 @@ public abstract class Substitutor {
     }
 
     /**
-     * Replace variables 
+     * Replace variables
      * @param inputText Text where substitution will be applied
      * @return Result text
      */
@@ -135,7 +135,7 @@ public abstract class Substitutor {
         return sw.toString();
     }
 
-    protected abstract void processFile(File path);
+    protected abstract void processFile(File path) throws GeneratorException;
 
     /**
      * @return the context

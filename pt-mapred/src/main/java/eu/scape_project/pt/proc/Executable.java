@@ -8,18 +8,18 @@ public abstract class Executable {
 	
 	abstract public int getExecutableType();
 	
-	private HashMap context = null;
+	private HashMap<String, String> context = null;
 	
-	public HashMap getContext() {
+	public HashMap<String, String> getContext() {
 		return context;
 	}
 
-	public void setContext(HashMap context) {
+	public void setContext(HashMap<String, String> context) {
 		this.context = context;
 	}
 
 	public Executable() {
-		context = new HashMap();
+		context = new HashMap<String, String>();
 	}
 	
 }

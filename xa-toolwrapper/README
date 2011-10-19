@@ -1,8 +1,8 @@
 Tool Wrapper v0.3
 =================
-
+ 
 About
------
+------
 
 The Tool Wrapper is a Java based application for creating a web service wrapper
 project for command line tools. Based on an XML tool description, the application
@@ -14,7 +14,8 @@ Quick start
 -----------
 
 You need at least the Java SE Development Kit (JDK) version >=1.6.0 and Apache
-Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
+Maven >= 2.2.1, and an Apache Tomcat application server version >=6.0.18.
+Also make sure the JAVA_HOME environment variable is defined.
 
 1) In the xa-toolwrapper directory, run the project generator with the default
    arguments:
@@ -50,15 +51,65 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
       configuration file <apache-tomcat-install-dir>/conf/tomcat-users.xml)
       by defining a user, e.g.
 
+      Tomcat 6.0.*:
+
       <tomcat-users>
         <role rolename="tomcat"/>
         <role rolename="manager"/>
-        <user password="<password>" roles="tomcat,manager" username="tomcat"/>
+        <user password="password" roles="tomcat,manager" username="tomcat"/>
+      </tomcat-users>
+
+      Tomcat 7.*:
+
+      <tomcat-users>
+        <role rolename="manager-gui"/>
+        <role rolename="manager-script"/>
+        <user password="password" roles="manager-gui, manager-script" username="tomcat"/>
       </tomcat-users>
 
    b) that user and password of the tomcat manager are defined in a corresponding
-      deployment (toolspec/deployments/deployment) and that the deployment is
-      referenced in the toolspec/services/service/deployto section.
+      deployment (toolspec/deployments/deployment):
+
+      Tomcat 6.0.*:
+
+      <manager>
+        <user>tomcat</user>
+        <password>password</password>
+        <path>manager</path>
+      </manager>
+
+      Tomcat 7.* (Note that the manager context changed in version 7!):
+
+      <manager>
+        <user>tomcat</user>
+        <password>password</password>
+        <path>manager/text</path>
+      </manager>
+
+      and that the deployment is referenced in the
+      toolspec/services/service/deployto section:
+
+      <deployto>
+        <deployref default="true" ref="local"/>
+      </deployto>
+
+      Make sure a deployment with the corresponding id of the referenced
+      deployment exists, e.g. for the deployment reference above a deployment
+      with the id "local" must exist:
+
+     <deployment id="local">
+       ...
+     </deployment>
+
+     
+     Keep in mind to adapt:
+	<dataexchange>
+		<accessdir>PLATFORMDEPENDINGPATH/webapps/ROOT/scape/tmp/</accessdir>
+     appropriately to your environment. 
+
+     Remember to regenerate the project if you made and changes in this section!
+ 
+     
 
 4) Change to the directory where the sample project has been generated:
 
@@ -90,7 +141,7 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
 
    and deployed manually afterwards.
 
-   Note that if the application is already deployed, you must use 
+   Note that if the application is already deployed, you must use
 
        cd generated/simplecopy10
        mvn tomcat:redeploy
@@ -113,7 +164,7 @@ Maven >= 2.2.1. Also make sure the JAVA_HOME environment variable is defined.
    Try the RESTless interface:
 
        http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?inputUrl=http://localhost:8080/scape/testdata/scape-logo.png
- 
+
    and - if everything is setup correctly - you would receive a response like:
 
    <ns:simpleCopyResponse>
@@ -297,9 +348,9 @@ required:
   without white spaces.
   Install the underlying command line tool of the tool web service wrapper
   on your system.
-  IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE 
+  IMPORTANT: THE UNDERLYING COMMAND LINE TOOL FOR THE SERVICE SHOULD BE
   INSTALLED IN A PATH WITHOUT WHITE SPACES. OTHERWISE A FULL PATH CALL OF THE
-  COMMAND LINE TOOL WILL NOT WORK CORRECTLY. 
+  COMMAND LINE TOOL WILL NOT WORK CORRECTLY.
 
 - Java SE Development Kit (JDK), JDK 6 Update 12 or higher
   Please download the Java SE SDK for your system at

@@ -59,7 +59,7 @@ public class PropertiesSubstitutor extends Substitutor {
 
         templateDir = pu.getProp("project.template.dir");
         generateDir = pu.getProp("project.generate.dir");
-        
+
         // Substitution variables
         Map<String, String> map = pu.getKeyValuePairs();
         Set propertySet = map.entrySet();
@@ -107,12 +107,13 @@ public class PropertiesSubstitutor extends Substitutor {
     }
 
     @Override
-    public void processFile(File path) {
-        String trgtFilePath = replaceVars(path.getPath());
+    public void processFile(File path) throws GeneratorException {
+        //String trgtFilePath = replaceVars(path.getPath());
+        String trgtFilePath = path.getPath();
         trgtFilePath = trgtFilePath.replace(pu.getProp("project.template.dir"), pu.getProp("project.generate.dir") + "/" + serviceDef.getDirectory());
         String trgtDirStr = trgtFilePath.substring(0, trgtFilePath.lastIndexOf(File.separator));
         FileUtil.mkdirs(new File(trgtDirStr));
-        trgtFilePath = replaceVars(trgtFilePath);
+        //trgtFilePath = replaceVars(trgtFilePath);
         applySubstitution(path.getPath(), trgtFilePath);
     }
 

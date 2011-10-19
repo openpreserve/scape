@@ -90,7 +90,7 @@ public class ToolWrapper {
     /**
      * Main method of the command line application
      * @param args Arguments of the command line application
-     * @throws GeneratorException Exception if project generation fails 
+     * @throws GeneratorException Exception if project generation fails
      */
     public static void main(String[] args) throws GeneratorException {
 
@@ -154,16 +154,22 @@ public class ToolWrapper {
         String projMidfix = st.getProjectMidfix();
         String projDir = st.getProjectDirectory();
 
-        // service wsdl
-        String wsdlAbsPath = FileUtil.makePath(generatedDir, projDir,
+        // target service wsdl
+        String wsdlSourcePath = FileUtil.makePath("tmpl")
+                + "Template.wsdl";
+        logger.debug("Source WSDL file: " + wsdlSourcePath);
+
+        // target service wsdl
+        String wsdlTargetPath = FileUtil.makePath(generatedDir, projDir,
                 "src", "main", "webapp")
                 + projMidfix + ".wsdl";
-        logger.debug("WSDL file: " + wsdlAbsPath);
-        st.processFile(new File(wsdlAbsPath));
+        logger.debug("Target WSDL file: " + wsdlTargetPath);
 
         List<Operation> operations = service.getOperations().getOperation();
-        WsdlCreator wsdlCreator = new WsdlCreator(st, wsdlAbsPath, operations);
+        WsdlCreator wsdlCreator = new WsdlCreator(st, wsdlSourcePath, wsdlTargetPath, operations);
         wsdlCreator.insertDataTypes();
+
+        st.processFile(new File(wsdlTargetPath));
 
         // service code
         String sjf = FileUtil.makePath(generatedDir, projDir,
