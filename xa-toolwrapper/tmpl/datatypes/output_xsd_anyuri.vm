@@ -1,5 +1,5 @@
         // Output: ${output_variable}
-        File ${output_variable}File = new File(${output_variable}FileName);
+        File ${output_variable}File = new File(${output_variable}FileName${autoextension});
         if (!${output_variable}File.exists() || ${output_variable}File.length() == 0) {
             errorlog("The expected output file " + ${output_variable}File.getName() + " is empty or has not been created successfully");
             return ${operationname}Result(fac, omNs);

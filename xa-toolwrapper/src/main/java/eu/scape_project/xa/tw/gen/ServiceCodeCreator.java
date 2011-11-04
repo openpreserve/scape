@@ -27,6 +27,7 @@ import eu.scape_project.xa.tw.tmpl.ServiceXmlOp;
 import eu.scape_project.xa.tw.toolspec.Input;
 import eu.scape_project.xa.tw.toolspec.Operation;
 import eu.scape_project.xa.tw.toolspec.Output;
+import eu.scape_project.xa.tw.toolspec.Restriction;
 import eu.scape_project.xa.tw.util.StringConverterUtil;
 import java.io.File;
 import java.io.IOException;
@@ -75,17 +76,17 @@ public class ServiceCodeCreator {
         // add main project properties velocity context
         oc.put(st.getContext());
 
-
         List<Input> inputs = operation.getInputs().getInput();
         for (Input input : inputs) {
             addDataSection(operation, oc, IOType.INPUT, input.getDatatype(),
-                    input.getName(), input.getCliMapping(), null, null);
+                    input.getName(), input.getCliMapping(), null, null, false, input.getRestriction());
         }
         List<Output> outputs = operation.getOutputs().getOutput();
         for (Output output : outputs) {
             addDataSection(operation, oc, IOType.OUTPUT, output.getDatatype(),
                     output.getName(), output.getCliMapping(),
-                    output.getPrefixFromInput(), output.getExtension());
+                    output.getPrefixFromInput(), output.getExtension(),
+                    output.isAutoExtension(), null);
         }
 
         oc.put("inputsection", oc.getInputSection());
@@ -122,11 +123,13 @@ public class ServiceCodeCreator {
      * @param dataType Data type (xsd:string, xsd:integer, etc.)
      * @throws GeneratorException
      */
-    protected void addDataSection(Operation operation, OperationCode oc, IOType iotype, String dataType, String nodeName, String cliMapping, String prefixFromInput, String extension) throws GeneratorException {
+    protected void addDataSection(Operation operation, OperationCode oc, IOType iotype, String dataType, String nodeName, String cliMapping, String prefixFromInput, String extension, boolean autoExtension, Restriction restriction) throws GeneratorException {
         String opid = String.valueOf(operation.getOid());
         // code template for the current leaf node
+        boolean isMultiple = restriction != null && restriction.isMultiple();
         String template = "tmpl/datatypes/" + iotype + "_"
                 + StringConverterUtil.typeToFilename(dataType)
+                +(isMultiple?"_restricted_list":"")
                 + ".vm";
         logger.debug("Using template \"" + template + "\" for node \"" + nodeName
                 + "\" in operation " + opid);
@@ -138,9 +141,9 @@ public class ServiceCodeCreator {
                 sectCode.put("operationname", operation.getName());
                 if (iotype == IOType.INPUT) {
                     sectCode.put("input_variable", nodeName);
-                    String mapping = getCliMapping(iotype,cliMapping, dataType, nodeName);
+                    String mapping = getCliMapping(iotype, cliMapping, dataType, nodeName);
                     sectCode.put("mapping", mapping);
-                    String parameter = getOperationParameter(dataType, nodeName);
+                    String parameter = getOperationParameter(dataType, nodeName, isMultiple);
                     oc.addParameter(parameter);
                     String parList = oc.getParametersCsList();
                     oc.put("parameters", parList);
@@ -148,11 +151,21 @@ public class ServiceCodeCreator {
                     oc.appendInputSection(sectCode.getCode());
                 } else if (iotype == IOType.OUTPUT) {
                     sectCode.put("output_variable", nodeName);
+                    // some tools automatically append the extension to the
+                    // result file in this case it is attached again, so the
+                    // result for a file with the extension .txt would be
+                    // .txt.txt in order to match the output file produced
+                    // by the tool.
+                    if (autoExtension) {
+                        sectCode.put("autoextension", "+\"." + extension + "\"");
+                    } else {
+                        sectCode.put("autoextension", "");
+                    }
                     sectCode.evaluate();
                     if (dataType.equals("xsd:anyURI")) {
                         OutputItemCode oic = null;
-                        // should the output file get the input file name as prefix? Different templates!
-                        
+                        // should the output file get the input file name as
+                        // prefix? Different templates!
                         if (prefixFromInput == null || prefixFromInput.isEmpty()) {
                             oic = new OutputItemCode("tmpl/outfileitem.vm");
                         } else {
@@ -164,8 +177,7 @@ public class ServiceCodeCreator {
                         oic.put("varname", nodeName);
 
                         String mapping = cliMapping;
-                        oic.put("mapping",mapping);
-
+                        oic.put("mapping", mapping);
                         oic.put("extension", extension);
                         oic.evaluate();
                         oc.addOutFileItem(oic.getCode());
@@ -173,11 +185,8 @@ public class ServiceCodeCreator {
                     ResultElementCode rec = new ResultElementCode("tmpl/resultelement.vm");
                     rec.put("varname", nodeName);
                     String serviceresult = null;
-
-                    
-                    serviceresult = nodeName+"FileUrl.toString()";
-                    
-                    rec.put("serviceresult",serviceresult);
+                    serviceresult = nodeName + "FileUrl.toString()";
+                    rec.put("serviceresult", serviceresult);
                     rec.evaluate();
                     oc.addResultElement(rec.getCode());
                     oc.appendOutputSection(sectCode.getCode());
@@ -190,14 +199,13 @@ public class ServiceCodeCreator {
         }
     }
 
-
     /**
      * Get java data type definition for input/output datatype definition
      * @param dataType Input/output datatype definition
      * @param nodeName Current node name
      * @return Java data type definition
      */
-    private String getOperationParameter(String dataType, String nodeName) {
+    private String getOperationParameter(String dataType, String nodeName, boolean isMultiple) {
         String parameter = null;
         if (dataType.equals("xsd:anyURI")) {
             parameter = "String " + nodeName;
@@ -209,7 +217,10 @@ public class ServiceCodeCreator {
             parameter = "Boolean " + nodeName;
         }
         if (dataType.equals("xsd:string")) {
-            parameter = "String " + nodeName;
+            if(isMultiple)
+                parameter = "OMElement " + nodeName;
+            else
+                parameter = "String " + nodeName;
         }
         if (parameter == null) {
             parameter = "null";
@@ -217,7 +228,7 @@ public class ServiceCodeCreator {
         return parameter;
     }
 
-        /**
+    /**
      * Get CLI mapping expression that assigns a value to the CLI replacement
      * variable.
      * @param currJsn Current Json node
@@ -229,7 +240,7 @@ public class ServiceCodeCreator {
 
         String mappingVal = null;
         if (cliMappingVar != null) {
-            
+
             if (dataType.equals("xsd:anyURI")) {
                 mappingVal = nodeName + "File.getAbsolutePath()";
             }
