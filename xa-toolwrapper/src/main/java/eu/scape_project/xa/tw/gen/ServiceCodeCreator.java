@@ -86,7 +86,7 @@ public class ServiceCodeCreator {
             addDataSection(operation, oc, IOType.OUTPUT, output.getDatatype(),
                     output.getName(), output.getCliMapping(),
                     output.getPrefixFromInput(), output.getExtension(),
-                    output.isAutoExtension(), null);
+                    (output.isAutoExtension() != null && output.isAutoExtension()), null);
         }
 
         oc.put("inputsection", oc.getInputSection());
@@ -124,6 +124,7 @@ public class ServiceCodeCreator {
      * @throws GeneratorException
      */
     protected void addDataSection(Operation operation, OperationCode oc, IOType iotype, String dataType, String nodeName, String cliMapping, String prefixFromInput, String extension, boolean autoExtension, Restriction restriction) throws GeneratorException {
+       
         String opid = String.valueOf(operation.getOid());
         // code template for the current leaf node
         boolean isMultiple = restriction != null && restriction.isMultiple();
@@ -141,7 +142,7 @@ public class ServiceCodeCreator {
                 sectCode.put("operationname", operation.getName());
                 if (iotype == IOType.INPUT) {
                     sectCode.put("input_variable", nodeName);
-                    String mapping = getCliMapping(iotype, cliMapping, dataType, nodeName);
+                    String mapping = getCliMapping(iotype, cliMapping, dataType, nodeName, isMultiple);
                     sectCode.put("mapping", mapping);
                     String parameter = getOperationParameter(dataType, nodeName, isMultiple);
                     oc.addParameter(parameter);
@@ -236,7 +237,7 @@ public class ServiceCodeCreator {
      * @param nodeName Node name
      * @return CLI mapping
      */
-    private String getCliMapping(IOType iotype, String cliMappingVar, String dataType, String nodeName) {
+    private String getCliMapping(IOType iotype, String cliMappingVar, String dataType, String nodeName, boolean isMultiple) {
 
         String mappingVal = null;
         if (cliMappingVar != null) {
@@ -261,6 +262,8 @@ public class ServiceCodeCreator {
             // types are mapped to command line interface pattern variables
             String mappingKeyVal = "";
             if (iotype == IOType.INPUT) {
+                if(isMultiple)
+                    mappingVal += "Csv";
                 mappingKeyVal = "cliCmdKeyValPairs.put(\"" + cliMappingVar + "\", " + mappingVal + ");";
             }
             return mappingKeyVal;

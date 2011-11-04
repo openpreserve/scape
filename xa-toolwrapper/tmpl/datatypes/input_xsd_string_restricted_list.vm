@@ -1,4 +1,5 @@
-        // input: ${input_variable}
+
+        // Input: ${input_variable}
         String ${input_variable}Csv = "";
         if (${input_variable} != null) {
             StringBuilder ${input_variable}CsvSb = new StringBuilder();
