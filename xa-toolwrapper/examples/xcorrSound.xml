@@ -20,7 +20,7 @@
             <operations>
                 <operation oid="1" name="xcorrSound">
                     <description>Compares two wav files</description>
-                    <command>/home/bam/Projects/scape-xcorrsound/xcorrSound ${file1} ${file2} ${output}</command>
+                    <command>/home/bam/Projects/scape/xa-toolwrapper/examples/xcorrSound-wrapper.sh ${file1} ${file2} ${output}</command>
                     <inputs>
                         <input name="file1">
                             <Datatype>xsd:anyURI</Datatype>
