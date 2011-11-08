@@ -24,9 +24,9 @@
         <service sid="1" name="Kakadu" type="migrate" servicepackage="eu.scape_project.pc.services">
             <description>Service for JPEG2000 (JP2) image migration using Kakadu</description>
             <operations>
-                <operation oid="1" name="convertTiffImageToJp2">
+                <operation oid="1" name="encode">
                     <description>Convert a TIFF image to JP2</description>
-                    <command>/usr/local/kakadu/kdu631/bin/kdu_compress -i ${input} -o ${output} Creversible=${reversible} -rate ${rate} Clayers=${layers} Clevels=${levels} Stiles=${tiles} Cblk=${codeBlocks} Corder=${progressionOrder} Cprecincts=${precincts} Cuse_sop=yes Cuse_eph=yes</command>
+                    <command>/opt/kakadu/kdu_compress -i ${input} -o ${output} Creversible=${reversible} -rate ${rate} Clayers=${layers} Clevels=${levels} Stiles=${tiles} Cblk=${codeBlocks} Corder=${progressionOrder} Cprecincts=${precincts} Cuse_sop=yes Cuse_eph=yes</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
@@ -105,7 +105,7 @@
                 </operation>
                 <operation oid="2" name="getRecord">
                     <description>Get the record for a JP2 file</description>
-                    <command>/usr/local/kakadu/kdu631/kdu_expand -record ${OUTFILE} -i ${INFILE}</command>
+                    <command>/opt/kakadu/kdu_expand -record ${OUTFILE} -i ${INFILE}</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
@@ -126,6 +126,59 @@
                         </output>
                     </outputs>
                 </operation>
+                <operation oid="3" name="encodeWithRate">
+                    <description>Convert a TIFF image to JP2</description>
+                    <command>/opt/kakadu/kdu_compress Creversible=no -rate ${rate} -i ${input} -o ${output}</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://localhost:8080/scape/testdata/bookpage.tif</Default>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                        </input>
+                        <input name="rate">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <Default>1.0</Default>
+                            <CliMapping>rate</CliMapping>
+                            <Documentation>Comma separated positive floating point numbers indicating the compression rate. For example: 1.0 means irreversible compression to 1 bit/sample and 1.0,0.5,0.25 means irreversible compression to a 3 layer code-stream (3 embedded bit-rates) and  -,1,0.5,0.25 togehter with reversible=yes means reversible (lossless) compression with a progressive lossy to lossless code-stream having 4 layers (Note the use of the dash (-) to specify that the final layer should include all remaining compressed bits, not included in previous layers. Specifying a large bit-rate for one of the layers does not have exactly the same effect and may leave the code-stream not quite lossless.) , and 0.5 means irreversible colour compression (with visual weights) to 0.5 bit/pixel. In this case, the post-compression rate-distortion optimization algorithm is used to discard coding passes until the rate target is met. This is done for each quality layer.  Although more coding passes are processed by the block coder than are ultimately required, Kakadu still uses a predictive algorithm to reduce the number of wasted coding passes, so that the processing speed is essentially independent of Qstep so long as it is very small.</Documentation>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output</CliMapping>
+                            <Required>false</Required>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>jp2</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+                <operation oid="4" name="simpleDecode">
+                    <description>Convert a TIFF image to JP2</description>
+                    <command>/opt/kakadu/kdu_expand -i ${input} -o ${output}</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://localhost:8080/scape/testdata/bookpage.jp2</Default>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output</CliMapping>
+                            <Required>false</Required>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>tif</Extension>
+                        </output>
+                    </outputs>
+                </operation>
             </operations>
             <deployto>
                 <deployref default="true" ref="local"/>
@@ -142,7 +195,7 @@
             </ports>
             <manager>
                 <user>tomcat</user>
-                <password>TxF781!P</password>
+                <password>tomcat</password>
 		<path>manager</path>
             </manager>
             <dataexchange>

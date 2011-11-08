@@ -27,6 +27,29 @@
                             <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
                         </input>
+                        <input name="format">
+                            <Datatype>xsd:string</Datatype>
+                            <Restriction>
+                                <Value>XML</Value>
+                                <Value>RTF</Value>
+                                <Value>Text</Value>
+                            </Restriction>
+                            <Required>true</Required>
+                            <Default>Text</Default>
+                            <CliMapping>format</CliMapping>
+                            <Documentation>Just the format</Documentation>
+                        </input>
+                        <input name="languages">
+                            <Datatype>xsd:string</Datatype>
+                            <Restriction multiple="true">
+                                <Value>German</Value>
+                                <Value>Spanish</Value>
+                            </Restriction>
+                            <Required>true</Required>
+                            <Default>Spanish</Default>
+                            <CliMapping>languages</CliMapping>
+                            <Documentation>Languages to be used</Documentation>
+                        </input>
                     </inputs>
                     <outputs>
                         <output name="output">
@@ -41,13 +64,12 @@
                 </operation>
             </operations>
             <deployto>
-                <deployref default="true" ref="deployment1"/>
-                <deployref default="false" ref="deployment2"/>
+                <deployref default="true" ref="local"/>
             </deployto>
         </service>
     </services>
     <deployments>
-        <deployment id="deployment1">
+        <deployment id="local">
             <identifier>http://localhost:8080/scape/default/tomcat1</identifier>
             <host>localhost</host>
             <ports>
@@ -56,29 +78,12 @@
             </ports>
             <manager>
                 <user>tomcat</user>
-                <password>TxF781!P</password>
+                <password>tomcat</password>
 		<path>manager</path>
             </manager>
             <dataexchange>
                 <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>
-            </dataexchange>
-        </deployment>
-        <deployment id="deployment2">
-            <identifier>>http://127.0.0.1:8080/scape/default/tomcat2</identifier>
-            <host>127.0.0.1</host>
-            <ports>
-                <port type="http">8080</port>
-                <port type="https">8043</port>
-            </ports>
-            <manager>
-                <user>tomcat</user>
-                <password>TxF781!P</password>
-		<path>manager</path>
-            </manager>
-            <dataexchange>
-                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
-                <accessurl>http://127.0.0.1:8080/scape/tmp/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>
