@@ -1,8 +1,9 @@
+
         // Input: ${input_variable}
         URL ${input_variable}Url = null;
         try {
             ${input_variable}Url = new URL(${input_variable});
-            String ${input_variable}UrlStr = inputUrl.toString();
+            String ${input_variable}UrlStr = ${input_variable}Url.toString();
             if(!${input_variable}UrlStr.matches(getValueOfServiceParameter("serviceUrlFilter"))) {
                 errorlog("Format of input URL \"" + ${input_variable} + "\" does not comply with security policy"
                         );

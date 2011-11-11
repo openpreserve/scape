@@ -151,6 +151,7 @@ $operation.Code
     private void errorlog(String msg) {
         if(processing_returncode == 0)
             processing_returncode = 1;
+        processing_success = false;
         logger.info("Service assigned error code 1");
         processing_log += "ERROR: " + msg + ".\n";
         processing_message = "Service request processing ended with an error";

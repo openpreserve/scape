@@ -16,7 +16,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="Droid" type="characterise" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="Droid" type="characterise" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
             <description>Service for running a DROID characterisation one one file</description>
             <operations>
                 <operation oid="1" name="droid">
