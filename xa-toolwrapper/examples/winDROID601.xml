@@ -19,7 +19,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="WIN DROID" type="migrate" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="WIN DROID" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/wscapeservices">
             <description>Service for copying files</description>
             <operations>
                 <operation oid="1" name="winDroid">
