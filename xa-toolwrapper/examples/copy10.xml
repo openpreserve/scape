@@ -13,7 +13,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="Simple Copy" type="migrate" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="Simple Copy" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
             <description>Service for copying files</description>
             <operations>
                 <operation oid="1" name="simpleCopy">

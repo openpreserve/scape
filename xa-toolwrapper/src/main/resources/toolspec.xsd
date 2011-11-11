@@ -63,6 +63,7 @@
 			<xs:attribute name="servicepackage" type="xs:string" use="required"/>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="sid" type="xs:string" use="required"/>
+                        <xs:attribute name="contextpathprefix" type="xs:string" use="optional"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ports">

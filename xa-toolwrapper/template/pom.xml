@@ -72,7 +72,7 @@
                     <username>${tomcat.user}</username>
                     <password>${tomcat.password}</password>
                     <warFile>${project.build.directory}/${project.build.finalName}-${war.suffix}.war</warFile>
-                    <path>/scape-${project_midfix_lc}-service</path>
+                    <path>${contextpath_prefix}/scape-${project_midfix_lc}-service</path>
                 </configuration>
             </plugin>
 

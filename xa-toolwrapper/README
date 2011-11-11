@@ -37,7 +37,8 @@ Also make sure the JAVA_HOME environment variable is defined.
        -pc specifies the file that contains the project configuration
        -xc Tool, service and service input/output data type defintions
 
-2) Start your Apache Tomcat server:
+2) Start your Apache Tomcat server (you can unzip and use the apache
+   tomcat apache-tomcat-6.0.29.zip - paths are preconfigured):
 
        cd <apache-tomcat-install-dir>/bin
        ./startup.sh

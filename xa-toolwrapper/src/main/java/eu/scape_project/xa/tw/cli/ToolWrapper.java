@@ -147,6 +147,8 @@ public class ToolWrapper {
         st.addVariable("tool_version", sdef.getVersion());
         st.addVariable("project_title", sdef.getName());
         st.addVariable("global_package_name", service.getServicepackage());
+        String cpp = service.getContextpathprefix();
+        st.addVariable("contextpath_prefix", ((cpp==null)?"":cpp));
         st.deriveVariables();
         File dir = new File(st.getTemplateDir());
         st.processDirectory(dir);

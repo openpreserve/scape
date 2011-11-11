@@ -21,7 +21,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="Kakadu" type="migrate" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="Kakadu" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
             <description>Service for JPEG2000 (JP2) image migration using Kakadu</description>
             <operations>
                 <operation oid="1" name="encode">

@@ -15,7 +15,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="Fits" type="characterise" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="Fits" type="characterise" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
             <description>FITS (File information toolset Version 0.5.0 including Jhove2)</description>
             <operations>
                 <operation oid="1" name="characteriseFile">
