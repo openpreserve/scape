@@ -163,7 +163,7 @@ Also make sure the JAVA_HOME environment variable is defined.
 
    Try the RESTless interface:
 
-       http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?inputUrl=http://localhost:8080/scape/testdata/scape-logo.png
+       http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?input=http://localhost:8080/scape/testdata/scape-logo.png
 
    and - if everything is setup correctly - you would receive a response like:
 
