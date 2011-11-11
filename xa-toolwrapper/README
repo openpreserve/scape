@@ -2,7 +2,7 @@ Tool Wrapper v0.3
 =================
  
 About
-------
+-----
 
 The Tool Wrapper is a Java based application for creating a web service wrapper
 project for command line tools. Based on an XML tool description, the application
