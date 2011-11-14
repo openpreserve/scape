@@ -5,8 +5,8 @@
         <p>${service_description}</p>
 
         <ul>
-            <li>Endpoint: http://${tomcat_public_host}:${tomcat_public_http_port}/${global_project_prefix_lc}-${project_midfix_lc}-service/services/${project_midfix}</li>
-            <li>WSDL: <a href="http://${tomcat_public_host}:${tomcat_public_http_port}/${global_project_prefix_lc}-${project_midfix_lc}-service/${project_midfix}.wsdl">http://${tomcat_public_host}:${tomcat_public_http_port}/${global_project_prefix_lc}-${project_midfix_lc}-service/${project_midfix}.wsdl</a></li>
+            <li>Endpoint: http://${tomcat_public_host}:${tomcat_public_http_port}${contextpath_prefix}/${global_project_prefix_lc}-${project_midfix_lc}-service/services/${project_midfix}</li>
+            <li>WSDL: <a href="http://${tomcat_public_host}:${tomcat_public_http_port}${contextpath_prefix}/${global_project_prefix_lc}-${project_midfix_lc}-service/${project_midfix}.wsdl">http://${tomcat_public_host}:${tomcat_public_http_port}${contextpath_prefix}/${global_project_prefix_lc}-${project_midfix_lc}-service/${project_midfix}.wsdl</a></li>
         </ul>
     </body>
 </html>

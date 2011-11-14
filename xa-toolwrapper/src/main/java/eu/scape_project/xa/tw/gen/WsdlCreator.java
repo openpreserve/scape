@@ -20,6 +20,7 @@ import eu.scape_project.xa.tw.gen.types.MsgType;
 import eu.scape_project.xa.tw.toolspec.Input;
 import eu.scape_project.xa.tw.toolspec.Operation;
 import eu.scape_project.xa.tw.toolspec.Output;
+import eu.scape_project.xa.tw.toolspec.Restriction;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
@@ -166,7 +167,8 @@ public class WsdlCreator {
             for (Input input : inputs) {
                 createMsgElm(reqTypeSeqElm, input.getName(), input.getDatatype(),
                         input.getDefault(), input.getCliMapping(), input.getRequired(),
-                        input.getDocumentation());
+                        input.getDocumentation(), input.getRestriction());
+                createRestrictedType(input, schemaNode);
             }
             msgElm.setAttribute("type", "tns:" + operation.getName() + type + "Type");
             msgElm.setAttribute("name", operation.getName() + type);
@@ -218,26 +220,26 @@ public class WsdlCreator {
             for (Output output : outputs) {
                 createMsgElm(reqTypeSeqElm, output.getName(), output.getDatatype(),
                         null, output.getCliMapping(), output.getRequired(),
-                        output.getDocumentation());
+                        output.getDocumentation(), null);
             }
             msgElm.setAttribute("type", "tns:" + operation.getName() + type+"Type");
             msgElm.setAttribute("name", operation.getName()+type);
             // additional output ports
             createMsgElm(reqTypeSeqElm, "success", "xsd:boolean",
                         null, null, "true",
-                        "Success/failure of process execution");
+                        "Success/failure of process execution", null);
             createMsgElm(reqTypeSeqElm, "returncode", "xsd:int",
                         null, null, "true",
-                        "Returncode of the underlying command line application");
+                        "Returncode of the underlying command line application", null);
             createMsgElm(reqTypeSeqElm, "time", "xsd:int",
                         null, null, "false",
-                        "Execution time in milliseconds");
+                        "Execution time in milliseconds", null);
             createMsgElm(reqTypeSeqElm, "log", "xsd:string",
                         null, null, "false",
-                        "Process execution log");
+                        "Process execution log", null);
             createMsgElm(reqTypeSeqElm, "message", "xsd:string",
                         null, null, "false",
-                        "Process execution message");
+                        "Process execution message", null);
         }
         cplxReqTypeElm.appendChild(reqTypeSeqElm);
         schemaNode.appendChild(cplxReqTypeElm);
@@ -255,7 +257,8 @@ public class WsdlCreator {
      * @param documentation
      */
     private void createMsgElm(Node reqTypeSeqElm, String name, String dataType,
-            String defaultVal, String cliMapping, String required, String documentation) {
+            String defaultVal, String cliMapping, String required,
+            String documentation, Restriction restriction) {
         Element reqTypeElm = doc.createElement("xsd:element");
         if (documentation != null) {
             Element annotationElm = doc.createElement("xsd:annotation");
@@ -265,14 +268,20 @@ public class WsdlCreator {
             reqTypeElm.appendChild(annotationElm);
         }
         boolean isRequired = (required != null && required.equalsIgnoreCase("true"));
-        if (defaultVal != null) {
+        if (defaultVal != null && (restriction == null || (restriction != null && !restriction.isMultiple() ))) {
             logger.debug("Default value: " + defaultVal);
             reqTypeElm.setAttribute("default", defaultVal);
         }
         reqTypeElm.setAttribute("name", name);
         reqTypeElm.setAttribute("minOccurs", ((isRequired) ? "1" : "0"));
         reqTypeElm.setAttribute("maxOccurs", "1");
-        reqTypeElm.setAttribute("type", dataType);
+        if(restriction == null)
+            reqTypeElm.setAttribute("type", dataType);
+        else if(restriction != null && !restriction.isMultiple()) {
+            reqTypeElm.setAttribute("type", "tns:"+name+"Type");
+        } else if(restriction != null && restriction.isMultiple()) {
+            reqTypeElm.setAttribute("type", "tns:"+name+"List");
+        }
         reqTypeSeqElm.appendChild(reqTypeElm);
     }
 
@@ -418,5 +427,54 @@ public class WsdlCreator {
         operation3Elm.appendChild(output3Elm);
         binding3Node.appendChild(operation3Elm);
 
+    }
+
+    private void createRestrictedType(Input input, Node schemaNode) {
+        //<xsd:simpleType name="outputFormatType">
+        //    <xsd:restriction base="xsd:string">
+        //        <xsd:enumeration value="Text"/>
+        //        <xsd:enumeration value="XML"/>
+        //        <xsd:enumeration value="ALTO"/>
+        //        <xsd:enumeration value="HTML"/>
+        //        <xsd:enumeration value="RTF"/>
+        //    </xsd:restriction>
+        //</xsd:simpleType>
+        String name = input.getName();
+        Restriction restriction = input.getRestriction();
+
+        if(restriction != null) {
+            if(restriction.isMultiple()) {
+                //<xsd:complexType name="RecognitionLanguages">
+                //    <xsd:sequence>
+                //        <xsd:element default="German" minOccurs="0" maxOccurs="unbounded"
+                //        name="recognitionLanguage" type="tns:recognitionLanguage" />
+                //    </xsd:sequence>
+                //</xsd:complexType>
+                Element multipleType = doc.createElement("xsd:complexType");
+                multipleType.setAttribute("name", name+"List");
+                Element sequenceElm = doc.createElement("xsd:sequence");
+                Element elm = doc.createElement("xsd:element");
+                elm.setAttribute("default", input.getDefault());
+                elm.setAttribute("minOccurs", "0");
+                elm.setAttribute("maxOccurs", "unbounded");
+                elm.setAttribute("name", name+"Item");
+                elm.setAttribute("type", "tns:"+name+"Type");
+                sequenceElm.appendChild(elm);
+                multipleType.appendChild(sequenceElm);
+                schemaNode.appendChild(multipleType);
+            }
+            Element restrSimpleType = doc.createElement("xsd:simpleType");
+            restrSimpleType.setAttribute("name", name+"Type");
+            Element restrictionElm = doc.createElement("xsd:restriction");
+            restrictionElm.setAttribute("base", "xsd:string");
+            List<String> values = restriction.getValue();
+            for(String value : values) {
+                Element enumElm = doc.createElement("xsd:enumeration");
+                enumElm.setAttribute("value", value);
+                restrictionElm.appendChild(enumElm);
+            }
+            restrSimpleType.appendChild(restrictionElm);
+            schemaNode.appendChild(restrSimpleType);
+        }
     }
 }

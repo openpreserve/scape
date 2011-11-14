@@ -3,7 +3,7 @@
     <id>droid</id>
     <name>DROID</name>
     <homepage>http://sourceforge.net/apps/mediawiki/droid/</homepage>
-    <version>1.0</version>
+    <version>6.0.1</version>
     <installation>
         <os type="linux">
             Install DROID in any directory.
@@ -16,12 +16,12 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="Droid" type="characterise" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="Droid" type="characterise" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
             <description>Service for running a DROID characterisation one one file</description>
             <operations>
                 <operation oid="1" name="droid">
                     <description>Runs DROID on a single file</description>
-                    <command>/Users/perdalum/Statsbiblioteket/Projekter/SCAPE/Code/scape/scape/xa-toolwrapper/examples/droid601-wrapper.sh ${input} ${output}</command>
+                    <command>/usr/local/java/droid/droid601/droid601-wrapper.sh ${input} ${output}</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
@@ -44,13 +44,13 @@
                 </operation>
             </operations>
             <deployto>
-                <deployref default="true" ref="deployment1"/>
+                <deployref default="true" ref="local"/>
             </deployto>
         </service>
     </services>
     <deployments>
-        <deployment id="deployment1">
-            <identifier>http://localhost:8080/scape/default/tomcat</identifier>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/default/tomcat1</identifier>
             <host>localhost</host>
             <ports>
                 <port type="http">8080</port>
@@ -58,11 +58,12 @@
             </ports>
             <manager>
                 <user>tomcat</user>
-                <password>scape</password>
+                <password>tomcat</password>
+		<path>manager</path>
             </manager>
             <dataexchange>
-                <accessdir>/Users/perdalum/Statsbiblioteket/Projekter/SCAPE/Programmer/apache-tomcat-6.0.33/webapps/ROOT/scape/data/</accessdir>
-                <accessurl>http://localhost:8080/scape/data/</accessurl>
+                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>

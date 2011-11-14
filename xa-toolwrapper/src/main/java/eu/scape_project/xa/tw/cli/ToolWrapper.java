@@ -128,7 +128,7 @@ public class ToolWrapper {
                 createService(service, toolspec.getVersion());
             }
         } catch (IOException ex) {
-            java.util.logging.Logger.getLogger(ToolWrapper.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error("An IOException occurred", ex);
         } catch (JAXBException ex) {
             logger.error("JAXBException", ex);
             throw new GeneratorException("Unable to create XML binding for toolspec");
@@ -147,6 +147,8 @@ public class ToolWrapper {
         st.addVariable("tool_version", sdef.getVersion());
         st.addVariable("project_title", sdef.getName());
         st.addVariable("global_package_name", service.getServicepackage());
+        String cpp = service.getContextpathprefix();
+        st.addVariable("contextpath_prefix", ((cpp==null)?"":cpp));
         st.deriveVariables();
         File dir = new File(st.getTemplateDir());
         st.processDirectory(dir);

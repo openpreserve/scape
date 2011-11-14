@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="c:\owndata\scape\toolspec.xsd">
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="src/main/resources/toolspec.xsd">
     <id>copy</id>
     <name>Copy</name>
     <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
@@ -13,7 +13,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="Simple Copy" type="migrate" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="Simple Copy" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
             <description>Service for copying files</description>
             <operations>
                 <operation oid="1" name="simpleCopy">
@@ -47,7 +47,7 @@
     </services>
     <deployments>
         <deployment id="local">
-            <identifier>http://localhost:8080/scape/default/tomcat1</identifier>
+            <identifier>http://localhost:8080/scape/instances/tomcat1</identifier>
             <host>localhost</host>
             <ports>
                 <port type="http">8080</port>
@@ -56,10 +56,10 @@
             <manager>
                 <user>tomcat</user>
                 <password>tomcat</password>
-		<path>manager/text</path>
+		        <path>manager</path>
             </manager>
             <dataexchange>
-                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
+                <accessdir>../webapps/ROOT/scape/tmp/</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>
             </dataexchange>
         </deployment>
