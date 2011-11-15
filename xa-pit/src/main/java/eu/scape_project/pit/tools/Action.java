@@ -6,6 +6,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -30,9 +31,14 @@ public class Action {
 	
 	/* Best done as class, with room for more than URL (?), including supported types? */
 	private URL service;
+	
+	@XmlElement()
+	private Inputs inputs;
+	
 
 	private List<PathwaySpec> formats;
 
+	
 	public Action() {
 		super();
 	}

@@ -29,24 +29,24 @@
     </installation>
   </tool>
   
-  <!-- Shared parameter definitions -->
-  <parameters>
-	<parameter name="Exclude Tests" var="exclude">
+  <!-- Shared input definitions -->
+  <inputs>
+	<input name="Exclude Tests" var="exclude">
 	  <default>tokens</default>
 	  <documentation>Matching to exclude,one of XXX, TBA...</documentation>
 	  <!-- All datatypes are xsd:string by default. -->
 	  <datatype>xsd:string</datatype>
-	</parameter>
-  </parameters>
+	</input>
+	<misc>
+		<test>tester</test>
+	</misc>
+  </inputs>
  
   <!-- Actions -->
   <action type="identify" id="file-stdin">
   	<command>file -</command>
   	<!--  ideas  -->
-  	<input stdin="true"/>
-  	<output>
-  	  <transform class="net.XXXX.transform.???"/>
-  	</output>
+  	<inputs useStdin="true"/>
   </action>
 
   <action type="identify" id="file">

@@ -13,9 +13,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlNsForm;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 import javax.xml.transform.stream.StreamSource;
 
 @XmlRootElement( name="toolspec" )
@@ -38,10 +36,7 @@ public class ToolSpec {
 	private List<Template> template;
 	
 	@XmlElement()
-	private List<Parameter> param;
-	
-	@XmlElement()
-	private Parameters parameters;
+	private Inputs inputs;
 	
 	@XmlElement( name="action" )
 	private List<Action> actions;
@@ -58,7 +53,19 @@ public class ToolSpec {
 	}
 	
 	
-	
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public String getId() {
+		return id;
+	}
 
 	/**
 	 * @return the version
@@ -117,31 +124,17 @@ public class ToolSpec {
 	}
 
 	/**
-	 * @return the param
-	 */
-	public List<Parameter> getParam() {
-		return param;
-	}
-
-	/**
-	 * @param param the param to set
-	 */
-	public void setParam(List<Parameter> param) {
-		this.param = param;
-	}
-
-	/**
 	 * @return the parameters
 	 */
-	public Parameters getParameters() {
-		return parameters;
+	public Inputs getInputs() {
+		return inputs;
 	}
 
 	/**
 	 * @param parameters the parameters to set
 	 */
-	public void setParameters(Parameters parameters) {
-		this.parameters = parameters;
+	public void setInputs(Inputs parameters) {
+		this.inputs = parameters;
 	}
 
 	/**

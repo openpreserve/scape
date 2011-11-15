@@ -15,7 +15,7 @@ import javax.xml.bind.JAXBException;
 import org.apache.commons.io.IOUtils;
 
 import eu.scape_project.pit.tools.Action;
-import eu.scape_project.pit.tools.Parameter;
+import eu.scape_project.pit.tools.Input;
 import eu.scape_project.pit.tools.Template;
 import eu.scape_project.pit.tools.ToolSpec;
 
@@ -41,7 +41,8 @@ public class Processor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		System.out.println("Inputs "+ts.getInputs().getInputs());
+		System.out.println("Inputs "+ts.getInputs().getElements());
 	}
 	
 	protected Action findTool( String command_id ) throws CommandNotFoundException {
@@ -92,8 +93,8 @@ public class Processor {
 	protected HashMap<String,String> getStandardVars( Action cmd, File input ) throws IOException {
 		// Now substiture the parameters into the templates.
 		HashMap<String,String> vars = new HashMap<String,String>();
-		if( ts.getParam() != null ) {
-			for( Parameter v : ts.getParam() ) {
+		if( ts.getInputs() != null ) {
+			for( Input v : ts.getInputs().getInputs() ) {
 				vars.put(v.getVar(), v.getDefault());
 			}
 		}

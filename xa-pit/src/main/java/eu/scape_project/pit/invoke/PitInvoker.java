@@ -23,7 +23,7 @@ import org.apache.commons.io.IOUtils;
 
 import us.monoid.web.Resty;
 
-import eu.scape_project.pit.tools.Parameter;
+import eu.scape_project.pit.tools.Input;
 import eu.scape_project.pit.tools.Action;
 import eu.scape_project.pit.tools.ToolSpec;
 import eu.scape_project.pit.tools.Template;
