@@ -196,11 +196,39 @@ public class Processor {
 		runCommand(cmd_template);
 	}
 	
-	public void execute( In input1, In input2, HashMap<String,String> parameters ) {
+	public void execute( In input1, In input2, HashMap<String,String> parameters ) throws IOException {
+		String[] cmd_template = substituteTemplates(action);
+		HashMap<String, String> vars = getStandardVars(action);
+
+		// Special parameters for this form:
+		vars.put("input1", input1.getFile().getAbsolutePath());
+		vars.put("input2", input2.getFile().getAbsolutePath());
 		
+		// Now substitute the parameters:
+		replaceAll(cmd_template,vars);
+
+		// Now run the command:
+		runCommand(cmd_template);		
 	}
 	
-	public void execute( In in, Out out, HashMap<String,String> parameters ) {
+	public void execute( In input, Out output, HashMap<String,String> parameters ) throws IOException {
+		String[] cmd_template = substituteTemplates(action);
+		HashMap<String, String> vars = getStandardVars(action);
+
+		// Special parameters for this form:
+		// For one input, we map like this, or support StdIn.
+		if( ts.getInputs().getUseStdin() || action.getInputs().getUseStdin() ) {
+			this.setStdin(input);
+		} else {
+			vars.put("input", input.getFile().getAbsolutePath());
+		}
+		vars.put("output", output.getFile().getAbsolutePath());
+		
+		// Now substitute the parameters:
+		replaceAll(cmd_template,vars);
+
+		// Now run the command:
+		runCommand(cmd_template);		
 		
 	}
 	

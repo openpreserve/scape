@@ -40,6 +40,10 @@ public class Out {
 		return type;
 	}
 	
-	
+	public File getFile() {
+		if( file != null ) return file;
+		// FIXME support the others via a Temp file.
+		return null;
+	}
 
 }
