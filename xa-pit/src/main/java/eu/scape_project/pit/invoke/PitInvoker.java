@@ -78,15 +78,12 @@ public class PitInvoker {
 		String toolspec = args[0];
 		/* Second argument specifies the action to invoke. */
 		String action = args[1];
-		Identify ib = (Identify) new Processor(toolspec, action);
+		Identify ib = (Identify) Processor.createProcessor(toolspec, action);
 		/* Third argument specifies the input file. */
 		String inputFile = args[2];
 
-		HashMap<String,String> par = new HashMap<String,String>();
-		par.put("input", inputFile);
-		
 		/* For identification actions, we invoke like this. */
-		ib.execute( par );
+		ib.identify( new File(inputFile) );
 		
 		//ib.identify(action, new File( inputFile ) );
 				//, 

@@ -35,7 +35,6 @@ public class Action {
 	@XmlElement()
 	private Inputs inputs;
 	
-
 	private List<PathwaySpec> formats;
 
 	

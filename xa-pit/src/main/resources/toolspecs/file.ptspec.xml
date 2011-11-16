@@ -37,9 +37,21 @@
 	  <!-- All datatypes are xsd:string by default. -->
 	  <datatype>xsd:string</datatype>
 	</input>
-	<misc>
+	<input name="xmlblob">
+	  <documentation>this is an example of attempting to map a parameter as a blob of xml.</documentation>
+	  <xml>
+  	   <misc>
 		<test>tester</test>
-	</misc>
+  	   </misc>
+	  </xml>
+	</input>
+	<xml-inputs>
+	   <!-- The idea here would be to allow a set of parameters to be defined as XML (e.g. misc.test = tester) -->
+	   <!-- This could perhaps also be supported from the above example, using xmlblob.misc.test = tester -->
+  	   <misc>
+		<test>tester</test>
+  	   </misc>
+	</xml-inputs>
   </inputs>
  
   <!-- Actions -->

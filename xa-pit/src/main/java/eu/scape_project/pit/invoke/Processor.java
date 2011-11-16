@@ -29,10 +29,26 @@ public class Processor {
 	
 	protected Action action;
 
-	public Processor( String toolspec_id, String action_id ) throws ToolSpecNotFoundException {
+	public Processor( ToolSpec ts, Action action ) {
+		this.ts = ts;
+		this.action = action;
+	}
+
+	/*
+	 * Factory
+	 */
+	public static Processor createProcessor( String toolspec_id, String action_id ) throws ToolSpecNotFoundException {
 		try {
-			ts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec.xml"));
-			this.action = this.findTool(action_id);
+			ToolSpec ts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec.xml"));
+			System.out.println("Inputs "+ts.getInputs().getInputs().get(0).getName());
+			System.out.println("Inputs "+ts.getInputs().getInputs().get(0).getXml());
+			Action action = Processor.findTool(ts, action_id);
+			// Create the right class:
+			if( "identify".equals( action.getType() ) ) {
+				return new Identify(ts,action);
+			} else {
+				return new Processor(ts,action);
+			}
 		} catch (FileNotFoundException e) {
 			throw new ToolSpecNotFoundException("Toolspec "+toolspec_id+" not found!", e);
 		} catch (JAXBException e) {
@@ -41,11 +57,10 @@ public class Processor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Inputs "+ts.getInputs().getInputs());
-		System.out.println("Inputs "+ts.getInputs().getElements());
+		return null;
 	}
 	
-	protected Action findTool( String command_id ) throws CommandNotFoundException {
+	protected static Action findTool( ToolSpec ts, String command_id ) throws CommandNotFoundException {
 		Action cmd = null;
 		for( Action c : ts.getActions() ) {
 			if( c.getId() != null && c.getId().equals(command_id) ) cmd = c;
@@ -108,8 +123,12 @@ public class Processor {
 	protected void replaceAll(String[] cmd_template, HashMap<String,String> vars) {
 		for( int i = 0; i < cmd_template.length; i++ ) {
 			for( String key : vars.keySet() ) {
-				String matchTo = Pattern.quote("${"+key+"}");
-				cmd_template[i] = cmd_template[i].replaceAll(matchTo, vars.get(key).replace("\\", "\\\\") );
+				// Something is inserting a null,null pair into the map - ignoring it here:
+				if( key != null && vars.get(key) != null ) {
+					String matchTo = Pattern.quote("${"+key+"}");
+					System.out.println("GOT "+key+" "+vars.get(key));
+					cmd_template[i] = cmd_template[i].replaceAll(matchTo, vars.get(key).replace("\\", "\\\\") );
+				}
 			}
 		}
 	}
@@ -132,6 +151,7 @@ public class Processor {
 	 */
 	public void execute( HashMap<String,String> parameters) throws IOException, CommandNotFoundException {
 		String[] cmd_template = substituteTemplates(action);
+		
 		// FIXME This is the part that needs close consideration - See README
 		HashMap<String, String> vars = getStandardVars(action, new File(parameters.get("input")));
 		
