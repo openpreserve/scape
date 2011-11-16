@@ -183,7 +183,7 @@ public class Processor {
 		
 		// TODO Check input file exists!
 		// For one input, we map like this, or support StdIn.
-		if( ts.getInputs().getUseStdin() || action.getInputs().getUseStdin() ) {
+		if( getUseStdin() ) {
 			this.setStdin(input);
 		} else {
 			vars.put("input", input.getFile().getAbsolutePath());
@@ -194,6 +194,12 @@ public class Processor {
 
 		// Now run the command:
 		runCommand(cmd_template);
+	}
+	
+	public boolean getUseStdin() {
+		if( ts.getInputs() != null ) return ts.getInputs().getUseStdin();
+		if( action.getInputs() != null ) return action.getInputs().getUseStdin();
+		return false;
 	}
 	
 	public void execute( In input1, In input2, HashMap<String,String> parameters ) throws IOException {
