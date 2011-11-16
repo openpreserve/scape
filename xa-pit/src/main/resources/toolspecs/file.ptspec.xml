@@ -57,7 +57,11 @@
   <!-- Actions -->
   <action type="identify" id="file-stdin">
   	<command>file -</command>
-  	<!--  ideas  -->
+  	<inputs useStdin="true"/>
+  </action>
+
+  <action type="identify" id="file-mime-stdin">
+  	<command>file -b --mime-type -</command>
   	<inputs useStdin="true"/>
   </action>
 

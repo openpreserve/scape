@@ -98,6 +98,18 @@ public class Action {
 		this.formats = formats;
 	}
 
-	
+	/**
+	 * @return the inputs
+	 */
+	public Inputs getInputs() {
+		return inputs;
+	}
+
+	/**
+	 * @param inputs the inputs to set
+	 */
+	public void setInputs(Inputs inputs) {
+		this.inputs = inputs;
+	}
 
 }
