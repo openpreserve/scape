@@ -48,18 +48,26 @@
         </configuration>
       </plugin>
             <plugin>
-                <groupId>org.jvnet.jaxb2.maven2</groupId>
-                <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.8.0</version>
+                <groupId>com.sun.tools.jxc.maven2</groupId>
+                <artifactId>maven-jaxb-schemagen-plugin</artifactId>
+                <version>1.2</version>
                 <executions>
                     <execution>
+						<phase>generate-resources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
-                    <generatePackage>eu.scape_project.tb.toolspec</generatePackage>
+                	<srcdir>${project.build.directory}/../src/main/java</srcdir>
+                    <includes><include>eu/scape_project/pit/tools/*</include></includes>
+                    <schemas>
+                        <schema>
+                            <namespace>http://www.scape-project.eu/schemas/2011/11/16/toolspec</namespace>
+                            <file>toolspec.xsd</file>
+                        </schema>
+                    </schemas>
                 </configuration>
             </plugin>      
 		</plugins>
