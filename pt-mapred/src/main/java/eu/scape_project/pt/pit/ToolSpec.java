@@ -36,6 +36,7 @@ public class ToolSpec extends Executable {
 	private static Log LOG = LogFactory.getLog(ToolSpec.class);
 
 	public static String EXEC_DIR = "EXEC_DIR";
+	public static String RESULT_DIR = "RESULT_DIR";
 	
 	public static String FILE = "@file";
 	public static String PARAM = "@param";	

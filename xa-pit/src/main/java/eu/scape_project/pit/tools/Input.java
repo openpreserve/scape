@@ -1,12 +1,17 @@
 package eu.scape_project.pit.tools;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.w3c.dom.Element;
+
 @XmlAccessorType( XmlAccessType.FIELD )
-public class Parameter {
+public class Input {
 	
 	@XmlAttribute
 	String name;
@@ -20,6 +25,9 @@ public class Parameter {
 	String datatype; // Default interpretation = "xsd:string"
 	
 	String documentation;
+
+	@XmlAnyElement
+	private List<Element> xml;
 
 	/**
 	 * @return the name
@@ -61,6 +69,20 @@ public class Parameter {
 	 */
 	public void setDefault(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+
+	/**
+	 * @return the xml
+	 */
+	public List<Element> getXml() {
+		return xml;
+	}
+
+	/**
+	 * @param xml the xml to set
+	 */
+	public void setXml(List<Element> xml) {
+		this.xml = xml;
 	}
 
 }

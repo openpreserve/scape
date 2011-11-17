@@ -4,7 +4,7 @@
   <name>Planets Testbed Java ImageIO WSDL Services</name>
   <homepage></homepage>
   
-  <action type="migrate" id="jiio-migrate">
+  <action type="convert" id="jiio-migrate">
     <service>http://testbed.planets-project.eu/pserv-pa-java-se/JavaImageIOMigrate?wsdl</service>
   </action>
   
@@ -12,7 +12,7 @@
     <service>http://testbed.planets-project.eu/pserv-pa-java-se/JavaImageIOIdentify?wsdl</service>
   </action>
   
-  <action type="migrate" id="jiio-migrate-ssl">
+  <action type="convert" id="jiio-migrate-ssl">
     <service>https://testbed.planets-project.eu/pserv-pa-java-se/JavaImageIOMigrate?wsdl</service>
   </action>
   

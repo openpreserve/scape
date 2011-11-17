@@ -7,16 +7,23 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineFactory;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.IOUtils;
 
-import eu.scape_project.pit.tools.Parameter;
+import us.monoid.web.Resty;
+
+import eu.scape_project.pit.tools.Input;
 import eu.scape_project.pit.tools.Action;
 import eu.scape_project.pit.tools.ToolSpec;
 import eu.scape_project.pit.tools.Template;
@@ -27,145 +34,10 @@ import eu.scape_project.pit.tools.Template;
  */
 public class PitInvoker {
 	
-	protected ToolSpec ts;
-
-	public PitInvoker( String toolspec_id ) throws ToolSpecNotFoundException {
-		try {
-			ts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec.xml"));
-		} catch (FileNotFoundException e) {
-			throw new ToolSpecNotFoundException("Toolspec "+toolspec_id+" not found!", e);
-		} catch (JAXBException e) {
-			throw new ToolSpecNotFoundException("Toolspec "+toolspec_id+" not parseable!", e);
-		}
+	public void compare(String command_is, URL input1, URL input2 ) {
 		
 	}
 	
-	protected Action findTool( String command_id ) throws CommandNotFoundException {
-		Action cmd = null;
-		for( Action c : ts.getActions() ) {
-			if( c.getId() != null && c.getId().equals(command_id) ) cmd = c;
-		}
-		if( cmd == null ) throw new CommandNotFoundException("No command "+command_id+" could be found.");
-		return cmd;
-	}
-	
-	private void runCommand( String[] cmd_template ) throws IOException {
-		// Build the command:
-		ProcessBuilder pb = new ProcessBuilder(cmd_template);
-		System.out.println("Executing: "+pb.command());
-		/*
-		for( String command : pb.command() ) {
-			System.out.println("Command : "+command);			
-		}
-		*/
-		
-		pb.redirectErrorStream(true);
-		Process start = pb.start();
-		try {
-			// Needs time-out. 
-			InputStream procStdout = start.getInputStream();
-			IOUtils.copy( procStdout , System.out);
-			// Moved here, as will not finish until start.getInputStream is called (?)
-			int waitFor = start.waitFor();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public String[] substituteTemplates( Action cmd ) {
-		String[] cmd_template = cmd.getCommand().split(" ");
-		if( ts.getTemplate() == null ) return cmd_template;
-		// Substitute the templates into the command string:
-		HashMap<String,String> tpls = new HashMap<String,String>();
-		for( Template v : ts.getTemplate() ) {
-			tpls.put(v.getName(), v.getValue());
-		}
-		replaceAll(cmd_template,tpls);
-		return cmd_template;
-	}
-	
-	public HashMap<String,String> getStandardVars( Action cmd, File input ) throws IOException {
-		// Now substiture the parameters into the templates.
-		HashMap<String,String> vars = new HashMap<String,String>();
-		if( ts.getParam() != null ) {
-			for( Parameter v : ts.getParam() ) {
-				vars.put(v.getVar(), v.getDefault());
-			}
-		}
-		// TODO Check input file exists!
-		// Create standard parameters.
-		vars.put("input", input.getAbsolutePath());
-		vars.put("logFile", File.createTempFile(ts.getTool().getName()+"-"+cmd.getId(), ".log").getAbsolutePath());
-		return vars;
-	}
-
-	public void identify( String command_id, File input ) throws CommandNotFoundException, IOException {
-		Action cmd = findTool(command_id);
-		String[] cmd_template = substituteTemplates(cmd);
-		HashMap<String, String> vars = getStandardVars(cmd, input);
-		
-		for( String key : vars.keySet() ) {
-			System.out.println("Key: "+key+" = "+vars.get(key));
-		}
-		
-		// Now substitute the parameters:
-		replaceAll(cmd_template,vars);
-
-		// Now run the command:
-		runCommand(cmd_template);
-	}
-	
-	/**
-	 * Generic invocation method:
-	 * @param command_id
-	 * @param parameters
-	 * @throws IOException 
-	 * @throws CommandNotFoundException 
-	 */
-	public void execute( String command_id, HashMap<String,String> parameters) throws IOException, CommandNotFoundException {
-		Action cmd = findTool(command_id);
-		String[] cmd_template = substituteTemplates(cmd);
-		// FIXME This is the part that needs close consideration - See README
-		HashMap<String, String> vars = getStandardVars(cmd, new File(parameters.get("input")));
-		
-		for( String key : vars.keySet() ) {
-			System.out.println("Key: "+key+" = "+vars.get(key));
-		}
-		
-		// Now substitute the parameters:
-		replaceAll(cmd_template,vars);
-
-		// Now run the command:
-		runCommand(cmd_template);
-	}
-	
-	public void convert( String command_id, File input, File output) throws CommandNotFoundException, IOException {
-		Action cmd = findTool(command_id);
-		String[] cmd_template = substituteTemplates(cmd);
-		HashMap<String, String> vars = getStandardVars(cmd, input);
-		
-		// TODO Check output file does not exist!
-		vars.put("output", output.getAbsolutePath());
-
-		// Now substitute the parameters:
-		replaceAll(cmd_template,vars);
-
-		// Now run the command:
-		runCommand(cmd_template);
-		
-	}
-	
-	private void replaceAll(String[] cmd_template, HashMap<String,String> vars) {
-		for( int i = 0; i < cmd_template.length; i++ ) {
-			for( String key : vars.keySet() ) {
-				String matchTo = Pattern.quote("${"+key+"}");
-				cmd_template[i] = cmd_template[i].replaceAll(matchTo, vars.get(key).replace("\\", "\\\\") );
-			}
-		}
-	}
-
-
 	/**
 	 * @param args
 	 * @throws IOException 
@@ -173,20 +45,45 @@ public class PitInvoker {
 	 * @throws CommandNotFoundException 
 	 */
 	public static void main(String[] args) throws IOException, ToolSpecNotFoundException, CommandNotFoundException {
+		Resty r = new Resty();
+		try {
+			Object name = r.json("http://ws.geonames.org/postalCodeLookupJSON?postalcode=66780&country=DE")
+			  .get("postalcodes[0].placeName");
+			System.out.println("Name: "+name);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//http://java.sun.com/developer/technicalArticles/J2SE/Desktop/scripting/
+		// The Mozilla Rhino engine for the JavaScript programming language, however, is currently included as a feature in the JDK 6 and JRE 6 libraries
+		ScriptEngineManager mgr = new ScriptEngineManager();
+		for( ScriptEngineFactory sef  : mgr.getEngineFactories() ) {
+			System.out.println("SEF: "+sef.getEngineName()+" "+sef.getEngineVersion());
+			System.out.println("SEF: "+sef.getLanguageName()+" "+sef.getLanguageVersion());
+			for( String mime : sef.getMimeTypes() ) { 
+				System.out.println("MIME: "+mime);
+			}
+		}
+	    ScriptEngine jsEngine = mgr.getEngineByMimeType("application/javascript");//application/x-ruby application/x-python
+	    //jsEngine.getContext().getWriter();
+		try {
+			jsEngine.eval("print('Hello, world!')");
+		} catch (ScriptException ex) {
+			ex.printStackTrace();
+		}
+		
 		/* Parse arguments */
 		/* First argument specifies the toolspec to load. */
 		String toolspec = args[0];
-		PitInvoker ib = new PitInvoker(toolspec);
 		/* Second argument specifies the action to invoke. */
 		String action = args[1];
+		Identify ib = (Identify) Processor.createProcessor(toolspec, action);
 		/* Third argument specifies the input file. */
 		String inputFile = args[2];
 
-		HashMap<String,String> par = new HashMap<String,String>();
-		par.put("input", inputFile);
-		
 		/* For identification actions, we invoke like this. */
-		ib.execute(action, par);
+		ib.identify( new File(inputFile) );
 		
 		//ib.identify(action, new File( inputFile ) );
 				//, 
@@ -194,6 +91,7 @@ public class PitInvoker {
 //				File.createTempFile("DISC_1",".iso") );
 		
 		/* Other actions, like migrations, would have different parameters. */
+
 	}
 	
 }

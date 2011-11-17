@@ -19,7 +19,9 @@ public class PtRecordReader extends LineRecordReader {
 	public boolean nextKeyValue() throws IOException { 
 		boolean ret = super.nextKeyValue();
 		Text currentVal = getCurrentValue();
-		if(currentVal != null && currentVal.toString().startsWith(new Character(COMMENT_CHARACTER).toString())) {
+		if(	currentVal != null && currentVal.toString().trim().equals("") || 
+			currentVal != null && currentVal.toString().startsWith(new Character(COMMENT_CHARACTER).toString())) 
+		{
 			//System.out.println("PTRecordReader caught: "+currentVal.toString());
 			ret = this.nextKeyValue();
 		}

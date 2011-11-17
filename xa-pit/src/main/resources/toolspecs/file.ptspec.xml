@@ -29,24 +29,40 @@
     </installation>
   </tool>
   
-  <!-- Shared parameter definitions -->
-  <parameters>
-	<parameter name="Exclude Tests" var="exclude">
+  <!-- Shared input definitions -->
+  <inputs>
+	<input name="Exclude Tests" var="exclude">
 	  <default>tokens</default>
 	  <documentation>Matching to exclude,one of XXX, TBA...</documentation>
 	  <!-- All datatypes are xsd:string by default. -->
 	  <datatype>xsd:string</datatype>
-	</parameter>
-  </parameters>
+	</input>
+	<input name="xmlblob">
+	  <documentation>this is an example of attempting to map a parameter as a blob of xml.</documentation>
+	  <xml>
+  	   <misc>
+		<test>tester</test>
+  	   </misc>
+	  </xml>
+	</input>
+	<xml-inputs>
+	   <!-- The idea here would be to allow a set of parameters to be defined as XML (e.g. misc.test = tester) -->
+	   <!-- This could perhaps also be supported from the above example, using xmlblob.misc.test = tester -->
+  	   <misc>
+		<test>tester</test>
+  	   </misc>
+	</xml-inputs>
+  </inputs>
  
   <!-- Actions -->
   <action type="identify" id="file-stdin">
   	<command>file -</command>
-  	<!--  ideas  -->
-  	<input stdin="true"/>
-  	<output>
-  	  <transform class="net.XXXX.transform.???"/>
-  	</output>
+  	<inputs useStdin="true"/>
+  </action>
+
+  <action type="identify" id="file-mime-stdin">
+  	<command>file -b --mime-type -</command>
+  	<inputs useStdin="true"/>
   </action>
 
   <action type="identify" id="file">
