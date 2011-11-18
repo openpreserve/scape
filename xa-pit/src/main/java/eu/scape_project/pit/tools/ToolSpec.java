@@ -14,33 +14,33 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.transform.stream.StreamSource;
 
 @XmlRootElement( name="toolspec" )
+@XmlType( namespace=ToolSpec.NS )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class ToolSpec {
 	
-	@XmlElement()
+	public static final String NS = "http://www.scape-project.eu/schemas/2011/11/16/toolspec";
+	
 	private String id;
 	
-	@XmlElement()
 	private Version version;
 	
-	@XmlElement()
 	private Tool tool;
 
-	@XmlElement()
 	private List<Var> env;
 	
-	@XmlElement()
 	private List<Template> template;
 	
-	@XmlElement()
 	private Inputs inputs;
 	
 	@XmlElement( name="action" )
 	private List<Action> actions;
-		
+
+	@XmlTransient
 	private static JAXBContext jc;
 	
 	static {

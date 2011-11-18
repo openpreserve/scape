@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toolspec>
+<toolspec xmlns="http://www.scape-project.eu/schemas/2011/11/16/toolspec">
   <!-- A unique ID for this tool spec. -->
   <id>pit-buildin-file</id>
   <!-- The version for this tool spec. -->
