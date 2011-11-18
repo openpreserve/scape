@@ -1,2 +1,0 @@
-        <scp file="\$\{build.service.dir}/\$\{webservice.file.name}"
-        todir="\$\{public.server.user}:\$\{public.server.pwd}@\$\{tomcat.public.host}:\$\{tomcat.public.axis.dir}" trust="true"/>

@@ -1,9 +1,0 @@
-        // Input: #INPUT_VARIABLE#
-        // Default value is "#DEFAULT#"
-        String #INPUT_VARIABLE# = null;
-        if(request#OPID#Obj.#GETTER_NAME#() == null) {
-            #INPUT_VARIABLE# = "#DEFAULT#";
-        } else {
-            #INPUT_VARIABLE# = request#OPID#Obj.#GETTER_NAME#().getValue();
-        }
-        #MAPPING#

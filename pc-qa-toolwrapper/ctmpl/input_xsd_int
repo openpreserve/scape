@@ -1,3 +1,0 @@
-        // Input: #INPUT_VARIABLE#
-        int #INPUT_VARIABLE# = request#OPID#Obj.#GETTER_NAME#();
-        #MAPPING#
