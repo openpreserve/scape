@@ -194,7 +194,7 @@
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/scape.html</Default>
+                            <Default>http://localhost:8080/scape/testdata/elephant.djvu</Default>
                             <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
                         </input>
@@ -218,7 +218,7 @@
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/scape.html</Default>
+                            <Default>http://localhost:8080/scape/testdata/elephant.djvu</Default>
                             <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
                         </input>
@@ -242,7 +242,7 @@
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/scape.html</Default>
+                            <Default>http://localhost:8080/scape/testdata/elephant.djvu</Default>
                             <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
                         </input>
@@ -255,54 +255,6 @@
                             <Documentation>URL reference to output file</Documentation>
                             <PrefixFromInput>input</PrefixFromInput>
                             <Extension>txt</Extension>
-                        </output>
-                    </outputs>
-                </operation>
-
-                <operation oid="11" name="txt2tiff">
-                    <description>Converts Text to TIFF</description>
-                    <command>/usr/bin/convert ${input} ${output}</command>
-                    <inputs>
-                        <input name="input">
-                            <Datatype>xsd:anyURI</Datatype>
-                            <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/free-text.txt</Default>
-                            <CliMapping>input</CliMapping>
-                            <Documentation>URL reference to input file</Documentation>
-                        </input>
-                    </inputs>
-                    <outputs>
-                        <output name="output">
-                            <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>output</CliMapping>
-                            <Required>false</Required>
-                            <Documentation>URL reference to output file</Documentation>
-                            <PrefixFromInput>input</PrefixFromInput>
-                            <Extension>tiff</Extension>
-                        </output>
-                    </outputs>
-                </operation>
-
-                <operation oid="12" name="txt2jp2">
-                    <description>Converts Text to JPEG2000</description>
-                    <command>/usr/bin/convert ${input} ${output}</command>
-                    <inputs>
-                        <input name="input">
-                            <Datatype>xsd:anyURI</Datatype>
-                            <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/free-text.txt</Default>
-                            <CliMapping>input</CliMapping>
-                            <Documentation>URL reference to input file</Documentation>
-                        </input>
-                    </inputs>
-                    <outputs>
-                        <output name="output">
-                            <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>output</CliMapping>
-                            <Required>false</Required>
-                            <Documentation>URL reference to output file</Documentation>
-                            <PrefixFromInput>input</PrefixFromInput>
-                            <Extension>jp2</Extension>
                         </output>
                     </outputs>
                 </operation>

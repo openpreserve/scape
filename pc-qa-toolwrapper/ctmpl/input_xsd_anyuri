@@ -1,0 +1,24 @@
+        // Input: #INPUT_VARIABLE#
+        URI #INPUT_VARIABLE#Uri = request#OPID#Obj.#GETTER_NAME#();
+        if (#INPUT_VARIABLE#Uri == null) {
+            processing_message = "Input URI is empty.";
+            return getErrorResponse#OPID#(Response#OPID#, response#OPID#Obj);
+        }
+        URL #INPUT_VARIABLE#Url = null;
+        try {
+            #INPUT_VARIABLE#Url = new URL(#INPUT_VARIABLE#Uri.toString());
+        } catch (MalformedURLException ex) {
+            processing_message = "Malformed URL.";
+            return getErrorResponse#OPID#(Response#OPID#, response#OPID#Obj);
+        }
+        infolog("Input URL: " + #INPUT_VARIABLE#Url.toString());
+        String inputExt = StringUtils.getFileExtension(#INPUT_VARIABLE#Url.toString());
+        if(inputExt == null) inputExt = "tmp";
+        File #INPUT_VARIABLE# = FileUtils.urlToFile(#INPUT_VARIABLE#Url, inputExt);
+        if (!#INPUT_VARIABLE#.exists()) {
+            processing_message = "Invalid input file.";
+            return getErrorResponse#OPID#(Response#OPID#, response#OPID#Obj);
+        }
+        infolog("Input file created: " + #INPUT_VARIABLE#.getAbsolutePath());
+        // Mapping to command line pattern variable
+        #MAPPING#

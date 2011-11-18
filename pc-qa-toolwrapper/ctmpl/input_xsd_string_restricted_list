@@ -1,0 +1,25 @@
+        // Input: #INPUT_VARIABLE#
+        // Get a CSV (comma separated values) string in #INPUT_VARIABLE#Csv
+        String #INPUT_VARIABLE#Csv = null;
+        StringBuilder #INPUT_VARIABLE#CsvSb = new StringBuilder();
+        #TYPE_NAME#s #INPUT_VARIABLE#s = request#OPID#Obj.get#TYPE_NAME#();
+        if (#INPUT_VARIABLE#s != null) {
+            #TYPE_NAME#[] #INPUT_VARIABLE#List = #INPUT_VARIABLE#s.get#TYPE_NAME#();
+            if (#INPUT_VARIABLE#List != null) {
+                #TYPE_NAME# #INPUT_VARIABLE# = null;
+                String #INPUT_VARIABLE#Val = null;
+                int length = #INPUT_VARIABLE#List.length;
+                for (int i = 0; i < length; i++) {
+                    #INPUT_VARIABLE#Val = ((#TYPE_NAME#) #INPUT_VARIABLE#List[i]).getValue();
+
+                    if (#INPUT_VARIABLE#Val != null) {
+                        #INPUT_VARIABLE#CsvSb.append(#INPUT_VARIABLE#Val);
+                        if ((i + 1) < length) {
+                            #INPUT_VARIABLE#CsvSb.append(",");
+                        }
+                    }
+                }
+            }
+        }
+        #INPUT_VARIABLE#Csv = #INPUT_VARIABLE#CsvSb.toString();
+        #MAPPING#

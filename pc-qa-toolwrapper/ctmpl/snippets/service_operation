@@ -1,0 +1,63 @@
+
+    /**
+     * Default operation of the web service. Takes the request#OPID# message object
+     * as input, processes data and creates the response#OPID# message object. This
+     * web service operation has only http references (URLs) to binary data
+     * files in the request#OPID# message. See determineFileType web service operation
+     * where binary data are transmitted as attachments.
+     * @param base64BinaryRequest#OPID# Request#OPID# message object
+     * @return Response#OPID# message object
+     * @throws java.io.IOException
+     */
+    public Response#OPID# #SERVICE_OPERATION_1#(Request#OPID# Request#OPID#) {
+
+        infolog("========= PROCESSING REQUEST =========");
+
+        infolog("Using service: #GLOBAL_PROJECT_PREFIX##PROJECT_MIDFIX#Service");
+
+        processing_unitid = this.getValueOfServiceParameter("processingUnit");
+        if(processing_unitid == null) processing_unitid = "http://#TOMCAT_PUBLIC_HOST#/#GLOBAL_PROJECT_PREFIX_LC#/null";
+
+        // Request#OPID# message object
+        Request#OPID#Type request#OPID#Obj = Request#OPID#.getRequest#OPID#();
+
+        // Response#OPID# message object
+        Response#OPID# Response#OPID# = new Response#OPID#();
+        Response#OPID#Type response#OPID#Obj = new Response#OPID#Type();
+
+        // Required for copying output files
+        String publicHttpAccessDir = getValueOfServiceParameter("publicHttpAccessDir");
+
+        // Required for providing access to output files
+        String publicHttpAccessUrl = getValueOfServiceParameter("publicHttpAccessUrl");
+
+        // Command pattern variables key value pairs
+        HashMap cliCmdKeyValPairs = new HashMap<String, String>();
+
+        //<!-- input_code -->//
+        long startMillis = System.currentTimeMillis();
+        process(cliCmdKeyValPairs, #OPID#);
+        long timeMillis = System.currentTimeMillis() - startMillis;
+        processing_time = (int)timeMillis;
+
+        //<!-- output_code -->//
+
+        Response#OPID#.setResponse#OPID#(response#OPID#Obj);
+
+        return Response#OPID#;
+    }
+
+    /**
+     * Create error message response#OPID# object.
+     * @param base64BinaryResponse#OPID# Response#OPID# message object
+     * @param response#OPID#Obj Response#OPID# object
+     * @param msg Error message
+     * @return Error response#OPID# message object
+     */
+    Response#OPID# getErrorResponse#OPID#(Response#OPID# Response#OPID#,
+            Response#OPID#Type response#OPID#Obj) {
+        errorlog("Process terminated with error: " + processing_message);
+#RESPONSE_DEFAULT_VALUES#
+        Response#OPID#.setResponse#OPID#(response#OPID#Obj);
+        return Response#OPID#;
+    }
