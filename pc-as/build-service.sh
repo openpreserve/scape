@@ -1,6 +1,7 @@
 #!/bin/sh
 
 scriptdir=`dirname "$0"`
+# Get absolute path for $scriptdir
 scriptdir=`readlink -m $scriptdir`
 
 # Get absolute path for input file
@@ -15,9 +16,9 @@ for file in *; do
 		cd $file
 		mvn tomcat:redeploy
 		echo "***"
-		echo "cp ../../apache-tomcat-6.0.29/webapps/scapeservices#scape-$file-service.war $scriptdir"
+		echo "cp ../../apache-tomcat-6.0.29/webapps/scapeservices#scape-$file-service.war $scriptdir/services"
 		echo "***"
-		cp ../../apache-tomcat-6.0.29/webapps/scapeservices#scape-$file-service.war $scriptdir
+		cp ../../apache-tomcat-6.0.29/webapps/scapeservices#scape-$file-service.war $scriptdir/services
 		cd ..
 	fi
 done
