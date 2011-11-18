@@ -27,9 +27,11 @@ import com.sun.xml.ws.developer.StreamingDataHandler;
 import eu.planets_project.services.identify.IdentifyResult;
 import eu.planets_project.services.identify.IdentifyResult.Method;
 import eu.scape_project.pit.invoke.CommandNotFoundException;
+import eu.scape_project.pit.invoke.In;
 import eu.scape_project.pit.invoke.PitInvoker;
+import eu.scape_project.pit.invoke.Processor;
 import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
-import eu.scape_project.pit.tools.Parameters;
+import eu.scape_project.pit.tools.Inputs;
 
 /**
  * http://fue.onb.ac.at/axis2-l/services/IMPACTOpenjpegConversionService?wsdl
@@ -43,12 +45,15 @@ import eu.scape_project.pit.tools.Parameters;
 //SOAPBinding(style=SOAPBinding.Style.DOCUMENT, use=SOAPBinding.Use.ENCODED, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class ToolService {
 
-	private PitInvoker ib;
+	private Processor ib;
 
-	public ToolService() {
+	public ToolService(String toolspec, String action) {
 		try {
-			ib  = new PitInvoker("file");
+			ib  = Processor.createProcessor(toolspec, action);
 		} catch (ToolSpecNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CommandNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -61,13 +66,10 @@ public class ToolService {
 	//@RequestWrapper(partName="arguments")
 	//@ResponseWrapper(partName="results")
 	public IdentifyResult identify( 
-			@WebParam(name="toolId") String toolId, 
 			@WebParam(name="inputURI") URI input, 
-			@WebParam(name="parameters") Parameters parameters ) {
+			@WebParam(name="parameters") Inputs parameters ) {
 		try {
-			ib.identify(toolId, new File( input ) );
-		} catch (CommandNotFoundException e) {
-            throw new WebServiceException(e);
+			ib.execute( new In( input ), null );
 		} catch (IOException e) {
             throw new WebServiceException(e);
 		}

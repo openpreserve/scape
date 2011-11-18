@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import eu.scape_project.pt.fs.util.PtFileUtil;
 import eu.scape_project.pt.pit.ToolSpec;
 import eu.scape_project.pt.proc.Processor;
 
@@ -28,7 +29,18 @@ public class ToolInvoker {
 	
 	public int execute() throws IOException, InterruptedException {
 		
-		File execDir = (File)toolSpec.getContext().get(ToolSpec.EXEC_DIR);
+		File execDir = PtFileUtil.getExecDir();
+		String newExecDir = toolSpec.getContext().get(ToolSpec.EXEC_DIR);
+		
+		//has the execution dir been overwritten?
+		if(newExecDir != null) {
+			execDir = new File(newExecDir);
+		}
+		//otherwise use the default value
+		else {
+			toolSpec.getContext().put(ToolSpec.EXEC_DIR, execDir.toString());
+		}
+			
 		LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
 		
 		
@@ -37,7 +49,7 @@ public class ToolInvoker {
 		String[] cmds = toolSpec.getCmd().split(Pattern.quote(" "));
 		
 		ProcessBuilder processBuilder = new ProcessBuilder(cmds);
-		processBuilder.directory((File)toolSpec.getContext().get(ToolSpec.EXEC_DIR));
+		processBuilder.directory(execDir);
 		Process p = processBuilder.start();
 		p.waitFor();
 		return p.exitValue();
