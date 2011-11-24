@@ -13,7 +13,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="Extract features" type="migrate" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="Extract features" type="migrate" contextpathprefix="/wscapeservices" servicepackage="eu.scape_project.pc.services">
             <description>Service for feature extraction from image files</description>
             <operations>
                 <operation oid="1" name="extractFeatures">
