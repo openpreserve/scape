@@ -44,8 +44,6 @@ public class Processor {
 	public static Processor createProcessor( String toolspec_id, String action_id ) throws ToolSpecNotFoundException, CommandNotFoundException {
 		try {
 			ToolSpec ts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec.xml"));
-			System.out.println("Inputs "+ts.getInputs().getInputs().get(0).getName());
-			System.out.println("Inputs "+ts.getInputs().getInputs().get(0).getXml());
 			Action action = Processor.findTool(ts, action_id);
 			// Create the right class:
 			if( "identify".equals( action.getType() ) ) {

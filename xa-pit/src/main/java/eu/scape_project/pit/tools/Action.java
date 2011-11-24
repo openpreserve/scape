@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author Andrew Jackson <Andrew.Jackson@bl.uk>
  *
  */
+@XmlType( namespace=ToolSpec.NS )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Action {
 

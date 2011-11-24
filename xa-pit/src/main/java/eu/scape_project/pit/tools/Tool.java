@@ -17,19 +17,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Tool {
 
-	@XmlElement()
 	private Version version;
 	
-	@XmlElement()
 	private String name;
 	
-	@XmlElement()
 	private Installation installation;
 	
 	/** For JAXB */
-	public Tool() {
-		super();
-	}
+	public Tool() { }
 
 
 	/**
