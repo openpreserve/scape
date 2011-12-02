@@ -15,14 +15,20 @@
  */
 package eu.scape_project.xa.tw.cli;
 
-import eu.scape_project.xa.tw.conf.Configuration;
 import java.io.File;
-import java.util.logging.Level;
+import java.io.IOException;
+import java.util.List;
+
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import eu.scape_project.xa.tw.gen.GeneratorException;
+
+import eu.scape_project.xa.tw.conf.Configuration;
 import eu.scape_project.xa.tw.gen.DeploymentCreator;
+import eu.scape_project.xa.tw.gen.GeneratorException;
 import eu.scape_project.xa.tw.gen.PropertiesSubstitutor;
 import eu.scape_project.xa.tw.gen.ServiceCodeCreator;
 import eu.scape_project.xa.tw.gen.ServiceDef;
@@ -33,10 +39,6 @@ import eu.scape_project.xa.tw.toolspec.Operation;
 import eu.scape_project.xa.tw.toolspec.Service;
 import eu.scape_project.xa.tw.toolspec.Toolspec;
 import eu.scape_project.xa.tw.util.FileUtil;
-import java.io.IOException;
-import java.util.List;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 
 /**
  * Command line interface of the tool wrapper.

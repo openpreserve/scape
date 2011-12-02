@@ -15,7 +15,6 @@
  */
 package eu.scape_project.xa.tw.gen;
 
-import java.util.StringTokenizer;
 
 /**
  * Tool

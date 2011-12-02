@@ -17,15 +17,12 @@
 
 package eu.scape_project.xa.tw.gen;
 
-import eu.scape_project.xa.tw.conf.Configuration;
-import eu.scape_project.xa.tw.util.PropertyUtil;
-import java.io.File;
-import org.junit.After;
-import org.junit.AfterClass;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import eu.scape_project.xa.tw.conf.Configuration;
 
 /**
  *

@@ -16,19 +16,20 @@
  */
 package eu.scape_project.xa.tw.gen;
 
-import eu.scape_project.xa.tw.conf.Configuration;
-import eu.scape_project.xa.tw.toolspec.Toolspec;
 import java.io.File;
 import java.util.ArrayList;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import org.junit.After;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import eu.scape_project.xa.tw.conf.Configuration;
+import eu.scape_project.xa.tw.toolspec.Toolspec;
 
 /**
  *

@@ -35,6 +35,11 @@
                     <packageName>${global_package_name}</packageName>
                 </configuration>
             </plugin>
+            <plugin>
+            	<groupId>org.mortbay.jetty</groupId>
+            	<artifactId>jetty-maven-plugin</artifactId>
+            	<version>8.0.0.M3</version>
+            </plugin>
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
