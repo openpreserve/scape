@@ -23,6 +23,10 @@
 .classpath
 .project
 
+# Netbeans Files #
+#################
+nbactions.xml
+
 # Maven target directory #
 ##########################
 target/**/*
