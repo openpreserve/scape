@@ -255,7 +255,7 @@ Create a new project
       that will be used for all tools and services.
 
    b) default.xml
-      Tool, service and service input/output data type defintions which must
+      Tool, service and service input/output data type definitions which must
       comply with the xa-toolwrapper/src/main/resources/toolspec.xsd schema.
 
    See the "examples" folder which contains more configuration files.
