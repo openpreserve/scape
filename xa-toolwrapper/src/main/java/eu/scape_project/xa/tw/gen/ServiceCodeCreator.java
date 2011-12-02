@@ -17,6 +17,7 @@
 package eu.scape_project.xa.tw.gen;
 
 import eu.scape_project.xa.tw.gen.types.IOType;
+import eu.scape_project.xa.tw.tmpl.GenericCode;
 import eu.scape_project.xa.tw.tmpl.OperationCode;
 import eu.scape_project.xa.tw.tmpl.OutputItemCode;
 import eu.scape_project.xa.tw.tmpl.ResultElementCode;
@@ -24,6 +25,7 @@ import eu.scape_project.xa.tw.tmpl.SectionCode;
 import eu.scape_project.xa.tw.tmpl.ServiceCode;
 import eu.scape_project.xa.tw.tmpl.ServiceXml;
 import eu.scape_project.xa.tw.tmpl.ServiceXmlOp;
+import eu.scape_project.xa.tw.toolspec.InOut;
 import eu.scape_project.xa.tw.toolspec.Input;
 import eu.scape_project.xa.tw.toolspec.Operation;
 import eu.scape_project.xa.tw.toolspec.Output;
@@ -48,6 +50,13 @@ public class ServiceCodeCreator {
     private ServiceCode sc;
     private ServiceXml sxml;
 
+    /**
+     * Constructor of the service code creator
+     * @param st Substitutor, contains global project value-key pairs
+     * @param sc Service code, the java code that is created for the service
+     * @param sxml services xml, the axis2 web service definition file
+     * @param operations The operations that are defined for the service
+     */
     public ServiceCodeCreator(PropertiesSubstitutor st, ServiceCode sc, ServiceXml sxml, List<Operation> operations) {
         this.st = st;
         this.operations = operations;
@@ -55,15 +64,29 @@ public class ServiceCodeCreator {
         this.sxml = sxml;
     }
 
+    /**
+     * Constructor
+     */
     private ServiceCodeCreator() {
     }
 
+    /**
+     * Create operations
+     * @throws IOException
+     * @throws GeneratorException
+     */
     public void createOperations() throws IOException, GeneratorException {
         for (Operation operation : operations) {
             createOperationCode(operation);
         }
     }
 
+    /**
+     * Create the code for an operation
+     * @param operation
+     * @throws IOException
+     * @throws GeneratorException
+     */
     private void createOperationCode(Operation operation) throws IOException, GeneratorException {
 
         // Create service operation
@@ -76,61 +99,97 @@ public class ServiceCodeCreator {
         // add main project properties velocity context
         oc.put(st.getContext());
 
+        // generate an input data section in the service code for each input field
         List<Input> inputs = operation.getInputs().getInput();
         for (Input input : inputs) {
-            addDataSection(operation, oc, IOType.INPUT, input.getDatatype(),
-                    input.getName(), input.getCliMapping(), null, null, false, input.getRestriction());
+            addDataSection(operation, oc, input);
         }
+        // generate an output data section in the service code for each output field
         List<Output> outputs = operation.getOutputs().getOutput();
         for (Output output : outputs) {
-            addDataSection(operation, oc, IOType.OUTPUT, output.getDatatype(),
-                    output.getName(), output.getCliMapping(),
-                    output.getPrefixFromInput(), output.getExtension(),
-                    (output.isAutoExtension() != null && output.isAutoExtension()), null);
+            addDataSection(operation, oc, output);
         }
 
+        // insert input and output data sections for the operation
         oc.put("inputsection", oc.getInputSection());
         oc.put("outputsection", oc.getOutputSection());
 
+        // name of the service and project namespace
         oc.put("servicename", st.getContextProp("project_midfix"));
         oc.put("project_namespace", st.getContextProp("project_namespace"));
 
+        // output files that are used as a command pattern variable
+        // (CliMapping is set to a variable of the command pattern) have to
+        // be defined before the command line process section.
         oc.put("outfileitems", oc.getOutFileItems());
         oc.put("resultelements", oc.getResultElements());
 
+        // operation id
         oc.put("opid", String.valueOf(opn));
+        // velocity variable substitution for the operation
         oc.evaluate();
 
+        // add the operation to the service code
         sc.addOperation(oc);
 
+        // create services xml operation entry
         ServiceXmlOp sxmlop = new ServiceXmlOp("tmpl/servicexmlop.vm");
         sxmlop.put("operationname", oc.getOperationName());
         String clicmd = st.getProp("service.operation." + opn + ".clicmd");
         sxmlop.put("clicmd", clicmd);
         sxmlop.put("opid", String.valueOf(opn));
-
+        // velocity variable substitution for the services xml
         sxmlop.evaluate();
-
+        // add the operation to the services xml
         sxml.addOperation(sxmlop);
     }
 
     /**
-     * Processing the first level of the JSON tree. Each leaf node is a variable
-     * with the name "nodeName". The corresponding template is loaded and the
-     * key-value pairs for substitution added.
-     * @param nodeName Name of the node which is the input/output variable name
-     * @param currJsn Current json node
-     * @param dataType Data type (xsd:string, xsd:integer, etc.)
+     * Add an input/output data section to the operation
+     * @param operation
+     * @param oc
+     * @param inout
      * @throws GeneratorException
      */
-    protected void addDataSection(Operation operation, OperationCode oc, IOType iotype, String dataType, String nodeName, String cliMapping, String prefixFromInput, String extension, boolean autoExtension, Restriction restriction) throws GeneratorException {
-       
+    protected void addDataSection(Operation operation, OperationCode oc,
+            InOut inout) throws GeneratorException {
+
+        // input or output field?
+        IOType iotype = (inout instanceof Input) ? IOType.INPUT : IOType.OUTPUT;
+        // input/output fields
+        String nodeName = inout.getName();
+        String required = inout.getRequired();
+        String dataType = inout.getDatatype();
+        String cliMapping = inout.getCliMapping();
+        // input specific fields
+        Input input = null;
+        boolean isInput = false;
+        if (inout instanceof Input) {
+            input = (Input) inout;
+            isInput = true;
+        }
+        String cliReplacement = (isInput) ? ((Input) inout).getDefault().getClireplacement() : null;
+        Restriction restriction = (isInput) ? ((Input) inout).getRestriction() : null;
+        // output specific fields
+        Output output = null;
+        boolean isOutput = false;
+        if (inout instanceof Output) {
+            output = (Output) inout;
+            isOutput = true;
+        }
+        boolean autoExtension = (isOutput && output.isAutoExtension() != null) ? output.isAutoExtension().booleanValue() : false;
+        String prefixFromInput = (isOutput) ? ((Output) inout).getPrefixFromInput() : null;
+        String extension = (isOutput) ? ((Output) inout).getExtension() : null;
+
+        boolean isRequired = (required != null && required.equalsIgnoreCase("true"));
         String opid = String.valueOf(operation.getOid());
-        // code template for the current leaf node
+        // code template for the the field depending on data type
         boolean isMultiple = restriction != null && restriction.isMultiple();
         String template = "tmpl/datatypes/" + iotype + "_"
                 + StringConverterUtil.typeToFilename(dataType)
-                +(isMultiple?"_restricted_list":"")
+                + (isMultiple ? "_restricted_list" : "") // multiple string list
+                + ((dataType.equals("xsd:anyURI") // URL with temporary file
+                && !isRequired) ? "_opt" : "") // optional suffix
                 + ".vm";
         logger.debug("Using template \"" + template + "\" for node \"" + nodeName
                 + "\" in operation " + opid);
@@ -141,10 +200,22 @@ public class ServiceCodeCreator {
                 sectCode.put("opid", opid);
                 sectCode.put("operationname", operation.getName());
                 if (iotype == IOType.INPUT) {
+
                     sectCode.put("input_variable", nodeName);
-                    String mapping = getCliMapping(iotype, cliMapping, dataType, nodeName, isMultiple);
+                    String mapping = null;
+                    if (cliReplacement == null) {
+                        // Simple mapping
+                        mapping = getCliMapping(inout);
+                    } else {
+                        // Mapping of a variable with replacement of null value
+                        GenericCode cliReplCode = new GenericCode("tmpl/clireplacement.vm");
+                        cliReplCode.put(sectCode.getCtx());
+                        cliReplCode.put("clireplacement", cliReplacement);
+                        cliReplCode.evaluate();
+                        mapping = cliReplCode.getCode();
+                    }
                     sectCode.put("mapping", mapping);
-                    String parameter = getOperationParameter(dataType, nodeName, isMultiple);
+                    String parameter = getOperationParameter(input);
                     oc.addParameter(parameter);
                     String parList = oc.getParametersCsList();
                     oc.put("parameters", parList);
@@ -167,10 +238,21 @@ public class ServiceCodeCreator {
                         OutputItemCode oic = null;
                         // should the output file get the input file name as
                         // prefix? Different templates!
+                        String outfileId = ((Output) inout).getOutfileId();
                         if (prefixFromInput == null || prefixFromInput.isEmpty()) {
-                            oic = new OutputItemCode("tmpl/outfileitem.vm");
+                            if (outfileId != null && !outfileId.equals("")) {
+                                oic = new OutputItemCode("tmpl/outfileitem_id.vm");
+                                oic.put("outfileid", outfileId);
+                            } else {
+                                oic = new OutputItemCode("tmpl/outfileitem.vm");
+                            }
                         } else {
-                            oic = new OutputItemCode("tmpl/outfileitem_prefix.vm");
+                            if (outfileId != null && !outfileId.equals("")) {
+                                oic = new OutputItemCode("tmpl/outfileitem_prefix_id.vm");
+                                oic.put("outfileid", outfileId);
+                            } else {
+                                oic = new OutputItemCode("tmpl/outfileitem_prefix.vm");
+                            }
                             oic.put("prefix", prefixFromInput);
                         }
                         // put the current context
@@ -206,8 +288,12 @@ public class ServiceCodeCreator {
      * @param nodeName Current node name
      * @return Java data type definition
      */
-    private String getOperationParameter(String dataType, String nodeName, boolean isMultiple) {
+    private String getOperationParameter(Input input) {
         String parameter = null;
+        String dataType = input.getDatatype();
+        String nodeName = input.getName();
+        boolean isMultiple = (input.getRestriction() != null
+                && input.getRestriction().isMultiple());
         if (dataType.equals("xsd:anyURI")) {
             parameter = "String " + nodeName;
         }
@@ -218,10 +304,11 @@ public class ServiceCodeCreator {
             parameter = "Boolean " + nodeName;
         }
         if (dataType.equals("xsd:string")) {
-            if(isMultiple)
+            if (isMultiple) {
                 parameter = "OMElement " + nodeName;
-            else
+            } else {
                 parameter = "String " + nodeName;
+            }
         }
         if (parameter == null) {
             parameter = "null";
@@ -237,8 +324,11 @@ public class ServiceCodeCreator {
      * @param nodeName Node name
      * @return CLI mapping
      */
-    private String getCliMapping(IOType iotype, String cliMappingVar, String dataType, String nodeName, boolean isMultiple) {
+    private String getCliMapping(InOut inout) {
 
+        String cliMappingVar = inout.getCliMapping();
+        String dataType = inout.getDatatype();
+        String nodeName = inout.getName();
         String mappingVal = null;
         if (cliMappingVar != null) {
 
@@ -249,7 +339,7 @@ public class ServiceCodeCreator {
                 mappingVal = "Integer.toString(" + nodeName + ")";
             }
             if (dataType.equals("xsd:boolean")) {
-                mappingVal = nodeName;
+                mappingVal = "Boolean.toString(" + nodeName + ")";
             }
             if (dataType.equals("xsd:string")) {
                 mappingVal = nodeName;
@@ -261,9 +351,15 @@ public class ServiceCodeCreator {
             // variable if it is defined by the CliMapping type (only INPUT
             // types are mapped to command line interface pattern variables
             String mappingKeyVal = "";
-            if (iotype == IOType.INPUT) {
-                if(isMultiple)
-                    mappingVal += "Csv";
+            if (inout instanceof Input) {
+                Input input = (Input) inout;
+                Restriction restr = input.getRestriction();
+                if (restr != null) {
+                    boolean isMultiple = restr.isMultiple();
+                    if (isMultiple) {
+                        mappingVal += "Csv";
+                    }
+                }
                 mappingKeyVal = "cliCmdKeyValPairs.put(\"" + cliMappingVar + "\", " + mappingVal + ");";
             }
             return mappingKeyVal;

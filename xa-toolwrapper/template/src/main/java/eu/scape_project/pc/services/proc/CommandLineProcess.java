@@ -179,36 +179,22 @@ public class CommandLineProcess {
         // assign return code from process controller
         code = pr.getCode();
         //String toolMsg = FileUtils.getStringFromInputStream(pr.getStdInputStream());
-        StringWriter writer = new StringWriter();
-        if (pr.getStdInputStream() != null) {
+        StringWriter stdWriter = new StringWriter();
+        InputStream stdIs = pr.getStdInputStream();
+        if (stdIs != null) {
             try {
-                IOUtils.copy(pr.getStdInputStream(), writer);
+                IOUtils.copy(stdIs, stdWriter);
             } catch (IOException ex) {
                 logger.warn("Unable to read standard output of tool message");
             }
-            String toolMsg = writer.toString();
-            output = toolMsg;
+            String toolMsg = stdWriter.toString();
             if (toolMsg != null && !toolMsg.equals("")) {
+                toolMsg = "Tool message: \n"+ toolMsg;
+            output = toolMsg;
                 debuglog(toolMsg);
             }
         }
         infolog("Assigned exit code: " + code + "");
-        if (pr.getErrInputStream() != null) {
-            try {
-                IOUtils.copy(pr.getStdInputStream(), writer);
-            } catch (IOException ex) {
-                logger.warn("Unable to read standard output of tool message");
-            }
-            String toolMsg = writer.toString();
-            if (output == null || output.equals("")) {
-                output = toolMsg;
-            } else {
-                output += toolMsg;
-            }
-            if (toolMsg != null && !toolMsg.equals("")) {
-                debuglog(toolMsg);
-            }
-        }
         return code;
     }
 

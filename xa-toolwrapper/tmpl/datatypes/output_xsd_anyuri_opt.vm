@@ -1,0 +1,38 @@
+        // Output: ${output_variable}
+        File ${output_variable}File = new File(${output_variable}FileName${autoextension});
+        boolean isCreated${output_variable} = false;
+        if (!${output_variable}File.exists() || ${output_variable}File.length() == 0) {
+            infolog("The expected output file " + ${output_variable}File.getName() + " is empty or has not been created");
+        } else {
+            infolog("Output file of size " + ${output_variable}File.length() + " has been created successfully");
+            isCreated${output_variable} = true;
+        }
+        File ${output_variable}PublicFile =
+                new File(publicHttpAccessDir + ${output_variable}File.getName());
+        if (!new File(publicHttpAccessDir).isDirectory()) {
+            errorlog("The output directory " + publicHttpAccessDir + " does not exist. Check "
+                    + "publicHttpAccessDir parameter in the service configuration");
+            return ${operationname}Result(fac, omNs);
+        }
+        infolog("Public output file: " + ${output_variable}PublicFile.toString());
+        try {
+            if(isCreated${output_variable})
+                org.apache.commons.io.FileUtils.copyFile(${output_variable}File, ${output_variable}PublicFile);
+        } catch (IOException _) {
+            infolog("No outputfile created in the public access directory for '${output_variable}'");
+        }
+        URL ${output_variable}FileUrl;
+        try {
+            if(isCreated${output_variable})
+                ${output_variable}FileUrl = new URL(publicHttpAccessUrl + ${output_variable}PublicFile.getName());
+            else
+                ${output_variable}FileUrl = new URL("http://null");
+        } catch (MalformedURLException ex) {
+            errorlog("Malformed URL for binary result resource. Verify"
+                    + "publicHttpAccessUrl parameter in the "
+                    + "resources/services.xml. Exception message: "
+                    + ex.getMessage());
+            return ${operationname}Result(fac, omNs);
+        }
+        if(isCreated${output_variable})
+            infolog("Output URL: " + ${output_variable}FileUrl.toString());

@@ -245,11 +245,15 @@ public class DeploymentCreator {
                 //<parameter name="publicHttpAccessDir">${tomcat_public_http_access_dir}</parameter>
                 //<parameter name="publicHttpAccessUrl">${tomcat_public_http_access_url}</parameter>
                 //<parameter name="serviceUrlFilter">${service_url_filter}</parameter>
-
-
                 List<Operation> operations = service.getOperations().getOperation();
                 for (Operation operation : operations) {
-                    deplDepServXmlCode.put("cli_cmd_" + String.valueOf(operation.getOid()), operation.getCommand());
+                    String command = operation.getCommand();
+                    String toolsbasedir = d.getToolsbasedir();
+                    if(toolsbasedir != null && !toolsbasedir.equals(""))
+                    {
+                        command = toolsbasedir + command;
+                }
+                    deplDepServXmlCode.put("cli_cmd_" + String.valueOf(operation.getOid()), command);
                 }
                 
                 deplDepServXmlCode.put("tomcat_public_procunitid", d.getIdentifier());

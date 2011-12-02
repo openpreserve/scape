@@ -64,7 +64,6 @@ public class ToolWrapper {
      */
     private static void initParamsFromArgs(String[] args) throws GeneratorException {
 
-        int currOpid = 0;
         if (args.length > 0) {
             for (int i = 0; i < args.length; i++) {
                 String arg = null;
@@ -122,8 +121,9 @@ public class ToolWrapper {
             logger.info("Tool name: " + toolspec.getName());
             logger.info("Tool version: " + toolspec.getVersion());
 
+            // List of services for the tool
             List<Service> services = toolspec.getServices().getService();
-            // for each service a different maven project will be generated
+            // For each service a different maven project will be generated
             for (Service service : services) {
                 createService(service, toolspec.getVersion());
             }
@@ -135,6 +135,15 @@ public class ToolWrapper {
         }
     }
 
+    /**
+     * Create a service. Each service is packaged in a separate web application
+     * archive (*.war) and can be deployed to different web application
+     * container (e.g. Apache Tomcat).
+     * @param service Service
+     * @param toolVersion Version of the tool
+     * @throws GeneratorException
+     * @throws IOException
+     */
     private static void createService(Service service, String toolVersion) throws GeneratorException, IOException {
         logger.info("Service id: " + service.getSid());
         logger.info("Service name: " + service.getName());
@@ -203,7 +212,7 @@ public class ToolWrapper {
         sxml.put("url_filter", st.getProp("url.filter"));
         sxml.create(sxmlFile);
 
-        // pom.xml
+        // pom.xml (maven project definition)
         String pomPath = FileUtil.makePath(generatedDir, projDir) + "pom.xml";
         DeploymentCreator pomCreator = new DeploymentCreator(pomPath, service, st);
         pomCreator.createPom();

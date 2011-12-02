@@ -91,6 +91,57 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+
+         <xs:complexType name="InOut">
+              <xs:sequence>
+                 <xs:element ref="Datatype"/>
+                 <xs:element ref="Required" minOccurs="0" maxOccurs="1"/>
+                 <xs:element ref="CliMapping" minOccurs="0" maxOccurs="1"/>
+                 <xs:element ref="Documentation" minOccurs="0" maxOccurs="1"/>
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required"/>
+           </xs:complexType>
+
+          <xs:complexType name="Input">
+            <xs:complexContent>
+             <xs:extension base="InOut">
+               <xs:sequence>
+                  <xs:element ref="Default" minOccurs="0" maxOccurs="1"/>
+                  <xs:element ref="Restriction" minOccurs="0" maxOccurs="1"/>
+               </xs:sequence>
+             </xs:extension>
+            </xs:complexContent>
+          </xs:complexType>
+
+          <xs:complexType name="Output">
+            <xs:complexContent>
+             <xs:extension base="InOut">
+               <xs:sequence>
+                    <xs:element name="PrefixFromInput" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Extension" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="AutoExtension" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="OutfileId" type="xs:string" default="false" minOccurs="0" maxOccurs="1"/>
+               </xs:sequence>
+             </xs:extension>
+            </xs:complexContent>
+          </xs:complexType>
+
+          <xs:element name="input" type="Input"/>
+          <xs:element name="output" type="Output"/>
+
+<!--	<xs:element name="input">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Datatype"/>
+				<xs:element ref="Restriction" minOccurs="0"/>
+				<xs:element ref="Required"/>
+				<xs:element ref="Default"/>
+				<xs:element ref="CliMapping" minOccurs="0"/>
+				<xs:element ref="Documentation"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="output">
 		<xs:complexType>
 			<xs:sequence>
@@ -104,7 +155,7 @@
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 		</xs:complexType>
-	</xs:element>
+	</xs:element>-->
 	<xs:element name="operations">
 		<xs:complexType>
 			<xs:sequence>
@@ -149,19 +200,6 @@
                         <xs:attribute name="multiple" type="xs:boolean" use="optional" default="false"/>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="input">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Datatype"/>
-				<xs:element ref="Restriction" minOccurs="0"/>
-				<xs:element ref="Required"/>
-				<xs:element ref="Default"/>
-				<xs:element ref="CliMapping" minOccurs="0"/>
-				<xs:element ref="Documentation"/>
-			</xs:sequence>
-			<xs:attribute name="name" type="xs:string" use="required"/>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="identifier" type="xs:string"/>
 	<xs:element name="id" type="xs:ID"/>
 	<xs:element name="host" type="xs:string"/>
@@ -181,6 +219,7 @@
 				<xs:element ref="host"/>
 				<xs:element ref="ports"/>
 				<xs:element ref="manager"/>
+                                <xs:element name="toolsbasedir" type="xs:string"/>
 				<xs:element ref="dataexchange"/>
 			</xs:sequence>
 			<xs:attribute name="ref" type="xs:string"/>
@@ -200,7 +239,15 @@
 	<xs:element name="accessdir" type="xs:string"/>
 	<xs:element name="Required" type="xs:string"/>
 	<xs:element name="Documentation" type="xs:string"/>
-	<xs:element name="Default" type="xs:string"/>
+        <xs:element name="Default">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="clireplacement" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="Datatype" type="xs:string"/>
 	<xs:element name="CliMapping" type="xs:string"/>
 </xs:schema>

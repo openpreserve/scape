@@ -1,0 +1,33 @@
+
+
+        // Input (optional): ${input_variable}
+        URL ${input_variable}Url = null;
+        try {
+            ${input_variable}Url = new URL(${input_variable});
+            String ${input_variable}UrlStr = ${input_variable}Url.toString();
+            if(!${input_variable}UrlStr.matches(getValueOfServiceParameter("serviceUrlFilter"))) {
+                errorlog("Format of input URL \"" + ${input_variable} + "\" does not comply with security policy");
+                return ${operationname}Result(fac, omNs);
+            }
+            infolog("URL of input file: " + ${input_variable}UrlStr);
+        } catch (MalformedURLException ex) {
+            errorlog("\"" + ${input_variable} + "\" is not a valid value for the "
+                    + "parameter \"${input_variable}Url\"");
+            return ${operationname}Result(fac, omNs);
+        }
+        String ${input_variable}Ext = StringUtils.getFileExtension(${input_variable}Url.toString());
+        if (${input_variable}Ext == null) {
+            ${input_variable}Ext = "tmp";
+        }
+        File ${input_variable}File = null;
+        try {
+            ${input_variable}File = FileUtils.urlToFile(${input_variable}Url, ${input_variable}Ext);
+            if (!${input_variable}File.exists()) {
+                infolog("No input file has been created for variable '${input_variable}'");
+            } else {
+                infolog("Input file created: " + ${input_variable}File.getAbsolutePath());
+            }
+        } catch(IOException ex) {
+            infolog("No file available at URL \"" + ${input_variable}Url + "\"");
+        }
+        ${mapping}
