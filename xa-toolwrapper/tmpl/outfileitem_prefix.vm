@@ -1,0 +1,3 @@
+        String ${varname}Prefix = FileUtils.getFileNameFromUrl(${prefix}Url);
+        String ${varname}FileName = FileUtils.getTmpFile(${varname}Prefix+"_${global_project_prefix}${project_midfix}Service_${varname}File_", "${extension}").getAbsolutePath();
+        cliCmdKeyValPairs.put("${mapping}", ${varname}FileName);

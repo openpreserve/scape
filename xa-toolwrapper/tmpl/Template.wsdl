@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:axd="http://org.apache.axis2/xsd"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:tns="${project_namespace}"
+                  targetNamespace="${project_namespace}">
+    <wsdl:types>
+        <xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="${project_namespace}"/>
+    </wsdl:types>
+
+    <wsdl:portType name="ServicePortType">
+    </wsdl:portType>
+
+    <wsdl:binding name="ServiceSoap11Binding" type="tns:ServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+
+    </wsdl:binding>
+    <wsdl:binding name="ServiceSoap12Binding" type="tns:ServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+
+    </wsdl:binding>
+    <wsdl:binding name="ServiceHttpBinding" type="tns:ServicePortType">
+        <http:binding verb="POST"/>
+
+    </wsdl:binding>
+    <wsdl:service name="${project_midfix}">
+        <wsdl:port name="ServiceHttpSoap11Endpoint" binding="tns:ServiceSoap11Binding">
+            <soap:address location="http://${tomcat_public_host}:${tomcat_public_http_port}${contextpath_prefix}/${global_project_prefix_lc}-${project_midfix_lc}-service/services/${project_midfix}"/>
+        </wsdl:port>
+        <wsdl:port name="ServiceHttpSoap12Endpoint" binding="tns:ServiceSoap12Binding">
+            <soap12:address location="http://${tomcat_public_host}:${tomcat_public_http_port}${contextpath_prefix}/${global_project_prefix_lc}-${project_midfix_lc}-service/services/${project_midfix}"/>
+        </wsdl:port>
+        <wsdl:port name="ServiceHttpEndpoint" binding="tns:ServiceHttpBinding">
+            <http:address location="http://${tomcat_public_host}:${tomcat_public_http_port}${contextpath_prefix}/${global_project_prefix_lc}-${project_midfix_lc}-service/services/${project_midfix}"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

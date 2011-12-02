@@ -1,0 +1,9 @@
+        // Input: ${input_variable}
+        // Default value is "#DEFAULT#"
+        String ${input_variable} = null;
+        if(${input_variable} == null) {
+            ${input_variable} = "#DEFAULT#";
+        } else {
+            ${input_variable} = ${input_variable};
+        }
+        ${mapping}

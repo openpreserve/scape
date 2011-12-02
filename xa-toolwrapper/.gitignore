@@ -1,0 +1,7 @@
+nbactions.xml
+target/*
+generated/*
+logs/scape_*
+production/*
+apache-tomcat-6.0.29/*
+/target

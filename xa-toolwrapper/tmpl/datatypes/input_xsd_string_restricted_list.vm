@@ -1,0 +1,19 @@
+
+        // Input: ${input_variable}
+        String ${input_variable}Csv = "";
+        if (${input_variable} != null) {
+            StringBuilder ${input_variable}CsvSb = new StringBuilder();
+            Iterator ${input_variable}ChildsIt = ${input_variable}.getChildElements();
+            if (${input_variable}ChildsIt != null) {
+                while (${input_variable}ChildsIt.hasNext()) {
+                    OMElement ${input_variable}Elm = (OMElement) ${input_variable}ChildsIt.next();
+                    ${input_variable}CsvSb.append(${input_variable}Elm.getText());
+                    if (${input_variable}ChildsIt.hasNext()) {
+                            ${input_variable}CsvSb.append(",");
+                        }
+                }
+                ${input_variable}Csv = ${input_variable}CsvSb.toString();
+            }
+        }
+        infolog("Input ${input_variable}: " + ${input_variable}Csv);
+        ${mapping}

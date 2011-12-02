@@ -1,0 +1,16 @@
+<serviceGroup>
+  <service name="${project_midfix}" targetNamespace="${project_namespace}">
+    <description>${project_title} ${tool_version} Service</description>
+    <schema schemaNamespace="${project_namespace}" />
+    <parameter name="ServiceClass" locked="false">${global_package_name}.${project_midfix}</parameter>
+
+#foreach( $servxmlop in $servxmlops )
+$servxmlop.Code
+#end
+
+    <parameter name="processingUnit">${tomcat_public_procunitid}</parameter>
+    <parameter name="publicHttpAccessDir">${tomcat_public_http_access_dir}</parameter>
+    <parameter name="publicHttpAccessUrl">${tomcat_public_http_access_url}</parameter>
+    <parameter name="serviceUrlFilter">${url_filter}</parameter>
+  </service>
+</serviceGroup>
