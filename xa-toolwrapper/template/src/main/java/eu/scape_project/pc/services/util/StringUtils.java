@@ -40,7 +40,10 @@ public final class StringUtils {
      */
     public static String getFileExtension(String path) {
         int dot = path.lastIndexOf(".");
-        return path.substring(dot + 1);
+	String ret = path.substring(dot + 1);
+	// return always tmp extension if more than 3 characters
+        if(ret.length() > 3) ret = "tmp";
+	return ret;
     }
 
 

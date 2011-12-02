@@ -82,8 +82,6 @@ public class ProcessRunner implements Runnable {
     private InputStream processInputStream = null;
     /** Standard output stream of the process */
     private InputStream standardInputStream = null;
-    /** Error stream of the process */
-    private InputStream errorInputStream = null;
     /** Return code of the process */
     private int code; // -1 means "undefined", 0 success, >0 error
 
@@ -132,14 +130,6 @@ public class ProcessRunner implements Runnable {
     }
 
     /**
-     * Get error stream of the process
-     * @return Error stream
-     */
-    public InputStream getErrInputStream() {
-        return errorInputStream;
-    }
-
-    /**
      * Get process return code
      * @return Return code
      */
@@ -152,11 +142,10 @@ public class ProcessRunner implements Runnable {
      */
     public void run() {
         try {
+            pb.redirectErrorStream(true);
             Process p = pb.start();
             ByteArrayOutputStream stdOut =
                     catchProcessOutput(p.getInputStream());
-            ByteArrayOutputStream errOut =
-                    catchProcessOutput(p.getErrorStream());
 
             try {
                 code = execute(p);
@@ -165,7 +154,6 @@ public class ProcessRunner implements Runnable {
             }
             waitFor();
             standardInputStream = new ByteArrayInputStream(stdOut.toByteArray());
-            errorInputStream = new ByteArrayInputStream(errOut.toByteArray());
         } catch (IOException e) {
             logger.error("An I/O error occurred while running the process.", e);
         }

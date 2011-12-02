@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="c:\owndata\scape\toolspec.xsd">
+    <id>unzip</id>
+    <name>Unzip</name>
+    <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
+    <version>1.0</version>
+    <installation>
+        <os type="linux">
+            Available by default.
+        </os>
+        <os type="windows">
+            Use "CMD.exe /C COPY" instead of "/bin/cp" in the commands defined below.
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="Unzip" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>Service for copying files</description>
+            <operations>
+                <operation oid="1" name="unzip">
+                    <description>Unzip zip archive</description>
+                    <command>unzip ${input} -d ${outputdir}</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                            <Default>http://localhost:8080/scape/testdata/scape-logo.png</Default>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <outputlist name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>false</Required>
+                            <CliMapping>outputdir</CliMapping>
+                            <Documentation>URL reference to output file</Documentation>
+                        </outputlist>
+                    </outputs>
+                </operation>
+            </operations>
+            <deployto>
+                <deployref default="true" ref="local"/>
+            </deployto>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/default/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>tomcat</password>
+		<path>manager</path>
+            </manager>
+            <toolsbasedir></toolsbasedir>
+            <dataexchange>
+                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>

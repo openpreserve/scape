@@ -1,0 +1,8 @@
+        if (${outfileid} != null) {
+            ${outfileid} = ${outfileid}.replaceAll("[^A-Za-z0-9-_]", "");
+            infolog("Evaluation-ID: " + ${outfileid});
+        } else {
+            infolog("Evaluation-ID: [No identifier defined]");
+        }
+        String ${varname}FileName = FileUtils.getTmpFile("${global_project_prefix}${project_midfix}Service_${varname}_"+${outfileid}+"_", "${extension}").getAbsolutePath();
+        cliCmdKeyValPairs.put("${mapping}", ${varname}FileName);

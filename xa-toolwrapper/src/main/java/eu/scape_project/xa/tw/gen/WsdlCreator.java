@@ -17,6 +17,7 @@
 package eu.scape_project.xa.tw.gen;
 
 import eu.scape_project.xa.tw.gen.types.MsgType;
+import eu.scape_project.xa.tw.toolspec.InOut;
 import eu.scape_project.xa.tw.toolspec.Input;
 import eu.scape_project.xa.tw.toolspec.Operation;
 import eu.scape_project.xa.tw.toolspec.Output;
@@ -165,9 +166,7 @@ public class WsdlCreator {
             cplxReqTypeElm.setAttribute("name", operation.getName() + type + "Type");
             List<Input> inputs = operation.getInputs().getInput();
             for (Input input : inputs) {
-                createMsgElm(reqTypeSeqElm, input.getName(), input.getDatatype(),
-                        input.getDefault(), input.getCliMapping(), input.getRequired(),
-                        input.getDocumentation(), input.getRestriction());
+                createMsgElm(reqTypeSeqElm, input);
                 createRestrictedType(input, schemaNode);
             }
             msgElm.setAttribute("type", "tns:" + operation.getName() + type + "Type");
@@ -218,28 +217,41 @@ public class WsdlCreator {
             cplxReqTypeElm.setAttribute("name", operation.getName() + "ResultType");
             List<Output> outputs = operation.getOutputs().getOutput();
             for (Output output : outputs) {
-                createMsgElm(reqTypeSeqElm, output.getName(), output.getDatatype(),
-                        null, output.getCliMapping(), output.getRequired(),
-                        output.getDocumentation(), null);
+                createMsgElm(reqTypeSeqElm, output);
             }
             msgElm.setAttribute("type", "tns:" + operation.getName() + type+"Type");
             msgElm.setAttribute("name", operation.getName()+type);
             // additional output ports
-            createMsgElm(reqTypeSeqElm, "success", "xsd:boolean",
-                        null, null, "true",
-                        "Success/failure of process execution", null);
-            createMsgElm(reqTypeSeqElm, "returncode", "xsd:int",
-                        null, null, "true",
-                        "Returncode of the underlying command line application", null);
-            createMsgElm(reqTypeSeqElm, "time", "xsd:int",
-                        null, null, "false",
-                        "Execution time in milliseconds", null);
-            createMsgElm(reqTypeSeqElm, "log", "xsd:string",
-                        null, null, "false",
-                        "Process execution log", null);
-            createMsgElm(reqTypeSeqElm, "message", "xsd:string",
-                        null, null, "false",
-                        "Process execution message", null);
+            Output op = new Output();
+            op.setName("success");
+            op.setDatatype("xsd:boolean");
+            op.setRequired("false");
+            op.setDocumentation("Success/failure of process execution");
+            createMsgElm(reqTypeSeqElm, op);
+            op = new Output();
+            op.setName("returncode");
+            op.setDatatype("xsd:int");
+            op.setRequired("true");
+            op.setDocumentation("Returncode of the underlying command line application");
+            createMsgElm(reqTypeSeqElm, op);
+            op = new Output();
+            op.setName("time");
+            op.setDatatype("xsd:int");
+            op.setRequired("false");
+            op.setDocumentation("Execution time in milliseconds");
+            createMsgElm(reqTypeSeqElm, op);
+            op = new Output();
+            op.setName("log");
+            op.setDatatype("xsd:string");
+            op.setRequired("false");
+            op.setDocumentation("Process execution log");
+            createMsgElm(reqTypeSeqElm, op);
+            op = new Output();
+            op.setName("message");
+            op.setDatatype("xsd:string");
+            op.setRequired("false");
+            op.setDocumentation("Process execution message");
+            createMsgElm(reqTypeSeqElm, op);
         }
         cplxReqTypeElm.appendChild(reqTypeSeqElm);
         schemaNode.appendChild(cplxReqTypeElm);
@@ -256,9 +268,16 @@ public class WsdlCreator {
      * @param required
      * @param documentation
      */
-    private void createMsgElm(Node reqTypeSeqElm, String name, String dataType,
-            String defaultVal, String cliMapping, String required,
-            String documentation, Restriction restriction) {
+    private void createMsgElm(Node reqTypeSeqElm, InOut inout) {
+
+        String name = inout.getName();
+        String dataType = inout.getDatatype();
+        String required = inout.getRequired();
+        String documentation = inout.getDocumentation();
+        String cliMapping = inout.getCliMapping();
+        String defaultVal = (inout instanceof Input)?((Input)inout).getDefault().getValue():null;
+        Restriction restriction = (inout instanceof Input)?((Input)inout).getRestriction():null;
+
         Element reqTypeElm = doc.createElement("xsd:element");
         if (documentation != null) {
             Element annotationElm = doc.createElement("xsd:annotation");
@@ -454,7 +473,7 @@ public class WsdlCreator {
                 multipleType.setAttribute("name", name+"List");
                 Element sequenceElm = doc.createElement("xsd:sequence");
                 Element elm = doc.createElement("xsd:element");
-                elm.setAttribute("default", input.getDefault());
+                elm.setAttribute("default", input.getDefault().getValue());
                 elm.setAttribute("minOccurs", "0");
                 elm.setAttribute("maxOccurs", "unbounded");
                 elm.setAttribute("name", name+"Item");

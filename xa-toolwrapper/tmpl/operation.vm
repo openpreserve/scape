@@ -6,13 +6,14 @@
     public OMElement ${operationname}(${parameters}) {
 
         infolog("========= PROCESSING REQUEST =========");
-        infolog("Using service: ${servicename}");
+        infolog("Using service: ${global_project_prefix}${servicename}Service");
 
         MessageContext msgCtx = MessageContext.getCurrentMessageContext();
         msgCtx.setProperty("ConfigContextTimeoutInterval", "300000");
 
         String processingUnit = this.getValueOfServiceParameter("processingUnit");
         if (processingUnit != null && !processingUnit.isEmpty()) {
+            infolog("Parameter processingUnit from services.xml: "+processingUnit);
             processing_unitid = processingUnit;
         }
 
@@ -43,9 +44,17 @@ ${outfileitem}
         processing_time = (int) timeMillis;
 
 ${outputsection}
+
+        if(!processing_success) {
+            errorlog("An error occurred while executing the process");
+            return ${operationname}Result(fac, omNs);
+        }
+
         // success
         processing_success = true;
         processing_returncode = 0;
+        infolog("Process finished successfully after "
+                    + timeMillis + " milliseconds.");
         infolog("Service request has been processed successfully");
         OMElement result = ${operationname}Result(fac, omNs);
 #foreach( $resultelement in $resultelements )
