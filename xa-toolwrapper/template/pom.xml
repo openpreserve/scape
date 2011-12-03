@@ -24,8 +24,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
 
@@ -54,7 +54,7 @@
 				<version>8.0.0.M3</version>
 				<configuration>
 					<webAppConfig>
-						<contextPath>/scapeservices/${project.artefact}</contextPath>
+						<contextPath>/scapeservices/scape-${project_midfix_lc}-service</contextPath>
 					</webAppConfig>
 					<scanTargets>
 						<scanTarget>src/main</scanTarget>

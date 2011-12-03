@@ -17,6 +17,7 @@
 package eu.scape_project.xa.tw.gen;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.xml.bind.JAXBContext;
@@ -45,13 +46,21 @@ public class ToolspecValidatorTest {
     }
 
     @Before
-    public void setUp() throws GeneratorException {
+    public void setUp() throws GeneratorException, URISyntaxException {
         toolspecs = new ArrayList<String>();
         toolspecs.add("default.xml");
         // All tool specification instances from the examples directory
         // will be validated
-        addToolspecFilesFromDir("examples");
-        addToolspecFilesFromDir("production");
+        try {
+            addToolspecFilesFromResourceDir("/examples");
+        } catch (IllegalArgumentException excep) {
+        	System.out.println(excep.getLocalizedMessage());
+        	excep.printStackTrace();
+        }
+        
+        if (this.toolspecs.isEmpty()) {
+        	throw new IllegalStateException("No toolspecs found to test.");
+        }
     }
 
     private ToolspecValidator getToolspecValidator(String toospecXml) throws GeneratorException {
@@ -85,20 +94,28 @@ public class ToolspecValidatorTest {
         }
     }
 
-    private void addToolspecFilesFromDir(String directory) throws GeneratorException {
-        File dir = new File(directory);
-        String[] children = dir.list();
-        if (children == null) {
-            throw new GeneratorException("examples directory not available.");
-        } else {
-            for (int i=0; i<children.length; i++) {
-                String filename = children[i];
-                if(filename.endsWith(".xml")) {
-                    logger.info("Tool specification file \""+filename+"\" found");
-                    toolspecs.add(directory+"/"+filename);
+    private void addToolspecFilesFromResourceDir(String dirName) throws URISyntaxException {
+    	// OK get the resource directory as a file from the URL
+        File dir = new File(this.getClass().getResource(dirName).toURI());
+        this.addToolspecFilesFromDir(dir);
+    }
+
+    private void addToolspecFilesFromDir(File dir) {
+        // if it's not a good dir
+        if ((dir == null) || (!dir.exists()) || (!dir.isDirectory())) {
+        	throw new IllegalArgumentException("Argument dirname:" + dir.getAbsolutePath() + " is not an existing resource directory.");
+        }
+        // Get it's file children
+        File[] files = dir.listFiles();
+        if (files != null) {
+        	// If not null then
+            for (File file : files) {
+                if(file.getName().endsWith(".xml")) {
+                    logger.info("Tool specification file \"" + file.getName() + "\" found");
+                    toolspecs.add(file.getAbsolutePath());
                 }
             }
         }
+    	
     }
-
 }
