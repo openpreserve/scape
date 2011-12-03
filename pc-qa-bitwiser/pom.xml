@@ -6,13 +6,10 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
- 	<modelVersion>4.0.0</modelVersion>
-  	<name>SCAPE PC QA - Bitwiser</name>
-  	<description>Bitwise analysis tool.</description>
-  	<groupId>eu.scape-project</groupId>
+	<modelVersion>4.0.0</modelVersion>
+	<name>SCAPE PC QA - Bitwiser</name>
+	<description>Bitwise analysis tool.</description>
 	<artifactId>pc-qa-bitwiser</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-
 	<build>
 		<resources>
 		</resources>
@@ -36,22 +33,40 @@
 					</archive>
 				</configuration>
 			</plugin>
-	<plugin>
-		<artifactId>maven-dependency-plugin</artifactId>
-		<executions>
-			<execution>
-				<id>Add list of dependencies to the build.</id>
-				<phase>generate-sources</phase>
-				<goals>
-					<goal>list</goal>
-				</goals>
-				<configuration>
-					<outputFile>target/generated-sources/dependencies.txt</outputFile>
-				</configuration>
-			</execution>
-		</executions>
-	</plugin>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Add list of dependencies to the build.</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>list</goal>
+						</goals>
+						<configuration>
+							<outputFile>target/generated-sources/dependencies.txt</outputFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--*************************************************************************************** 
+					** Uncomment the following if you're using Eclipse and m2e and getting an 
+					** error like: "Plugin execution not covered by lifecycle configuration: 
+					** org.apache.maven.plugins:maven-dependency-plugin:2.1:list". This plugin's 
+					** configuration is used to store Eclipse m2e settings only.It has no influence 
+					** on the Maven build itself. ********************************************************* 
+					*************************************************************************************** 
+					<plugin> <groupId>org.eclipse.m2e</groupId> <artifactId>lifecycle-mapping</artifactId> 
+					<version>1.0.0</version> <configuration> <lifecycleMappingMetadata> <pluginExecutions> 
+					<pluginExecution> <pluginExecutionFilter> <groupId> org.apache.maven.plugins 
+					</groupId> <artifactId> maven-dependency-plugin </artifactId> <versionRange> 
+					[2.1,) </versionRange> <goals> <goal>list</goal> </goals> </pluginExecutionFilter> 
+					<action> <ignore></ignore> </action> </pluginExecution> </pluginExecutions> 
+					</lifecycleMappingMetadata> </configuration> </plugin>****************************** -->
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<dependencies>
@@ -93,9 +108,7 @@
 		<repository>
 			<id>project</id>
 			<name>Project Repository</name>
-			<!-- 
-			<url>file:///${basedir}/local-repository</url>
-			 -->
+			<!-- <url>file:///${basedir}/local-repository</url> -->
 			<url>file://./../local-repository</url>
 			<layout>default</layout>
 		</repository>
