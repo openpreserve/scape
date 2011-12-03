@@ -71,46 +71,6 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--*************************************************************************************** 
-					** Uncomment the following if you're using Eclipse and m2e and getting an 
-					** error like: "Plugin execution not covered by lifecycle configuration: 
-					** com.sun.tools.jaxc.maven2:maven-jaxb-schemagen-plugin:1.2". This plugin's 
-					** configuration is used to store Eclipse m2e settings only.It has no influence 
-					** on the Maven build itself. ********************************************************* 
-					************************************************************************************ -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId> com.sun.tools.jxc.maven2
-										</groupId>
-										<artifactId> maven-jaxb-schemagen-plugin </artifactId>
-										<versionRange>
-											[1.2,)
-										</versionRange>
-										<goals>
-											<goal>generate</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute>
-											<runOnIncremental>false</runOnIncremental>
-										</execute>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 	<dependencies>
 		<dependency>
