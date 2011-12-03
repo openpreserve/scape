@@ -17,10 +17,13 @@ You need at least the Java SE Development Kit (JDK) version >=1.6.0 and Apache
 Maven >= 2.2.1, and an Apache Tomcat application server version >=6.0.18.
 Also make sure the JAVA_HOME environment variable is defined.
 
-1) In the xa-toolwrapper directory, run the project generator with the default
-   arguments:
+1) In the xa-toolwrapper directory, run the maven package command:
 
-       java -jar toolwrapper.jar
+		mvn package
+
+2) If the build is successful (it should be), then run the toolwrapper jar you've just built
+
+        java -jar ./target/xa-toolwrapper-0.3-SNAPSHOT-jar-with-dependencies.jar
 
    This will generate an example project generated/simplecopy10. This service is
    a an example wrapper project for the linux copy command "cp" or the COPY
@@ -37,122 +40,15 @@ Also make sure the JAVA_HOME environment variable is defined.
        -pc specifies the file that contains the project configuration
        -xc Tool, service and service input/output data type defintions
 
-2) Start your Apache Tomcat server:
+3) Change to the directory where the sample project has been generated:
 
-       cd <apache-tomcat-install-dir>/bin
-       ./startup.sh
+       cd ./generated/simplecopy10
 
-   where <tomcat-install> is the directory where the Apache Tomcat server is
-   installed.
+   and then deploy the example service to the built in Jetty service:
 
-3) In order to deploy the web application archive (war), make sure
+       mvn jetty:run
 
-   a) the tomcat manager webapp is enabled (configure in Apache Tomcat's user
-      configuration file <apache-tomcat-install-dir>/conf/tomcat-users.xml)
-      by defining a user, e.g.
-
-      Tomcat 6.0.*:
-
-      <tomcat-users>
-        <role rolename="tomcat"/>
-        <role rolename="manager"/>
-        <user password="password" roles="tomcat,manager" username="tomcat"/>
-      </tomcat-users>
-
-      Tomcat 7.*:
-
-      <tomcat-users>
-        <role rolename="manager-gui"/>
-        <role rolename="manager-script"/>
-        <user password="password" roles="manager-gui, manager-script" username="tomcat"/>
-      </tomcat-users>
-
-   b) that user and password of the tomcat manager are defined in a corresponding
-      deployment (toolspec/deployments/deployment):
-
-      Tomcat 6.0.*:
-
-      <manager>
-        <user>tomcat</user>
-        <password>password</password>
-        <path>manager</path>
-      </manager>
-
-      Tomcat 7.* (Note that the manager context changed in version 7!):
-
-      <manager>
-        <user>tomcat</user>
-        <password>password</password>
-        <path>manager/text</path>
-      </manager>
-
-      and that the deployment is referenced in the
-      toolspec/services/service/deployto section:
-
-      <deployto>
-        <deployref default="true" ref="local"/>
-      </deployto>
-
-      Make sure a deployment with the corresponding id of the referenced
-      deployment exists, e.g. for the deployment reference above a deployment
-      with the id "local" must exist:
-
-     <deployment id="local">
-       ...
-     </deployment>
-
-     
-     Keep in mind to adapt:
-	<dataexchange>
-		<accessdir>tomcat-install-dir/webapps/ROOT/scape/tmp/
-     </accessdir>
-     appropriately to your environment. 
-
-     Remember to regenerate the project if you made and changes in this section!
- 
-     
-
-4) Change to the directory where the sample project has been generated:
-
-       cd xa-toolwrapper/generated/simplecopy10
-
-   and then deploy the example service:
-
-       mvn tomcat:deploy
-
-   Note that multiple deployments are supported, using "tomcat:deploy" the
-   default deployment environment will be used (where the "deployref" element's
-   attribute "default" is true).
-
-   In case you want to deploy to another deployment environment, use the
-   corresponding profile by referencing the "id" attribute value of the
-   deployment, e.g.:
-
-       mvn tomcat:deploy -P deployment2
-
-   In case of success, the web application archive
-   generated/simplecopy10/target/scape-simplecopy10-service-0.3-SNAPSHOT.war
-   will be deployed to
-
-       http://localhost:8080/scape-simplecopy10-service
-
-   Alternatively, the web application archive can be installed:
-
-       mvn install
-
-   and deployed manually afterwards.
-
-   Note that if the application is already deployed, you must use
-
-       cd generated/simplecopy10
-       mvn tomcat:redeploy
-
-   otherwise you will get an error:
-
-     Cannot invoke Tomcat manager: FAIL - Application already exists at path
-     /scape-simplecopy10-service
-
-5) Accessing the Axis2 service:
+4) Accessing the Axis2 service:
 
    You can find the start page of the web application at:
 
