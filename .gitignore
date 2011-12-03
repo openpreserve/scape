@@ -29,7 +29,7 @@ nbactions.xml
 
 # Maven target directory #
 ##########################
-target/**/*
+target
 
 # Compiled Source #
 ###################
