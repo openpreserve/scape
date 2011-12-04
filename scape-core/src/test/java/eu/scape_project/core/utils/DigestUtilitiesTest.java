@@ -13,7 +13,7 @@ import java.net.URISyntaxException;
 
 import org.junit.Test;
 
-import eu.scape_project.core.AllCoreTests;
+import eu.scape_project.core.AllCoreTest;
 import org.apache.commons.codec.digest.DigestUtils;
 /**
  * @author <a href="mailto:carl.wilson.bl@gmail.com">Carl Wilson</a>
@@ -21,7 +21,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  *	   <a href="https://github.com/carlwilson-bl">carlwilson-bl@github</a>
  *
  */
-public class DigestUtilitiesTests {
+public class DigestUtilitiesTest {
 
     /**
      * Test method for {@link eu.scape_project.core.utils.DigestUtilities#byteDigestToHexString(byte[])}.
@@ -34,7 +34,7 @@ public class DigestUtilitiesTests {
     @Test
     public void testByteDigestToHexString() throws URISyntaxException, FileNotFoundException, IOException {
 	boolean dataTested = false;
-	for (File file : AllCoreTests.getFilesFromResourceDir(AllCoreTests.TEST_DATA_ROOT)) {
+	for (File file : AllCoreTest.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 	    String apacheHex = DigestUtils.md5Hex(new FileInputStream(file));
 	    String testHexVal = DigestUtilities.byteDigestToHexString(DigestUtils.md5(new FileInputStream(file)));
 	    assertEquals("apacheHex and testHextVal should be equal", apacheHex, testHexVal);
@@ -54,7 +54,7 @@ public class DigestUtilitiesTests {
     @Test
     public void testHexStringToByteArray() throws URISyntaxException, FileNotFoundException, IOException {
 	boolean dataTested = false;
-	for (File file : AllCoreTests.getFilesFromResourceDir(AllCoreTests.TEST_DATA_ROOT)) {
+	for (File file : AllCoreTest.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 	    byte[] apacheBytes = DigestUtils.md5(new FileInputStream(file));
 	    byte[] testBytes = DigestUtilities.hexStringToByteArray(DigestUtils.md5Hex(new FileInputStream(file)));
 	    

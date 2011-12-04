@@ -9,8 +9,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import eu.scape_project.core.model.JavaDigestValueTests;
-import eu.scape_project.core.utils.DigestUtilities;
+import eu.scape_project.core.model.JavaDigestValueTest;
+import eu.scape_project.core.utils.DigestUtilitiesTest;
 
 /**
  * @author <a href="mailto:carl.wilson.bl@gmail.com">Carl Wilson</a>
@@ -19,8 +19,8 @@ import eu.scape_project.core.utils.DigestUtilities;
  *
  */
 @RunWith(Suite.class)
-@SuiteClasses({DigestUtilities.class, JavaDigestValueTests.class})
-public class AllCoreTests {
+@SuiteClasses({DigestUtilitiesTest.class, JavaDigestValueTest.class})
+public class AllCoreTest {
     /** The root resource directory for the test data */
     public static String TEST_DATA_ROOT = "/eu/scape_project/test/data";
 
@@ -31,8 +31,8 @@ public class AllCoreTests {
      */
     public static List<File> getFilesFromResourceDir(String dirName) throws URISyntaxException {
     	// OK get the resource directory as a file from the URL
-        File dir = new File(AllCoreTests.class.getResource(dirName).toURI());
-        return AllCoreTests.getFilesFromDir(dir);
+        File dir = new File(AllCoreTest.class.getResource(dirName).toURI());
+        return AllCoreTest.getFilesFromDir(dir);
     }
 
     private static List<File> getFilesFromDir(File dir) {

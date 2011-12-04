@@ -19,7 +19,7 @@ import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
-import eu.scape_project.core.AllCoreTests;
+import eu.scape_project.core.AllCoreTest;
 import eu.scape_project.core.api.DigestValue;
 
 /**
@@ -29,7 +29,7 @@ import eu.scape_project.core.api.DigestValue;
  * 
  *         Test class for the digest value class, using apache.commons.codec to test Java implementation.
  */
-public class JavaDigestValueTests {
+public class JavaDigestValueTest {
 
     /**
      * Test method for {@link eu.scape_project.core.model.JavaDigestValue#hashCode()}.
@@ -43,8 +43,8 @@ public class JavaDigestValueTests {
     public void testHashCode() throws FileNotFoundException,
 	    URISyntaxException, IOException {
 	boolean dataTested = false;
-	for (File file : AllCoreTests
-		.getFilesFromResourceDir(AllCoreTests.TEST_DATA_ROOT)) {
+	for (File file : AllCoreTest
+		.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 	    JavaDigestValue apacheValue = JavaDigestValue
 		    .getInstance(DigestValue.MD5,
 			    DigestUtils.md5(new FileInputStream(file)));
@@ -75,8 +75,8 @@ public class JavaDigestValueTests {
     public void testGetAlgorithmId() throws FileNotFoundException,
 	    URISyntaxException, IOException {
 	boolean dataTested = false;
-	for (File file : AllCoreTests
-		.getFilesFromResourceDir(AllCoreTests.TEST_DATA_ROOT)) {
+	for (File file : AllCoreTest
+		.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 	    JavaDigestValue apacheValue = JavaDigestValue.getInstance(
 		    DigestValue.SHA1,
 		    DigestUtils.sha(new FileInputStream(file)));
@@ -107,8 +107,8 @@ public class JavaDigestValueTests {
     public void testGetHexDigest() throws FileNotFoundException,
 	    URISyntaxException, IOException {
 	boolean dataTested = false;
-	for (File file : AllCoreTests
-		.getFilesFromResourceDir(AllCoreTests.TEST_DATA_ROOT)) {
+	for (File file : AllCoreTest
+		.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 	    JavaDigestValue apacheValue = JavaDigestValue
 		    .getInstance(DigestValue.MD5,
 			    DigestUtils.md5(new FileInputStream(file)));
@@ -140,8 +140,8 @@ public class JavaDigestValueTests {
     public void testGetDigest() throws FileNotFoundException,
 	    URISyntaxException, IOException {
 	boolean dataTested = false;
-	for (File file : AllCoreTests
-		.getFilesFromResourceDir(AllCoreTests.TEST_DATA_ROOT)) {
+	for (File file : AllCoreTest
+		.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 	    JavaDigestValue apacheValue = JavaDigestValue.getInstance(
 		    DigestValue.SHA1,
 		    DigestUtils.sha(new FileInputStream(file)));
@@ -173,8 +173,8 @@ public class JavaDigestValueTests {
     @Test
     public void testXmlSerialization() throws FileNotFoundException, URISyntaxException, IOException, JAXBException {
 	boolean dataTested = false;
-	for (File file : AllCoreTests
-		.getFilesFromResourceDir(AllCoreTests.TEST_DATA_ROOT)) {
+	for (File file : AllCoreTest
+		.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 	    JavaDigestValue apache256Value = JavaDigestValue
 		    .getInstance(DigestValue.SHA256,
 			    DigestUtils.sha256(new FileInputStream(file)));
@@ -204,16 +204,14 @@ public class JavaDigestValueTests {
     @Test
     public void testEqualsObject() throws FileNotFoundException, URISyntaxException, IOException, JAXBException {
 	boolean dataTested = false;
-	for (File file : AllCoreTests
-		.getFilesFromResourceDir(AllCoreTests.TEST_DATA_ROOT)) {
+	for (File file : AllCoreTest
+		.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 	    JavaDigestValue apache256Value = JavaDigestValue
 		    .getInstance(DigestValue.SHA256,
 			    DigestUtils.sha256(new FileInputStream(file)));
 	    JavaDigestValue testValue = JavaDigestValue.getInstance(
 		    DigestValue.MD5, file);
-	    System.out.println(testValue.toString());
 	    JavaDigestValue xmlTestValue = JavaDigestValue.getInstance(testValue.toXml());
-	    System.out.println(xmlTestValue.toString());
 	    assertTrue(
 		    "testValue and xmlTestValue should be equal",
 		    testValue.equals(xmlTestValue));
