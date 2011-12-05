@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="src/main/resources/toolspec.xsd">
+    <id>copy</id>
+    <name>Copy</name>
+    <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
+    <version>1.0</version>
+    <installation>
+        <os type="linux">
+            Available by default.
+        </os>
+        <os type="windows">
+            Use "CMD.exe /C COPY" instead of "/bin/cp" in the commands defined below.
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="Extract features" type="migrate" contextpathprefix="/wscapeservices" servicepackage="eu.scape_project.pc.services">
+            <description>Service for feature extraction from image files</description>
+            <operations>
+                <operation oid="1" name="extractFeatures">
+                    <description>Extracts image file features</description>
+                    <command>extractfeatures.bat ${input} ${output}</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://localhost:8080/testbild1.jpg</Default>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output</CliMapping>
+                            <Required>false</Required>
+                            <Default>http://localhost:8080/testbild1.xml</Default>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>xml</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+                <operation oid="2" name="compare">
+                    <description>Compares image file features</description>
+                    <command>compare.bat ${input1} ${input2} ${output}</command>
+                    <inputs>
+                        <input name="input1">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://localhost:8080/testbild1.xml</Default>
+                            <CliMapping>input1</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                        </input>
+                        <input name="input2">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://localhost:8080/testbild1c.xml</Default>
+                            <CliMapping>input2</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output</CliMapping>
+                            <Required>false</Required>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input1</PrefixFromInput>
+                            <Extension>xml</Extension>
+                        </output>
+                    </outputs>
+                </operation>				
+            </operations>
+            <deployto>
+                <deployref default="true" ref="local"/>
+            </deployto>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/instances/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>tomcat</password>
+		        <path>manager</path>
+            </manager>
+            <dataexchange>
+                <accessdir>../webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>

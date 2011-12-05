@@ -13,8 +13,8 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package ${global_package_name}.proc;
-//package eu.scape_project.pc.services.proc;
+//package ${global_package_name}.proc;
+package eu.scape_project.pc.services.proc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -180,36 +180,22 @@ public class CommandLineProcess {
         // assign return code from process controller
         code = pr.getReturnCode();
         //String toolMsg = FileUtils.getStringFromInputStream(pr.getStdInputStream());
-        StringWriter writer = new StringWriter();
-        if (pr.getProcessOutput() != null) {
+        StringWriter stdWriter = new StringWriter();
+        InputStream stdIs = pr.getProcessOutput();
+        if (stdIs != null) {
             try {
-                IOUtils.copy(pr.getProcessOutput(), writer);
+                IOUtils.copy(stdIs, stdWriter);
             } catch (IOException ex) {
                 logger.warn("Unable to read standard output of tool message");
             }
-            String toolMsg = writer.toString();
-            output = toolMsg;
+            String toolMsg = stdWriter.toString();
             if (toolMsg != null && !toolMsg.equals("")) {
+                toolMsg = "Tool message: \n"+ toolMsg;
+            output = toolMsg;
                 debuglog(toolMsg);
             }
         }
         infolog("Assigned exit code: " + code + "");
-        if (pr.getProcessError() != null) {
-            try {
-                IOUtils.copy(pr.getProcessError(), writer);
-            } catch (IOException ex) {
-                logger.warn("Unable to read standard output of tool message");
-            }
-            String toolMsg = writer.toString();
-            if (output == null || output.equals("")) {
-                output = toolMsg;
-            } else {
-                output += toolMsg;
-            }
-            if (toolMsg != null && !toolMsg.equals("")) {
-                debuglog(toolMsg);
-            }
-        }
         return code;
     }
 

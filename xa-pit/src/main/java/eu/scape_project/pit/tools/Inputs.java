@@ -16,11 +16,8 @@ public class Inputs {
 	@XmlAttribute
 	private Boolean useStdin = false;
 
-	@XmlElement
+	@XmlElement( name="input" )
 	private List<Input> inputs;
-
-	@XmlAnyElement
-	private List<Element> elements;
 
 	/**
 	 * @return the useStdin
@@ -46,22 +43,8 @@ public class Inputs {
 	/**
 	 * @param parameters the parameters to set
 	 */
-	public void setInputs(List<Input> parameters) {
-		this.inputs = parameters;
+	public void setInputs(List<Input> inputs) {
+		this.inputs = inputs;
 	}
 
-	/**
-	 * @return the elements
-	 */
-	public List<Element> getElements() {
-		return elements;
-	}
-
-	/**
-	 * @param elements the elements to set
-	 */
-	public void setElements(List<Element> elements) {
-		this.elements = elements;
-	}
-	
 }

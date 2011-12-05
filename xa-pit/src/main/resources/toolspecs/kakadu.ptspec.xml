@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toolspec id="pit-buildin-kakadu">
+<toolspec xmlns="http://www.scape-project.eu/schemas/2011/11/16/toolspec" id="pit-buildin-kakadu"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="target/generated-schema/toolspec.xsd">
   <tool>
     <name>Kakadu</name>
 

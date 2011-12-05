@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toolspec>
+<toolspec xmlns="http://www.scape-project.eu/schemas/2011/11/16/toolspec">
   <!-- A unique ID for this tool spec. -->
   <id>pit-buildin-file</id>
   <!-- The version for this tool spec. -->
@@ -37,15 +37,31 @@
 	  <!-- All datatypes are xsd:string by default. -->
 	  <datatype>xsd:string</datatype>
 	</input>
-	<misc>
+	<input name="xmlblob">
+	  <documentation>this is an example of attempting to map a parameter as a blob of xml.</documentation>
+	  <xml>
+  	   <misc>
 		<test>tester</test>
-	</misc>
+  	   </misc>
+	  </xml>
+	</input>
+	<xml-inputs>
+	   <!-- The idea here would be to allow a set of parameters to be defined as XML (e.g. misc.test = tester) -->
+	   <!-- This could perhaps also be supported from the above example, using xmlblob.misc.test = tester -->
+  	   <misc>
+		<test>tester</test>
+  	   </misc>
+	</xml-inputs>
   </inputs>
  
   <!-- Actions -->
   <action type="identify" id="file-stdin">
   	<command>file -</command>
-  	<!--  ideas  -->
+  	<inputs useStdin="true"/>
+  </action>
+
+  <action type="identify" id="file-mime-stdin">
+  	<command>file -b --mime-type -</command>
   	<inputs useStdin="true"/>
   </action>
 

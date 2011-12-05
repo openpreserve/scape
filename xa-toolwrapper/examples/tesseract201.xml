@@ -13,7 +13,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="Tesseract" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+        <service sid="1" name="Tesseract" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/wscapeservices">
             <description>Service for copying files</description>
             <operations>
                 <operation oid="1" name="ocr">
@@ -23,23 +23,23 @@
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/bookpage.tif</Default>
                             <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
+                            <Default>http://localhost:8080/scape/testdata/bookpage.tif</Default>
                         </input>
                         <input name="langmod">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
-                            <Default>spa</Default>
                             <CliMapping>langmod</CliMapping>
                             <Documentation>Language module to be used by tesseract</Documentation>
+                            <Default>spa</Default>
                         </input>
                     </inputs>
                     <outputs>
                         <output name="output">
                             <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>output</CliMapping>
                             <Required>false</Required>
+                            <CliMapping>output</CliMapping>
                             <Documentation>URL reference to output file</Documentation>
                             <Extension>txt</Extension>
                             <AutoExtension>true</AutoExtension>
@@ -65,6 +65,7 @@
                 <password>tomcat</password>
 		<path>manager</path>
             </manager>
+            <toolsbasedir></toolsbasedir>
             <dataexchange>
                 <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>

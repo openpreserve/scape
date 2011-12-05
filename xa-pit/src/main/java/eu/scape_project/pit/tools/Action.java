@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author Andrew Jackson <Andrew.Jackson@bl.uk>
  *
  */
+@XmlType( namespace=ToolSpec.NS )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Action {
 
@@ -35,7 +36,6 @@ public class Action {
 	@XmlElement()
 	private Inputs inputs;
 	
-
 	private List<PathwaySpec> formats;
 
 	
@@ -99,6 +99,18 @@ public class Action {
 		this.formats = formats;
 	}
 
-	
+	/**
+	 * @return the inputs
+	 */
+	public Inputs getInputs() {
+		return inputs;
+	}
+
+	/**
+	 * @param inputs the inputs to set
+	 */
+	public void setInputs(Inputs inputs) {
+		this.inputs = inputs;
+	}
 
 }

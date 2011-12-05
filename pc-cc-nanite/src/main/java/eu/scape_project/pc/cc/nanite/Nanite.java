@@ -116,6 +116,18 @@ public class Nanite {
 	}
 
 	/**
+	 * @return The version of the binary signature file that is in use.
+	 */
+	public int getBinarySigFileVersion() {
+		try {
+			return sm.getDefaultSignatures().get(SignatureType.BINARY).getVersion();
+		} catch (SignatureFileException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	/**
 	 * 
 	 * @param ir
 	 * @return
@@ -228,6 +240,7 @@ public class Nanite {
 		IdentificationRequest ir = createInputStreamIdentificationRequest(file.toURI(), new FileInputStream(file) );		
 
 		Nanite nan = new Nanite();
+		System.out.println("Nanite using binary sig. file version "+nan.getBinarySigFileVersion());
 		
 		IdentificationResultCollection resultCollection = nan.identify(ir);
 		//System.out.println("MATCHING: "+resultCollection.getResults());

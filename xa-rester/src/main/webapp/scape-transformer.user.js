@@ -21,6 +21,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 
+Switch to:
+  http://userscripts.org/scripts/review/4912
+using
+  if (e.metaKey || e.ctrlKey) to present alternative context menu.
+see also
+  https://developer.mozilla.org/en/XUL/PopupGuide/ContextMenus
+
 CHANGELOG
 	Version 0.1
 	- initial release, ...

@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -29,10 +31,26 @@ public class Processor {
 	
 	protected Action action;
 
-	public Processor( String toolspec_id, String action_id ) throws ToolSpecNotFoundException {
+	private In stdin;
+
+	public Processor( ToolSpec ts, Action action ) {
+		this.ts = ts;
+		this.action = action;
+	}
+
+	/*
+	 * Factory
+	 */
+	public static Processor createProcessor( String toolspec_id, String action_id ) throws ToolSpecNotFoundException, CommandNotFoundException {
 		try {
-			ts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec.xml"));
-			this.action = this.findTool(action_id);
+			ToolSpec ts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec.xml"));
+			Action action = Processor.findTool(ts, action_id);
+			// Create the right class:
+			if( "identify".equals( action.getType() ) ) {
+				return new Identify(ts,action);
+			} else {
+				return new Processor(ts,action);
+			}
 		} catch (FileNotFoundException e) {
 			throw new ToolSpecNotFoundException("Toolspec "+toolspec_id+" not found!", e);
 		} catch (JAXBException e) {
@@ -41,11 +59,10 @@ public class Processor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Inputs "+ts.getInputs().getInputs());
-		System.out.println("Inputs "+ts.getInputs().getElements());
+		return null;
 	}
 	
-	protected Action findTool( String command_id ) throws CommandNotFoundException {
+	protected static Action findTool( ToolSpec ts, String command_id ) throws CommandNotFoundException {
 		Action cmd = null;
 		for( Action c : ts.getActions() ) {
 			if( c.getId() != null && c.getId().equals(command_id) ) cmd = c;
@@ -67,10 +84,21 @@ public class Processor {
 		pb.redirectErrorStream(true);
 		Process start = pb.start();
 		try {
-			// Needs time-out. 
+			//copy input stream to output stream
+			if( this.stdin != null ) {
+				IOUtils.copyLarge(this.stdin.getInputStream(),  start.getOutputStream() );
+				start.getOutputStream().close();
+				System.out.println("Data in...");
+			}
+			
+			// Copy the OutputStream:
+			StringWriter sw = new StringWriter();
 			InputStream procStdout = start.getInputStream();
-			IOUtils.copy( procStdout , System.out);
-			// Moved here, as will not finish until start.getInputStream is called (?)
+			IOUtils.copy( procStdout , sw);
+			System.out.println(sw.toString());
+			
+			// Wait for completion:
+			// FIXME Needs time-out. 			
 			int waitFor = start.waitFor();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -90,7 +118,7 @@ public class Processor {
 		return cmd_template;
 	}
 	
-	protected HashMap<String,String> getStandardVars( Action cmd, File input ) throws IOException {
+	protected HashMap<String,String> getStandardVars( Action cmd ) throws IOException {
 		// Now substiture the parameters into the templates.
 		HashMap<String,String> vars = new HashMap<String,String>();
 		if( ts.getInputs() != null ) {
@@ -98,9 +126,7 @@ public class Processor {
 				vars.put(v.getVar(), v.getDefault());
 			}
 		}
-		// TODO Check input file exists!
 		// Create standard parameters.
-		vars.put("input", input.getAbsolutePath());
 		vars.put("logFile", File.createTempFile(ts.getTool().getName()+"-"+cmd.getId(), ".log").getAbsolutePath());
 		return vars;
 	}
@@ -108,21 +134,25 @@ public class Processor {
 	protected void replaceAll(String[] cmd_template, HashMap<String,String> vars) {
 		for( int i = 0; i < cmd_template.length; i++ ) {
 			for( String key : vars.keySet() ) {
-				String matchTo = Pattern.quote("${"+key+"}");
-				cmd_template[i] = cmd_template[i].replaceAll(matchTo, vars.get(key).replace("\\", "\\\\") );
+				// Something is inserting a null,null pair into the map - ignoring it here:
+				if( key != null && vars.get(key) != null ) {
+					String matchTo = Pattern.quote("${"+key+"}");
+					System.out.println("GOT "+key+" "+vars.get(key));
+					cmd_template[i] = cmd_template[i].replaceAll(matchTo, vars.get(key).replace("\\", "\\\\") );
+				}
 			}
 		}
 	}
 
-	public HashMap<String,String> getParameterMap() {
+	public HashMap<String,String> getInputs() {
 		HashMap<String, String> vars = new HashMap<String, String>();
 		return vars;
 	}
 	
-	public void getParameters() {
+	private void setStdin(In input) {
+		this.stdin = input;
 	}
-	
-	
+
 	/**
 	 * Generic invocation method:
 	 * @param command_id
@@ -132,8 +162,7 @@ public class Processor {
 	 */
 	public void execute( HashMap<String,String> parameters) throws IOException, CommandNotFoundException {
 		String[] cmd_template = substituteTemplates(action);
-		// FIXME This is the part that needs close consideration - See README
-		HashMap<String, String> vars = getStandardVars(action, new File(parameters.get("input")));
+		HashMap<String, String> vars = getStandardVars(action);
 		
 		for( String key : vars.keySet() ) {
 			System.out.println("Key: "+key+" = "+vars.get(key));
@@ -146,7 +175,64 @@ public class Processor {
 		runCommand(cmd_template);
 	}
 	
-	public void execute( InputStream in, HashMap<String,String> inputs ) {
+	public void execute( In input, HashMap<String,String> parameters ) throws IOException {
+		String[] cmd_template = substituteTemplates(action);
+		HashMap<String, String> vars = getStandardVars(action);
+		
+		// TODO Check input file exists!
+		// For one input, we map like this, or support StdIn.
+		if( getUseStdin() ) {
+			this.setStdin(input);
+		} else {
+			vars.put("input", input.getFile().getAbsolutePath());
+		}
+		
+		// Now substitute the parameters:
+		replaceAll(cmd_template,vars);
+
+		// Now run the command:
+		runCommand(cmd_template);
+	}
+	
+	public boolean getUseStdin() {
+		if( ts.getInputs() != null ) return ts.getInputs().getUseStdin();
+		if( action.getInputs() != null ) return action.getInputs().getUseStdin();
+		return false;
+	}
+	
+	public void execute( In input1, In input2, HashMap<String,String> parameters ) throws IOException {
+		String[] cmd_template = substituteTemplates(action);
+		HashMap<String, String> vars = getStandardVars(action);
+
+		// Special parameters for this form:
+		vars.put("input1", input1.getFile().getAbsolutePath());
+		vars.put("input2", input2.getFile().getAbsolutePath());
+		
+		// Now substitute the parameters:
+		replaceAll(cmd_template,vars);
+
+		// Now run the command:
+		runCommand(cmd_template);		
+	}
+	
+	public void execute( In input, Out output, HashMap<String,String> parameters ) throws IOException {
+		String[] cmd_template = substituteTemplates(action);
+		HashMap<String, String> vars = getStandardVars(action);
+
+		// Special parameters for this form:
+		// For one input, we map like this, or support StdIn.
+		if( ts.getInputs().getUseStdin() || action.getInputs().getUseStdin() ) {
+			this.setStdin(input);
+		} else {
+			vars.put("input", input.getFile().getAbsolutePath());
+		}
+		vars.put("output", output.getFile().getAbsolutePath());
+		
+		// Now substitute the parameters:
+		replaceAll(cmd_template,vars);
+
+		// Now run the command:
+		runCommand(cmd_template);		
 		
 	}
 	

@@ -1,0 +1,5 @@
+// Mapping of variable ${input_variable} with null replacement value
+        String ${input_variable}UrlStr = (${input_variable}Url==null)?"http://null":${input_variable}Url.toString();
+        String ${input_variable}Val = (${input_variable}File != null && ${input_variable}File.exists()
+            && !${input_variable}UrlStr.equals("http://null"))?${input_variable}File.getAbsolutePath():"${clireplacement}";
+        cliCmdKeyValPairs.put("${input_variable}", ${input_variable}Val);

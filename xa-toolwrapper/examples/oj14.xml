@@ -33,51 +33,51 @@
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://fue.onb.ac.at/scape/testdata/19080603_0018.tif</Default>
                             <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
+                            <Default>http://fue.onb.ac.at/scape/testdata/19080603_0018.tif</Default>
                         </input>
                         <input name="compression">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
-                            <Default>20,10,1</Default>
                             <CliMapping>compression</CliMapping>
                             <Documentation>Different compression ratios for successive layers - The rate specified for each quality level is the desired compression factor. Example: 20,10,1 means compress 20x, 10x, and lossless.</Documentation>
+                            <Default>20,10,1</Default>
                         </input>
                         <input name="resolutions">
                             <Datatype>xsd:int</Datatype>
                             <Required>true</Required>
-                            <Default>3</Default>
                             <CliMapping>resolutions</CliMapping>
                             <Documentation>Number of resolutions</Documentation>
+                            <Default>3</Default>
                         </input>
                         <input name="tileSize">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
-                            <Default>512,512</Default>
                             <CliMapping>tileSize</CliMapping>
                             <Documentation>Size of tile, e.g. 512,512</Documentation>
+                            <Default>512,512</Default>
                         </input>
                         <input name="codeBlockSize">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
-                            <Default>32,32</Default>
                             <CliMapping>codeBlockSize</CliMapping>
                             <Documentation>Size of code block, e.g. 32,32</Documentation>
+                            <Default>32,32</Default>
                         </input>
                         <input name="progressionOrder">
                             <Datatype>xsd:string</Datatype>
                             <Required>true</Required>
-                            <Default>LRCP</Default>
                             <CliMapping>progressionOrder</CliMapping>
                             <Documentation>Progression order, e.g. LRCP, one of LRCP, RLCP, RPCL, PCRL, CPRL</Documentation>
+                            <Default>LRCP</Default>
                         </input>
                     </inputs>
                     <outputs>
                         <output name="output">
                             <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>output</CliMapping>
                             <Required>false</Required>
+                            <CliMapping>output</CliMapping>
                             <Documentation>URL reference to output file</Documentation>
                             <PrefixFromInput>input</PrefixFromInput>
                             <Extension>jp2</Extension>
@@ -91,16 +91,16 @@
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://fue.onb.ac.at/scape/testdata/19080603_0018.tif</Default>
                             <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
+                            <Default>http://fue.onb.ac.at/scape/testdata/19080603_0018.tif</Default>
                         </input>
                     </inputs>
                     <outputs>
                         <output name="output">
                             <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>output</CliMapping>
                             <Required>false</Required>
+                            <CliMapping>output</CliMapping>
                             <Documentation>URL reference to output file</Documentation>
                             <PrefixFromInput>input</PrefixFromInput>
                             <Extension>jp2</Extension>
@@ -126,6 +126,7 @@
                 <password>TxF781!P</password>
 		<path>manager</path>
             </manager>
+            <toolsbasedir></toolsbasedir>
             <dataexchange>
                 <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>

@@ -20,8 +20,8 @@
  *  under the License.
  */
 
-package ${global_package_name}.proc;
-//package eu.scape_project.pc.services.proc;
+//package ${global_package_name}.proc;
+package eu.scape_project.pc.services.proc;
 
 import java.io.*;
 import java.util.*;
@@ -215,7 +215,6 @@ public class ProcessRunner implements Runnable {
      *
      * @param maxOutput number of bytes to max collect.
      */
-
     public void setOutputCollectionByteSize(int maxOutput) {
         this.maxOutput = maxOutput;
     }
