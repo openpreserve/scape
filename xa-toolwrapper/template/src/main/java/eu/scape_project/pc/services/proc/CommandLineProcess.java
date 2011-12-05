@@ -14,6 +14,7 @@
  *   limitations under the License.
  */
 package ${global_package_name}.proc;
+//package eu.scape_project.pc.services.proc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -167,7 +168,7 @@ public class CommandLineProcess {
         if (cmd == null) {
             errorlog("No command defined. Unable to start command line process");
         } else {
-            pr.setCommandList(cmd);
+            pr.setCommand(cmd);
         }
     }
 
@@ -177,12 +178,12 @@ public class CommandLineProcess {
     public int execute() {
         pr.run();
         // assign return code from process controller
-        code = pr.getCode();
+        code = pr.getReturnCode();
         //String toolMsg = FileUtils.getStringFromInputStream(pr.getStdInputStream());
         StringWriter writer = new StringWriter();
-        if (pr.getStdInputStream() != null) {
+        if (pr.getProcessOutput() != null) {
             try {
-                IOUtils.copy(pr.getStdInputStream(), writer);
+                IOUtils.copy(pr.getProcessOutput(), writer);
             } catch (IOException ex) {
                 logger.warn("Unable to read standard output of tool message");
             }
@@ -193,9 +194,9 @@ public class CommandLineProcess {
             }
         }
         infolog("Assigned exit code: " + code + "");
-        if (pr.getErrInputStream() != null) {
+        if (pr.getProcessError() != null) {
             try {
-                IOUtils.copy(pr.getStdInputStream(), writer);
+                IOUtils.copy(pr.getProcessError(), writer);
             } catch (IOException ex) {
                 logger.warn("Unable to read standard output of tool message");
             }

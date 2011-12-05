@@ -21,23 +21,17 @@
  */
 
 package ${global_package_name}.proc;
+//package eu.scape_project.pc.services.proc;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+
 /**
- * ProcessRunner class.
  * <p>Native command executor. Based on ProcessBuilder.
  * <ul>
  * <li> Incorporates timeout for spawned processes.
@@ -48,12 +42,12 @@ import org.slf4j.LoggerFactory;
  * <li> Implements Runnable, to be wrapped in a Thread.
  * </ul>
  * </p>
- *
+ * <p/>
  * Use the Assessor methods to configure the Enviroment, input, collecting
  * behavoiur, timeout and startingDir.
  * Use the getters to get the output and error streams as strings, along with
  * the return code and if the process timed out.
- *
+ * <p/>
  * <p> This code is not yet entirely thread safe. Be sure to only call a given
  * processRunner from one thread, and do not reuse it. </p>
  *
@@ -65,236 +59,427 @@ import org.slf4j.LoggerFactory;
  * @version ${global_wrapper_version}
  */
 public class ProcessRunner implements Runnable {
-
-    /** Maximum number of bytes to be collected from std out */
-    public static final int MAX_BYTES_OUT = 2000000;
-    /** Time to wait */
-    public static final int WAIT = 100;
-    //public static final long MAX_EXECUTION_TIME = (5 * 60 * 1000);
-    public static final int MAX_WAIT_MILLIS = 1000;
-    private static Logger logger = LoggerFactory.getLogger(ProcessRunner.class.getName());
-    /** Based on ProcessBuilder which actually takes the command array */
-    private final ProcessBuilder pb;
-    /** The list of threads the process controller owns */
-    private final List<Thread> threads =
-            Collections.synchronizedList(new LinkedList<Thread>());
-    /** Input stream to submit further input to the command line process */
-    private InputStream processInputStream = null;
-    /** Standard output stream of the process */
-    private InputStream standardInputStream = null;
-    /** Error stream of the process */
-    private InputStream errorInputStream = null;
-    /** Return code of the process */
-    private int code; // -1 means "undefined", 0 success, >0 error
-
-    {
-        code = -1; // -1 means "undefined", 0 success, >0 error
-    }
+    private InputStream processInput = null;
+    private InputStream processOutput = null;
+    private InputStream processError = null;
 
     /**
-     * Constructor which initialises the process builder
+     * The threads that polls the output from the commands. When a thread is
+     * finished, it removes itself from this list.
+     */
+    private final List<Thread> threads =
+            Collections.synchronizedList(new LinkedList<Thread>());
+
+    private final int MAXINITIALBUFFER = 1000000;
+    private final int THREADTIMEOUT = 1000; // Milliseconds
+    private final int POLLING_INTERVAL = 100;//milli
+
+    private final ProcessBuilder pb;
+
+    //   private final Object locker = new Object();
+
+    private long timeout = Long.MAX_VALUE;
+
+    private boolean collect = true;
+    private int maxOutput = 31000;
+    private int maxError = 31000;
+    private int return_code;
+    private boolean timedOut;
+
+    /**
+     * Create a new ProcessRunner. Cannot run, until you specify something with
+     * the assessor methods.
      */
     public ProcessRunner() {
         pb = new ProcessBuilder();
     }
 
     /**
-     * Constructor which takes the command list
-     * @param commands
+     * Create a new ProcessRunner with just this command, with no arguments.
+     * Spaces are not allowed in the
+     * string
+     *
+     * @param command the command to run
      */
-    public ProcessRunner(List<String> commands) {
+    public ProcessRunner(String command) {
         this();
-        setCommandList(commands);
+        List<String> l = new ArrayList<String>();
+        l.add(command);
+        setCommand(l);
     }
 
     /**
-     * Set the command list that will be passed to the process builder
-     * @param commands Command list
+     * Create a new ProcessRunner with the given command. Each element in the
+     * list should be a command or argument. If the element should not be parsed
+     * enclose it in \"'s.
+     *
+     * @param commands the command to run
      */
-    public void setCommandList(List<String> commands) {
+    public ProcessRunner(List<String> commands) {
+        this();
+        setCommand(commands);
+    }
+
+    /**
+     * Create a new ProcessRunner with the given command and arguments.
+     * The first arguments is the command to execute and the remaining
+     * are any arguments to pass.
+     *
+     * @param commands The command and arguments
+     */
+    public ProcessRunner(String... commands) {
+        this(Arrays.asList(commands));
+    }
+
+    /**
+     * Sets the enviroment that the process should run in. For the the equivalent
+     * to the command
+     * <pre>
+     * export FLIM=flam
+     * echo $FLIM
+     * </pre>
+     * put "FLIM","flam" in the enviroment.
+     *
+     * @param enviroment The Map containing the mapping in the enviroment.
+     */
+    public void setEnviroment(Map<String, String> enviroment) {
+        if (enviroment != null) {
+            Map<String, String> env = pb.environment();
+            env.putAll(enviroment);
+        }
+    }
+
+    /**
+     * Set the inputstream, from which the process should read. To be
+     * used if you need to give commands to the process, after it has
+     * begun.
+     *
+     * @param processInput to read from.
+     */
+    public void setInputStream(InputStream processInput) {
+        this.processInput = processInput;
+    }
+
+    /**
+     * The directory to be used as starting dir. If not set, uses the dir of the
+     * current process.
+     *
+     * @param startingDir the starting dir.
+     */
+    public void setStartingDir(File startingDir) {
+        pb.directory(startingDir);
+    }
+
+
+    /**
+     * Set the command for this ProcessRunner
+     *
+     * @param commands the new command.
+     */
+    public void setCommand(List<String> commands) {
         pb.command(commands);
     }
 
     /**
-     * Set process input stream
-     * @param processInputStream Process input stream
+     * Set the timeout. Default to Long.MAX_VALUE in millisecs
+     *
+     * @param timeout the new timeout in millisecs
      */
-    public synchronized void setProcessInputStream(InputStream processInputStream) {
-        this.processInputStream = processInputStream;
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
     }
 
     /**
-     * Get input stream of the process
-     * @return Input stream
+     * Decide if the outputstreams should be collected. Default true, ie, collect
+     * the output.
+     *
+     * @param collect should we collect the output
      */
-    public InputStream getStdInputStream() {
-        return standardInputStream;
+    public void setCollection(boolean collect) {
+        this.collect = collect;
     }
 
     /**
-     * Get error stream of the process
-     * @return Error stream
+     * How many bytes should we collect from the ErrorStream. Will block when
+     * limit is reached. Default 31000. If set to negative values, will collect until out of memory.
+     *
+     * @param maxError number of bytes to max collect.
      */
-    public InputStream getErrInputStream() {
-        return errorInputStream;
+    public void setErrorCollectionByteSize(int maxError) {
+        this.maxError = maxError;
     }
 
     /**
-     * Get process return code
-     * @return Return code
+     * How many bytes should we collect from the OutputStream. Will block when
+     * limit is reached. Default 31000; If set to negative values, will collect until out of memory.
+     *
+     * @param maxOutput number of bytes to max collect.
      */
-    public int getCode() {
-        return code;
+
+    public void setOutputCollectionByteSize(int maxOutput) {
+        this.maxOutput = maxOutput;
     }
 
     /**
-     * Run the process
+     * The OutputStream will either be the OutputStream directly from the
+     * execution of the native commands or a cache with the output of the
+     * execution of the native commands
+     *
+     * @return the output of the native commands.
+     */
+    public InputStream getProcessOutput() {
+        return processOutput;
+    }
+
+    /**
+     * The OutputStream will either be the error-OutputStream directly from the
+     * execution of the native commands  or a cache with the error-output of
+     * the execution of the native commands
+     *
+     * @return the error-output of the native commands.
+     */
+    public InputStream getProcessError() {
+        return processError;
+    }
+
+    /**
+     * Get the return code of the process. If the process timed out and was
+     * killed, the return code will be -1. But this is not exclusive to this
+     * scenario, other programs can also use this return code.
+     *
+     * @return the return code
+     */
+    public int getReturnCode() {
+        return return_code;
+    }
+
+    /**
+     * Tells whether the process has timedout. Only valid after the process has
+     * been run, of course.
+     *
+     * @return has the process timed out.
+     */
+    public boolean isTimedOut() {
+        return timedOut;
+    }
+
+    /**
+     * Return what was printed on the output channel of a _finished_ process,
+     * as a string, including newlines
+     *
+     * @return the output as a string
+     */
+    public String getProcessOutputAsString() {
+        return getStringContent(getProcessOutput());
+    }
+
+    /**
+     * Return what was printed on the error channel of a _finished_ process,
+     * as a string, including newlines
+     *
+     * @return the error as a string
+     */
+    public String getProcessErrorAsString() {
+        return getStringContent(getProcessError());
+    }
+
+
+    /**
+     * Wait for the polling threads to finish.
+     */
+    private void waitForThreads() {
+        long endTime = System.currentTimeMillis() + THREADTIMEOUT;
+        while (System.currentTimeMillis() < endTime && threads.size() > 0) {
+            try {
+                Thread.sleep(POLLING_INTERVAL);
+            } catch (InterruptedException e) {
+                // Ignore, as we are just waiting
+            }
+        }
+    }
+
+    /**
+     * Utility Method for reading a stream into a string, for returning
+     *
+     * @param stream the string to read
+     * @return A string with the contents of the stream.
+     */
+    private String getStringContent(InputStream stream) {
+        if (stream == null) {
+            return null;
+        }
+        BufferedInputStream in = new BufferedInputStream(stream, 1000);
+        StringWriter sw = new StringWriter(1000);
+        int c;
+        try {
+            while ((c = in.read()) != -1) {
+                sw.append((char) c);
+            }
+            return sw.toString();
+        } catch (IOException e) {
+            return "Could not transform content of stream to String";
+        }
+
+    }
+
+
+    /**
+     * Run the method, feeding it input, and killing it if the timeout is exceeded.
+     * Blocking.
      */
     public void run() {
         try {
             Process p = pb.start();
-            ByteArrayOutputStream stdOut =
-                    catchProcessOutput(p.getInputStream());
-            ByteArrayOutputStream errOut =
-                    catchProcessOutput(p.getErrorStream());
 
-            try {
-                code = execute(p);
-            } catch (InterruptedException e) {
-                logger.error("An interrupted exception occurred.", e);
+            if (collect) {
+                ByteArrayOutputStream pOut =
+                        collectProcessOutput(p.getInputStream(), this.maxOutput);
+                ByteArrayOutputStream pError =
+                        collectProcessOutput(p.getErrorStream(), this.maxError);
+                return_code = execute(p);
+                waitForThreads();
+                processOutput = new ByteArrayInputStream(pOut.toByteArray());
+                processError = new ByteArrayInputStream(pError.toByteArray());
+
+            } else {
+                processOutput = p.getInputStream();
+                processError = p.getErrorStream();
+                return_code = execute(p);
             }
-            waitFor();
-            standardInputStream = new ByteArrayInputStream(stdOut.toByteArray());
-            errorInputStream = new ByteArrayInputStream(errOut.toByteArray());
         } catch (IOException e) {
-            logger.error("An I/O error occurred while running the process.", e);
+            throw new RuntimeException("An io error occurred when running the command", e);
         }
     }
-   /**
-     * Initial dir of the process.
-     * @param processDirName Name of initial dir
-     */
-    public void setProcessDir(String processDirName){
-        File processDir = new File(processDirName);
-        pb.directory(processDir);
-    }
-    /**
-     * Execute process
-     * @param p Process
-     * @return int Process exit value
-     * @throws java.lang.InterruptedException
-     */
-    private synchronized int execute(Process p) throws InterruptedException {
-        submitProcessInput(p, processInputStream);
-        int exitValue;
-        // endless loop
+
+    private int execute(Process p) {
+        long startTime = System.currentTimeMillis();
+        feedProcess(p, processInput);
+        int return_value;
+
         while (true) {
+            //is the thread finished?
             try {
-                exitValue = p.exitValue();
-                logger.info("Exit code of process is: "+exitValue);
-                this.code = exitValue;
+                //then return
+                return_value = p.exitValue();
                 break;
-            } catch (IllegalThreadStateException ex) {
+            } catch (IllegalThreadStateException e) {
+                //not finished
             }
-        }
-        return exitValue;
-    }
-
-    /**
-     * Wait for the threads to terminate.
-     */
-    private synchronized void waitFor() {
-        long maxWait = System.currentTimeMillis() + MAX_WAIT_MILLIS;
-        while (System.currentTimeMillis() < maxWait && threads.size() > 0) {
+            //is the runtime exceeded?
+            if (System.currentTimeMillis() - startTime > timeout) {
+                //then return
+                p.destroy();
+                return_value = -1;
+                timedOut = true;
+                break;
+            }
+            //else sleep again
             try {
-                wait(WAIT);
+                Thread.sleep(POLLING_INTERVAL);
             } catch (InterruptedException e) {
+                //just go on.
             }
+
         }
+        return return_value;
+
     }
 
-    /**
-     * Collecting the process output.
-     * @param is Input stream
-     * @return Byte array output stream
-     */
-    private ByteArrayOutputStream catchProcessOutput(
-            final InputStream is) {
-        final ByteArrayOutputStream byteArrayInputOutputStream;
-        byteArrayInputOutputStream = new ByteArrayOutputStream();
+
+    private ByteArrayOutputStream collectProcessOutput(
+            final InputStream inputStream, final int maxCollect) {
+        final ByteArrayOutputStream stream;
+        if (maxCollect < 0) {
+            stream = new ByteArrayOutputStream();
+        } else {
+            stream = new ByteArrayOutputStream(Math.min(MAXINITIALBUFFER,
+                                                        maxCollect));
+        }
+
         Thread t = new Thread() {
-            @Override
             public void run() {
                 try {
-                    InputStream inpStream = null;
-                    OutputStream outpStream = null;
+                    InputStream reader = null;
+                    OutputStream writer = null;
                     try {
-                        inpStream = new BufferedInputStream(is);
-                        outpStream =
-                                new BufferedOutputStream(byteArrayInputOutputStream);
-                        int inputStreamChar;
+                        reader = new BufferedInputStream(inputStream);
+                        writer = new BufferedOutputStream(stream);
+                        int c;
                         int counter = 0;
-                        while ((inputStreamChar = inpStream.read()) != -1) {
+                        while ((c = reader.read()) != -1) {
                             counter++;
-                            if (counter < MAX_BYTES_OUT) {
-                                outpStream.write(inputStreamChar);
+                            if (maxCollect < 0 || counter < maxCollect) {
+                                writer.write(c);
                             }
                         }
                     } finally {
-                        if (inpStream != null) {
-                            inpStream.close();
+                        if (reader != null) {
+                            reader.close();
                         }
-                        if (outpStream != null) {
-                            outpStream.close();
+                        if (writer != null) {
+                            writer.close();
                         }
                     }
                 } catch (IOException e) {
-                    logger.error("An I/O error occurred while running the process.", e);
+                    // This seems ugly
+                    throw new RuntimeException("Couldn't read output from " +
+                                               "process.", e);
                 }
                 threads.remove(this);
             }
         };
+        t.setDaemon(true); // Allow the JVM to exit even if t is alive
         threads.add(t);
         t.start();
-        return byteArrayInputOutputStream;
+        return stream;
     }
 
-    /**
-     * Submit input data to the process after it has been started.
-     * @param process Process to input data
-     * @param processInput Input stream
-     */
-    private void submitProcessInput(final Process process,
-            InputStream processInput) {
+    private void feedProcess(final Process process,
+                             InputStream processInput) {
         if (processInput == null) {
+            // No complaints here - null just means no input
             return;
         }
-        final OutputStream processOutputStream = process.getOutputStream();
+
+        final OutputStream pIn = process.getOutputStream();
         final InputStream given = processInput;
-        Thread thread = new Thread() {
-            @Override
+        Thread t = new Thread() {
             public void run() {
                 try {
-                    OutputStream outputStream = null;
+                    OutputStream writer = null;
                     try {
-                        outputStream = new BufferedOutputStream(processOutputStream);
-                        int inputStreamChar;
-                        while ((inputStreamChar = given.read()) != -1) {
-                            if(outputStream != null)
-                            outputStream.write(inputStreamChar);
+                        writer = new BufferedOutputStream(pIn);
+                        int c;
+                        while ((c = given.read()) != -1) {
+                            writer.write(c);
                         }
                     } finally {
-                        if (outputStream != null) {
-                            outputStream.close();
+                        if (writer != null) {
+                            writer.close();
                         }
-                        processOutputStream.close();
+                        pIn.close();
                     }
-                } catch (IOException ex) {
-                    //logger.error("An I/O error occurred while running the process.", ex);
-                    // TODO: Throws exception, analyse why.
+                } catch (IOException e) {
+                    // This seems ugly
+                    throw new RuntimeException("Couldn't write input to " +
+                                               "process.", e);
                 }
             }
         };
-        thread.start();
+
+        Thread.UncaughtExceptionHandler u =
+                new Thread.UncaughtExceptionHandler() {
+                    public void uncaughtException(Thread t, Throwable e) {
+                        //Might not be the prettiest solution...
+                    }
+                };
+        t.setDaemon(true); // Allow the JVM to exit even if t lives
+        t.setUncaughtExceptionHandler(u);
+        t.start();
+
     }
 }
+
+
+
+
