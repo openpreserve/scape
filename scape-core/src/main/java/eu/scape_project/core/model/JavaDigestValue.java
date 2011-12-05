@@ -39,30 +39,26 @@ public class JavaDigestValue implements DigestValue, Serializable {
     private static final long serialVersionUID = 5509099783448173265L;
     private static final int BUFFER_SIZE = (32 * 1024);
     @XmlAttribute
-    URI algorithmId = null;
+    DigestAlgorithm algorithm;
     @XmlAttribute
-    String hexDigest = null;
+    String hexDigest;
 
     JavaDigestValue() {
 	/** Disable no arg constructor */
     }
 
-    JavaDigestValue(String algorithmId, String hexDigest) {
-	this.algorithmId = URI.create(DigestValue.ALGORITHM_ID_PREFIX + algorithmId);
+    JavaDigestValue(DigestAlgorithm algorithm, String hexDigest) {
+	this.algorithm = algorithm;
 	this.hexDigest = hexDigest;
     }
 
-    JavaDigestValue(String algorithmId, byte[] digest) {
-	this(algorithmId, DigestUtilities.byteDigestToHexString(digest));
-    }
-
-    JavaDigestValue(MessageDigest digest) {
-	this(digest.getAlgorithm(), digest.digest());
+    JavaDigestValue(DigestAlgorithm algorithm, byte[] digest) {
+	this(algorithm, DigestUtilities.byteDigestToHexString(digest));
     }
 
     @Override
     public URI getAlgorithmId() {
-	return this.algorithmId;
+	return this.algorithm.getId();
     }
 
     @Override
@@ -101,12 +97,13 @@ public class JavaDigestValue implements DigestValue, Serializable {
     }
 
 
+
     @Override
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
 	result = prime * result
-		+ ((algorithmId == null) ? 0 : algorithmId.hashCode());
+		+ ((algorithm == null) ? 0 : algorithm.hashCode());
 	result = prime * result
 		+ ((hexDigest == null) ? 0 : hexDigest.hashCode());
 	return result;
@@ -121,10 +118,7 @@ public class JavaDigestValue implements DigestValue, Serializable {
 	if (getClass() != obj.getClass())
 	    return false;
 	JavaDigestValue other = (JavaDigestValue) obj;
-	if (algorithmId == null) {
-	    if (other.algorithmId != null)
-		return false;
-	} else if (!algorithmId.equals(other.algorithmId))
+	if (algorithm != other.algorithm)
 	    return false;
 	if (hexDigest == null) {
 	    if (other.hexDigest != null)
@@ -148,73 +142,62 @@ public class JavaDigestValue implements DigestValue, Serializable {
     }
 
     /**
-     * @param algorithmId
-     *        the string id post-fix for the algorithm, i.e. MD5 or SHA256
+     * @param algorithm
+     *        the DigestAlgorithm to use
      * @param digest
      *        the calculated digest byte array
      * @return a new JavaDigestValue object.
      */
-    public static JavaDigestValue getInstance(String algorithmId, byte[] digest) {
-	return new JavaDigestValue(algorithmId, digest);
+    public static JavaDigestValue getInstance(DigestAlgorithm algorithm, byte[] digest) {
+	return new JavaDigestValue(algorithm, digest);
     }
 
     /**
-     * @param algorithmId
-     *        the string id post-fix for the algorithm, i.e. MD5 or SHA256
+     * @param algorithm
+     *        the DigestAlgorithm to use
      * @param hexDigest
      *        the calculated digest hex string
      * @return a new JavaDigestValue object.
      */
-    public static JavaDigestValue getInstance(String algorithmId,
+    public static JavaDigestValue getInstance(DigestAlgorithm algorithm,
 	    String hexDigest) {
-	return new JavaDigestValue(algorithmId, hexDigest);
-    }
-
-    /**
-     * Factory method that creates a new value from a java.security.MessageDigest.
-     * 
-     * @param digest
-     *        the java.security.MessageDigest that's been calced
-     * @return a new JavaDigestValue object
-     */
-    public static JavaDigestValue getInstance(MessageDigest digest) {
-	return new JavaDigestValue(digest);
+	return new JavaDigestValue(algorithm, hexDigest);
     }
 
     /**
      * @param byteStream
-     * @param algorithmId
+     * @param algorithm
      * @return a new JavaDigestValue object
      * @throws IOException
      */
-    public static JavaDigestValue getInstance(String algorithmId,
+    public static JavaDigestValue getInstance(DigestAlgorithm algorithm,
 	    InputStream byteStream) throws IOException {
 	try {
-	    MessageDigest digest = MessageDigest.getInstance(algorithmId);
+	    MessageDigest digest = MessageDigest.getInstance(algorithm.getJavaName());
 	    DigestInputStream dis = new DigestInputStream(byteStream, digest);
 	    BufferedInputStream bis = new BufferedInputStream(dis);
 	    byte[] buff = new byte[BUFFER_SIZE];
 	    while ((bis.read(buff, 0, BUFFER_SIZE)) != -1) {
 	    }
 	    bis.close();
-	    return new JavaDigestValue(digest);
+	    return new JavaDigestValue(algorithm, digest.digest());
 	} catch (NoSuchAlgorithmException e) {
 	    throw new IllegalArgumentException(
 		    "No java.security.MessageDigest algorithm for id:"
-			    + algorithmId, e);
+			    + algorithm.getJavaName(), e);
 	}
     }
 
     /**
      * @param file
-     * @param algorithmId
+     * @param algorithm
      * @return a new JavaDigestValue object
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static JavaDigestValue getInstance(String algorithmId, File file)
+    public static JavaDigestValue getInstance(DigestAlgorithm algorithm, File file)
 	    throws FileNotFoundException, IOException {
-	return JavaDigestValue.getInstance(algorithmId, new FileInputStream(
+	return JavaDigestValue.getInstance(algorithm, new FileInputStream(
 		file));
     }
 }

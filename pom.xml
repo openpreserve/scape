@@ -48,12 +48,11 @@
 		<url>git@github.com:openplanets/scape.git</url>
 	</scm>
 	<modules>
+		<module>scape-core</module>
+		<module>scape-java-services</module>
 		<module>xa-pit</module>
 		<module>xa-toolwrapper</module>
 		<module>pc-qa-bitwiser</module>
-		<module>scape-core</module>
-		<module>scape-services</module>
-		<module>scape-java-services</module>
 	</modules>
 	<!-- Global build options. -->
 	<properties>
