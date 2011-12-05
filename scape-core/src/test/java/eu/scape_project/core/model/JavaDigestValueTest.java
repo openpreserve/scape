@@ -20,7 +20,7 @@ import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 import eu.scape_project.core.AllCoreTest;
-import eu.scape_project.core.api.DigestValue;
+import eu.scape_project.core.api.DigestValue.DigestAlgorithm;
 
 /**
  * @author <a href="mailto:carl.wilson.bl@gmail.com">Carl Wilson</a> <a
@@ -47,12 +47,12 @@ public class JavaDigestValueTest {
 		for (File file : AllCoreTest
 				.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 			JavaDigestValue apacheValue = JavaDigestValue
-					.getInstance(DigestValue.MD5,
+					.getInstance(DigestAlgorithm.MD5,
 							DigestUtils.md5(new FileInputStream(file)));
 			JavaDigestValue testValue = JavaDigestValue.getInstance(
-					DigestValue.MD5, file);
+				DigestAlgorithm.MD5, file);
 			JavaDigestValue testSha256Value = JavaDigestValue.getInstance(
-					DigestValue.SHA256, file);
+				DigestAlgorithm.SHA256, file);
 			assertEquals(
 					"apacheValue.hash() and testValue.hash() should be equal",
 					apacheValue.hashCode(), testValue.hashCode());
@@ -79,12 +79,12 @@ public class JavaDigestValueTest {
 		for (File file : AllCoreTest
 				.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 			JavaDigestValue apacheValue = JavaDigestValue.getInstance(
-					DigestValue.SHA1,
+				DigestAlgorithm.SHA1,
 					DigestUtils.sha(new FileInputStream(file)));
 			JavaDigestValue testValue = JavaDigestValue.getInstance(
-					DigestValue.SHA1, file);
+				DigestAlgorithm.SHA1, file);
 			JavaDigestValue testSha256Value = JavaDigestValue.getInstance(
-					DigestValue.SHA256, file);
+				DigestAlgorithm.SHA256, file);
 			assertEquals("apacheValue.id() and testValue.id() should be equal",
 					apacheValue.getAlgorithmId(), testValue.getAlgorithmId());
 			assertFalse(
@@ -111,12 +111,12 @@ public class JavaDigestValueTest {
 		for (File file : AllCoreTest
 				.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 			JavaDigestValue apacheValue = JavaDigestValue
-					.getInstance(DigestValue.MD5,
+					.getInstance(DigestAlgorithm.MD5,
 							DigestUtils.md5(new FileInputStream(file)));
 			JavaDigestValue testValue = JavaDigestValue.getInstance(
-					DigestValue.MD5, file);
+				DigestAlgorithm.MD5, file);
 			JavaDigestValue testSha1Value = JavaDigestValue.getInstance(
-					DigestValue.SHA1, file);
+				DigestAlgorithm.SHA1, file);
 			assertEquals(
 					"apacheValue.hexDigest() and testValue.hexDigest() should be equal",
 					apacheValue.getHexDigest(), testValue.getHexDigest());
@@ -144,12 +144,12 @@ public class JavaDigestValueTest {
 		for (File file : AllCoreTest
 				.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 			JavaDigestValue apacheValue = JavaDigestValue.getInstance(
-					DigestValue.SHA1,
+				DigestAlgorithm.SHA1,
 					DigestUtils.sha(new FileInputStream(file)));
 			JavaDigestValue testValue = JavaDigestValue.getInstance(
-					DigestValue.SHA1, file);
+				DigestAlgorithm.SHA1, file);
 			JavaDigestValue testSha256Value = JavaDigestValue.getInstance(
-					DigestValue.SHA256, file);
+				DigestAlgorithm.SHA256, file);
 			assertArrayEquals(
 					"apacheValue.digest() and testValue.digest() should be equal",
 					apacheValue.getDigest(), testValue.getDigest());
@@ -165,7 +165,7 @@ public class JavaDigestValueTest {
 	/**
 	 * Test method for
 	 * {@link eu.scape_project.core.model.JavaDigestValue#toXml()}, and
-	 * {@link eu.scape_project.core.model.JavaDigestValue#fromXml()}.
+	 * {@link eu.scape_project.core.model.JavaDigestValue#getInstance(String)}.
 	 * 
 	 * @throws IOException
 	 * @throws URISyntaxException
@@ -179,10 +179,10 @@ public class JavaDigestValueTest {
 		for (File file : AllCoreTest
 				.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 			JavaDigestValue apache256Value = JavaDigestValue.getInstance(
-					DigestValue.SHA256,
+				DigestAlgorithm.SHA256,
 					DigestUtils.sha256(new FileInputStream(file)));
 			JavaDigestValue testValue = JavaDigestValue.getInstance(
-					DigestValue.MD5, file);
+				DigestAlgorithm.MD5, file);
 			JavaDigestValue xmlTestValue = JavaDigestValue
 					.getInstance(testValue.toXml());
 			assertEquals(
@@ -211,10 +211,10 @@ public class JavaDigestValueTest {
 		for (File file : AllCoreTest
 				.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
 			JavaDigestValue apache256Value = JavaDigestValue.getInstance(
-					DigestValue.SHA256,
+				DigestAlgorithm.SHA256,
 					DigestUtils.sha256(new FileInputStream(file)));
 			JavaDigestValue testValue = JavaDigestValue.getInstance(
-					DigestValue.MD5, file);
+				DigestAlgorithm.MD5, file);
 			JavaDigestValue xmlTestValue = JavaDigestValue
 					.getInstance(testValue.toXml());
 			assertTrue("testValue and xmlTestValue should be equal",

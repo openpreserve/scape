@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import eu.scape_project.core.model.ByteStreamInfoTest;
 import eu.scape_project.core.model.JavaDigestValueTest;
 import eu.scape_project.core.utils.DigestUtilitiesTest;
 
@@ -19,7 +20,7 @@ import eu.scape_project.core.utils.DigestUtilitiesTest;
  *
  */
 @RunWith(Suite.class)
-@SuiteClasses({DigestUtilitiesTest.class, JavaDigestValueTest.class})
+@SuiteClasses({DigestUtilitiesTest.class, JavaDigestValueTest.class, ByteStreamInfoTest.class})
 public class AllCoreTest {
     /** The root resource directory for the test data */
     public static String TEST_DATA_ROOT = "/eu/scape_project/test/data";

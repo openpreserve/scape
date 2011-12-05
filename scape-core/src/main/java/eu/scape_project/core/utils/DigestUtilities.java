@@ -4,6 +4,10 @@
 package eu.scape_project.core.utils;
 
 import java.math.BigInteger;
+import java.security.Provider;
+import java.security.Security;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:carl.wilson.bl@gmail.com">Carl Wilson</a> <a
@@ -11,10 +15,12 @@ import java.math.BigInteger;
  *         href="https://github.com/carlwilson-bl">carlwilson-bl@github</a>
  * 
  */
-public class DigestUtilities {
-    private DigestUtilities() {
-	/** static class */
-    }
+public enum DigestUtilities {
+    /** Enforce a static instance */
+    INSTANCE;
+
+    private final static String JAVA_SECURITY_ALG_ALIAS_PREFIX = "Alg.Alias.";
+    private final static String JAVA_SECURITY_JAVA_PREFIX = "MessageDigest";
 
     /**
      * @param digest
@@ -41,5 +47,26 @@ public class DigestUtilities {
 		    .digit(hexVal.charAt(i + 1), 16));
 	}
 	return data;
+    }
+
+    /**
+     * @return the string names of the Message Digest algorithms supported by java
+     */
+    public static Set<String> getMessageDigestAlgorithmNames() {
+	Set<String> algNames = new HashSet<String>();		// Set of string names to return
+	for (Provider prov : Security.getProviders()) {		// Iterate through the security providers
+	    Set<Object> keys = prov.keySet();			// Get the provider keys
+	    for (Object objKeyPair : keys) {			// Get the Object key pair
+		String strKeyPair = (String) objKeyPair;
+		String key = strKeyPair.split(" ")[0];		// Split on the space
+		if (key.startsWith(JAVA_SECURITY_ALG_ALIAS_PREFIX)) {
+		    key = key.substring(JAVA_SECURITY_ALG_ALIAS_PREFIX.length());
+		}
+		if (key.startsWith(JAVA_SECURITY_JAVA_PREFIX)) {// If it's a MessageDigest identifier	
+		    algNames.add(key.substring(JAVA_SECURITY_JAVA_PREFIX.length() + 1));		// Add it to the results
+		}
+	    }
+	}
+	return algNames;
     }
 }

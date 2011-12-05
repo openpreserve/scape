@@ -10,10 +10,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.Set;
 
 import org.junit.Test;
 
 import eu.scape_project.core.AllCoreTest;
+import eu.scape_project.core.api.DigestValue.DigestAlgorithm;
+
 import org.apache.commons.codec.digest.DigestUtils;
 /**
  * @author <a href="mailto:carl.wilson.bl@gmail.com">Carl Wilson</a>
@@ -62,5 +65,18 @@ public class DigestUtilitiesTest {
 	    dataTested = true;
 	}
 	assertTrue("No data tested as flag no set", dataTested);
+    }
+    
+    /**
+     * Test method for {@link eu.scape_project.core.utils.DigestUtilities#getMessageDigestAlgorithmNames()}.
+     */
+    @Test
+    public void testGetMessageDigestAlgorithmNames() {
+	// OK get the set and check it has some elements
+	Set<String> algNames = DigestUtilities.getMessageDigestAlgorithmNames();
+	// Now loop through our enum values and test they're in the set
+	for (DigestAlgorithm alg : DigestAlgorithm.values()) {
+	    assertTrue("Java standard name " + alg.getJavaName() + " should be in digest set", algNames.contains(alg.getJavaName()));
+	}
     }
 }
