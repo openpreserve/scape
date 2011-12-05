@@ -22,6 +22,7 @@
 .settings
 .classpath
 .project
+bin
 
 # Netbeans Files #
 #################
