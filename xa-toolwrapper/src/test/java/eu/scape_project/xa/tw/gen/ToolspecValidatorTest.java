@@ -86,6 +86,7 @@ public class ToolspecValidatorTest {
 
     private void addToolspecFilesFromDir(String directory) throws GeneratorException {
         File dir = new File(directory);
+        dir.mkdirs();
         String[] children = dir.list();
         if (children == null) {
             throw new GeneratorException("examples directory '"+dir.getAbsolutePath()+"' not available.");
