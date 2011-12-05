@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="c:\owndata\scape\toolspec.xsd">
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../src/main/resources/toolspec.xsd">
     <id>tika</id>
     <name>Tika</name>
     <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
@@ -10,10 +10,10 @@
         </os>
         <os type="windows">
             Use cmd.exe /c tika10_1.cmd INPUT OUTPUT
-            
+
             After installing the Tika tool, makes sure to adapt the files
-                examples\tika10_1.xml
-                examples\tika10_1.cmd
+            examples\tika10_1.xml
+            examples\tika10_1.cmd
             appropriately.
             Also keep in mind to adapt the "deployments" section to your tomcat installation.
         </os>
@@ -29,16 +29,16 @@
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/scape-logo.png</Default>
                             <CliMapping>input</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
+                            <Default>http://localhost:8080/scape/testdata/scape-logo.png</Default>
                         </input>
                     </inputs>
                     <outputs>
                         <output name="output">
                             <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>output</CliMapping>
                             <Required>false</Required>
+                            <CliMapping>output</CliMapping>
                             <Documentation>URL reference to output file</Documentation>
                             <PrefixFromInput>input</PrefixFromInput>
                             <Extension>xml</Extension>
@@ -62,8 +62,9 @@
             <manager>
                 <user>tomcat</user>
                 <password>tomcat</password>
-		<path>manager/text</path>
+                <path>manager/text</path>
             </manager>
+            <toolsbasedir></toolsbasedir>
             <dataexchange>
                 <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>
@@ -79,8 +80,9 @@
             <manager>
                 <user>tomcat</user>
                 <password>tomcat</password>
-		<path>manager/text</path>
+                <path>manager/text</path>
             </manager>
+            <toolsbasedir></toolsbasedir>
             <dataexchange>
                 <accessdir>C:/Programme/ApacheTomcat7.0.14/webapps/ROOT/scape/tmp/</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>

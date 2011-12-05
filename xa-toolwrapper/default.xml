@@ -55,12 +55,12 @@
             </ports>
             <manager>
                 <user>tomcat</user>
-                <password>tomcat</password>
+                <password>password</password>
 		        <path>manager</path>
             </manager>
             <toolsbasedir></toolsbasedir>
             <dataexchange>
-                <accessdir>../webapps/ROOT/scape/tmp/</accessdir>
+                <accessdir>webapps/ROOT/scape/tmp/</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>
             </dataexchange>
         </deployment>

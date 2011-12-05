@@ -13,8 +13,8 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-//package ${global_package_name}.proc;
-package eu.scape_project.pc.services.proc;
+package ${global_package_name}.proc;
+//package eu.scape_project.pc.services.proc;
 
 import java.io.IOException;
 import java.io.InputStream;

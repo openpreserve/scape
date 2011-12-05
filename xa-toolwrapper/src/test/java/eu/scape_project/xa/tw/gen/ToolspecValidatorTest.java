@@ -88,7 +88,7 @@ public class ToolspecValidatorTest {
         File dir = new File(directory);
         String[] children = dir.list();
         if (children == null) {
-            throw new GeneratorException("examples directory not available.");
+            throw new GeneratorException("examples directory '"+dir.getAbsolutePath()+"' not available.");
         } else {
             for (int i=0; i<children.length; i++) {
                 String filename = children[i];
