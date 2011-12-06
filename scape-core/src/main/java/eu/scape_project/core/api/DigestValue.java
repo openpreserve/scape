@@ -5,7 +5,7 @@ package eu.scape_project.core.api;
 
 import java.net.URI;
 
-import eu.scape_project.core.CONSTANTS;
+import eu.scape_project.core.Constants;
 
 /**
  * @author <a href="mailto:carl.wilson.bl@gmail.com">Carl Wilson</a> <a
@@ -43,7 +43,7 @@ public interface DigestValue {
 	SHA512("SHA-512");
 
 	/** SCAPE algorithm id URI scheme prefix */
-	public final static String ALGID_URI_PREFIX = CONSTANTS.SCAPE_URI_SCHEME
+	public final static String ALGID_URI_PREFIX = Constants.SCAPE_URI_SCHEME
 		+ "digest/";
 	private final String javaName; // java.security.MessageDigest string identifier
 

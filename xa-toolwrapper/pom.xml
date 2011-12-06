@@ -14,13 +14,14 @@
 	<name>Tool Wrapper</name>
 	<description>SOAP/REST Web Service Tool Wrapper creator for command line applications</description>
 	<properties>
+		<scape.core.version>0.0.1-SNAPSHOT</scape.core.version>
 		<org.codehaus.jackson.version>1.6.4</org.codehaus.jackson.version>
 	</properties>
 	<build>
 		<plugins>
 			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-assembly-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
@@ -42,26 +43,15 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-				<groupId>org.jvnet.jaxb2.maven2</groupId>
-				<artifactId>maven-jaxb2-plugin</artifactId>
-				<version>0.8.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<generatePackage>eu.scape_project.xa.tw.toolspec</generatePackage>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>eu.scape-project</groupId>
+			<artifactId>scape-core</artifactId>
+			<version>${scape.core.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
