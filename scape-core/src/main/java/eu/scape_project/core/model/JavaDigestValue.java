@@ -16,6 +16,10 @@ import java.net.URI;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -33,7 +37,7 @@ import eu.scape_project.core.utils.DigestUtilities;
  *         href="https://github.com/carlwilson-bl">carlwilson-bl@github</a>
  * 
  */
-@XmlRootElement
+@XmlRootElement(name = "DigestValue")
 public class JavaDigestValue implements DigestValue, Serializable {
     /** Serialization ID */
     private static final long serialVersionUID = 5509099783448173265L;
@@ -77,8 +81,7 @@ public class JavaDigestValue implements DigestValue, Serializable {
      * @throws JAXBException
      */
     public String toXml() throws JAXBException {
-	JAXBContext jbc = JAXBContext
-		.newInstance(JavaDigestValue.class);
+	JAXBContext jbc = JAXBContext.newInstance(JavaDigestValue.class);
 	Marshaller m = jbc.createMarshaller();
 	m.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 	m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -86,7 +89,7 @@ public class JavaDigestValue implements DigestValue, Serializable {
 	m.marshal(this, sw);
 	return sw.toString();
     }
-    
+
     @Override
     public String toString() {
 	try {
@@ -95,8 +98,6 @@ public class JavaDigestValue implements DigestValue, Serializable {
 	    return null;
 	}
     }
-
-
 
     @Override
     public int hashCode() {
@@ -135,8 +136,7 @@ public class JavaDigestValue implements DigestValue, Serializable {
      */
     public static JavaDigestValue getInstance(String xml) throws JAXBException {
 	ByteArrayInputStream input = new ByteArrayInputStream(xml.getBytes());
-	JAXBContext jbc = JAXBContext
-		.newInstance(JavaDigestValue.class);
+	JAXBContext jbc = JAXBContext.newInstance(JavaDigestValue.class);
 	Unmarshaller um = jbc.createUnmarshaller();
 	return (JavaDigestValue) um.unmarshal(input);
     }
@@ -148,7 +148,8 @@ public class JavaDigestValue implements DigestValue, Serializable {
      *        the calculated digest byte array
      * @return a new JavaDigestValue object.
      */
-    public static JavaDigestValue getInstance(DigestAlgorithm algorithm, byte[] digest) {
+    public static JavaDigestValue getInstance(DigestAlgorithm algorithm,
+	    byte[] digest) {
 	return new JavaDigestValue(algorithm, digest);
     }
 
@@ -169,23 +170,13 @@ public class JavaDigestValue implements DigestValue, Serializable {
      * @param algorithm
      * @return a new JavaDigestValue object
      * @throws IOException
+     * @throws NoSuchAlgorithmException 
      */
     public static JavaDigestValue getInstance(DigestAlgorithm algorithm,
-	    InputStream byteStream) throws IOException {
-	try {
-	    MessageDigest digest = MessageDigest.getInstance(algorithm.getJavaName());
-	    DigestInputStream dis = new DigestInputStream(byteStream, digest);
-	    BufferedInputStream bis = new BufferedInputStream(dis);
-	    byte[] buff = new byte[BUFFER_SIZE];
-	    while ((bis.read(buff, 0, BUFFER_SIZE)) != -1) {
-	    }
-	    bis.close();
-	    return new JavaDigestValue(algorithm, digest.digest());
-	} catch (NoSuchAlgorithmException e) {
-	    throw new IllegalArgumentException(
-		    "No java.security.MessageDigest algorithm for id:"
-			    + algorithm.getJavaName(), e);
-	}
+	    InputStream byteStream) throws IOException, NoSuchAlgorithmException {
+	Set<DigestAlgorithm> algSet = new HashSet<DigestAlgorithm>();
+	algSet.add(algorithm);
+	return createDigestSet(algSet, byteStream).iterator().next(); 
     }
 
     /**
@@ -194,10 +185,48 @@ public class JavaDigestValue implements DigestValue, Serializable {
      * @return a new JavaDigestValue object
      * @throws FileNotFoundException
      * @throws IOException
+     * @throws NoSuchAlgorithmException 
      */
-    public static JavaDigestValue getInstance(DigestAlgorithm algorithm, File file)
-	    throws FileNotFoundException, IOException {
-	return JavaDigestValue.getInstance(algorithm, new FileInputStream(
-		file));
+    public static JavaDigestValue getInstance(DigestAlgorithm algorithm,
+	    File file) throws FileNotFoundException, IOException, NoSuchAlgorithmException {
+	return JavaDigestValue
+		.getInstance(algorithm, new FileInputStream(file));
+    }
+
+    /**
+     * @param algorithms a set of algorithms to calculate
+     * @param is an input stream to calc some digests from
+     * @return a set of digests values calculated from the stream
+     * @throws NoSuchAlgorithmException
+     * @throws IOException
+     */
+    public static Set<JavaDigestValue> createDigestSet(
+	    Set<DigestAlgorithm> algorithms, InputStream is)
+	    throws NoSuchAlgorithmException, IOException {
+	InputStream lastStream = is; // OK last stream is the first stream
+	Map<DigestAlgorithm, MessageDigest> digests = new HashMap<DigestAlgorithm, MessageDigest>();
+	// iterate through the passed algorithms
+	for (DigestAlgorithm algorithm : algorithms) {
+	    // Skip it if it's in the map already
+	    if (digests.containsKey(algorithm)) continue;
+	    MessageDigest digest = MessageDigest.getInstance(algorithm
+		    .getJavaName()); // Create a digest
+		// Create a stream, add digest to set and record last stream
+		DigestInputStream dis = new DigestInputStream(lastStream,
+			digest);
+		digests.put(algorithm, digest);
+		lastStream = dis;
+	}
+	// Wrap it all in a Buffered Input Stream, and calculate the digests
+	BufferedInputStream bis = new BufferedInputStream(lastStream);
+	byte[] buff = new byte[BUFFER_SIZE];
+	while ((bis.read(buff, 0, BUFFER_SIZE)) != -1) {
+	}
+	bis.close();
+	Set<JavaDigestValue> results = new HashSet<JavaDigestValue>();
+	for (DigestAlgorithm algorithm : digests.keySet()) {
+	    results.add(new JavaDigestValue(algorithm, digests.get(algorithm).digest()));
+	}
+	return results;
     }
 }

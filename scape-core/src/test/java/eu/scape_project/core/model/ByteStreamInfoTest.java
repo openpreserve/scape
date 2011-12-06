@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.JAXBException;
 
@@ -34,7 +35,7 @@ public class ByteStreamInfoTest {
 
     /**
      * Test method for {@link eu.scape_project.core.model.ByteStreamInfo#hashCode()}, and for
-     * {@link eu.scape_project.core.model.ByteStreamInfo#addChecksum(eu.scape_project.core.model.JavaDigestValue)}.
+     * {@link eu.scape_project.core.model.ByteStreamInfo#addDigest(eu.scape_project.core.model.JavaDigestValue)}.
      * 
      * @throws IOException
      * @throws URISyntaxException
@@ -59,8 +60,8 @@ public class ByteStreamInfoTest {
 	    assertFalse("bsiMd5.hash() and bsiSha1.hash() should not be equal",
 		    bsiMd5.hashCode() == bsiSha1.hashCode());
 	    // Adding a sha1 value to the md5 and an md 5 to the sha1 should make them equal...
-	    bsiMd5.addChecksum(apacheSha1);
-	    bsiSha1.addChecksum(apacheMd5);
+	    bsiMd5.addDigest(apacheSha1);
+	    bsiSha1.addDigest(apacheMd5);
 	    assertEquals("bsiMd5.hash() and bsiSha1.hash() should be equal",
 		    bsiMd5.hashCode(), bsiSha1.hashCode());
 	    dataTested = true;
@@ -96,8 +97,8 @@ public class ByteStreamInfoTest {
 		    "bsiSha256.equals(bsiSha1.hash()) should return false.",
 		    bsiSha256.equals(bsiSha1.hashCode()));
 	    // Adding a sha1 value to the md5 and an md 5 to the sha1 should make them equal...
-	    bsiSha256.addChecksum(apacheSha1);
-	    bsiSha1.addChecksum(apacheSha256);
+	    bsiSha256.addDigest(apacheSha1);
+	    bsiSha1.addDigest(apacheSha256);
 	    assertTrue("bsiSha256.equals(bsiSha1.hash()) should return true.",
 		    bsiSha256.equals(bsiSha1));
 	    dataTested = true;
@@ -123,10 +124,11 @@ public class ByteStreamInfoTest {
      * @throws URISyntaxException
      * @throws FileNotFoundException
      * @throws JAXBException
+     * @throws NoSuchAlgorithmException 
      */
     @Test
     public void testXmlSerialization() throws FileNotFoundException,
-	    URISyntaxException, IOException, JAXBException {
+	    URISyntaxException, IOException, JAXBException, NoSuchAlgorithmException {
 	boolean dataTested = false;
 	for (File file : AllCoreTest
 		.getFilesFromResourceDir(AllCoreTest.TEST_DATA_ROOT)) {
@@ -143,8 +145,8 @@ public class ByteStreamInfoTest {
 	    assertFalse("bsiApache256 and bsiFromXml should not be equal",
 		    bsiApache256.equals(bsiFromXml));
 	    // Add a the other's checksum to each and they should be the same
-	    bsiApache256.addChecksum(javaMd5Value);
-	    bsiFromXml.addChecksum(apache256Value);
+	    bsiApache256.addDigest(javaMd5Value);
+	    bsiFromXml.addDigest(apache256Value);
 	    assertTrue("bsiApache256 and bsiFromXml should be equal",
 		    bsiApache256.equals(bsiFromXml));
 	    dataTested = true;
