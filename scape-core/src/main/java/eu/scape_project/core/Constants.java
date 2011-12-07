@@ -4,16 +4,15 @@
 package eu.scape_project.core;
 
 /**
- * Enum class, to enforce static instance.  Meant for project constants.
+ * Static class meant as a home for project wide constants.
  * 
  * @author <a href="mailto:carl.wilson.bl@gmail.com">Carl Wilson</a>
  *	   <a href="http://sourceforge.net/users/carlwilson-bl">carlwilson-bl@SourceForge</a>
  *	   <a href="https://github.com/carlwilson-bl">carlwilson-bl@github</a>
  *
  */
-public enum Constants {
-    /** Enforce a static instance */
-    INSTANCE;
+public final class Constants {
+    private Constants(){/** Enforce static class */}
     /** SCAPE URI scheme prefix */
     public final static String SCAPE_URI_SCHEME = "scape:";
     /** SCAPE algorithm id URI scheme prefix */

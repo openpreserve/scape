@@ -35,7 +35,7 @@ import eu.scape_project.core.api.DigestValue.DigestAlgorithm;
  *          Created Dec 5, 2011:2:34:00 PM
  */
 @XmlRootElement
-public class ByteStreamInfo {
+public final class ByteStreamInfo {
     private static final int BUFFER_SIZE = (32 * 1024);
     @XmlAttribute
     private long length = 0L;

@@ -15,13 +15,12 @@ import java.util.Set;
  *         href="https://github.com/carlwilson-bl">carlwilson-bl@github</a>
  * 
  */
-public enum DigestUtilities {
-    /** Enforce a static instance */
-    INSTANCE;
-
+public final class DigestUtilities {
     private final static String JAVA_SECURITY_ALG_ALIAS_PREFIX = "Alg.Alias.";
-    private final static String JAVA_SECURITY_JAVA_PREFIX = "MessageDigest";
+    private final static String JAVA_SECURITY_DIGEST_PREFIX = "MessageDigest";
 
+    private DigestUtilities(){/** Enforce static class */}
+    
     /**
      * @param digest
      *        The digest value as a byte array
@@ -62,8 +61,8 @@ public enum DigestUtilities {
 		if (key.startsWith(JAVA_SECURITY_ALG_ALIAS_PREFIX)) {
 		    key = key.substring(JAVA_SECURITY_ALG_ALIAS_PREFIX.length());
 		}
-		if (key.startsWith(JAVA_SECURITY_JAVA_PREFIX)) {// If it's a MessageDigest identifier	
-		    algNames.add(key.substring(JAVA_SECURITY_JAVA_PREFIX.length() + 1));		// Add it to the results
+		if (key.startsWith(JAVA_SECURITY_DIGEST_PREFIX)) {// If it's a MessageDigest identifier	
+		    algNames.add(key.substring(JAVA_SECURITY_DIGEST_PREFIX.length() + 1));		// Add it to the results
 		}
 	    }
 	}
