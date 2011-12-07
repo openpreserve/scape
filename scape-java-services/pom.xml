@@ -13,4 +13,11 @@
   <modules>
   	<module>java-bytestream-characterisation</module>
   </modules>
+  <dependencies>
+  	<dependency>
+  		<groupId>eu.scape-project</groupId>
+  		<artifactId>scape-core</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>

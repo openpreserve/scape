@@ -3,6 +3,13 @@
  */
 package eu.scape_project.services.characterise;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
+
+import eu.scape_project.core.api.DigestValue.DigestAlgorithm;
+import eu.scape_project.core.model.ByteStreamInfo;
+
 
 /**
  * Simple characterisation service for byte streams.  Simply records the length and calculates
@@ -15,6 +22,14 @@ package eu.scape_project.services.characterise;
  * 
  * Created Dec 5, 2011:2:27:06 PM
  */
-
 public class ByteStreamCharacterisation {
+    /**
+     * @param is
+     * @return
+     * @throws NoSuchAlgorithmException
+     * @throws IOException
+     */
+    public ByteStreamInfo characterise(InputStream is) throws NoSuchAlgorithmException, IOException {
+	return ByteStreamInfo.getInstance(DigestAlgorithm.values(), is);
+    }
 }
