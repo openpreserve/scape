@@ -207,8 +207,6 @@ public class JavaDigestValue implements DigestValue, Serializable {
 	Map<DigestAlgorithm, MessageDigest> digests = new HashMap<DigestAlgorithm, MessageDigest>();
 	// iterate through the passed algorithms
 	for (DigestAlgorithm algorithm : algorithms) {
-	    // Skip it if it's in the map already
-	    if (digests.containsKey(algorithm)) continue;
 	    MessageDigest digest = MessageDigest.getInstance(algorithm
 		    .getJavaName()); // Create a digest
 		// Create a stream, add digest to set and record last stream
