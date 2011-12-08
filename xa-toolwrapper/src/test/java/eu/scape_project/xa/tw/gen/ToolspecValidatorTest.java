@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import eu.scape_project.xa.tw.Constants;
 import eu.scape_project.xa.tw.conf.Configuration;
 import eu.scape_project.xa.tw.toolspec.Toolspec;
 
@@ -48,7 +49,7 @@ public class ToolspecValidatorTest {
     @Before
     public void setUp() throws GeneratorException, URISyntaxException {
         toolspecs = new ArrayList<String>();
-        toolspecs.add("default.xml");
+        toolspecs.add(Constants.DEFAULT_TOOLSPEC);
         // All tool specification instances from the examples directory
         // will be validated
         try {
@@ -67,8 +68,8 @@ public class ToolspecValidatorTest {
         ToolspecValidator tv;
         try {
             Configuration ioc = new Configuration();
-            ioc.setXmlConf(toospecXml);
-            ioc.setProjConf("toolwrapper.properties");
+            ioc.setXmlConf(new File(Constants.DEFAULT_TOOLSPEC));
+            ioc.setProjConf(new File(Constants.DEFAULT_PROJECT_PROPERTIES));
             JAXBContext context;
             context = JAXBContext.newInstance("eu.scape_project.xa.tw.toolspec");
             Unmarshaller unmarshaller = context.createUnmarshaller();

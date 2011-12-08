@@ -32,59 +32,79 @@ public class Configuration {
     private String projConf;
     private String xmlConf;
 
+    /**
+     * Default constructor
+     */
     public Configuration() {
         
     }
 
+    /**
+     * @return string with the path to the project configuration file
+     * @throws GeneratorException
+     */
     public String getProjectConfigurationFile() throws GeneratorException {
-        if(projConf == null) {
+        if(this.projConf == null) {
             throw new GeneratorException("Project configuration file is not defined");
         }
-        return projConf;
+        return this.projConf;
     }
 
     /**
      * @return the projConf
      */
     public String getProjConf() {
-        return projConf;
+        return this.projConf;
     }
 
     /**
-     * @param projConf the projConf to set
+     * @param confFile a java.io.File which should be a file of project configuration properties.
+     * @throws GeneratorException 
      */
-    public void setProjConf(String projConf) throws GeneratorException {
-        File ocf = new File(projConf);
-        if (ocf.canRead()) {
-            logger.info("Project configuration file: " + projConf);
+    public void setProjConf(File confFile) throws GeneratorException {
+	// Check args
+	if (confFile == null) throw new IllegalArgumentException("Project configuration file is null.");
+        if (confFile.canRead()) {
+            logger.info("Project configuration file: " + confFile.getName());
         } else {
-            throw new GeneratorException("Unable to read project configuration properties file: " + projConf);
+            throw new GeneratorException("Unable to read project configuration properties file: " + confFile.getAbsolutePath());
         }
-        this.projConf = projConf;
+        this.projConf = confFile.getAbsolutePath();
     }
 
-    public void setXmlConf(String xmlConf) throws GeneratorException {
-        File xmlCfgFile = new File(xmlConf);
-        if (xmlCfgFile.canRead()) {
-            logger.info("XML toolspec configuration file: " + xmlConf);
+    /**
+     * @param toolspecFile
+     * @throws GeneratorException
+     */
+    public void setXmlConf(File toolspecFile) throws GeneratorException {
+	// Check args
+	if (toolspecFile == null) throw new IllegalArgumentException("Project configuration file is null.");
+        if (toolspecFile.canRead()) {
+            logger.info("XML toolspec configuration file: " + toolspecFile.getName());
         } else {
-            throw new GeneratorException("Unable to read XML toolspec configuration file: " + xmlConf);
+            throw new GeneratorException("Unable to read XML toolspec configuration file: " + toolspecFile.getAbsolutePath());
         }
-        this.xmlConf = xmlConf;
+        this.xmlConf = toolspecFile.getAbsolutePath();
     }
 
+    /**
+     * @return true if the toolspec config is set
+     */
     public boolean hasXmlConf() {
-        return (getXmlConf() != null);
+        return (this.getXmlConf() != null);
     }
 
+    /**
+     * @return true if toolspec co
+     */
     public boolean hasConfig() {
-        return (getXmlConf() != null && projConf != null);
+        return (this.hasXmlConf() && this.getProjConf() != null);
     }
 
     /**
      * @return the xmlConf
      */
     public String getXmlConf() {
-        return xmlConf;
+        return this.xmlConf;
     }
 }
