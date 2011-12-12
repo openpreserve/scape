@@ -14,6 +14,7 @@
  *   limitations under the License.
  */
 package ${global_package_name}.proc;
+//package eu.scape_project.pc.services.proc;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -167,7 +168,7 @@ public class CommandLineProcess {
         if (cmd == null) {
             errorlog("No command defined. Unable to start command line process");
         } else {
-            pr.setCommandList(cmd);
+            pr.setCommand(cmd);
         }
     }
 
@@ -177,38 +178,24 @@ public class CommandLineProcess {
     public int execute() {
         pr.run();
         // assign return code from process controller
-        code = pr.getCode();
+        code = pr.getReturnCode();
         //String toolMsg = FileUtils.getStringFromInputStream(pr.getStdInputStream());
-        StringWriter writer = new StringWriter();
-        if (pr.getStdInputStream() != null) {
+        StringWriter stdWriter = new StringWriter();
+        InputStream stdIs = pr.getProcessOutput();
+        if (stdIs != null) {
             try {
-                IOUtils.copy(pr.getStdInputStream(), writer);
+                IOUtils.copy(stdIs, stdWriter);
             } catch (IOException ex) {
                 logger.warn("Unable to read standard output of tool message");
             }
-            String toolMsg = writer.toString();
-            output = toolMsg;
+            String toolMsg = stdWriter.toString();
             if (toolMsg != null && !toolMsg.equals("")) {
+                toolMsg = "Tool message: \n"+ toolMsg;
+            output = toolMsg;
                 debuglog(toolMsg);
             }
         }
         infolog("Assigned exit code: " + code + "");
-        if (pr.getErrInputStream() != null) {
-            try {
-                IOUtils.copy(pr.getStdInputStream(), writer);
-            } catch (IOException ex) {
-                logger.warn("Unable to read standard output of tool message");
-            }
-            String toolMsg = writer.toString();
-            if (output == null || output.equals("")) {
-                output = toolMsg;
-            } else {
-                output += toolMsg;
-            }
-            if (toolMsg != null && !toolMsg.equals("")) {
-                debuglog(toolMsg);
-            }
-        }
         return code;
     }
 

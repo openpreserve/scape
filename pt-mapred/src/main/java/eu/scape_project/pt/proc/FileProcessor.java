@@ -11,9 +11,7 @@ import org.apache.hadoop.fs.FileSystem;
 
 import eu.scape_project.pt.fs.util.Filer;
 import eu.scape_project.pt.fs.util.HDFSFiler;
-import eu.scape_project.pt.fs.util.MapSessionFiler;
 import eu.scape_project.pt.fs.util.PtFileUtil;
-import eu.scape_project.pt.mapred.SimpleWrapper;
 
 public class FileProcessor implements PreProcessor, PostProcessor {
 	
@@ -50,7 +48,7 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 	
 	@Override
 	public void resolvePrecondition() throws IOException, URISyntaxException {
-		ArrayList<File> files = new ArrayList();
+		ArrayList<File> files = new ArrayList<File>();
 		for(String file : inRefs) {			
 			LOG.info("trying to retrieve file: "+file);
 			Filer filer = getFiler(file);
@@ -66,9 +64,12 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 		return inputFiles;
 	}
 	
-	public void resolvePoscondition() {
-		ArrayList<File> files = new ArrayList();
+	public void resolvePostcondition() throws IOException, URISyntaxException {
 		for(String file : outRefs) {			
+			LOG.info("trying to deposit file: "+file);			
+			Filer filer = getFiler(file);
+			if(filer == null) continue;
+			filer.depositeTempFile(file);
 		}
 	}
 		

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<toolspec id="pit-buildin-kakadu">
+<toolspec xmlns="http://www.scape-project.eu/schemas/2011/11/16/toolspec" id="pit-buildin-kakadu"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="target/generated-schema/toolspec.xsd">
   <tool>
     <name>Kakadu</name>
 
+	<!-- You may also specify some information via commands - this executes the version command and matches the version as #.#.# -->
+  	<version>4.6.1</version>
+
     <!-- Information on how to install this tool. Should be actionable where possible, manual by default. -->
     <installation/>
+
   </tool>
 
   <!-- Specify environment variables required to run this tool. 
@@ -20,15 +25,15 @@
   value="Creversible=no Clevels=6 Cmodes=BYPASS Corder=RPCL Cblk={64,64} Cprecincts={256,256},{256,256},{128,128} ORGgen_plt=yes ORGtparts=R"/>
   <var name="kdu.rates.hi" value="1.2,0.6,0.3,0.15,0.075"/>
   
-  <!-- You may also specify some information via commands - this executes the version command and matches the version as #.#.# -->
-  <version>
-    <action>
-      <command>$KAKADU_HOME/kdu_compress -v</command>
-      <output>
-        <match>(\d\.\d\.\d)</match>
-      </output>
-    </action>
-  </version>
+  <inputs>
+    <input name="Input File">
+      <!--
+      <CliMapping pipe="STDIN"/>
+      <CliMapping>input</CliMapping>
+      <Datatype>xsd:anyURI</Datatype>
+        -->
+    </input>
+  </inputs>
 
   <!-- Now declare the command and any options required.
        Use ${in} or ${input} or ${inDir} for input specification
@@ -37,6 +42,17 @@
   <!-- Fully lossless compression, using default values for everything else. -->
   <action id="lossless" type="convert">
     <command>$KAKADU_HOME/kdu_compress -i ${input} -o ${output} -rate - Creversible=yes</command>
+    <inputs>
+    <!--
+      <input useSTDIN="true"/>
+     -->
+    </inputs>
+    <outputs>
+    <!--
+      <output useSTDOUT="true"/>
+     -->
+      <output name="output"/>
+    </outputs>
     <formats in="tif,bmp,pnm" out="jp2"/>
     <formats in="pnm" out="jp2"/>
   </action>

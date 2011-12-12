@@ -16,6 +16,7 @@
  */
 package eu.scape_project.xa.tw.gen;
 
+import eu.scape_project.core.Constants;
 import eu.scape_project.xa.tw.conf.Configuration;
 import eu.scape_project.xa.tw.gen.types.ErrType;
 import eu.scape_project.xa.tw.toolspec.Deployment;
@@ -55,6 +56,12 @@ public class ToolspecValidator {
     private final Toolspec toolspec;
     private boolean valid;
 
+    /**
+     * Public constructor for a ToolspecValidator from a ToolSpec and a Configuration object
+     * 
+     * @param toolspec the toolspec to validate
+     * @param ioc a configuration object
+     */
     public ToolspecValidator(Toolspec toolspec, Configuration ioc) {
         this.toolspec = toolspec;
         this.ioc = ioc;
@@ -72,7 +79,7 @@ public class ToolspecValidator {
             Document doc = builder.parse(new File(ioc.getXmlConf()));
             // create a SchemaFactory and a Schema
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Source schemaFile = new StreamSource(new File("src/main/resources/toolspec.xsd"));
+            Source schemaFile = new StreamSource(ClassLoader.getSystemResourceAsStream(Constants.TOOLSPEC_SCHEMA_RESOURCE_PATH));
             Schema schema = schemaFactory.newSchema(schemaFile);
             // create a Validator object and validate the XML file
             Validator validator = schema.newValidator();
@@ -127,10 +134,6 @@ public class ToolspecValidator {
         for (Operation operation : operations) {
             validateOperation(operation);
         }
-    }
-
-    private boolean isEmpty(String str) {
-        return (str == null || str.isEmpty());
     }
 
     /**

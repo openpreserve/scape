@@ -17,15 +17,15 @@
 
 package eu.scape_project.xa.tw.gen;
 
-import eu.scape_project.xa.tw.conf.Configuration;
-import eu.scape_project.xa.tw.util.PropertyUtil;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
-import org.junit.After;
-import org.junit.AfterClass;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import eu.scape_project.xa.tw.Constants;
+import eu.scape_project.xa.tw.conf.Configuration;
 
 /**
  *
@@ -41,8 +41,8 @@ public class PropertiesSubstitutorTest {
     @Before
     public void setUp() throws GeneratorException {
         Configuration ioc = new Configuration();
-        ioc.setXmlConf("default.xml");
-        ioc.setProjConf("toolwrapper.properties");
+        ioc.setXmlConf(new File(Constants.DEFAULT_TOOLSPEC));
+        ioc.setProjConf(new File(Constants.DEFAULT_PROJECT_PROPERTIES));
         st = new PropertiesSubstitutor(ioc.getProjConf());
     }
 

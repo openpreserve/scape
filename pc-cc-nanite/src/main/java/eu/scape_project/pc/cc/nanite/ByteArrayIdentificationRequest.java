@@ -23,12 +23,14 @@ import uk.gov.nationalarchives.droid.core.interfaces.resource.ResourceUtils;
  */
 public class ByteArrayIdentificationRequest implements IdentificationRequest {
 
-	private RequestMetaData metaData;
-	private RequestIdentifier identifier;
+	protected RequestMetaData metaData;
+	protected RequestIdentifier identifier;
 	private byte[] data;
-	private int size;
+	protected int size;
 	private CachedByteArray byteArray;
 
+	protected ByteArrayIdentificationRequest() { }
+	
 	public ByteArrayIdentificationRequest(RequestMetaData metaData,
 			RequestIdentifier identifier, byte[] data ) {
 		this.metaData = metaData;

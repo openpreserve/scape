@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="version" type="xs:string"/>
+	<xs:element name="os">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="type" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="installation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="os" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="user" type="xs:string"/>
+	<xs:element name="toolspec">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="id"/>
+				<xs:element ref="name"/>
+				<xs:element ref="homepage"/>
+				<xs:element ref="version"/>
+				<xs:element ref="installation"/>
+				<xs:element ref="services"/>
+				<xs:element ref="deployments"/>
+			</xs:sequence>
+			<xs:attribute name="model" type="xs:double" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="services">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="service" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deployref">
+		<xs:complexType>
+			<xs:attribute name="ref" type="xs:IDREF"/>
+			<xs:attribute name="default" type="xs:boolean" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deployto">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="deployref" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="service">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="description"/>
+				<xs:element ref="operations"/>
+				<xs:element ref="deployto"/>
+			</xs:sequence>
+			<xs:attribute name="type" type="xs:string" use="required"/>
+			<xs:attribute name="servicepackage" type="xs:string" use="required"/>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="sid" type="xs:string" use="required"/>
+                        <xs:attribute name="contextpathprefix" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ports">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="port" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="port">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:int">
+					<xs:attribute name="type" type="xs:string" use="required"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="password" type="xs:string"/>
+	<xs:element name="path" type="xs:string"/>
+	<xs:element name="outputs">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="output" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+         <xs:complexType name="InOut">
+              <xs:sequence>
+                 <xs:element ref="Datatype"/>
+                 <xs:element ref="Required" minOccurs="0" maxOccurs="1"/>
+                 <xs:element ref="CliMapping" minOccurs="0" maxOccurs="1"/>
+                 <xs:element ref="Documentation" minOccurs="0" maxOccurs="1"/>
+              </xs:sequence>
+              <xs:attribute name="name" type="xs:string" use="required"/>
+           </xs:complexType>
+
+          <xs:complexType name="Input">
+            <xs:complexContent>
+             <xs:extension base="InOut">
+               <xs:sequence>
+                  <xs:element ref="Default" minOccurs="0" maxOccurs="1"/>
+                  <xs:element ref="Restriction" minOccurs="0" maxOccurs="1"/>
+               </xs:sequence>
+             </xs:extension>
+            </xs:complexContent>
+          </xs:complexType>
+
+          <xs:complexType name="Output">
+            <xs:complexContent>
+             <xs:extension base="InOut">
+               <xs:sequence>
+                    <xs:element name="PrefixFromInput" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="Extension" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="AutoExtension" type="xs:boolean" default="false" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="OutfileId" type="xs:string" default="false" minOccurs="0" maxOccurs="1"/>
+               </xs:sequence>
+             </xs:extension>
+            </xs:complexContent>
+          </xs:complexType>
+
+          <xs:element name="input" type="Input"/>
+          <xs:element name="output" type="Output"/>
+
+<!--	<xs:element name="input">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Datatype"/>
+				<xs:element ref="Restriction" minOccurs="0"/>
+				<xs:element ref="Required"/>
+				<xs:element ref="Default"/>
+				<xs:element ref="CliMapping" minOccurs="0"/>
+				<xs:element ref="Documentation"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="output">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Datatype"/>
+				<xs:element ref="CliMapping"/>
+				<xs:element ref="Required"/>
+				<xs:element ref="Documentation"/>
+				<xs:element name="PrefixFromInput" type="xs:string" minOccurs="0"/>
+				<xs:element name="Extension" type="xs:string"/>
+                                <xs:element name="AutoExtension" type="xs:boolean" default="false" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>-->
+	<xs:element name="operations">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="operation" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="operation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="description" type="xs:string"/>
+				<xs:element ref="command"/>
+				<xs:element ref="inputs"/>
+				<xs:element ref="outputs"/>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="oid" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="name" type="xs:string"/>
+	<xs:element name="manager">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="user"/>
+				<xs:element ref="password"/>
+				<xs:element ref="path"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="inputs">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="input" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Restriction">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element type="xs:string" name="Value" maxOccurs="unbounded"/>
+			</xs:sequence>
+                        <xs:attribute name="multiple" type="xs:boolean" use="optional" default="false"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="identifier" type="xs:string"/>
+	<xs:element name="id" type="xs:ID"/>
+	<xs:element name="host" type="xs:string"/>
+	<xs:element name="homepage" type="xs:string"/>
+	<xs:element name="description" type="xs:string"/>
+	<xs:element name="deployments">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="deployment" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deployment">
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="identifier"/>
+				<xs:element ref="host"/>
+				<xs:element ref="ports"/>
+				<xs:element ref="manager"/>
+                                <xs:element name="toolsbasedir" type="xs:string"/>
+				<xs:element ref="dataexchange"/>
+			</xs:sequence>
+			<xs:attribute name="ref" type="xs:string"/>
+			<xs:attribute name="id" type="xs:ID"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="dataexchange">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="accessdir"/>
+				<xs:element ref="accessurl"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="command" type="xs:string"/>
+	<xs:element name="accessurl" type="xs:string"/>
+	<xs:element name="accessdir" type="xs:string"/>
+	<xs:element name="Required" type="xs:string"/>
+	<xs:element name="Documentation" type="xs:string"/>
+        <xs:element name="Default">
+		<xs:complexType>
+			<xs:simpleContent>
+				<xs:extension base="xs:string">
+					<xs:attribute name="clireplacement" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:simpleContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Datatype" type="xs:string"/>
+	<xs:element name="CliMapping" type="xs:string"/>
+</xs:schema>

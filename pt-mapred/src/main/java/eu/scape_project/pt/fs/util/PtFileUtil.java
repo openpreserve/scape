@@ -1,13 +1,19 @@
 package eu.scape_project.pt.fs.util;
 
+import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import eu.scape_project.pt.mapred.SimpleWrapper;
 
 public class PtFileUtil {
 	
 	static String HDFS = "hdfs";
 	static String FILE = "file";
-
+	
 	public static String getScheme(String uri) throws URISyntaxException {
 		return (new URI(uri)).getScheme().toLowerCase();
 	}
@@ -19,5 +25,13 @@ public class PtFileUtil {
 	public static boolean isFileUri(String uri) throws URISyntaxException {
 		return getScheme(uri).toLowerCase().equals(FILE);
 	}
-
+	
+	public static File getExecDir() {
+		String t = System.getProperty("java.io.tmpdir");
+		File tmpDir = new File(t);
+		if(!tmpDir.exists()) {
+			tmpDir.mkdir();
+		}
+		return tmpDir;
+	}		
 }

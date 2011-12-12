@@ -15,7 +15,6 @@
  */
 package eu.scape_project.xa.tw.gen;
 
-import java.util.StringTokenizer;
 
 /**
  * Tool
@@ -32,6 +31,12 @@ public class ServiceDef {
     private ServiceDef() {
     }
 
+    /**
+     * The service definition is based on the name of the service and the
+     * version of the tool.
+     * @param name
+     * @param version
+     */
     public ServiceDef(String name, String version) {
         this.name = getCleanName(name);
         this.version = getCleanVersion(version);
@@ -39,6 +44,11 @@ public class ServiceDef {
         directory = getMidfixToLowercase();
     }
 
+    /**
+     * Create a clean service name
+     * @param name Name of the service
+     * @return clean service name
+     */
     private String getCleanName(String name) {
         String projectName = name.replaceAll("[^A-Za-z0-9]", "");
         return projectName;

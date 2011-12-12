@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="src/main/resources/toolspec.xsd">
+    <id>copy</id>
+    <name>Copy</name>
+    <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
+    <version>1.0</version>
+    <installation>
+        <os type="linux">
+            Available by default.
+        </os>
+        <os type="windows">
+            Use "CMD.exe /C COPY" instead of "/bin/cp" in the commands defined below.
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="Simple Copy" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>Service for copying files</description>
+            <operations>
+                <operation oid="1" name="simpleCopy">
+                    <description>Copies a file</description>
+                    <command>/bin/cp ${input} ${output}</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                            <Default>http://localhost:8080/scape/testdata/scape-logo.png</Default>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>false</Required>
+                            <CliMapping>output</CliMapping>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>png</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+            </operations>
+            <deployto>
+                <deployref default="true" ref="local"/>
+            </deployto>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/instances/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>password</password>
+		        <path>manager</path>
+            </manager>
+            <toolsbasedir></toolsbasedir>
+            <dataexchange>
+                <accessdir>webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>

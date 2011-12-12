@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../src/main/resources/toolspec.xsd">
+    <id>copy</id>
+    <name>Copy</name>
+    <homepage>http://en.wikipedia.org/wiki/Cp_%28Unix%29</homepage>
+    <version>6.0.1</version>
+    <installation>
+        <os type="linux">
+            NOT available.
+        </os>
+        <os type="windows">
+            Use cmd.exe /c winDROID601.cmd INPUT OUTPUT
+            
+            After installing the DROID tool, makes sure to adapt the files
+                examples\winDROID601.xml
+                examples\winDROID601.cmd
+            appropriately.
+            Also keep in mind to adapt the "deployments" section to your tomcat installation.
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="WIN DROID" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/wscapeservices">
+            <description>Service for copying files</description>
+            <operations>
+                <operation oid="1" name="winDroid">
+                    <description>Copies a file</description>
+                    <command>CMD.exe /C C:/_RAMother/DEV_GIT/SCAPE_RW/xa-toolwrapper/examples/winDROID601.cmd ${input} ${output}</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                            <Default>http://localhost:8080/scape/testdata/scape-logo.png</Default>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>false</Required>
+                            <CliMapping>output</CliMapping>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>csv</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+            </operations>
+            <deployto>
+                <deployref default="true" ref="localWIN"/>
+            </deployto>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/default/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>tomcat</password>
+		<path>manager/text</path>
+            </manager>
+            <toolsbasedir></toolsbasedir>
+            <dataexchange>
+                <accessdir>/usr/local/java/apache-tomcat-6.0.29/webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+        <deployment id="localWIN">
+            <identifier>http://localhost:8080/scape/default/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>tomcat</password>
+		<path>manager/text</path>
+            </manager>
+            <toolsbasedir></toolsbasedir>
+            <dataexchange>
+                <accessdir>C:/Programme/ApacheTomcat7.0.14/webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>
