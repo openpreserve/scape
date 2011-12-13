@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xa-toolwrapper/src/main/resources/toolspec.xsd">
+    <id>convert</id>
+    <name>SoX - Sound eXchange</name>
+    <homepage>http://sox.sourceforge.net/</homepage>
+    <version>0.1</version>
+    <installation>
+        <os type="linux">
+            Install sox
+        </os>
+        <os type="windows">
+            Install sox
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="SoX" type="migrate"
+            servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>SoX convertion service</description>
+            <operations>
+                
+                <operation oid="1" name="audio2mp3">
+                    <description>Converts any SoX supported audio format to MP3</description>
+                    <command>sox ${input} -C320 ${output}</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://localhost:8080/scape/testdata/audio/nin-the_slip-corona_radiata.flac</Default>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output</CliMapping>
+                            <Required>false</Required>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>mp3</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+
+                <operation oid="1" name="audio2aac">
+                    <description>Converts any SoX supported audio format to AAC (NÃO FUNCIONA- PASSA À FRENTE!)</description>
+                    <command>sox ${input} ${output}</command>
+                    <inputs>
+                        <input name="input">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://localhost:8080/scape/testdata/audio/nin-the_slip-corona_radiata.flac</Default>
+                            <CliMapping>input</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output</CliMapping>
+                            <Required>false</Required>
+                            <Documentation>URL reference to output file</Documentation>
+                            <PrefixFromInput>input</PrefixFromInput>
+                            <Extension>aac</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+                
+            </operations>
+            <deployto>
+                <deployref default="true" ref="local"/>
+            </deployto>
+        </service>
+
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/instances/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>tomcat</password>
+                <path>manager</path>
+            </manager>
+            <dataexchange>
+                <!--<accessdir>../webapps/ROOT/scape/tmp/</accessdir>-->
+                <accessdir>webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>
