@@ -19,33 +19,9 @@
             <description>Mencoder convertion service</description>
             <operations>
                 
-                <operation oid="1" name="flv2mpeg2">
-                    <description>Converts FLV to MPEG2</description>
-                    <command>mencoder -of mpeg -ovc lavc -oac lavc -lavcopts vcodec=mpeg2video:acodec=ac3 ${input} -o ${output}</command>
-                    <inputs>
-                        <input name="input">
-                            <Datatype>xsd:anyURI</Datatype>
-                            <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/video/big_buck_bunny_480p_stereo.ogg.flv</Default>
-                            <CliMapping>input</CliMapping>
-                            <Documentation>URL reference to input file</Documentation>
-                        </input>
-                    </inputs>
-                    <outputs>
-                        <output name="output">
-                            <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>output</CliMapping>
-                            <Required>false</Required>
-                            <Documentation>URL reference to output file</Documentation>
-                            <PrefixFromInput>input</PrefixFromInput>
-                            <Extension>mpeg</Extension>
-                        </output>
-                    </outputs>
-                </operation>
-
-                <operation oid="2" name="any2mpeg2">
-                    <description>Converts any Mencoder supported format to MPEG2</description>
-                    <command>mencoder -of mpeg -ovc lavc -oac lavc -lavcopts vcodec=mpeg2video:acodec=ac3 ${input} -o ${output}</command>
+                <operation oid="1" name="video2mpeg2">
+                    <description>Converts any Mencoder supported video format to MPEG2</description>
+                    <command>mencoder -quiet -of mpeg -ovc lavc -oac lavc -lavcopts vcodec=mpeg2video:acodec=ac3 ${input} -o ${output}</command>
                     <inputs>
                         <input name="input">
                             <Datatype>xsd:anyURI</Datatype>
