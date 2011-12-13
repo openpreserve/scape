@@ -14,7 +14,7 @@
         </os>
     </installation>
     <services>
-        <service sid="1" name="jhove2" type="validate" servicepackage="eu.scape_project.pc.services">
+        <service sid="1" name="jhove2" type="validate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
             <description>Service for validating Waveform Audio File Format audio files</description>
             <operations>
                 <operation oid="1" name="jhove2">
@@ -24,7 +24,7 @@
                         <input name="file1">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/90531-track-01.tmp.wav</Default>
+                            <Default>http://localhost:8180/scape/testdata/90531-track-01.tmp.wav</Default>
                             <CliMapping>file1</CliMapping>
                             <Documentation>URL reference to wav input file 1</Documentation>
                         </input>
@@ -61,7 +61,7 @@
             </manager>
             <dataexchange>
                 <accessdir>/home/bam/apache-tomcat-7.0.22/webapps/ROOT/scape/tmp/</accessdir>
-                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+                <accessurl>http://localhost:8180/scape/tmp/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>
