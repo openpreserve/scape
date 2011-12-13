@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="c:\owndata\scape\toolspec.xsd">
+    <id>xcorrSound</id>
+    <name>xcorrSound</name>
+    <homepage>TODO</homepage>
+    <version>1.0</version>
+    <installation>
+        <os type="linux">
+          Given the 'scape-xcorrsound' source, type 'make', then 'make install'.
+          The command ./xcorrSound is then available in the installation directory.
+        </os>
+        <os type="windows">
+            TODO
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="xcorrSound" type="compare" servicepackage="eu.scape_project.pc.services">
+            <description>Service for comparing audio files</description>
+            <operations>
+                <operation oid="1" name="xcorrSound">
+                    <description>Compares two wav files</description>
+                    <command>/home/bam/Projects/scape/xa-toolwrapper/examples/xcorrSound-wrapper.sh ${file1} ${file2} ${output}</command>
+                    <inputs>
+                        <input name="file1">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <Default>http://localhost:8080/scape/testdata/90531-track-01.tmp.wav</Default>
+                            <CliMapping>file1</CliMapping>
+                            <Documentation>URL reference to wav input file 1</Documentation>
+                        </input>
+                      <input name="file2">
+                          <Datatype>xsd:anyURI</Datatype>
+                          <Required>true</Required>
+                          <Default>http://localhost:8080/scape/testdata/90531-track-02.tmp.wav</Default>
+                          <CliMapping>file2</CliMapping>
+                          <Documentation>URL reference to wav input file 2</Documentation>
+                      </input>
+                    </inputs>
+                    <outputs> <!-- TODO output from system.out and/or logfile; wrapper script -->
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output</CliMapping>
+                            <Required>false</Required>
+                            <Documentation>URL reference to output from system.out</Documentation>
+                            <PrefixFromInput>file1</PrefixFromInput>
+                            <Extension>txt</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+            </operations>
+            <deployto>
+                <deployref default="true" ref="local"/>
+            </deployto>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/default/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+              <user>tomcat</user>
+              <password>password</password>
+              <path>manager/text</path>
+            </manager>
+            <dataexchange>
+                <accessdir>/home/bam/apache-tomcat-7.0.22/webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>
