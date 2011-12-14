@@ -85,6 +85,7 @@ public class ProcessRunner implements Runnable {
     private int maxError = 31000;
     private int return_code;
     private boolean timedOut;
+    private long executionTime=0;
 
     /**
      * Create a new ProcessRunner. Cannot run, until you specify something with
@@ -380,6 +381,8 @@ public class ProcessRunner implements Runnable {
             }
 
         }
+        long endTime = System.currentTimeMillis();
+        executionTime = endTime-startTime;
         return return_value;
 
     }
@@ -476,6 +479,10 @@ public class ProcessRunner implements Runnable {
         t.setUncaughtExceptionHandler(u);
         t.start();
 
+    }
+
+    public long getExecutionTime() {
+        return executionTime;
     }
 }
 

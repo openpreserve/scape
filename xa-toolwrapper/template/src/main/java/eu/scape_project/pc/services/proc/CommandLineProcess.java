@@ -221,4 +221,7 @@ public class CommandLineProcess {
         logger.error(msg);
         processingLog += "ERROR: " + msg + ".\n";
     }
+    public long getExecutionTime(){
+        return pr.getExecutionTime();
+    }
 }
