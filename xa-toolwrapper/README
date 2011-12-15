@@ -52,15 +52,15 @@ Also make sure the JAVA_HOME environment variable is defined.
 
    You can find the start page of the web application at:
 
-       http://localhost:8080/scape-simplecopy10-service/
+       http://localhost:8080/scapeservices/scape-simplecopy10-service/
 
    and the endpoint of the service at:
 
-       http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10
+       http://localhost:8080/scapeservices/scape-simplecopy10-service/services/SimpleCopy10
 
    Try the RESTless interface:
 
-       http://localhost:8080/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?input=http://localhost:8080/scape/testdata/scape-logo.png
+       http://localhost:8080/scapeservices/scape-simplecopy10-service/services/SimpleCopy10/simpleCopy?input=http://localhost:8080/scape/testdata/scape-logo.png
 
    and - if everything is setup correctly - you would receive a response like:
 
@@ -89,7 +89,7 @@ Also make sure the JAVA_HOME environment variable is defined.
 5) Try out the SOAP web service with soapUI by creating a project using the
    WSDL of the service:
 
-       http://localhost:8080/scape-simplecopy10-service/SimpleCopy10.wsdl
+       http://localhost:8080/scapeservices/scape-simplecopy10-service/SimpleCopy10.wsdl
 
    make a file available on a publicly accessible URL, e.g. by placing the
    a sample file scape-logo.png in the webapps/ROOT/scape/tesdata/ folder
