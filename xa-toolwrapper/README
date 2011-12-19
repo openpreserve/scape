@@ -14,8 +14,9 @@ Quick start
 -----------
 
 You need at least the Java SE Development Kit (JDK) version >=1.6.0 and Apache
-Maven >= 2.2.1, and an Apache Tomcat application server version >=6.0.18.
-Also make sure the JAVA_HOME environment variable is defined.
+Maven >= 2.2.1. For testing an internal jetty server is used for deployment,
+for productive deployment an Apache Tomcat application server version >=6.0.18
+is recommended. Also make sure the JAVA_HOME environment variable is defined.
 
 1) In the xa-toolwrapper directory, run the maven package command:
 
