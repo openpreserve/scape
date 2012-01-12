@@ -1,14 +1,12 @@
 package eu.scape_project.pt.fs.util;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-
-import eu.scape_project.pt.proc.TaskProcessor;
-
-import java.io.File;
-import java.io.IOException;
 
 public class HDFSFiler implements Filer{
 	
@@ -35,9 +33,49 @@ public class HDFSFiler implements Filer{
 		return temp;
 	}
 	
-	public void depositeTempFile(String hdfsRef) throws IOException {
+	@Override
+	public void depositTempDirectoryOrFile(String hdfsRef) throws IOException {
+		// TODO have better means to identify directory
+		if(hdfsRef.endsWith("/")) {
+			depositTempDirectory(hdfsRef);
+		} else {
+			depositTempFile(hdfsRef);
+		}
+	}
+	
+	@Override
+	public void depositTempDirectory(String hdfsRef) throws IOException {
+		// Get output directory name from hdfsRef
+		String[] splits = hdfsRef.split("/");
+		
+		// Execution directory plus the new folder
+		File directory = new File(PtFileUtil.getExecDir().toString() + "/" + splits[splits.length - 1]);
+		
+		if(!directory.isDirectory()) {
+			LOG.error("Could not find correct local output directory: " + directory);
+			return;
+		}
+		
+		LOG.info("Local directory is: " + directory);
+		
+		for(File file : directory.listFiles()) {
+			depositTempFile(hdfsRef + file.getName(), directory);
+		}
+	}
+
+	private void depositTempFile(String hdfsRef, File localDirectory) throws IOException {
+		Path dest = new Path(hdfsRef);
+		Path src = new Path(localDirectory.getAbsolutePath(), dest.getName());
+		
+		LOG.info("local file name is: "+src+" destination path is:" +dest);
+		hdfs.copyFromLocalFile(src, dest);
+	}
+
+	@Override
+	public void depositTempFile(String hdfsRef) throws IOException {
 		Path dest = new Path(hdfsRef);
 		Path src = new Path( new Path(PtFileUtil.getExecDir().toString()), new Path(dest.getName()) );
+		
 		LOG.info("local file name is: "+src+" destination path is:" +dest);
 		hdfs.copyFromLocalFile(src, dest);
 	}
