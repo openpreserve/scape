@@ -20,17 +20,14 @@ cd $scriptdir/../xa-toolwrapper
 rm -rf generated/*
 
 # generate the new service(s) project(s)
-java -jar toolwrapper.jar -pc toolwrapper.properties -xc $xc
+java -jar target/xa-toolwrapper-0.3-SNAPSHOT-jar-with-dependencies.jar -pc toolwrapper.properties -xc $xc
 
 cd generated
 for file in *; do
 	if [ -d $file ]; then
 		cd $file
-		mvn tomcat:redeploy
-		echo "***"
-		echo "cp ../../apache-tomcat-6.0.29/webapps/scapeservices#scape-$file-service.war $scriptdir/services"
-		echo "***"
-		cp ../../apache-tomcat-6.0.29/webapps/scapeservices#scape-$file-service.war $scriptdir/services
+		mvn package
+		cp target/*local.war "$scriptdir/services/scapeservices#`ls target/*local.war | sed 's/^target\/\([^\-]\+-[^\-]\+-[^\-]\+\).*/\1/'`.war"
 		cd ..
 	fi
 done
