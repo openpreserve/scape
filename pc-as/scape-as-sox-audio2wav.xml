@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <toolspec xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" model="0.1" xsi:noNamespaceSchemaLocation="../scape-core/src/main/resources/eu/scape_project/core/model/toolspec/toolspec.xsd">
   <id>convert</id>
   <name>SoX - Sound eXchange (audio2wav)</name>
@@ -13,8 +13,8 @@
         </os>
   </installation>
   <services>
-    <service sid="1" name="sox-audio2wav" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>SoX convertion service (audio2wav)</description>
+    <service sid="1" name="sox-audio2wav" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/">
+      <description>SoX conversion service (audio2wav)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any SoX supported audio format to WAV</description>
@@ -25,7 +25,7 @@
               <Required>true</Required>
               <CliMapping>input</CliMapping>
               <Documentation>URL reference to input file</Documentation>
-              <Default>http://localhost:8080/scape/testdata/audio.flac</Default>
+              <Default>http://scape.keep.pt/scape/testdata/audio.flac</Default>
             </input>
           </inputs>
           <outputs>
@@ -47,10 +47,10 @@
   </services>
   <deployments>
     <deployment id="local">
-      <identifier>http://localhost:8080</identifier>
-      <host>localhost</host>
+      <identifier>http://scape.keep.pt</identifier>
+      <host>scape.keep.pt</host>
       <ports>
-        <port type="http">8080</port>
+        <port type="http">80</port>
         <port type="https">8043</port>
       </ports>
       <manager>
@@ -61,7 +61,7 @@
       <toolsbasedir/>
       <dataexchange>
         <accessdir>/var/lib/tomcat6/webapps/scape/tmp/</accessdir>
-        <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+        <accessurl>http://scape.keep.pt/scape/tmp/</accessurl>
       </dataexchange>
     </deployment>
   </deployments>

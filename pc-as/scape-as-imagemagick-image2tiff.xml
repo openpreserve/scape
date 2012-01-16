@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="imagemagick-image2tiff" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>ImageMagick convertion service (image2tiff)</description>
+      <description>ImageMagick conversion service (image2tiff)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any ImageMagick supported image format to TIFF</description>
@@ -25,7 +25,7 @@
               <Required>true</Required>
               <CliMapping>input</CliMapping>
               <Documentation>URL reference to input file</Documentation>
-              <Default>http://localhost:8080/scape/testdata/elephant.jp2</Default>
+              <Default>http://scape.keep.pt/scape/testdata/elephant.jp2</Default>
             </input>
           </inputs>
           <outputs>
@@ -47,10 +47,10 @@
   </services>
   <deployments>
     <deployment id="local">
-      <identifier>http://localhost:8080</identifier>
-      <host>localhost</host>
+      <identifier>http://scape.keep.pt</identifier>
+      <host>scape.keep.pt</host>
       <ports>
-        <port type="http">8080</port>
+        <port type="http">80</port>
         <port type="https">8043</port>
       </ports>
       <manager>
@@ -61,7 +61,7 @@
       <toolsbasedir/>
       <dataexchange>
         <accessdir>/var/lib/tomcat6/webapps/scape/tmp/</accessdir>
-        <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+        <accessurl>http://scape.keep.pt/scape/tmp/</accessurl>
       </dataexchange>
     </deployment>
   </deployments>
