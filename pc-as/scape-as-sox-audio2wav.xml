@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="sox-audio2wav" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/">
-      <description>SoX convertion service (audio2wav)</description>
+      <description>SoX conversion service (audio2wav)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any SoX supported audio format to WAV</description>

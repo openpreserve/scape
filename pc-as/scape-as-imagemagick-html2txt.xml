@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="imagemagick-html2txt" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>ImageMagick convertion service (html2txt)</description>
+      <description>ImageMagick conversion service (html2txt)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts HTML to Text</description>

@@ -8,6 +8,11 @@ then
 fi
 
 scriptdir=`dirname "$0"`
+
+if [ ! -d $scriptdir/services ]; then
+	mkdir $scriptdir/services
+fi
+
 # Get absolute path for $scriptdir
 scriptdir=`readlink -m $scriptdir`
 

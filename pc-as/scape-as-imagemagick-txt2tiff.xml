@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="imagemagick-txt2tiff" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>ImageMagick convertion service (txt2tiff)</description>
+      <description>ImageMagick conversion service (txt2tiff)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts Text to TIFF</description>

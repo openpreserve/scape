@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="ffmpeg-video2mpeg2" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>FFmpeg convertion service (video2mpeg2)</description>
+      <description>FFmpeg conversion service (video2mpeg2)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any FFmpeg supported video format to MPEG2</description>

@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="ffmpeg-audio2mp3" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>FFmpeg convertion service (audio2mp3)</description>
+      <description>FFmpeg conversion service (audio2mp3)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any FFmpeg supported audio format to MP3</description>

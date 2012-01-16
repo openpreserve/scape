@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="imagemagick-txt2jp2" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>ImageMagick convertion service (txt2jp2)</description>
+      <description>ImageMagick conversion service (txt2jp2)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts Text to JPEG2000</description>

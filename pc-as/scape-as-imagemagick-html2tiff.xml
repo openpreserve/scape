@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="imagemagick-html2tiff" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>ImageMagick convertion service (html2tiff)</description>
+      <description>ImageMagick conversion service (html2tiff)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts HTML to TIFF</description>

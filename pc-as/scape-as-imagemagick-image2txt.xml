@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="imagemagick-image2txt" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>ImageMagick convertion service (image2txt)</description>
+      <description>ImageMagick conversion service (image2txt)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any ImageMagick supported image format to Text</description>

@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="ffmpeg-image2tiff" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>FFmpeg convertion service (image2tiff)</description>
+      <description>FFmpeg conversion service (image2tiff)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any FFmpeg supported image format to TIFF</description>

@@ -14,7 +14,7 @@
   </installation>
   <services>
     <service sid="1" name="ffmpeg-video2flv" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>FFmpeg convertion service (video2flv)</description>
+      <description>FFmpeg conversion service (video2flv)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any FFmpeg supported video format to FLV</description>
