@@ -1,4 +1,4 @@
-<workflow xmlns="http://taverna.sf.net/2008/xml/t2flow" version="1" producedBy="taverna-2.3.0"><dataflow id="a5d6e9e8-e4c6-4358-94d2-a81f4b75beb5" role="top"><name>Workflow1</name><inputPorts><port><name>input_file</name><depth>0</depth><granularDepth>0</granularDepth><annotations /></port></inputPorts><outputPorts><port><name>responseBody</name><annotations /></port><port><name>status</name><annotations /></port></outputPorts><processors><processor><name>ffmpegaudio2aac</name><inputPorts><port><name>input_file</name><depth>0</depth></port></inputPorts><outputPorts><port><name>responseBody</name><depth>0</depth><granularDepth>0</granularDepth></port><port><name>status</name><depth>0</depth><granularDepth>0</granularDepth></port></outputPorts><annotations /><activities><activity><raven><group>net.sf.taverna.t2.activities</group><artifact>rest-activity</artifact><version>1.3</version></raven><class>net.sf.taverna.t2.activities.rest.RESTActivity</class><inputMap><map from="input_file" to="input_file" /></inputMap><outputMap><map from="status" to="status" /><map from="responseBody" to="responseBody" /></outputMap><configBean encoding="xstream"><net.sf.taverna.t2.activities.rest.RESTActivityConfigurationBean xmlns="">
+<workflow xmlns="http://taverna.sf.net/2008/xml/t2flow" version="1" producedBy="taverna-2.3.0"><dataflow id="5c737838-2c63-4e9c-89ee-134ae1b26cbe" role="top"><name>Workflow1</name><inputPorts><port><name>input_file</name><depth>0</depth><granularDepth>0</granularDepth><annotations /></port></inputPorts><outputPorts><port><name>responseBody</name><annotations /></port><port><name>status</name><annotations /></port></outputPorts><processors><processor><name>ffmpegaudio2aac.convert</name><inputPorts><port><name>input_file</name><depth>0</depth></port></inputPorts><outputPorts><port><name>responseBody</name><depth>0</depth><granularDepth>0</granularDepth></port><port><name>status</name><depth>0</depth><granularDepth>0</granularDepth></port></outputPorts><annotations /><activities><activity><raven><group>net.sf.taverna.t2.activities</group><artifact>rest-activity</artifact><version>1.3</version></raven><class>net.sf.taverna.t2.activities.rest.RESTActivity</class><inputMap><map from="input_file" to="input_file" /></inputMap><outputMap><map from="status" to="status" /><map from="responseBody" to="responseBody" /></outputMap><configBean encoding="xstream"><net.sf.taverna.t2.activities.rest.RESTActivityConfigurationBean xmlns="">
   <httpMethod>GET</httpMethod>
   <urlSignature>http://scape.keep.pt/scapeservices/scape-ffmpegaudio2aac10-service/services/ffmpegaudio2aac10/convert?input={input_file}</urlSignature>
   <acceptsHeaderValue>audio/aac</acceptsHeaderValue>
@@ -21,13 +21,13 @@
   <initialDelay>1000</initialDelay>
   <maxDelay>5000</maxDelay>
   <maxRetries>0</maxRetries>
-</net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig></configBean></dispatchLayer><dispatchLayer><raven><group>net.sf.taverna.t2.core</group><artifact>workflowmodel-impl</artifact><version>1.3</version></raven><class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Invoke</class><configBean encoding="xstream"><null xmlns="" /></configBean></dispatchLayer></dispatchStack><iterationStrategyStack><iteration><strategy><cross><port name="input_file" depth="0" /></cross></strategy></iteration></iterationStrategyStack></processor></processors><conditions /><datalinks><datalink><sink type="processor"><processor>ffmpegaudio2aac</processor><port>input_file</port></sink><source type="dataflow"><port>input_file</port></source></datalink><datalink><sink type="dataflow"><port>responseBody</port></sink><source type="processor"><processor>ffmpegaudio2aac</processor><port>responseBody</port></source></datalink><datalink><sink type="dataflow"><port>status</port></sink><source type="processor"><processor>ffmpegaudio2aac</processor><port>status</port></source></datalink></datalinks><annotations><annotation_chain_2_2 encoding="xstream"><net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+</net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.RetryConfig></configBean></dispatchLayer><dispatchLayer><raven><group>net.sf.taverna.t2.core</group><artifact>workflowmodel-impl</artifact><version>1.3</version></raven><class>net.sf.taverna.t2.workflowmodel.processor.dispatch.layers.Invoke</class><configBean encoding="xstream"><null xmlns="" /></configBean></dispatchLayer></dispatchStack><iterationStrategyStack><iteration><strategy><cross><port name="input_file" depth="0" /></cross></strategy></iteration></iterationStrategyStack></processor></processors><conditions /><datalinks><datalink><sink type="processor"><processor>ffmpegaudio2aac.convert</processor><port>input_file</port></sink><source type="dataflow"><port>input_file</port></source></datalink><datalink><sink type="dataflow"><port>responseBody</port></sink><source type="processor"><processor>ffmpegaudio2aac.convert</processor><port>responseBody</port></source></datalink><datalink><sink type="dataflow"><port>status</port></sink><source type="processor"><processor>ffmpegaudio2aac.convert</processor><port>status</port></source></datalink></datalinks><annotations><annotation_chain_2_2 encoding="xstream"><net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
   <annotationAssertions>
     <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
       <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
-        <identification>39a5816c-ed07-4ed5-b157-86a0df4aa9ad</identification>
+        <identification>a5d6e9e8-e4c6-4358-94d2-a81f4b75beb5</identification>
       </annotationBean>
-      <date>2012-01-16 16:02:05.343 WET</date>
+      <date>2012-01-16 16:07:35.904 WET</date>
       <creators />
       <curationEventList />
     </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
@@ -36,9 +36,20 @@
   <annotationAssertions>
     <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
       <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
-        <identification>a5d6e9e8-e4c6-4358-94d2-a81f4b75beb5</identification>
+        <identification>5c737838-2c63-4e9c-89ee-134ae1b26cbe</identification>
       </annotationBean>
-      <date>2012-01-16 16:07:35.904 WET</date>
+      <date>2012-01-16 17:53:19.898 WET</date>
+      <creators />
+      <curationEventList />
+    </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+  </annotationAssertions>
+</net.sf.taverna.t2.annotation.AnnotationChainImpl></annotation_chain_2_2><annotation_chain_2_2 encoding="xstream"><net.sf.taverna.t2.annotation.AnnotationChainImpl xmlns="">
+  <annotationAssertions>
+    <net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
+      <annotationBean class="net.sf.taverna.t2.annotation.annotationbeans.IdentificationAssertion">
+        <identification>39a5816c-ed07-4ed5-b157-86a0df4aa9ad</identification>
+      </annotationBean>
+      <date>2012-01-16 16:02:05.343 WET</date>
       <creators />
       <curationEventList />
     </net.sf.taverna.t2.annotation.AnnotationAssertionImpl>
