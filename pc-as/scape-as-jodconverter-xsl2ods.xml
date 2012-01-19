@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" model="0.1" xsi:noNamespaceSchemaLocation="../scape-core/src/main/resources/eu/scape_project/core/model/toolspec/toolspec.xsd">
   <id>convert</id>
-  <name>HandBrake converter (video2mpeg4)</name>
-  <homepage>http://handbrake.fr/</homepage>
+  <name>JODConverter's converter (xsl2ods)</name>
+  <homepage>http://artofsolving.com/opensource/jodconverter</homepage>
   <version>1.0</version>
   <installation>
     <os type="linux">
-            tomcat6,debian-multimedia-keyring,handbrake-cli
+            tomcat6,jodconverter,openoffice.org
         </os>
     <os type="windows">
-            Install handbrake
+            Install jodconverter
         </os>
   </installation>
   <services>
-    <service sid="1" name="handbrake-video2mpeg4" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>HandBrake conversion service (video2mpeg4)</description>
+    <service sid="1" name="jodconverter-xsl2ods" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+      <description>JODConverter conversion service (xsl2ods)</description>
       <operations>
         <operation oid="1" name="convert">
-          <description>Converts any HandBrake (libavformat and libavcodec supported formats) supported video format to MPEG4</description>
-          <command>HandBrakeCLI -i ${input} -o ${output} --preset="Normal"</command>
+          <description>Converts Excel to OpenDocument Spreadsheet</description>
+          <command>jodconverter ${input} ${output}</command>
           <inputs>
             <input name="input">
               <Datatype>xsd:anyURI</Datatype>
               <Required>true</Required>
               <CliMapping>input</CliMapping>
               <Documentation>URL reference to input file</Documentation>
-              <Default>http://scape.keep.pt/scape/testdata/video/big_buck_bunny_480p_stereo.ogg</Default>
+              <Default>http://scape.keep.pt/scape/testdata/office/SampleData.xls</Default>
             </input>
           </inputs>
           <outputs>
@@ -35,7 +35,7 @@
               <CliMapping>output</CliMapping>
               <Documentation>URL reference to output file</Documentation>
               <PrefixFromInput>input</PrefixFromInput>
-              <Extension>mp4</Extension>
+              <Extension>ods</Extension>
             </output>
           </outputs>
         </operation>

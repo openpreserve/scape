@@ -1,2 +1,3 @@
-* toolspec changes:
+* toolwrapper changes:
 	1) allow xml to contain information about the debian package deployment (pre/post install/remove scripts and scripts for /etc/init.d/), probably inside /installation/os, and also about changes (to generate debian changelog), probably a sequence of "change" elements, wtih a "date" atribute, and pcdata inside for change description.
+	2) xa-toolwrapper/template/src/main/java/eu/scape_project/pc/services/util/StringUtils.java has a method called "getFileExtension" that obtains the file extension from a string, and if that same extension has more than 3 characters, it returns "tmp" as extension (it makes conversion of docx, pptx and xslx to fail) > test commented, in our compiled version of toolwrapper
