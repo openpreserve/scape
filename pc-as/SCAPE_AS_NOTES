@@ -1,0 +1,2 @@
+* toolspec changes:
+	1) allow xml to contain information about the debian package deployment (pre/post install/remove scripts and scripts for /etc/init.d/), probably inside /installation/os, and also about changes (to generate debian changelog), probably a sequence of "change" elements, wtih a "date" atribute, and pcdata inside for change description.
