@@ -8,6 +8,8 @@ if [ $# -eq 2 ]; then
 	cp $1 $TEMP_DIR 
 	XML=`readlink -m $2`
 	XML_NAME_WO_EXT=`basename $2 | sed 's/\.xml//'`
+	cp workflow_rest_template.t2flow "$TEMP_DIR/$XML_NAME_WO_EXT"_rest.t2flow
+	cp workflow_soap_template.t2flow "$TEMP_DIR/$XML_NAME_WO_EXT"_soap.t2flow
 	cd $TEMP_DIR
 	mkdir "debian"
 	echo "This is a dummy README" > README
