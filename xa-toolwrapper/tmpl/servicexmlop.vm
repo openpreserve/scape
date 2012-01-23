@@ -1,4 +1,4 @@
     <operation name="${operationname}">
       <messageReceiver class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
     </operation>
-    <parameter name="cliCommand${opid}">$cli_cmd_${opid}</parameter>
+    <parameter name="cliCommand${opid}"><![CDATA[$cli_cmd_${opid}]]></parameter>

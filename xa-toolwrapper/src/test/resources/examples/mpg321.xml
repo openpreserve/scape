@@ -18,7 +18,7 @@
                             <Required>true</Required>
                             <CliMapping>inputmp3</CliMapping>
                             <Documentation>URL reference to mp3 input file</Documentation>
-                            <Default>data/mp3/P1_1600_1800_980807_001.mp3</Default>
+                            <Default>http://iapetus:9441/scape-data/test-data/sample1.mp3</Default>
                         </input>
                     </inputs>
                     <outputs>
@@ -70,8 +70,8 @@
             </manager>
             <toolsbasedir>/usr/bin/</toolsbasedir>
             <dataexchange>
-                <accessdir>services/webapps/mpg321-output/</accessdir>
-                <accessurl>http://iapetus:9441/mpg321-output/</accessurl>
+                <accessdir>services/webapps/scape-data/mpg321-output/</accessdir>
+                <accessurl>http://iapetus:9441/scape-data/mpg321-output/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>

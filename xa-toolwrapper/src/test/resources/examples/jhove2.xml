@@ -26,7 +26,7 @@
                         <input name="file1">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/90531-track-01.tmp.wav</Default>
+                            <Default>http://iapetus:9441/scape-data/test-data/sample1.wav</Default>
                             <CliMapping>file1</CliMapping>
                             <Documentation>URL reference to wav input file 1</Documentation>
                         </input>
@@ -80,8 +80,8 @@
             </manager>
             <toolsbasedir>/home/scape/tools/jhove2-2.0.0/</toolsbasedir>
             <dataexchange>
-                <accessdir>services/webapps/jhove2-output/</accessdir>
-                <accessurl>http://iapetus:9441/jhove2-output/</accessurl>
+                <accessdir>services/webapps/scape-data/jhove2-output/</accessdir>
+                <accessurl>http://iapetus:9441/scape-data/jhove2-output/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>
