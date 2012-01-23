@@ -44,7 +44,7 @@
 				name = f.getName();
 				name = name.replaceFirst("scapeservices#","");
 		%>
-				<li><a href="/scapeservices/<%=name%>" target="_blank"><%=requestURL + "scapeservices/"+ name %></a></li>
+				<li><a href="/scapeservices/<%=name%>" target="_blank"><%=name %></a></li>
 		<% 	} %>
 	</ul>
 	<h2>Try it!</h2>

@@ -13,7 +13,7 @@
         </os>
   </installation>
   <services>
-    <service sid="1" name="sox-audio2wav" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/">
+    <service sid="1" name="sox-audio2wav" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
       <description>SoX conversion service (audio2wav)</description>
       <operations>
         <operation oid="1" name="convert">

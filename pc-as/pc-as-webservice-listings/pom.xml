@@ -4,16 +4,10 @@
   <groupId>eu.scape-project</groupId>
   <artifactId>pc-as-webservice-listings</artifactId>
   <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <name>pc-as-webservice-listings Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
          <groupId>javax.servlet</groupId>
          <artifactId>servlet-api</artifactId>
