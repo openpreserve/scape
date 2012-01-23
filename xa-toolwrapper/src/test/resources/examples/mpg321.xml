@@ -1,44 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="../../../../src/main/resources/toolspec-temp.xsd">
-    <id>jhove2</id>
-    <name>jhove2</name>
-    <homepage>https://bitbucket.org/jhove2/main/wiki/Home</homepage>
-    <version>2.0.0</version>
-    <installation>
-        <os type="linux">
-            Download jhove2-2.0.0.tar.gz from https://bitbucket.org/jhove2/main/wiki/JHOVE2-2.0.0_Download.
-            Follow the installation instructions in the User's guide v2.0.0.
-        </os>
-        <os type="windows">
-            Download jhove2-2.0.0.zip from https://bitbucket.org/jhove2/main/wiki/JHOVE2-2.0.0_Download.
-            Follow the installation instructions in the User's guide v2.0.0.
-        </os>
-    </installation>
+    <id>mpg321</id>
+    <name>mpg321</name>
+    <homepage>http://mpg321.sourceforge.net/</homepage>
+    <version>0.59q</version><!-- ??? -->
     <services>
-        <service sid="1" name="jhove2" type="validate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-            <description>Service for validating Waveform Audio File Format audio files</description>
+        <service sid="1" name="mpg321" type="play" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>Service for playing mp3 audio files as WAV</description>
             <operations>
-                <operation oid="1" name="jhove2">
-                    <description>Validate wav file(s)</description>
-                    <command>jhove2.sh -d XML -i ${file1} -o ${output}</command>
+                <operation oid="1" name="mpg321">
+                    <description>Play mp3 as wav</description>
+                    <command>mpg321 -w ${outputwav} ${inputmp3}</command>
                     <inputs>
-                        <input name="file1">
+                        <input name="inputmp3">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://localhost:8080/scape/testdata/90531-track-01.tmp.wav</Default>
-                            <CliMapping>file1</CliMapping>
-                            <Documentation>URL reference to wav input file 1</Documentation>
+                            <CliMapping>inputmp3</CliMapping>
+                            <Documentation>URL reference to mp3 input file</Documentation>
+                            <Default>data/mp3/P1_1600_1800_980807_001.mp3</Default>
                         </input>
                     </inputs>
                     <outputs>
-                        <output name="output">
+                        <output name="outputwav">
                             <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>output</CliMapping>
+                            <CliMapping>outputwav</CliMapping>
                             <Required>true</Required>
-                            <Documentation>URL reference to XML output file</Documentation>
-                            <PrefixFromInput>file1</PrefixFromInput>
-                            <Extension>xml</Extension>
+                            <Documentation>URL reference to wav output file</Documentation>
+                            <PrefixFromInput>inputmp3</PrefixFromInput>
+                            <Extension>wav</Extension>
                         </output>
                     </outputs>
                 </operation>
@@ -78,10 +68,10 @@
                 <password>password</password>
                 <path>manager</path>
             </manager>
-            <toolsbasedir>/home/scape/tools/jhove2-2.0.0/</toolsbasedir>
+            <toolsbasedir>/usr/bin/</toolsbasedir>
             <dataexchange>
-                <accessdir>services/webapps/jhove2-output/</accessdir>
-                <accessurl>http://iapetus:9441/jhove2-output/</accessurl>
+                <accessdir>services/webapps/mpg321-output/</accessdir>
+                <accessurl>http://iapetus:9441/mpg321-output/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>

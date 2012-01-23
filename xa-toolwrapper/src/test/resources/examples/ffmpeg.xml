@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../../../../src/main/resources/toolspec-temp.xsd">
+    <id>ffmpeg</id>
+    <name>FFMPEG</name>
+    <homepage>http://ffmpeg.org/</homepage>
+    <version>SVN-r25305-snapshot</version><!--<version>0.9.1</version>-->
+    <installation>
+        <os type="linux">
+            FFMPEG can be cloned from the Git repository.
+        </os>
+        <os type="windows">
+            TODO
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="FFMPEG" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>Service for migrating audio files</description>
+            <operations>
+                <operation oid="1" name="ffmpeg">
+                    <description>Migrates an mp3 file to the wav file format</description>
+                    <!-- ffmpeg -i $mp3 `basename $mp3`.wav  2>&1 | tee `basename $mp3`.log -->
+                    <!-- <command>/home/bam/Projects/scape/xa-toolwrapper/src/test/resources/examples/ffmpeg.sh $input</command> -->
+                    <command>ffmpeg -i $mp3 `basename $mp3`.wav  2>&amp;1 | tee `basename $mp3`.log</command>
+                    <inputs>
+                        <input name="mp3">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>mp3</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                            <Default>data/mp3/P1_1600_1800_980807_001.mp3</Default>
+                        </input>
+                    </inputs>
+                    <outputs/>
+                </operation>
+            </operations>
+            <deployto>
+                <deployref default="true" ref="iapetus"/>
+            </deployto>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/instances/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>password</password>
+                <path>manager</path>
+            </manager>
+            <toolsbasedir></toolsbasedir>
+            <dataexchange>
+                <accessdir>webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+        <deployment id="iapetus">
+            <identifier>http://iapetus:9441/</identifier>
+            <host>iapetus</host>
+            <ports>
+                <port type="http">9441</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>password</password>
+                <path>manager</path>
+            </manager>
+            <toolsbasedir>/usr/bin/</toolsbasedir>
+            <dataexchange>
+                <accessdir>services/webapps/ffmpeg-output/</accessdir>
+                <accessurl>http://iapetus:9441/ffmpeg-output/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>
