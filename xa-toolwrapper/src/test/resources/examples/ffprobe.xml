@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="../../../../src/main/resources/toolspec-temp.xsd">
-    <id>jhove2</id>
-    <name>jhove2</name>
-    <homepage>https://bitbucket.org/jhove2/main/wiki/Home</homepage>
-    <version>2.0.0</version>
+    <id>ffprobe</id>
+    <name>ffprobe</name>
+    <homepage>http://ffmpeg.org/</homepage>
+    <version>SVN-r25305-snapshot</version><!--<version>0.9.1</version>-->
     <installation>
         <os type="linux">
-            Download jhove2-2.0.0.tar.gz from https://bitbucket.org/jhove2/main/wiki/JHOVE2-2.0.0_Download.
-            Follow the installation instructions in the User's guide v2.0.0.
+            Integrated in FFMPEG.
         </os>
         <os type="windows">
-            Download jhove2-2.0.0.zip from https://bitbucket.org/jhove2/main/wiki/JHOVE2-2.0.0_Download.
-            Follow the installation instructions in the User's guide v2.0.0.
+            TODO
         </os>
     </installation>
     <services>
-        <service sid="1" name="jhove2" type="validate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-            <description>Service for validating Waveform Audio File Format audio files</description>
+        <service sid="1" name="FFprobe" type="characterization" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>Service for simple characterisation of audio files</description>
             <operations>
-                <operation oid="1" name="jhove2">
-                    <description>Validate wav file(s)</description>
-                    <command>jhove2.sh -d XML -i ${file1} -o ${output}</command>
+                <operation oid="1" name="ffprobe">
+                    <description>Characterize audio file</description>
+                    <command>ffprobe.sh ${file} ${output}</command>
                     <inputs>
-                        <input name="file1">
+                        <input name="file">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <Default>http://iapetus:9441/scape-data/test-data/sample1.wav</Default>
-                            <CliMapping>file1</CliMapping>
-                            <Documentation>URL reference to wav input file 1</Documentation>
+                            <CliMapping>file</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                            <Default>http://iapetus:9441/scape-data/test-data/sample1.mp3</Default>
                         </input>
                     </inputs>
                     <outputs>
@@ -36,9 +34,9 @@
                             <Datatype>xsd:anyURI</Datatype>
                             <CliMapping>output</CliMapping>
                             <Required>true</Required>
-                            <Documentation>URL reference to XML output file</Documentation>
-                            <PrefixFromInput>file1</PrefixFromInput>
-                            <Extension>xml</Extension>
+                            <Documentation>URL reference to characterisation output file</Documentation>
+                            <PrefixFromInput>file</PrefixFromInput>
+                            <Extension>txt</Extension>
                         </output>
                     </outputs>
                 </operation>
@@ -78,10 +76,10 @@
                 <password>password</password>
                 <path>manager</path>
             </manager>
-            <toolsbasedir>/home/scape/tools/jhove2-2.0.0/</toolsbasedir>
+            <toolsbasedir>/home/scape/tools/ffprobe/</toolsbasedir>
             <dataexchange>
-                <accessdir>services/webapps/scape-data/jhove2-output/</accessdir>
-                <accessurl>http://iapetus:9441/scape-data/jhove2-output/</accessurl>
+                <accessdir>services/webapps/scape-data/ffprobe-output/</accessdir>
+                <accessurl>http://iapetus:9441/scape-data/ffprobe-output/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>

@@ -4,8 +4,6 @@ use strict;
 use XML::XPath;
 use Time::HiRes;
 
-#use XML::XPath::XMLParser;
-
 ## hash containing the mapping between the information needed from the xml file 
 # describing the web service and the information needed for the equivs program
 my %info2xpath=(
@@ -22,6 +20,7 @@ die("Project name must not contain underscores!") if($projectName =~ m/.+_/);
 my $warName = shift or dir("Must provide .war name!");
 my $fileName = shift or die("Must provide .xml file containing the toolspec web service description!");
 
+## read the needed information in the .xml file and return it as a hash reference
 my $hashResultReference = getValuesFromXPath();
 #for my $key (keys %$hashResultReference){
 #	print $key.">".$hashResultReference->{$key}."\n";
@@ -42,6 +41,7 @@ print F "Extra-Files: ".$projectName."_rest.t2flow, ".$projectName."_soap.t2flow
 print F "Description: $hashResultReference->{'description'}\n";
 close F;
 
+## obtain and write information in the workflow files (rest and soap) with sed
 my @now = Time::HiRes::gettimeofday();
 my $version = $hashResultReference->{'version'};
 $version =~ s/[\.\-]//g;
@@ -50,13 +50,10 @@ $urlWithPath =~ s/\//\\\//g;
 my $serviceName = $hashResultReference->{'service_name'};
 $serviceName =~ s/-//g;
 my $servicePlusVersion="$serviceName$version";
-
 my $sedString = "sed -i -e 's/##SERVICE_NAME_WITH_VERSION##/$servicePlusVersion/g' -e 's/##UNIQ_ID##/".$now[0]."/g' -e 's/##SERVICE_NAME##/$serviceName/g' -e 's/##SERVICE_URL_PLUS_INITIAL_PATH##/$urlWithPath/g'";
 system("$sedString $projectName"."_rest.t2flow");
 system("$sedString $projectName"."_soap.t2flow");
 
-#$hashResultReference->{'service_name'} =~ s/-//g;
-#print ">>$hashResultReference->{'service_name'}\n";
 
 ##################### functions #####################
 sub getValuesFromXPath{
@@ -72,7 +69,6 @@ sub getValuesFromXPath{
 			if($node->getNodeType == 2 ){
 				$value=$node->getData;
 			}
-	      #$value = XML::XPath::XMLParser::as_string($node); 
       	last;
 	   }	
 		chomp $value;
