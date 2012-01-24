@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="../../../../src/main/resources/toolspec-temp.xsd">
-    <id>ffmpeg</id>
-    <name>ffmpeg</name>
+    <id>ffprobe</id>
+    <name>ffprobe</name>
     <homepage>http://ffmpeg.org/</homepage>
     <version>SVN-r25305-snapshot</version><!--<version>0.9.1</version>-->
     <installation>
         <os type="linux">
-            FFMPEG can be cloned from the Git repository.
+            Integrated in FFMPEG.
         </os>
         <os type="windows">
             TODO
         </os>
     </installation>
     <services>
-        <service sid="1" name="FFMPEG" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-            <description>Service for migrating audio files</description>
+        <service sid="1" name="FFprobe" type="characterization" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>Service for simple characterisation of audio files</description>
             <operations>
-                <operation oid="1" name="ffmpeg">
-                    <description>Migrates an mp3 file to the wav file format</description>
-                    <command>ffmpeg.sh ${mp3} ${wav}</command>
+                <operation oid="1" name="ffprobe">
+                    <description>Characterize audio file</description>
+                    <command>ffprobe.sh ${file} ${output}</command>
                     <inputs>
-                        <input name="mp3">
+                        <input name="file">
                             <Datatype>xsd:anyURI</Datatype>
                             <Required>true</Required>
-                            <CliMapping>mp3</CliMapping>
+                            <CliMapping>file</CliMapping>
                             <Documentation>URL reference to input file</Documentation>
                             <Default>http://iapetus:9441/scape-data/test-data/sample1.mp3</Default>
                         </input>
                     </inputs>
                     <outputs>
-                        <output name="wav">
+                        <output name="output">
                             <Datatype>xsd:anyURI</Datatype>
-                            <CliMapping>wav</CliMapping>
+                            <CliMapping>output</CliMapping>
                             <Required>true</Required>
-                            <Documentation>URL reference to Wave output file</Documentation>
-                            <PrefixFromInput>mp3</PrefixFromInput>
-                            <Extension>wav</Extension>
+                            <Documentation>URL reference to characterisation output file</Documentation>
+                            <PrefixFromInput>file</PrefixFromInput>
+                            <Extension>txt</Extension>
                         </output>
                     </outputs>
                 </operation>
@@ -76,10 +76,10 @@
                 <password>password</password>
                 <path>manager</path>
             </manager>
-            <toolsbasedir>/home/scape/tools/ffmpeg/</toolsbasedir>
+            <toolsbasedir>/home/scape/tools/ffprobe/</toolsbasedir>
             <dataexchange>
-                <accessdir>services/webapps/scape-data/ffmpeg-output/</accessdir>
-                <accessurl>http://iapetus:9441/scape-data/ffmpeg-output/</accessurl>
+                <accessdir>services/webapps/scape-data/ffprobe-output/</accessdir>
+                <accessurl>http://iapetus:9441/scape-data/ffprobe-output/</accessurl>
             </dataexchange>
         </deployment>
     </deployments>
