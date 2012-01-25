@@ -36,4 +36,17 @@
 
 
 * tidy
-	! it do in place changes (cannot specify output file), so it cannot be used with toolwrapper as it is
+	! it does in place changes (cannot specify output file), so it cannot be used with toolwrapper as it is
+
+
+* B2xtranslator
+   ! needs to debian packaged for easy deploy and also to put the .exec in a specific place so it can be invoked
+
+
+
+* MsgText
+   ! doesn't work in linux using mono
+
+
+* Netpbm
+	! it must use a bash script because the command needed pipe and output redirection and it doesn't work well it the toolwrapper process runner

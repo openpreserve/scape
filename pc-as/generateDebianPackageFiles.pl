@@ -30,7 +30,7 @@ my $hashResultReference = getValuesFromXPath();
 open F,">","$projectName";
 print F "Section: misc\n";
 print F "Priority: optional\n";
-print F "Homepage: www.scape-project.eu\n";
+print F "Homepage: http://www.scape-project.eu/\n";
 print F "Package: $projectName\n";
 print F "Version: $hashResultReference->{'version'}\n";
 print F "Maintainer: Hélder Silva, Rui Castro <[hsilva,rcastro]\@keep.pt>\n";
