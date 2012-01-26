@@ -3,7 +3,7 @@
 case "$1" in
    start)
       echo "Starting OpenOffice.org conversion service"
-      /usr/bin/openoffice.org -headless -accept="socket,port=8100;urp;" -nofirststartwizard
+      /usr/bin/openoffice.org --headless --accept="socket,port=8100;urp;" --nofirststartwizard
       if [ $? -eq 0 ]; then
          echo " Done"
       else

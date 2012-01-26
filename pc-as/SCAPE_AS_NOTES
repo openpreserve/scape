@@ -48,5 +48,9 @@
    ! doesn't work in linux using mono
 
 
+* tesseract
+	! imagename must be a TIF image with a .tif extension (if it is .tiff, an error occurs)
+
+
 * Netpbm
 	! it must use a bash script because the command needed pipe and output redirection and it doesn't work well it the toolwrapper process runner
