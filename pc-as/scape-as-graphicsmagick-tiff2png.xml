@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" model="0.1" xsi:noNamespaceSchemaLocation="../scape-core/src/main/resources/eu/scape_project/core/model/toolspec/toolspec.xsd">
   <id>convert</id>
-  <name>AbiWord converter (docx2odt)</name>
-  <homepage>http://www.abisource.com/</homepage>
+  <name>GraphicsMagick convert (tiff2png)</name>
+  <homepage>http://www.graphicsmagick.org/</homepage>
   <version>1.0</version>
   <installation>
     <os type="linux">
-            tomcat6,abiword
+            tomcat6,graphicsmagick
         </os>
     <os type="windows">
-            Install abiword
+            Install graphicsmagick
         </os>
   </installation>
   <services>
-    <service sid="1" name="abiword-docx2odt" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>AbiWord conversion service (docx2odt)</description>
+    <service sid="1" name="graphicsmagick-tiff2png" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+      <description>GraphicsMagick conversion service (tiff2png)</description>
       <operations>
         <operation oid="1" name="convert">
-          <description>Converts Word (.docx) to OpenDocument Text</description>
-          <command>abiword --to=odt --to-name=${output} ${input}</command>
+          <description>Converts TIFF to PNG</description>
+          <command>gm convert ${input} ${output}</command>
           <inputs>
             <input name="input">
               <Datatype>xsd:anyURI</Datatype>
               <Required>true</Required>
               <CliMapping>input</CliMapping>
               <Documentation>URL reference to input file</Documentation>
-              <Default>http://scape.keep.pt/scape/testdata/office/DSpace+ORE+usage+instructions.docx</Default>
+              <Default>http://scape.keep.pt/scape/testdata/elephant.tiff</Default>
             </input>
           </inputs>
           <outputs>
@@ -35,7 +35,7 @@
               <CliMapping>output</CliMapping>
               <Documentation>URL reference to output file</Documentation>
               <PrefixFromInput>input</PrefixFromInput>
-              <Extension>odt</Extension>
+              <Extension>png</Extension>
             </output>
           </outputs>
         </operation>
