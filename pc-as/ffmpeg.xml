@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../xa-toolwrapper/src/main/resources/toolspec.xsd">
     <id>convert</id>
@@ -184,8 +184,7 @@
                 <path>manager</path>
             </manager>
             <dataexchange>
-                <!--<accessdir>../webapps/ROOT/scape/tmp/</accessdir>-->
-                <accessdir>webapps/ROOT/scape/tmp/</accessdir>
+                <accessdir>/var/lib/tomcat6/webapps/scape/tmp/</accessdir>
                 <accessurl>http://localhost:8080/scape/tmp/</accessurl>
             </dataexchange>
         </deployment>

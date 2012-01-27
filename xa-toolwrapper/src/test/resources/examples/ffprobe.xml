@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../../../../src/main/resources/toolspec-temp.xsd">
+    <id>ffprobe</id>
+    <name>ffprobe</name>
+    <homepage>http://ffmpeg.org/</homepage>
+    <version>SVN-r25305-snapshot</version><!--<version>0.9.1</version>-->
+    <installation>
+        <os type="linux">
+            Integrated in FFMPEG.
+        </os>
+        <os type="windows">
+            TODO
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="FFprobe" type="characterization" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>Service for simple characterisation of audio files</description>
+            <operations>
+                <operation oid="1" name="ffprobe">
+                    <description>Characterize audio file</description>
+                    <command>ffprobe.sh ${file} ${output}</command>
+                    <inputs>
+                        <input name="file">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>file</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                            <Default>http://iapetus:9441/scape-data/test-data/sample1.mp3</Default>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output</CliMapping>
+                            <Required>true</Required>
+                            <Documentation>URL reference to characterisation output file</Documentation>
+                            <PrefixFromInput>file</PrefixFromInput>
+                            <Extension>txt</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+            </operations>
+            <deployto>
+                <deployref default="true" ref="iapetus"/>
+            </deployto>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/instances/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>password</password>
+                <path>manager</path>
+            </manager>
+            <toolsbasedir></toolsbasedir>
+            <dataexchange>
+                <accessdir>webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+        <deployment id="iapetus">
+            <identifier>http://iapetus:9441/</identifier>
+            <host>iapetus</host>
+            <ports>
+                <port type="http">9441</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>password</password>
+                <path>manager</path>
+            </manager>
+            <toolsbasedir>/home/scape/tools/ffprobe/</toolsbasedir>
+            <dataexchange>
+                <accessdir>services/webapps/scape-data/ffprobe-output/</accessdir>
+                <accessurl>http://iapetus:9441/scape-data/ffprobe-output/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>

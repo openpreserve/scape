@@ -48,6 +48,12 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 	
 	@Override
 	public void resolvePrecondition() throws IOException, URISyntaxException {
+		// Any inRefs?
+		if(inRefs == null) {
+			LOG.info("no preprocessing required");
+			return;
+		}
+		
 		ArrayList<File> files = new ArrayList<File>();
 		for(String file : inRefs) {			
 			LOG.info("trying to retrieve file: "+file);
@@ -65,11 +71,17 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 	}
 	
 	public void resolvePostcondition() throws IOException, URISyntaxException {
+		// Any outRefs?
+		if(outRefs == null) {
+			LOG.info("no postprocessing required");
+			return;
+		}
+		
 		for(String file : outRefs) {			
 			LOG.info("trying to deposit file: "+file);			
 			Filer filer = getFiler(file);
 			if(filer == null) continue;
-			filer.depositeTempFile(file);
+			filer.depositTempDirectoryOrFile(file);
 		}
 	}
 		

@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import eu.scape_project.pt.mapred.SimpleWrapper;
 import eu.scape_project.pt.proc.Executable;
 
 /*
@@ -30,7 +29,10 @@ public class ToolSpec extends Executable {
 		new ToolSpec("filefile", "ps2pdf @file @file"), 
 		new ToolSpec("streamfile", "ps2pdf - @file"), 
 		new ToolSpec("streamstream", "ps2pdf - -"),
-		new ToolSpec("dummy", "myTool -x=13 -foo @file -bar @param @file")
+		new ToolSpec("dummy", "myTool -x=13 -foo @file -bar @param @file"),
+		new ToolSpec("copy", "cp @file @file"),
+		new ToolSpec("taverna_hello_world", "taverna @file -inputvalue name WWorldd"),
+		new ToolSpec("taverna_hello_anyone", "taverna @file -inputvalue name @param")
 	};
 	
 	private static Log LOG = LogFactory.getLog(ToolSpec.class);
@@ -68,16 +70,23 @@ public class ToolSpec extends Executable {
 	public int replaceTokenInCmd(String token, String[] vals) {
 		LOG.debug("replace Token called: cmd: " + cmd + " token: "+token+" vals: "+Arrays.toString(vals));
 		if(vals == null) return 0;
-		String[] cmds = cmd.split(Pattern.quote(token));    	
-		if(cmds.length != vals.length) {
+		String[] cmds = cmd.split(Pattern.quote(token));
+		
+		// Either split cmd has the same length as the vals, or one more if it has more parameters after the last token
+		if(cmds.length != vals.length && cmds.length - 1 != vals.length) {
     		LOG.error("cannot replace token in command: "+cmd+" with array: "+Arrays.toString(vals));
     		return -1;
     	}
     	int i = 0;
     	StringBuffer res = new StringBuffer();
-    	for(String item : cmds) {
-    		res.append(item).append(vals[i++]);
+    	for(String value : vals) {
+    		res.append(cmds[i++]).append(value);
     	}
+    	
+    	// One more cmd after last token?
+    	if(cmds.length == i+1)
+    		res.append(cmds[i]);
+    	
 		cmd = res.toString();
     	LOG.info("cmd after replacement: "+res.toString());
     	return cmds.length;

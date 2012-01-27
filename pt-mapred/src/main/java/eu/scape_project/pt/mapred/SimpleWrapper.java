@@ -1,65 +1,30 @@
 package eu.scape_project.pt.mapred;
 
-import java.io.BufferedReader;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.regex.Pattern;
-
-import joptsimple.OptionParser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.filecache.DistributedCache;
-import org.apache.hadoop.fs.BlockLocation;
-import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapred.lib.MultipleOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
-//import eu.scape_project.pit.invoke.Peu.scape_project.pt.mapreditInvoker;
 import eu.scape_project.pt.pit.ToolMap;
-//import eu.scape_project.pt.pit.invoke.PTInvoker;
-import eu.scape_project.pt.util.ArgsParser;
-import eu.scape_project.pt.util.PtRecordParser;
 import eu.scape_project.pt.pit.ToolSpec;
 import eu.scape_project.pt.proc.FileProcessor;
 import eu.scape_project.pt.proc.Processor;
 import eu.scape_project.pt.proc.TaskProcessor;
+import eu.scape_project.pt.util.ArgsParser;
+import eu.scape_project.pt.util.PtRecordParser;
 
 /**
  * A very simple wrapper to execute cmd-line tools using mapReduce
@@ -74,9 +39,6 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 		
 		//TODO
 		//use logger for writing to std. out
-    
-		private final static IntWritable one = new IntWritable(1);
-	    private Text word = new Text();
 			
 		public void setup( Context context ) {
 		}
@@ -193,8 +155,6 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 
 	public static class MyReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 		
-		private IntWritable result = new IntWritable();
-		
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 			
 		}
@@ -264,8 +224,8 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 			toolMap.initialize();
 			ToolSpec tool = toolMap.get(pargs.getValue("t"));
 			if(tool != null) conf.set(ArgsParser.TOOLSTRING, tool.toString());
-	        if (pargs.hasOption(ArgsParser.OUTDIR)) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
-	        if (pargs.hasOption(ArgsParser.PARAMETERLIST)) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
+	        if (pargs.hasOption("o")) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
+	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
 	        
 			if(tool == null) {
 				System.out.println("Cannot find tool: "+pargs.getValue("t"));
