@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" model="0.1" xsi:noNamespaceSchemaLocation="../scape-core/src/main/resources/eu/scape_project/core/model/toolspec/toolspec.xsd">
   <id>convert</id>
-  <name>JODConverter's converter (xsl2ods)</name>
+  <name>JODConverter's converter (xls2ods)</name>
   <homepage>http://artofsolving.com/opensource/jodconverter</homepage>
   <version>1.0</version>
   <installation>
@@ -13,8 +13,8 @@
         </os>
   </installation>
   <services>
-    <service sid="1" name="jodconverter-xsl2ods" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>JODConverter conversion service (xsl2ods)</description>
+    <service sid="1" name="jodconverter-xls2ods" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+      <description>JODConverter conversion service (xls2ods)</description>
       <operations>
         <operation oid="1" name="convert">
           <description>Converts Excel to OpenDocument Spreadsheet</description>

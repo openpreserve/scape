@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" model="0.1" xsi:noNamespaceSchemaLocation="../scape-core/src/main/resources/eu/scape_project/core/model/toolspec/toolspec.xsd">
   <id>convert</id>
-  <name>JODConverter's converter (ods2xsl)</name>
+  <name>JODConverter's converter (xls2pdf)</name>
   <homepage>http://artofsolving.com/opensource/jodconverter</homepage>
   <version>1.0</version>
   <installation>
@@ -13,11 +13,11 @@
         </os>
   </installation>
   <services>
-    <service sid="1" name="jodconverter-ods2xsl" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
-      <description>JODConverter conversion service (ods2xsl)</description>
+    <service sid="1" name="jodconverter-xls2pdf" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+      <description>JODConverter conversion service (xls2pdf)</description>
       <operations>
         <operation oid="1" name="convert">
-          <description>Converts OpenDocument Spreadsheet to Excel</description>
+          <description>Converts Excel to PDF</description>
           <command>jodconverter ${input} ${output}</command>
           <inputs>
             <input name="input">
@@ -25,7 +25,7 @@
               <Required>true</Required>
               <CliMapping>input</CliMapping>
               <Documentation>URL reference to input file</Documentation>
-              <Default>http://scape.keep.pt/scape/testdata/office/TODO_LIST_-_model_to_print.ods</Default>
+              <Default>http://scape.keep.pt/scape/testdata/office/SampleData.xls</Default>
             </input>
           </inputs>
           <outputs>
@@ -35,7 +35,7 @@
               <CliMapping>output</CliMapping>
               <Documentation>URL reference to output file</Documentation>
               <PrefixFromInput>input</PrefixFromInput>
-              <Extension>xsl</Extension>
+              <Extension>pdf</Extension>
             </output>
           </outputs>
         </operation>
