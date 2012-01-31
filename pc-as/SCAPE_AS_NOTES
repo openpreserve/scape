@@ -1,0 +1,56 @@
+* toolwrapper changes:
+	1) allow xml to contain information about the debian package deployment (pre/post install/remove scripts and scripts for /etc/init.d/), probably inside /installation/os, and also about changes (to generate debian changelog), probably a sequence of "change" elements, wtih a "date" atribute, and pcdata inside for change description, also an element to contain the README content? and copyrights content?.
+	2) xa-toolwrapper/template/src/main/java/eu/scape_project/pc/services/util/StringUtils.java has a method called "getFileExtension" that obtains the file extension from a string, and if that same extension has more than 3 characters, it returns "tmp" as extension (it makes conversion of docx, pptx and xslx to fail) > test commented, in our compiled version of toolwrapper
+
+
+* GStreamer	
+   ! not defined yet any converter
+
+
+* Apache	Sanselan
+   ! not done yet because it is a library and not a command-line conversion tool
+
+
+* gimp tool (how to convert a tiff to jpeg)
+	1) echo "(define (convert-tiff-to-jpeg filename outfile)(let* ((image (car (gimp-file-load RUN-NONINTERACTIVE filename filename)))  (drawable (car (gimp-image-merge-visible-layers image CLIP-TO-IMAGE)))  )    (file-jpeg-save RUN-NONINTERACTIVE image drawable outfile outfile .9 0 0 0 \" \" 0 1 0 1)(gimp-image-delete image)))(convert-tiff-to-jpeg \"/home/hsilva/Git/scape/pc-as/testdata/elephant.tiff\" \"/home/hsilva/Git/scape/pc-as/testdata/elephant.jpg\")(gimp-quit 0)" | gimp -i -b -
+	2) 12:41:11.018 [http-8080-1] DEBUG e.s.p.s.proc.CommandLineProcess - Tool message: 
+		error: Incapaz de criar pasta '/usr/share/tomcat6/.gimp-2.6': Permissão negada
+      POSSIBLE SOLUTION (post install):
+			sudo mkdir -p /usr/share/tomcat6/.gimp-2.6
+			sudo chown -R tomcat6:tomcat6 /usr/share/tomcat6/.gimp-2.6
+
+
+* inkscape
+	1) svg to * ? meaning, only svg as input format?
+
+
+* avidemux
+	1) error: Incapaz de criar pasta '/usr/share/tomcat6/.avidemux': Permissão negada
+		POSSIBLE SOLUTION (post install):
+			sudo mkdir -p /usr/share/tomcat6/.avidemux
+			sudo chown -R tomcat6:tomcat6 /usr/share/tomcat6/.avidemux
+
+
+* pdfbox 
+	! not done yet because it is a library and not a command-line conversion tool
+
+
+* tidy
+	! it does in place changes (cannot specify output file), so it cannot be used with toolwrapper as it is
+
+
+* B2xtranslator
+   ! needs to debian packaged for easy deploy and also to put the .exec in a specific place so it can be invoked
+
+
+
+* MsgText
+   ! doesn't work in linux using mono
+
+
+* tesseract
+	! imagename must be a TIF image with a .tif extension (if it is .tiff, an error occurs)
+
+
+* Netpbm
+	! it must use a bash script because the command needed pipe and output redirection and it doesn't work well it the toolwrapper process runner
