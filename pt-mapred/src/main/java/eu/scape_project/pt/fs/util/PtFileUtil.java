@@ -4,11 +4,6 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import eu.scape_project.pt.mapred.SimpleWrapper;
-
 public class PtFileUtil {
 	
 	static String HDFS = "hdfs";

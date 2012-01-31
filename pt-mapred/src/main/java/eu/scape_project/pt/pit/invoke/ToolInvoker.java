@@ -15,8 +15,12 @@ import eu.scape_project.pt.proc.Processor;
 
 /*
  * Class to invoke tools as native processes. Supports IO via files and streams.
+ * 
+ * Deprecated: Using xa-pit instead.
+ * 
  * @author Rainer Schmidt [rschmidt13]
  */ 
+@Deprecated
 public class ToolInvoker {
 	
 	private static Log LOG = LogFactory.getLog(ToolInvoker.class);
