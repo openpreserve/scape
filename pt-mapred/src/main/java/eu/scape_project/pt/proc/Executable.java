@@ -2,6 +2,7 @@ package eu.scape_project.pt.proc;
 
 import java.util.HashMap;
 
+@Deprecated
 public abstract class Executable {
 	
 	public static int NATIVE_EXEC = 0;

@@ -15,7 +15,11 @@
 #TODO resolve a pre/post-condition via stdin/stdout pipes
 #TODO e.g. -pre hdfs:///user/rainer/docs/paper.ps?mode=stream
 #
--exec paper.ps paper.ps.pdf -pre hdfs:///user/rainer/docs/paper.ps -post hdfs:///user/rainer/docs/paper.ps.pdf
+
+--input hdfs:///user/docs/paper.ps --output hdfs:///user/docs/paper.pdf
+
+# deprecated:
+#-exec paper.ps paper.ps.pdf -pre hdfs:///user/rainer/docs/paper.ps -post hdfs:///user/rainer/docs/paper.ps.pdf
 #NO_HDFS -exec file:///absolute/in.file out.file 
 #HDFS_WITH_STREAMS
 #-exec /etc/fugol paper.pdf -pre http://files.com/paper.pdf
