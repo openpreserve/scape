@@ -10,12 +10,17 @@ if [ $# -eq 2 ]; then
 	XML_NAME_WO_EXT=`basename $2 | sed 's/\.xml//'`
 	cp workflow_rest_template.t2flow "$TEMP_DIR/$XML_NAME_WO_EXT"_rest.t2flow
 	cp workflow_soap_template.t2flow "$TEMP_DIR/$XML_NAME_WO_EXT"_soap.t2flow
+	if [ ! -d workflows ]; then
+		mkdir workflows
+	fi
 	cd $TEMP_DIR
 	mkdir "debian"
 	echo "This is a dummy README" > README
 	WAR_NAME=`basename $1`
 	# generate the .deb
 	../generateDebianPackageFiles.pl $XML_NAME_WO_EXT $WAR_NAME $XML
+	cp "$XML_NAME_WO_EXT"_rest.t2flow ../workflows/
+	cp "$XML_NAME_WO_EXT"_soap.t2flow ../workflows/
 	equivs-build $XML_NAME_WO_EXT
 	mv *.deb ..
 	cd ..
