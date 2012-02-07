@@ -9,8 +9,8 @@ fi
 
 scriptdir=`dirname "$0"`
 
-if [ ! -d $scriptdir/services ]; then
-	mkdir $scriptdir/services
+if [ ! -d $scriptdir/wars ]; then
+	mkdir $scriptdir/wars
 fi
 
 # Get absolute path for $scriptdir
@@ -19,7 +19,7 @@ scriptdir=`readlink -m $scriptdir`
 # Get absolute path for input file
 xc=`readlink -m $1`
 
-cd $scriptdir/../xa-toolwrapper
+cd $scriptdir/../../xa-toolwrapper
 
 # delete all previous generated services
 rm -rf generated/*
@@ -32,7 +32,7 @@ for file in *; do
 	if [ -d $file ]; then
 		cd $file
 		mvn package
-		cp target/*local.war "$scriptdir/services/scapeservices#`ls target/*local.war | sed 's/^target\/\([^\-]\+-[^\-]\+-[^\-]\+\).*/\1/'`.war"
+		cp target/*local.war "$scriptdir/wars/scapeservices#`ls target/*local.war | sed 's/^target\/\([^\-]\+-[^\-]\+-[^\-]\+\).*/\1/'`.war"
 		cd ..
 	fi
 done
