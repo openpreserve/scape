@@ -163,7 +163,8 @@ public class Processor {
 	public void execute( HashMap<String,String> parameters) throws IOException, CommandNotFoundException {
 		String[] cmd_template = substituteTemplates(action);
 		HashMap<String, String> vars = getStandardVars(action);
-        vars.putAll(parameters);
+        if( parameters != null )
+            vars.putAll(parameters);
 		
 		for( String key : vars.keySet() ) {
 			System.out.println("Key: "+key+" = "+vars.get(key));
@@ -179,7 +180,8 @@ public class Processor {
 	public void execute( In input, HashMap<String,String> parameters ) throws IOException {
 		String[] cmd_template = substituteTemplates(action);
 		HashMap<String, String> vars = getStandardVars(action);
-        vars.putAll(parameters);
+        if( parameters != null )
+            vars.putAll(parameters);
 		
 		// TODO Check input file exists!
 		// For one input, we map like this, or support StdIn.
@@ -205,7 +207,8 @@ public class Processor {
 	public void execute( In input1, In input2, HashMap<String,String> parameters ) throws IOException {
 		String[] cmd_template = substituteTemplates(action);
 		HashMap<String, String> vars = getStandardVars(action);
-        vars.putAll(parameters);
+        if( parameters != null )
+            vars.putAll(parameters);
 
 		// Special parameters for this form:
 		vars.put("input1", input1.getFile().getAbsolutePath());
@@ -221,7 +224,8 @@ public class Processor {
 	public void execute( In input, Out output, HashMap<String,String> parameters ) throws IOException {
 		String[] cmd_template = substituteTemplates(action);
 		HashMap<String, String> vars = getStandardVars(action);
-        vars.putAll(parameters);
+        if( parameters != null )
+            vars.putAll(parameters);
 
 		// Special parameters for this form:
 		// For one input, we map like this, or support StdIn.
