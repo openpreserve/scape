@@ -20,6 +20,10 @@ public class ArgsParser {
 	static public final String ACTIONSTRING = "ACTIONSTRING";
 	static public final String PARAMETERLIST = "PARAMETERLIST";
 
+	static public final String PROCSTRING = "PROC_STRING";
+	static public final String PROC_TOOLSPEC = "toolspec";
+	static public final String PROC_TAVERNA = "taverna";
+
 	private OptionParser parser = null;
 	private OptionSet options = null;
 	

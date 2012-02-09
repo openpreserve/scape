@@ -1,6 +1,6 @@
 package eu.scape_project.pt.proc;
 
-import java.io.IOException;
+import java.util.HashMap;
 
 public interface Processor {
 
@@ -8,5 +8,15 @@ public interface Processor {
 	public int execute() throws Exception;
 	
 	public void initialize();
+
+    public void setContext( HashMap<String, String> hashMap);
+
+    /**
+     * Get input parameters to the processor.
+     * 
+     * TODO use a Inputs Object instead of HashMap
+     * @return 
+     */
+    public HashMap<String, HashMap> getInputs();
 	
 }
