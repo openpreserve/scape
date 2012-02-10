@@ -9,6 +9,9 @@ if [ $# -eq 2 ]; then
 	# info needed
 	WAR_NAME=`basename $WAR`
 	XML_NAME_WO_EXT=`basename $XML | sed 's/\.xml$//'`
+	CUSTOM_POSTINST="`dirname $XML`/$XML_NAME_WO_EXT.postinst"
+	CUSTOM_SH="`dirname $XML`/$XML_NAME_WO_EXT.sh"
+	
 	TEMP_DIR=".debianGeneration`date +%s`"
 
 	# create necessary folders and files
@@ -21,9 +24,18 @@ if [ $# -eq 2 ]; then
 	fi
 	cp -r debian_template $TEMP_DIR/debian/
 	cd $TEMP_DIR
+	# determine if there is any custom postinst script
+   if [ -f $CUSTOM_POSTINST ]; then
+		cp $CUSTOM_POSTINST debian/postinst
+	fi
+	# determine if there is any custom script
+	if [ -f $CUSTOM_SH ]; then
+		cp $CUSTOM_SH $XML_NAME_WO_EXT
+		echo "$XML_NAME_WO_EXT usr/bin/" >> debian/install
+	fi
 	mv debian/MAN.manpages debian/$XML_NAME_WO_EXT.manpages
 	mv debian/MAN.pod debian/$XML_NAME_WO_EXT.pod
-	perl ../generateDebianPackageFiles.pl $XML_NAME_WO_EXT $WAR_NAME $XML
+	perl ../generateDebianPackageInformation.pl $XML_NAME_WO_EXT $WAR_NAME $XML
 	cp "$XML_NAME_WO_EXT"_rest.t2flow ../../workflows/
 	cp "$XML_NAME_WO_EXT"_soap.t2flow ../../workflows/
 	

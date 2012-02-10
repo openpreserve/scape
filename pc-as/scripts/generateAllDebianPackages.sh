@@ -5,7 +5,7 @@ RELATIVE_PATH="../services/"
 if [ $# -eq 1 ]; then
 	SERVICE_PATTERN="$1"
 else
-	SERVICE_PATTERN="${RELATIVE_PATH}scape-as-*"
+	SERVICE_PATTERN="${RELATIVE_PATH}scape-as-*.xml"
 fi
 
 for i in $(ls $SERVICE_PATTERN)

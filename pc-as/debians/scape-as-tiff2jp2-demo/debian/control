@@ -1,0 +1,14 @@
+Source: scape-as-tiff2jp2-demo
+Section: misc
+Priority: extra
+Maintainer: Hélder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0), perl
+Standards-Version: 3.9.2
+Homepage: http://scape-project.eu/
+
+Package: scape-as-tiff2jp2-demo
+Architecture: all 
+Depends: taverna-commandline, scape-as-execute-workflow-with-webservice, scape-as-gimp-tiff2jpg
+Description: This is a meta-package for scape-as-tiff2jp2-demo 
+ This is a meta-package for scape-as-tiff2jp2-demo, declaring this way
+ all the needed packages for the demo.

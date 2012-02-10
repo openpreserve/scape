@@ -7,11 +7,12 @@
 ##NAME##
 
 =head1 DESCRIPTION
+
 ##DESCRIPTION##
 
 =head1 AUTHORS
 
 B<##NAME##> was written by KEEP SOLUTIONS, LDA. 
 
-This manual page was written by Hélder Silva <hsilva@keep.pt>.
+This manual page was written by Helder Silva <hsilva@keep.pt>.
 =cut
