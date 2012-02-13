@@ -7,6 +7,7 @@ import java.util.HashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+@Deprecated
 public class ToolMap {
 	
 	private static Log LOG = LogFactory.getLog(ToolMap.class);

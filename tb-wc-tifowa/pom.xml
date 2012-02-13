@@ -16,6 +16,7 @@
 	<properties>
 		<scape.core.version>0.0.1-SNAPSHOT</scape.core.version>
 		<org.codehaus.jackson.version>1.6.4</org.codehaus.jackson.version>
+                <tika.version>0.7</tika.version>
 	</properties>
 	<build>
 		<plugins>
@@ -72,12 +73,12 @@
 		<dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-core</artifactId>
-			<version>0.7</version>
+			<version>${tika.version}</version>
 		</dependency>
         <dependency>
 			<groupId>org.apache.tika</groupId>
 			<artifactId>tika-parsers</artifactId>
-			<version>0.7</version>
+			<version>${tika.version}</version>
 		</dependency>
 
 

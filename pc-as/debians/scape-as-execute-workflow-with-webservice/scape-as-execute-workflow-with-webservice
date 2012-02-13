@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ $# -eq 2 ]; then
+   FILE=$1
+   WF=$2
+   OUTPUT_DIR=`pwd`
+   TAVERNA_TEMP_DIR=".out"
+   FILE_NAME=`basename $FILE`
+
+   echo "sudo cp $FILE /var/lib/tomcat6/webapps/scape/tmp/"
+   sudo cp $FILE /var/lib/tomcat6/webapps/scape/tmp/
+   taverna-commandline -outputdir $TAVERNA_TEMP_DIR -inputvalue input_file_url "http://localhost:8080/scape/tmp/$FILE_NAME" -inputvalue output_dir `pwd` $WF
+   URL=`cat $TAVERNA_TEMP_DIR/output_file_url`
+   echo $URL
+   rm -rf $TAVERNA_TEMP_DIR
+   echo "sudo rm /var/lib/tomcat6/webapps/scape/tmp/$FILE_NAME"
+   sudo rm "/var/lib/tomcat6/webapps/scape/tmp/$FILE_NAME"
+else
+   echo -e "[ERROR] Must provide 2 args: file to be converted and the workflow to be applied!\n\tusage:\t $0 FILE WORKFLOW"
+fi

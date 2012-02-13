@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec xmlns="http://www.scape-project.eu/schemas/2011/11/16/toolspec">
+  <!-- This toolspec derives from file.ptspec.xml as a quick hack. Only rudimentary stuff included. -->
+  <!-- A unique ID for this tool spec. -->
+  <id>pit-ps2pdf</id>
+  <!-- The version for this tool spec. -->
+  <version>0.1</version>
+  
+  <!-- Tool Information -->
+  <tool>
+    <name>Ghostscript</name>
+    <homepage></homepage>
+    <version>0.00</version>
+    <installation>
+  	  <os type="linux">
+		Available by default?
+      </os>
+	  <os type="windows">
+	  </os>
+    </installation>
+  </tool>
+  
+  <!-- Shared input definitions -->
+  <inputs>
+	<input name="dummy" var="dummy">
+	  <default>dummy</default>
+	  <documentation>Dummy input, inputs must not be empty</documentation>
+	  <!-- All datatypes are xsd:string by default. -->
+	  <datatype>xsd:string</datatype>
+	</input>
+  </inputs>
+ 
+  <!-- Actions -->
+  <action type="convert" id="gs-to-pdfa">
+    <command>gs -dPDFA -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=${output} ${input}</command>
+    <formats in="eps,pdf,ps" out="pdfa"/>
+  </action>
+</toolspec>
