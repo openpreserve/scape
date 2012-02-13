@@ -92,7 +92,8 @@ public class PitProcessor implements Processor {
      */
     public HashMap<String, HashMap> getInputs( ) {
         HashMap<String, HashMap> mapInputz = new HashMap<String,HashMap>();
-        if( strTool.equals("ghostscript") && strAction.equals("gs-to-pdfa")) {
+        if( strTool.equals("ghostscript") && strAction.equals("gs-to-pdfa") ||
+            strTool.equals("convert") && strAction.equals("convertTIFFtoTIFF")) {
             HashMap<String, Object> mapInputParam = new HashMap<String, Object>();
             mapInputParam.put( "required", false );
             mapInputParam.put( "datatype", URI.class );
