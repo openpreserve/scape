@@ -18,7 +18,7 @@
       <operations>
         <operation oid="1" name="convert">
           <description>Converts TIFF to PNG</description>
-          <command>/home/hsilva/Git/scape/pc-as/scriptsNeededForWebservices/gimp-tiff2png.sh ${input} ${output}</command>
+          <command>scape-as-gimp-tiff2png ${input} ${output}</command>
           <inputs>
             <input name="input">
               <Datatype>xsd:anyURI</Datatype>
