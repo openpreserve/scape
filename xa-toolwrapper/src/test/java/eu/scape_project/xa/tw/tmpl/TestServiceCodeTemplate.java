@@ -22,10 +22,6 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,30 +39,20 @@ public class TestServiceCodeTemplate extends TestCase {
     /** Logger */
     private static Logger logger = LoggerFactory.getLogger(TestServiceCodeTemplate.class.getName());
 
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
 
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    @Override
-    public void setUp() {
-    }
-
-    @After
-    @Override
-    public void tearDown() {
-    }
-
+    /**
+     * Simple test for required template files.
+     * @throws FileNotFoundException if either of the template files doesn't exits
+     */
     @Test
     public void testTemplateFilesAvailable() throws FileNotFoundException {
         if (!(new File(serviceTmpl)).exists() || !(new File(operationTmpl)).exists() )
             throw new FileNotFoundException();
     }
 
+    /**
+     * @throws IOException
+     */
     @Test
     public void testTemplateEvaluation() throws IOException  {
 

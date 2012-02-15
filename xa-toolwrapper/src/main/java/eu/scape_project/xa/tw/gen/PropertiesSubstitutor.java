@@ -19,6 +19,7 @@ import eu.scape_project.xa.tw.util.PropertyUtil;
 import eu.scape_project.xa.tw.util.FileUtil;
 import java.io.File;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,7 @@ public class PropertiesSubstitutor extends Substitutor {
     /**
      * Reads the properties from the project configuration properties file
      * and creates the substitution variable map.
+     * @param propertiesAbsPath the path to the properties file
      * @throws GeneratorException
      */
     public PropertiesSubstitutor(String propertiesAbsPath) throws GeneratorException {
@@ -62,19 +64,27 @@ public class PropertiesSubstitutor extends Substitutor {
 
         // Substitution variables
         Map<String, String> map = pu.getKeyValuePairs();
-        Set propertySet = map.entrySet();
-        for (Object o : propertySet) {
-            Map.Entry entry = (Map.Entry) o;
+        Set<Entry<String, String>> propertySet = map.entrySet();
+        for (Entry<String, String> entry : propertySet) {
             String key = (String) entry.getKey();
             String val = (String) entry.getValue();
             this.putKeyValuePair(key, val);
         }
     }
 
+    /**
+     * Adds a key value pair to the subsitutor
+     * @param key the key
+     * @param val the value associated with the key
+     */
     public void addVariable(String key, String val) {
         this.putKeyValuePair(key, val);
     }
 
+    /**
+     * Derives some variables from the service definition
+     * @throws GeneratorException
+     */
     public void deriveVariables() throws GeneratorException {
         if(serviceDef == null) {
             throw new GeneratorException("Service definition missing, unable "

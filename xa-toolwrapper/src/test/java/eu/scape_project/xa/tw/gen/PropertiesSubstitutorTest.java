@@ -35,9 +35,10 @@ public class PropertiesSubstitutorTest {
 
     private PropertiesSubstitutor st;
 
-    public PropertiesSubstitutorTest() {
-    }
-
+    /**
+     * Reads the config and sets up substitutor
+     * @throws GeneratorException
+     */
     @Before
     public void setUp() throws GeneratorException {
         Configuration ioc = new Configuration();
@@ -58,6 +59,7 @@ public class PropertiesSubstitutorTest {
 
     /**
      * Test of deriveVariables method, of class PropertiesSubstitutor.
+     * @throws Exception 
      */
     @Test
     public void testDeriveVariables() throws Exception {
