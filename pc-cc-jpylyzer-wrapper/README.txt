@@ -1,0 +1,3 @@
+This is a simple Java wrapper for the Python Jpylyzer command line tool.
+
+More info to follow.....
