@@ -11,6 +11,9 @@ import java.util.HashMap;
  */
 public interface Operation {
 	
+	/**
+	 * @param inputs
+	 */
 	public void run( HashMap<String,String> inputs );
 
 }

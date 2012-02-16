@@ -1,6 +1,5 @@
 package eu.scape_project.pt.proc;
 
-import java.io.IOException;
 
 public interface Processor {
 

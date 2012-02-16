@@ -5,7 +5,6 @@ package eu.scape_project.pit.invoke;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import eu.scape_project.pit.tools.Action;
 import eu.scape_project.pit.tools.ToolSpec;
@@ -16,11 +15,21 @@ import eu.scape_project.pit.tools.ToolSpec;
  */
 public class Identify extends Processor {
 
+	/**
+	 * @param ts
+	 * @param action
+	 * @throws ToolSpecNotFoundException
+	 */
 	public Identify(ToolSpec ts, Action action)
 			throws ToolSpecNotFoundException {
 		super(ts, action);
 	}
 
+	/**
+	 * @param input
+	 * @throws CommandNotFoundException
+	 * @throws IOException
+	 */
 	public void identify( File input ) throws CommandNotFoundException, IOException {
 		this.execute(new In(input), null);
 	}

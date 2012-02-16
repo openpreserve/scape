@@ -12,6 +12,11 @@ import java.util.HashMap;
  */
 public interface Identify extends Operation {
 	
+	/**
+	 * @param inputURL
+	 * @param inputs
+	 * @return the operation result as a string
+	 */
 	public String identify( URL inputURL, HashMap<String,String> inputs );
 
 }

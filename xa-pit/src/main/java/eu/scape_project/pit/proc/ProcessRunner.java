@@ -71,6 +71,7 @@ public class ProcessRunner implements Runnable {
     /** Time to wait */
     public static final int WAIT = 100;
     //public static final long MAX_EXECUTION_TIME = (5 * 60 * 1000);
+    /** The Maximum wait time */
     public static final int MAX_WAIT_MILLIS = 1000;
     private static Logger logger = LoggerFactory.getLogger(ProcessRunner.class.getName());
     /** Based on ProcessBuilder which actually takes the command array */

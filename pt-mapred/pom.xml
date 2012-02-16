@@ -6,16 +6,13 @@
 		<relativePath>..</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-  <groupId>eu.scape-project</groupId>
   <artifactId>pt-mapred</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>SCAPE MapReduce Wrappers</name>
   <description>Invokes SPAPE preservation tools in on Hadoop MapReduce environments</description>
 	<build>
 		<plugins>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2</version>
 				<configuration>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>

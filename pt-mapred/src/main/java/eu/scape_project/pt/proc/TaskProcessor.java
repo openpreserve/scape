@@ -1,7 +1,5 @@
 package eu.scape_project.pt.proc;
 
-import java.io.IOException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

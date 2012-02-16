@@ -24,12 +24,12 @@ import eu.scape_project.core.model.ByteStreamInfo;
  */
 public class ByteStreamCharacterisation {
     /**
-     * @param is
-     * @return
+     * @param is the java.io.InputStream to characterise
+     * @return a ByteStreamInfo object with characterisation data calced from the stream
      * @throws NoSuchAlgorithmException
      * @throws IOException
      */
     public ByteStreamInfo characterise(InputStream is) throws NoSuchAlgorithmException, IOException {
-	return ByteStreamInfo.getInstance(DigestAlgorithm.values(), is);
+    	return ByteStreamInfo.getInstance(DigestAlgorithm.values(), is);
     }
 }

@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.w3c.dom.Element;
-
+/**
+ * @author  <a href="mailto:andrew.jackson@bl.uk">Andrew Jackson</a>
+ */
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Inputs {
 	
@@ -41,7 +41,7 @@ public class Inputs {
 	}
 
 	/**
-	 * @param parameters the parameters to set
+	 * @param inputs the list of inputs to use 
 	 */
 	public void setInputs(List<Input> inputs) {
 		this.inputs = inputs;
