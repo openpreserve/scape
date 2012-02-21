@@ -43,7 +43,6 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         /**
          * Sets up stuff which needs to be created only once and can be used in all maps this Mapper performs.
          * 
-         * For per Job there can only be one Tool and one Action selected, this stuff is the processor and the input parameters parser.
          * @param context
          */
         @Override
@@ -53,15 +52,10 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		}
 
         /**
-         * The map gets a key and value, the latter being a single command-line with execution parameters for pre-defined Toolspec and Action-id.
+         * The map gets a key and value.
          * 
-         * 1. Parse the input command-line and read parameters and arguments.
-         * 2. Find input- and output-files. Input files are copied from their remote location (eg. HDFS) to a local temporary location. A local temporary location for the output-files is defined.
-         * 3. Run the tool using xa-pits Processor.
-         * 4. Copy output-files (if needed) from the temp. local location to the remote location which may be defined in the command-line parameter.
-         * 
-         * @param key 
-         * @param value command-line with parameters and values for the tool
+         * @param key key of the map job
+         * @param value value of the map job
          * @param context Job context
          * @throws IOException
          * @throws InterruptedException
