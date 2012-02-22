@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -20,13 +19,6 @@ import org.apache.hadoop.util.ToolRunner;
 import eu.scape_project.pt.executors.Executor;
 import eu.scape_project.pt.executors.ToolspecExecutor;
 import eu.scape_project.pt.util.ArgsParser;
-
-import eu.scape_project.pt.proc.PitProcessor;
-import eu.scape_project.pt.proc.Processor;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 /**
  * A command-line interaction wrapper to execute cmd-line tools with MapReduce.
@@ -81,8 +73,6 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	    	executor.map(key, value);
 	    }	  
 	}
-
-            LOG.info("MyMapper.map key:" + key.toString() + " value:" + value.toString());
 
 	public static class CLIReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 		
