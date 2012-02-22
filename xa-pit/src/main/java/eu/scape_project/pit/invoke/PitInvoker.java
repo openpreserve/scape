@@ -4,29 +4,15 @@
 package eu.scape_project.pit.invoke;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
-import java.util.regex.Pattern;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import javax.xml.bind.JAXBException;
-
-import org.apache.commons.io.IOUtils;
 
 import us.monoid.web.Resty;
-
-import eu.scape_project.pit.tools.Input;
-import eu.scape_project.pit.tools.Action;
-import eu.scape_project.pit.tools.ToolSpec;
-import eu.scape_project.pit.tools.Template;
 
 /**
  * @author Andrew.Jackson@bl.uk [AnJackson]
@@ -34,6 +20,11 @@ import eu.scape_project.pit.tools.Template;
  */
 public class PitInvoker {
 	
+	/**
+	 * @param command_is
+	 * @param input1
+	 * @param input2
+	 */
 	public void compare(String command_is, URL input1, URL input2 ) {
 		
 	}

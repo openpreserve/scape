@@ -18,7 +18,7 @@
       <operations>
         <operation oid="1" name="convert">
           <description>Converts TIFF to JPG</description>
-          <command>/home/hsilva/Git/scape/pc-as/scriptsNeededForWebservices/gimp-tiff2jpg.sh ${input} ${output}</command>
+          <command>scape-as-gimp-tiff2jpg ${input} ${output}</command>
           <inputs>
             <input name="input">
               <Datatype>xsd:anyURI</Datatype>

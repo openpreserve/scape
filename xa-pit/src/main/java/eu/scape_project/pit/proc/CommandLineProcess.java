@@ -16,14 +16,14 @@
 package eu.scape_project.pit.proc;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import org.apache.commons.io.IOUtils;
-//import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
  * @version ${global_wrapper_version}
  */
 public class CommandLineProcess {
-
+	/** Denotes the minumim lenght of a query token */
     public static final int MIN_QUERYTOKEN_LENGTH = 4;
     /* Logger */
     private static Logger logger = LoggerFactory.getLogger(CommandLineProcess.class.getName());
@@ -76,8 +76,11 @@ public class CommandLineProcess {
     private String processingLog = "";
     private boolean sh;
     private String output;
-//    private VelocityEngine ve;
 
+
+    /**
+     * @return the objects processing log
+     */
     public String getProcessingLog() {
         return processingLog;
     }
@@ -101,7 +104,7 @@ public class CommandLineProcess {
      * @param sh
      *         invoke the shell with the command line as the parameter
      */
-    public CommandLineProcess(String pattern, HashMap paramValuePairs, boolean sh) {
+    public CommandLineProcess(String pattern, HashMap<String, String> paramValuePairs, boolean sh) {
         this();
         this.sh = sh;
         this.pattern = pattern;
@@ -111,11 +114,13 @@ public class CommandLineProcess {
         this.createCommandList();
     }
 
+    /**
+     * Construct from a list of string commands
+     * @param commands
+     */
     public CommandLineProcess(List<String> commands) {
         this();
-        for (String command : commands) {
-            this.commands.add(command);
-        }
+        Collections.copy(this.commands, commands);
     }
 
     /**
@@ -139,6 +144,7 @@ public class CommandLineProcess {
 
     /**
      * Get the command string list which can be used by the Process builder object.
+     * @return the java.util.List<String> of commands
      */
     public List<String> getCommand() {
         return this.commands;
@@ -173,6 +179,7 @@ public class CommandLineProcess {
 
     /**
      * Execute process withouth further input
+     * @return the process return code
      */
     public int execute() {
         pr.run();
@@ -212,10 +219,16 @@ public class CommandLineProcess {
         return code;
     }
 
+    /**
+     * @return the process execution code
+     */
     public int getCode() {
         return code;
     }
 
+    /**
+     * @return get the process output string
+     */
     public String getOutput() {
         return output;
     }

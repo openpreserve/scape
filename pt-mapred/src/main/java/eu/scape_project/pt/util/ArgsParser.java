@@ -1,7 +1,7 @@
 package eu.scape_project.pt.util;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
+
 import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;

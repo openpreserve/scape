@@ -1,0 +1,35 @@
+=head1 NAME
+
+scape-as-tiff2jp2-demo - This is a meta-package for scape-as-tiff2jp2-demo 
+
+=head1 DESCRIPTION
+
+ This is a meta-package for scape-as-tiff2jp2-demo, declaring this way
+ all the needed packages for the demo.
+ How to execute this demo:
+ 1) Get a TIFF file
+   You may download a TIFF example from: http://scape.keep.pt/scape/testdata/elephant.tiff
+   wget http://scape.keep.pt/scape/testdata/elephant.tiff
+ 2) Get the Taverna Workflow
+   cp /usr/share/doc/scape-as-gimp-tiff2jpg/scape-as-gimp-tiff2jpg_rest.t2flow.gz .
+   gunzip scape-as-gimp-tiff2jpg_rest.t2flow.gz
+ 3) Execute it
+   scape-as-execute-workflow-with-webservice elephant.tiff scape-as-gimp-tiff2jpg_rest.t2flow
+
+=head1 AUTHORS
+
+B<scape-as-tiff2jp2-demo> was written by Helder Silva <hsilva@keep.pt>.
+
+This manual page was written by Helder Silva <hsilva@keep.pt>. 
+
+=head1 COPYRIGHT
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+On Debian GNU/Linux systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+
+=cut

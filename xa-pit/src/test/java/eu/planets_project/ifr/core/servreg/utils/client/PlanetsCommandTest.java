@@ -10,8 +10,6 @@
  */
 package eu.planets_project.ifr.core.servreg.utils.client;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 

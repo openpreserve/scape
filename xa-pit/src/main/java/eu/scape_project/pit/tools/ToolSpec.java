@@ -18,11 +18,14 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.transform.stream.StreamSource;
 
+/**
+ * @author  <a href="mailto:andrew.jackson@bl.uk">Andrew Jackson</a>
+ */
 @XmlRootElement( name="toolspec" )
 @XmlType( namespace=ToolSpec.NS )
 @XmlAccessorType( XmlAccessType.FIELD )
 public class ToolSpec {
-	
+	/** The namespace for the toolspec */
 	public static final String NS = "http://www.scape-project.eu/schemas/2011/11/16/toolspec";
 	
 	private String id;
@@ -82,7 +85,7 @@ public class ToolSpec {
 	}
 
 	/**
-	 * @return
+	 * @return the tool
 	 */
 	public Tool getTool() {
 		return tool;
@@ -161,6 +164,13 @@ public class ToolSpec {
 		return bos.toString("UTF-8");
 	}
 	
+	/**
+	 * Deserializes a ToolSpec from an XML stream
+	 * @param input
+	 * @return a new ToolSpec object created from the XML Stream data
+	 * @throws FileNotFoundException
+	 * @throws JAXBException
+	 */
 	public static ToolSpec fromInputStream( InputStream input ) throws FileNotFoundException, JAXBException {
 		Unmarshaller u = jc.createUnmarshaller();
 		return (ToolSpec) u.unmarshal(new StreamSource(input));

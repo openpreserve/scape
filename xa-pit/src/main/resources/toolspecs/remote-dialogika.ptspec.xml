@@ -4,7 +4,7 @@
   <name>DIaLOGIKa</name>
   <homepage></homepage>
   
-  <action type="convert" id='dialogika">
+  <action type="convert" id="dialogika">
     <service>http://planets.dialogika.de/planets.webservice/DIaLOGIKa.wsdl</service>
   </action>
 

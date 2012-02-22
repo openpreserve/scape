@@ -17,7 +17,8 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
-import eu.scape_project.pt.proc.FileProcessor;
+import eu.scape_project.pt.executors.Executor;
+import eu.scape_project.pt.executors.ToolspecExecutor;
 import eu.scape_project.pt.util.ArgsParser;
 
 import eu.scape_project.pt.proc.PitProcessor;
@@ -250,12 +251,20 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
      * @throws Exception
      */
     @Override
-    public int run(String[] args) throws Exception {
+	public int run(String[] args) throws Exception {
 
-        Configuration conf = getConf();
-        Job job = new Job(conf);
+		Configuration conf = getConf();
+		Job job = new Job(conf);
+		
+		job.setJarByClass(CLIWrapper.class);
 
-        job.setJarByClass(CLIWrapper.class);
+		job.setOutputKeyClass(Text.class);
+		job.setOutputValueClass(IntWritable.class);
+		
+		job.setMapperClass(CLIMapper.class);
+	
+		
+		//job.setReducerClass(MyReducer.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
@@ -319,58 +328,53 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
             //if(tool != null) conf.set(ArgsParser.TOOLSTRING, tool.toString());
             conf.set(ArgsParser.TOOLSTRING, pargs.getValue("t"));
             conf.set(ArgsParser.ACTIONSTRING, pargs.getValue("a"));
-            if (pargs.hasOption("o")) {
-                conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
-            }
-            if (pargs.hasOption("p")) {
-                //conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
-                conf.set(ArgsParser.PROCSTRING, pargs.getValue("p"));
-            }
+	        if (pargs.hasOption("o")) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
+	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
 
             // TODO validate input parameters (eg. look for toolspec, action, ...)
 
             /*
-            if(tool == null) {
-            System.out.println("Cannot find tool: "+pargs.getValue("t"));
-            System.exit(-1);
-            }
+			if(tool == null) {
+				System.out.println("Cannot find tool: "+pargs.getValue("t"));
+				System.exit(-1);
+			}
              */
-            //don't run hadoop
-            if (pargs.hasOption("x")) {
-
-                /*
-                String t = System.getProperty("java.io.tmpdir");
-                LOG.info("Using Temp. Directory:" + t);
-                File execDir = new File(t);
-                if(!execDir.exists()) {
-                execDir.mkdir();
-                }
-                
-                LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
-                File paper_ps = new File(execDir.toString()+"/paper.ps");
-                LOG.info("Looking for this file: "+paper_ps);
-                LOG.info("Is paper.ps a file: "+paper_ps.isFile());
-                
-                //LOG.info("trying ps2pdf in without args.....");
-                String cmd = "/usr/bin/ps2pdf paper.ps paper.ps.pdf";
-                String[] cmds = cmd.split(" ");
-                System.out.println("cmds.length "+cmds.length);
-                ProcessBuilder pb = new ProcessBuilder(cmds);
-                pb.directory(execDir);
-                Process p1 = pb.start();
-                //LOG.info(".....");
-                 */
-
-                System.out.println("option x detected.");
-                System.exit(1);
-            }
-        } catch (Exception e) {
-            System.out.println(
-                "usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] -t cmd");
-            LOG.info(e);
-            System.exit(-1);
-        }
-
+	        //don't run hadoop
+	        if(pargs.hasOption("x")) {
+	        	
+	        	/*
+	        	String t = System.getProperty("java.io.tmpdir");
+	    		LOG.info("Using Temp. Directory:" + t);
+	    		File execDir = new File(t);
+	    		if(!execDir.exists()) {
+	    			execDir.mkdir();
+	    		}
+	        	
+	    		LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
+	    		File paper_ps = new File(execDir.toString()+"/paper.ps");
+	    		LOG.info("Looking for this file: "+paper_ps);
+	    		LOG.info("Is paper.ps a file: "+paper_ps.isFile());
+	    		
+	    		//LOG.info("trying ps2pdf in without args.....");
+	    		String cmd = "/usr/bin/ps2pdf paper.ps paper.ps.pdf";
+	    		String[] cmds = cmd.split(" ");
+	    		System.out.println("cmds.length "+cmds.length);
+	    		ProcessBuilder pb = new ProcessBuilder(cmds);
+	    		pb.directory(execDir);
+	    		Process p1 = pb.start();
+	    		//LOG.info(".....");
+	        	*/
+	        	
+	        	
+	        	System.out.println("option x detected.");	        	
+	        	System.exit(1);
+	        }
+		} catch (Exception e) {
+			System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] -t cmd");
+			LOG.info(e);
+			System.exit(-1);
+		}
+				
         try {
             LOG.info("Running MapReduce ...");
             res = ToolRunner.run(conf, mr, args);

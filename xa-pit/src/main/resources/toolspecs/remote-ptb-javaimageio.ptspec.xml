@@ -16,7 +16,7 @@
     <service>https://testbed.planets-project.eu/pserv-pa-java-se/JavaImageIOMigrate?wsdl</service>
   </action>
   
-  <action type="identify" id='jiio-identify-ssl">
+  <action type="identify" id="jiio-identify-ssl">
     <service>https://testbed.planets-project.eu/pserv-pa-java-se/JavaImageIOIdentify?wsdl</service>
   </action>
 

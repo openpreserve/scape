@@ -37,6 +37,11 @@ public class PropertyUtil {
     private Properties properties;
     private HashMap<String, String> map;
 
+    /**
+     * Construct the property utils object from the properties file
+     * @param propertiesFile a string path to a properties file
+     * @throws GeneratorException
+     */
     public PropertyUtil(String propertiesFile) throws GeneratorException {
         try {
             properties = new Properties();
@@ -47,11 +52,20 @@ public class PropertyUtil {
         }
     }
 
-    public Map<String, String> getKeyValuePairs() {
+    /**
+     * @return the properties key value pair map
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public Map<String, String> getKeyValuePairs() {
         map = new HashMap<String, String>((Map) properties);
         return map;
     }
 
+    /**
+     * get a property value by key
+     * @param key the property key
+     * @return the property value
+     */
     public String getProp(String key) {
         String val = (String) properties.getProperty(key);
         return val;

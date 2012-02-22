@@ -60,24 +60,40 @@ public class StringConverterUtil {
     }
 
 
+    /**
+     * Creates a file path from a package name
+     * @param pn the Java package name
+     * @return the file path
+     */
     public static String packageNameToPackagePath(String pn) {
-        String pp = pn.replaceAll("\\.", "/");
-        return pp;
+        return pn.replaceAll("\\.", "/");
     }
 
+    /**
+     * Converts variable names to property names, in an arbitrary fashion (replaces all occurrences of "_" in the var name with ".".
+     * @param var the variable name;
+     * @return property name
+     */
     public static String varToProp(String var) {
-        String prop = var.replaceAll("_", ".");
-        return prop;
+        return var.replaceAll("_", ".");
     }
 
+    /**
+     * Converts property names to variable names, in an arbitrary fashion (replaces all occurrences of "." in the var name with "_".
+     * @param var the property name
+     * @return the variable name
+     */
     public static String propToVar(String var) {
-        String prop = var.replaceAll("\\.", "_");
-        return prop;
+        return var.replaceAll("\\.", "_");
     }
 
+    /**
+     * Converts type names to file names, substitutes ":" for "_"
+     * @param var the type name
+     * @return the file name
+     */
     public static String typeToFilename(String var) {
-        String ret = var.replaceAll(":", "_").toLowerCase();
-        return ret;
+        return var.replaceAll(":", "_").toLowerCase();
     }
 
 }

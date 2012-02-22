@@ -15,14 +15,13 @@
  */
 package eu.scape_project.pt.proc;
 
-import java.io.File;
-import org.apache.hadoop.fs.FileSystem;
+import static org.junit.Assert.fail;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *

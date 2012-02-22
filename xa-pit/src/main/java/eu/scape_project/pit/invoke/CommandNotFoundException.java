@@ -1,5 +1,7 @@
 package eu.scape_project.pit.invoke;
-
+/**
+ * @author  <a href="mailto:andrew.jackson@bl.uk">Andrew Jackson</a>
+ */
 public class CommandNotFoundException extends Exception {
 
 	/**
