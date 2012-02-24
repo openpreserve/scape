@@ -13,6 +13,7 @@ import org.apache.hadoop.fs.Path;
  * 
  * @author Rainer Schmidt [rschmidt13]
  * @author Matthias Rella [myrho]
+ * @author Martin Schenck [schenck]
  */
 public class HDFSFiler implements Filer{
 	
@@ -64,7 +65,7 @@ public class HDFSFiler implements Filer{
 		
         // FIXME if strSrc is a directory then strDest should be a directory too
 		for(File file : dir.listFiles()) {
-			depositDirectoryOrFile(file.getCanonicalPath(), strDest);
+			depositDirectoryOrFile(file.getCanonicalPath(), strDest + File.separator + file.getName());
 		}
 	}
 
