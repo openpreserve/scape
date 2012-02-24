@@ -49,7 +49,7 @@ public class TavernaCLExecutor implements Executor {
 	@Override
 	public void setup() {
 		// Add trailing slash if missing to given directories
-    	if(!tavernaHome.endsWith(File.separator))
+    	if(tavernaHome != null && !tavernaHome.endsWith(File.separator))
     		tavernaHome += File.separator;
     	
     	if(!resultOutDir.endsWith(File.separator))
@@ -93,8 +93,14 @@ public class TavernaCLExecutor implements Executor {
 	    		    	
 	    	// The list of command and arguments for the process builder
 	    	List<String> command = new ArrayList<String>();
-	    	command.add("sh");
-	    	command.add(tavernaHome + "executeworkflow.sh");
+	    	
+	    	// Taverna from path or given directory?
+	    	if(tavernaHome == null) {
+	    		command.add("executeworkflow.sh");
+	    	} else {
+		    	command.add("sh");
+		    	command.add(tavernaHome + "executeworkflow.sh");
+	    	}
 	    	
 	    	List<String> inputList = new ArrayList<String>();
 	    	for(String input : workflowInput.split(" ")) {
