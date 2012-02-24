@@ -32,3 +32,31 @@ There are some TODOs:
 * Piped commands
 
 * As the input file with the list of command-lines serves as the MR Job input MapReduce cannot distribute workload. This input file gets assigned to one worker node which reads all lines and executes them, regardless of where the input or output files reside on HDFS. Ie. HDFS input files are copied from potentially remote nodes to the local filesystem which results in loss of parallelity. However, the aim should be that nodes process primarily command-lines which operate on files that already reside locally on that HDFS-node.
+
+Executing a Taverna Workflow
+----------------------------
+
+To execute a Taverna workflow, Taverna must be installed on the cluster. The wrapper can then be used to execute a Taverna workflow in parallel. 
+
+### Prerequisites
+
+Taverna must be installed on the cluster. On every machine, Taverna must be in the same path. If you want to execute the example workflow, convert (ImageMagic) and FITS must be installed. Convert should be in your path if you installed ImageMagic using a package manager. fits.sh must be added to the path in order for Taverna to find/execute it.
+
+### Execution
+
+You execute the wrapper like any other hadoop jar. The needed arguments are as follows:
+
+    hadoop jar {path-to-jar} -i {input-file-with-workflow-inputs} -o {where-to-save-results} -v {taverna-home} -w {workflow-location}
+
+Example:
+    
+    bin/hadoop jar /home/schenck/Workspaces/scape/scape/pt-mapred/target/pt-mapred-0.0.1-SNAPSHOT-jar-with-dependencies.jar -i hdfs:///user/schenck/inFile -o hdfs:///user/schenck/results/ -v /home/schenck/Programs/taverna-workbench-2.3.0/ -w hdfs:///user/schenck/tifWorkflow.tf2flow
+
+Example input for example workflow TiffWorkflow_*.t2flow thatneeds to be specified in {input-file-with-workflow-inputs}, one per line
+    
+    -inputvalue image_location {image-location}
+
+### URLs
+
+Taverna: http://www.taverna.org.uk/download/workbench/
+Fits: http://code.google.com/p/fits/

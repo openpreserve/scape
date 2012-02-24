@@ -17,6 +17,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
 import eu.scape_project.pt.executors.Executor;
+import eu.scape_project.pt.executors.TavernaCLExecutor;
 import eu.scape_project.pt.executors.ToolspecExecutor;
 import eu.scape_project.pt.util.ArgsParser;
 
@@ -26,7 +27,8 @@ import eu.scape_project.pt.util.ArgsParser;
  * 
  * @author Rainer Schmidt [rschmidt13]
  * @author Matthias Rella [myrho]
- */
+ * @author Martin Schenck [schenck]
+ */ 
 public class CLIWrapper extends Configured implements org.apache.hadoop.util.Tool {
 
 	private static Log LOG = LogFactory.getLog(CLIWrapper.class);
@@ -42,35 +44,41 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         static ArgsParser parser = null;
 
         /**
-         * Sets up stuff which needs to be created only once and can be used in 
-         * all maps this Mapper performs.
+         * Sets up stuff which needs to be created only once and can be used in all maps this Mapper performs.
          * 
-         * For per Job there can only be one Tool and one Action selected, 
-         * this stuff is the processor and the input parameters parser.
+         * For per Job there can only be one Tool and one Action selected, this stuff is the processor and the input parameters parser.
          * @param context
          */
         @Override
 		public void setup( Context context ) {
-        	executor = new ToolspecExecutor(context.getConfiguration().get(ArgsParser.TOOLSTRING), context.getConfiguration().get(ArgsParser.ACTIONSTRING));
+        	if(context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION) != null && context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION) != "") {
+        		executor = new TavernaCLExecutor(context.getConfiguration().get(ArgsParser.TAVERNA_HOME),
+        				context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION),
+        				context.getConfiguration().get(ArgsParser.OUTDIR));
+        	} else {
+        		executor = new ToolspecExecutor(
+                        context.getConfiguration().get(ArgsParser.TOOLSTRING), 
+                        context.getConfiguration().get(ArgsParser.ACTIONSTRING));
+        	}
 	    	executor.setup();
 		}
 
         @Override
 		public void map(Object key, Text value, Context context
 	                    ) throws IOException, InterruptedException {
-	    	executor.map(key, value, context);
+	    	executor.map(key, value, context );
 	    }	  
 	}
 
     public static class CLIReducer extends 
             Reducer<Text, IntWritable, Text, IntWritable> {
-
+		
         @Override
-        public void reduce(Text key, Iterable<IntWritable> values, Context context) 
-                throws IOException, InterruptedException {
-        }
-    }
-
+		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+			
+		}
+	}
+	
     /**
      * Sets up, initializes and starts the Job.
      * 
@@ -98,115 +106,117 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         job.setInputFormatClass(PtInputFormat.class);
         //job.setOutputFormatClass(FileOutputFormat.class);
 
-        //job.setOutputFormatClass(MultipleOutputFormat.class);
+		//job.setOutputFormatClass(MultipleOutputFormat.class);
+		
+		//FileInputFormat.addInputPath(job, new Path(args[0])); ArgsParser.INFILE
+		//FileOutputFormat.setOutputPath(job, new Path(args[1])); ArgsParser.OUTDIR
+		FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE)));
+		String outDir = (conf.get(ArgsParser.OUTDIR) == null) ? "out/"+System.nanoTime()%10000 : conf.get(ArgsParser.OUTDIR); 
+		conf.set(ArgsParser.OUTDIR, outDir);
+		FileOutputFormat.setOutputPath(job, new Path(outDir) ); 
+				
+		//add command to job configuration
+		//conf.set(TOOLSPEC, args[2]);
+		
+		//job.setNumReduceTasks(Integer.parseInt(args[2]));
 
-        //FileInputFormat.addInputPath(job, new Path(args[0])); ArgsParser.INFILE
-        //FileOutputFormat.setOutputPath(job, new Path(args[1])); ArgsParser.OUTDIR
-        FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE)));
-        String outDir = (conf.get(ArgsParser.OUTDIR) == null) ? 
-                "out/" + System.nanoTime() % 10000 
-                : conf.get(ArgsParser.OUTDIR);
-        conf.set(ArgsParser.OUTDIR, outDir);
-        FileOutputFormat.setOutputPath(job, new Path(outDir));
+		//FileInputFormat.setInputPaths(job, s.toString());
+		//FileOutputFormat.setOutputPath(job, new Path("output"));
 
-        //add command to job configuration
-        //conf.set(TOOLSPEC, args[2]);
+		//FileInputFormat.setMaxInputSplitSize(job, 1000000);
 
-        //job.setNumReduceTasks(Integer.parseInt(args[2]));
-
-        //FileInputFormat.setInputPaths(job, s.toString());
-        //FileOutputFormat.setOutputPath(job, new Path("output"));
-
-        //FileInputFormat.setMaxInputSplitSize(job, 1000000);
-
-        job.waitForCompletion(true);
-        return 0;
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        int res = 1;
-        CLIWrapper mr = new CLIWrapper();
+		job.waitForCompletion(true);
+		return 0;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		int res = 1;
+		CLIWrapper mr = new CLIWrapper();
         Configuration conf = new Configuration();
-
-        try {
-            ArgsParser pargs = new ArgsParser("i:o:t:a:p:x", args);
-            //input file
-            LOG.info("input: " + pargs.getValue("i"));
-            //hadoop's output 
-            LOG.info("output: " + pargs.getValue("o"));
-            //tool to select
-            LOG.info("tool: " + pargs.getValue("t"));
+        		
+		try {
+			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v:w:", args);
+			//input file
+			LOG.info("input: " + pargs.getValue("i"));
+			//hadoop's output 
+			LOG.info("output: " + pargs.getValue("o"));
+			//tool to select
+			LOG.info("tool: " + pargs.getValue("t"));
             //action to select
             LOG.info("action: " + pargs.getValue("a"));
-            //defined parameter list
-            //LOG.info("parameters: " + pargs.getValue("p"));
-            LOG.info("processor: " + pargs.getValue("p"));
-
-            conf.set(ArgsParser.INFILE, pargs.getValue("i"));
-            //toolMap.initialize();
-            //ToolSpec tool = toolMap.get(pargs.getValue("t"));
-            //if(tool != null) conf.set(ArgsParser.TOOLSTRING, tool.toString());
-            conf.set(ArgsParser.TOOLSTRING, pargs.getValue("t"));
-            conf.set(ArgsParser.ACTIONSTRING, pargs.getValue("a"));
-            if (pargs.hasOption("o")) {
-                conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
-            }
-            if (pargs.hasOption("p")) {
-                //conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
-                conf.set(ArgsParser.PROCSTRING, pargs.getValue("p"));
-            }
+			//defined parameter list
+			LOG.info("parameters: " + pargs.getValue("p"));
+			// taverna set?
+			LOG.info("taverna: " + pargs.getValue("v"));
+			LOG.info("workflow: " + pargs.getValue("w"));
+			
+			conf.set(ArgsParser.INFILE, pargs.getValue("i"));			
+			//toolMap.initialize();
+			//ToolSpec tool = toolMap.get(pargs.getValue("t"));
+			//if(tool != null) conf.set(ArgsParser.TOOLSTRING, tool.toString());
+			if (pargs.hasOption("t")) conf.set(ArgsParser.TOOLSTRING, pargs.getValue("t"));
+			if (pargs.hasOption("a")) conf.set(ArgsParser.ACTIONSTRING, pargs.getValue("a"));
+	        if (pargs.hasOption("o")) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
+	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
+	        
+	        // Get Taverna home directory and workflow location
+	        if (pargs.hasOption("w")) conf.set(ArgsParser.WORKFLOW_LOCATION, pargs.getValue("w"));
+	        if (pargs.hasOption("v")) conf.set(ArgsParser.TAVERNA_HOME, pargs.getValue("v"));
 
             // TODO validate input parameters (eg. look for toolspec, action, ...)
-
+	        
             /*
-            if(tool == null) {
-            System.out.println("Cannot find tool: "+pargs.getValue("t"));
-            System.exit(-1);
-            }
+			if(tool == null) {
+				System.out.println("Cannot find tool: "+pargs.getValue("t"));
+				System.exit(-1);
+			}
              */
-            //don't run hadoop
-            if (pargs.hasOption("x")) {
-
-                /*
-                String t = System.getProperty("java.io.tmpdir");
-                LOG.info("Using Temp. Directory:" + t);
-                File execDir = new File(t);
-                if(!execDir.exists()) {
-                execDir.mkdir();
-                }
-                
-                LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
-                File paper_ps = new File(execDir.toString()+"/paper.ps");
-                LOG.info("Looking for this file: "+paper_ps);
-                LOG.info("Is paper.ps a file: "+paper_ps.isFile());
-                
-                //LOG.info("trying ps2pdf in without args.....");
-                String cmd = "/usr/bin/ps2pdf paper.ps paper.ps.pdf";
-                String[] cmds = cmd.split(" ");
-                System.out.println("cmds.length "+cmds.length);
-                ProcessBuilder pb = new ProcessBuilder(cmds);
-                pb.directory(execDir);
-                Process p1 = pb.start();
-                //LOG.info(".....");
-                 */
-
-                System.out.println("option x detected.");
-                System.exit(1);
-            }
-        } catch (Exception e) {
-            System.out.println(
-                "usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] -t cmd");
-            LOG.info(e);
-            System.exit(-1);
-        }
-
+	        //don't run hadoop
+	        if(pargs.hasOption("x")) {
+	        	
+	        	/*
+	        	String t = System.getProperty("java.io.tmpdir");
+	    		LOG.info("Using Temp. Directory:" + t);
+	    		File execDir = new File(t);
+	    		if(!execDir.exists()) {
+	    			execDir.mkdir();
+	    		}
+	        	
+	    		LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
+	    		File paper_ps = new File(execDir.toString()+"/paper.ps");
+	    		LOG.info("Looking for this file: "+paper_ps);
+	    		LOG.info("Is paper.ps a file: "+paper_ps.isFile());
+	    		
+	    		//LOG.info("trying ps2pdf in without args.....");
+	    		String cmd = "/usr/bin/ps2pdf paper.ps paper.ps.pdf";
+	    		String[] cmds = cmd.split(" ");
+	    		System.out.println("cmds.length "+cmds.length);
+	    		ProcessBuilder pb = new ProcessBuilder(cmds);
+	    		pb.directory(execDir);
+	    		Process p1 = pb.start();
+	    		//LOG.info(".....");
+	        	*/
+	        	
+	        	
+	        	System.out.println("option x detected.");	        	
+	        	System.exit(1);
+	        }
+		} catch (Exception e) {
+			System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] -t cmd");
+			System.out.println("   or: CLIWrapper -i inFile -o outFile [-v tavernaDir] -w workflow");
+			LOG.info(e);
+			e.printStackTrace();
+			System.exit(-1);
+		}
+				
         try {
-            LOG.info("Running MapReduce ...");
-            res = ToolRunner.run(conf, mr, args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.exit(res);
-    }
+			LOG.info("Running MapReduce ..." );
+			res = ToolRunner.run(conf, mr, args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.exit(res);
+	}		
+		
 }

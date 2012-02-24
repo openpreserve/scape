@@ -10,15 +10,30 @@ public class PtFileUtil {
 	static String FILE = "file";
 	
 	public static String getScheme(String uri) throws URISyntaxException {
-		return (new URI(uri)).getScheme().toLowerCase();
+		String scheme = (new URI(uri)).getScheme();
+		
+		if(scheme != null)
+			return scheme.toLowerCase();
+		
+		return null;
 	}
 	
 	public static boolean isHdfsUri(String uri) throws URISyntaxException {
-		return getScheme(uri).toLowerCase().equals(HDFS);
+		String scheme = (new URI(uri)).getScheme();
+		
+		if(scheme != null)
+			return scheme.toLowerCase().equals(HDFS);
+		
+		return false;
 	}
 	
 	public static boolean isFileUri(String uri) throws URISyntaxException {
-		return getScheme(uri).toLowerCase().equals(FILE);
+		String scheme = (new URI(uri)).getScheme();
+		
+		if(scheme != null)
+			return scheme.toLowerCase().equals(FILE);
+		
+		return false;
 	}
 	
 	public static File getExecDir() {
