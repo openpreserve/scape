@@ -2,6 +2,7 @@ package eu.scape_project.pt.proc;
 
 import java.io.IOException;
 
+import java.io.OutputStream;
 import java.util.HashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,6 +42,11 @@ public class TaskProcessor implements Processor {
 
     @Override
     public HashMap<String, HashMap> getInputs() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setStdout(OutputStream out) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 	

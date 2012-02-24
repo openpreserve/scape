@@ -44,7 +44,7 @@ public class ArgsParserTest {
     @Test
     public void testReadParameters() {
         System.out.println("readParameters");
-        String strParameters = "-key1 value1 -key2 value2   -key3 value with space -key4 -key5 value-with-dash";
+        String strParameters = "--key1 value1 --key2 value2   --key3 value with space --key4 --key5 value-with-dash";
         HashMap expResult = new HashMap<String, String>();
         expResult.put("key1", "value1");
         expResult.put("key2", "value2");

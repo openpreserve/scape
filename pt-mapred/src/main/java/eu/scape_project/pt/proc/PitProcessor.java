@@ -1,7 +1,9 @@
 package eu.scape_project.pt.proc;
 
 import eu.scape_project.pit.invoke.CommandNotFoundException;
+import eu.scape_project.pit.invoke.Out;
 import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
 import org.apache.commons.logging.Log;
@@ -54,6 +56,10 @@ public class PitProcessor implements Processor {
      */
     public void setContext( HashMap<String, String> context ) {
         this.context = context;
+    }
+
+    public void setStdout( OutputStream out ) {
+        p.setStdout(new Out( out ));
     }
 
     /**

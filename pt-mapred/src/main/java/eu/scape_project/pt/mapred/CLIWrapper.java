@@ -22,6 +22,11 @@ import eu.scape_project.pt.util.ArgsParser;
 
 import eu.scape_project.pt.proc.PitProcessor;
 import eu.scape_project.pt.proc.Processor;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.StringWriter;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +43,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
     private static Log LOG = LogFactory.getLog(CLIWrapper.class);
 
-    public static class CLIMapper extends Mapper<Object, Text, Text, IntWritable> {
+    public static class CLIMapper extends Mapper<Object, Text, Text, Text> {
         //Mapper<Text, Buffer, Text, IntWritable> {
 
         /**
@@ -83,15 +88,17 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
 
             p.initialize();
-            // get parameters accepted by the processor
-            mapInputs = p.getInputs();
+            // get parameters accepted by the processor.
+            // this could be needed to validate input parameters 
+            // mapInputs = p.getInputs();
 
             // get the parameters (the vars in the toolspec action command)
-            // if mapInputs can be retrieved and parsing of the record as a command line would work:
-            parser = new ArgsParser();
-            for (Entry<String, HashMap> entry : mapInputs.entrySet()) {
-                parser.setOption(entry.getKey(), entry.getValue());
-            }
+            // if mapInputs can be retrieved and parsing of the record 
+            // as a command line would work:
+            // parser = new ArgsParser();
+            // for (Entry<String, HashMap> entry : mapInputs.entrySet()) {
+            //    parser.setOption(entry.getKey(), entry.getValue());
+            //}
 
         }
 
@@ -103,6 +110,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          * 2. Find input- and output-files. Input files are copied from their 
          *    remote location (eg. HDFS) to a local temporary location. A local 
          *    temporary location for the output-files is defined.
+         *    Caveat: input and output-values are found by conventional keys 
+         *    "input" and "output".
          * 3. Run the tool using generic Processor.
          * 4. Copy output-files (if needed) from the temp. local location to the 
          *    remote location which may be defined in the command-line parameter.
@@ -114,68 +123,77 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          * @throws InterruptedException
          */
         @Override
-        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        public void map(Object key, Text value, Context context) 
+                throws IOException, InterruptedException {
 
             LOG.info("MyMapper.map key:" + key.toString() + " value:" + value.toString());
 
+            // Unix-style parsing (if mapInputs would be known in advance):
+            /*
             String[] args = ArgsParser.makeCLArguments(value.toString());
             parser.parse(args);
 
-            HashMap<String, String> mapParams = new HashMap<String, String>();
             for (String strKey : mapInputs.keySet()) {
                 if (parser.hasOption(strKey)) {
                     mapParams.put(strKey, parser.getValue(strKey));
                 }
             }
+            */
 
-            // if mapInputs cannot be retrieved, the paramters could be parsed 
-            // with that function:
-            // HashMap<String, String> mapParams = ArgsParser.readParameters( 
-            //      value.toString() );
+            // if mapInputs are not known, the paramters could be parsed that way:
+            HashMap<String, String> mapParams = ArgsParser.readParameters( 
+                  value.toString() );
 
             // parse parameter values for input- and output-files
-            // FIXME need distinct datatypes in Toolspec Inputs for input- and 
-            // output-files to distinguish between input- and output-file-parameters
-            // workaround: for now "direction" does that
+            // FIXME that part should be done within the FilePreprocessor
+            // and it should not rely on "input" and "output" conventions
+            // maybe: a separate Preconditions-Specification where
+            // input- and output-files are marked up
             ArrayList<String> inFiles = new ArrayList<String>();
             ArrayList<String> outFiles = new ArrayList<String>();
-            for (Entry<String, HashMap> entry : mapInputs.entrySet()) {
-                HashMap<String, Object> mapValues = entry.getValue();
-                if (mapValues.get("datatype").equals(URI.class) 
-                    && mapValues.containsKey("direction")) {
-                    String strFile = mapParams.get(entry.getKey());
-                    if (mapValues.get("direction").equals("input")) {
-                        inFiles.add(strFile);
-                        // replace the input parameter with the tmp local location
-                        mapParams.put( entry.getKey(), 
-                                FileProcessor.getTempInputLocation(strFile));
-                    } else if (mapValues.get("direction").equals("output")) {
-                        outFiles.add(strFile);
-                        // replace the output parameter with the tmpt local location
-                        mapParams.put(entry.getKey(), 
-                                FileProcessor.getTempOutputLocation(strFile));
-                    }
-                }
+
+            String strInputFile = mapParams.get("input");
+            String strOutputFile = mapParams.get("output");
+
+            if (strInputFile != null ) {
+                inFiles.add(strInputFile);
+                // replace the input parameter with the tmp local location
+                mapParams.put( "input", 
+                        FileProcessor.getTempInputLocation(strInputFile));
+            } 
+            if (strOutputFile != null ) {
+                outFiles.add(strOutputFile);
+                // replace the output parameter with the tmpt local location
+                mapParams.put("output", 
+                        FileProcessor.getTempOutputLocation(strOutputFile));
             }
 
             // bring hdfs files to the exec-dir and use a hash 
+            // FIXME maybe they are not hdfs-files ...
             // of the file's full path as identifier
             // prepares input files for local processing through cmd line tool
 
             FileSystem hdfs = FileSystem.get(new Configuration());
-            FileProcessor fileProcessor = new FileProcessor(inFiles.toArray(new String[0]), outFiles.toArray(new String[0]), hdfs);
+            FileProcessor fileProcessor = new FileProcessor(
+                    inFiles.toArray(new String[0]), 
+                    outFiles.toArray(new String[0]), 
+                    hdfs);
 
             try {
                 fileProcessor.resolvePrecondition();
             } catch (Exception e_pre) {
-                LOG.error("Exception in preprocessing phase: " + e_pre.getMessage(), e_pre);
+                LOG.error("Exception in preprocessing phase: " 
+                        + e_pre.getMessage(), e_pre);
                 e_pre.printStackTrace();
             }
 
             // run processor
             // TODO use sthg. like contextObject to manage type safety (?)
 
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
             try {
+                p.setStdout( bos );
                 p.setContext(mapParams);
                 p.execute();
             } catch (Exception e_exec) {
@@ -194,6 +212,10 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
                 e_post.printStackTrace();
             }
 
+            // write processor output to map context
+            // use the first input file as key (workaround)
+            // TODO fix that workaround
+            context.write( new Text( inFiles.get(0)), new Text(bos.toByteArray()));
 
             /** STREAMING works but we'll integrate that later
             //Path inFile = new Path("hdfs://"+value.toString());
@@ -258,7 +280,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         job.setJarByClass(CLIWrapper.class);
 
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(IntWritable.class);
+        // TODO Output Value Class may depend on the tool invoked
+        job.setOutputValueClass(Text.class);
 
         job.setMapperClass(CLIMapper.class);
 

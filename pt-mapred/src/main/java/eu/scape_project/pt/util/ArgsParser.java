@@ -66,7 +66,7 @@ public class ArgsParser {
      * Reads keys and values out of a string of parameters.
      * 
      * 0. Trim input string and remove first dash.
-     * 1. Split up at every " -" 
+     * 1. Split up at every " --" 
      * 2. For each component: first word is key, rest is value
      * 2a. If value is not set, key is not put into HashMap
      * 
@@ -76,10 +76,10 @@ public class ArgsParser {
 
     static public HashMap<String, String> readParameters( String strParameters ) {
         strParameters = strParameters.trim();
-        if(strParameters.startsWith("-")) 
-            strParameters = strParameters.substring(1);
+        if(strParameters.startsWith("--")) 
+            strParameters = strParameters.substring(2);
 
-        String[] astrParameters = strParameters.split("\\s+-");
+        String[] astrParameters = strParameters.split("\\s+--");
         HashMap<String, String> mapParameters = new HashMap<String, String>();
 
         for( String strParameter : astrParameters ) {

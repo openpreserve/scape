@@ -1,5 +1,6 @@
 package eu.scape_project.pt.proc;
 
+import java.io.OutputStream;
 import java.util.HashMap;
 
 public interface Processor {
@@ -10,6 +11,8 @@ public interface Processor {
 	public void initialize();
 
     public void setContext( HashMap<String, String> hashMap);
+
+    public void setStdout( OutputStream out );
 
     /**
      * Get input parameters to the processor.

@@ -6,12 +6,12 @@ Usage
 
 Having Hadoop set up you can run CLIWrapper:
 
-    hadoop jar {path-to-jar} -i {input-file-with-command-lines} -t {toolspec-name} -a {action-id}
+    hadoop jar {path-to-jar} -i {input-file-with-command-lines} -t {toolspec-name} -a {action-id} -p {processor}
 
 CLIWrapper
 ----------
 
-This wrapper depends essentially on eu.scape_project.pit.invoke.processor (Subproject xa-pit), which wraps command-line tools for invocation through Toolspec actions. It takes a Toolspec name and an action id and creates the Processor. 
+This wrapper depends essentially on eu.scape_project.pit.invoke.processor (Subproject xa-pit), which wraps command-line tools for invocation through Toolspec actions. It takes a Toolspec name and an action id and creates the Processor (use "toolspec" or "taverna" as input argument). 
 
 So these two parameters are one part of a MapReduce Job's input. The other part is a text file listing command-lines with various arguments for the specified Toolspec/action-id. See an example here: https://github.com/openplanets/scape/blob/master/pt-mapred/files/hinput.txt (ignore comment lines).
 

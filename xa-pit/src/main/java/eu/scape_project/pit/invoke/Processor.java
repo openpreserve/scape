@@ -8,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
@@ -32,14 +31,25 @@ public class Processor {
 	protected Action action;
 
 	private In stdin;
+    private Out stdout;
 
+	/**
+	 * Constructor from a toolspec and an action
+	 * @param ts
+	 * @param action
+	 */
 	public Processor( ToolSpec ts, Action action ) {
 		this.ts = ts;
 		this.action = action;
 	}
 
-	/*
-	 * Factory
+	/**
+	 * Factory method to create a processor from toolspec and action identifiers,
+	 * @param toolspec_id 
+	 * @param action_id 
+	 * @return a new Processor object
+	 * @throws ToolSpecNotFoundException 
+	 * @throws CommandNotFoundException 
 	 */
 	public static Processor createProcessor( String toolspec_id, String action_id ) throws ToolSpecNotFoundException, CommandNotFoundException {
 		try {
@@ -91,21 +101,31 @@ public class Processor {
 				System.out.println("Data in...");
 			}
 			
+            InputStream procStdout = start.getInputStream();
 			// Copy the OutputStream:
-			StringWriter sw = new StringWriter();
-			InputStream procStdout = start.getInputStream();
-			IOUtils.copy( procStdout , sw);
-			System.out.println(sw.toString());
+            if( this.stdout != null ) {
+                IOUtils.copy( procStdout, this.stdout.getOutputStream() );
+            }
+            else {
+                //StringWriter sw = new StringWriter();
+                IOUtils.copy( procStdout , System.out );
+                //System.out.println(sw.toString());
+            }
+
 			
 			// Wait for completion:
 			// FIXME Needs time-out. 			
-			int waitFor = start.waitFor();
+			start.waitFor();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * @param cmd
+	 * @return the commands from the Action as a string array
+	 */
 	public String[] substituteTemplates( Action cmd ) {
 		String[] cmd_template = cmd.getCommand().split(" ");
 		if( ts.getTemplate() == null ) return cmd_template;
@@ -144,6 +164,9 @@ public class Processor {
 		}
 	}
 
+	/**
+	 * @return the hash map of inputs
+	 */
 	public HashMap<String,String> getInputs() {
 		HashMap<String, String> vars = new HashMap<String, String>();
 		return vars;
@@ -152,6 +175,10 @@ public class Processor {
 	private void setStdin(In input) {
 		this.stdin = input;
 	}
+
+    public void setStdout(Out output ) {
+        this.stdout = output;
+    }
 
 	/**
 	 * Generic invocation method:
@@ -177,6 +204,11 @@ public class Processor {
 		runCommand(cmd_template);
 	}
 	
+	/**
+	 * @param input
+	 * @param parameters
+	 * @throws IOException
+	 */
 	public void execute( In input, HashMap<String,String> parameters ) throws IOException {
 		String[] cmd_template = substituteTemplates(action);
 		HashMap<String, String> vars = getStandardVars(action);
@@ -198,12 +230,21 @@ public class Processor {
 		runCommand(cmd_template);
 	}
 	
+	/**
+	 * @return true if using stdin
+	 */
 	public boolean getUseStdin() {
 		if( ts.getInputs() != null ) return ts.getInputs().getUseStdin();
 		if( action.getInputs() != null ) return action.getInputs().getUseStdin();
 		return false;
 	}
 	
+	/**
+	 * @param input1
+	 * @param input2
+	 * @param parameters
+	 * @throws IOException
+	 */
 	public void execute( In input1, In input2, HashMap<String,String> parameters ) throws IOException {
 		String[] cmd_template = substituteTemplates(action);
 		HashMap<String, String> vars = getStandardVars(action);
@@ -221,6 +262,12 @@ public class Processor {
 		runCommand(cmd_template);		
 	}
 	
+	/**
+	 * @param input
+	 * @param output
+	 * @param parameters
+	 * @throws IOException
+	 */
 	public void execute( In input, Out output, HashMap<String,String> parameters ) throws IOException {
 		String[] cmd_template = substituteTemplates(action);
 		HashMap<String, String> vars = getStandardVars(action);
