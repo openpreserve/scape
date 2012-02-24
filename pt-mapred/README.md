@@ -44,13 +44,13 @@ Taverna must be installed on the cluster. On every machine, Taverna must be in t
 
 ### Execution
 
-You execute the wrapper like any other hadoop jar. The needed arguments are as follows (yes. -v twice):
+You execute the wrapper like any other hadoop jar. The needed arguments are as follows:
 
-    hadoop jar {path-to-jar} -i {input-file-with-workflow-inputs} -o {where-to-save-results} -v {taverna-home} -v {workflow-location}
+    hadoop jar {path-to-jar} -i {input-file-with-workflow-inputs} -o {where-to-save-results} -v {taverna-home} -w {workflow-location}
 
 Example:
     
-    bin/hadoop jar /home/schenck/Workspaces/scape/scape/pt-mapred/target/pt-mapred-0.0.1-SNAPSHOT-jar-with-dependencies.jar -i hdfs:///user/schenck/inFile -o hdfs:///user/schenck/results/ -v /home/schenck/Programs/taverna-workbench-2.3.0/ -v hdfs:///user/schenck/tifWorkflow.tf2flow
+    bin/hadoop jar /home/schenck/Workspaces/scape/scape/pt-mapred/target/pt-mapred-0.0.1-SNAPSHOT-jar-with-dependencies.jar -i hdfs:///user/schenck/inFile -o hdfs:///user/schenck/results/ -v /home/schenck/Programs/taverna-workbench-2.3.0/ -w hdfs:///user/schenck/tifWorkflow.tf2flow
 
 Example input for example workflow TiffWorkflow_*.t2flow thatneeds to be specified in {input-file-with-workflow-inputs}, one per line
     

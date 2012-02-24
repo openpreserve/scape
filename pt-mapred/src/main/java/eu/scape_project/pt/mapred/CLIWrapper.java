@@ -1,7 +1,6 @@
 package eu.scape_project.pt.mapred;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -147,7 +146,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         Configuration conf = new Configuration();
         		
 		try {
-			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v::", args);
+			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v:w:", args);
 			//input file
 			LOG.info("input: " + pargs.getValue("i"));
 			//hadoop's output 
@@ -159,7 +158,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 			//defined parameter list
 			LOG.info("parameters: " + pargs.getValue("p"));
 			// taverna set?
-			LOG.info("taverna: " + pargs.getValues("v").get(0));
+			LOG.info("taverna: " + pargs.getValues("v"));
+			LOG.info("workflow: " + pargs.getValues("w"));
 			
 			conf.set(ArgsParser.INFILE, pargs.getValue("i"));			
 			//toolMap.initialize();
@@ -171,13 +171,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
 	        
 	        // Get Taverna home directory and workflow location
-	        if(pargs.hasOption("v")) {
-	        	List<?> tavernaArguments = pargs.getValues("v");
-	        	
-	        	// Home dir is given first, workflow location second
-	        	conf.set(ArgsParser.TAVERNA_HOME, tavernaArguments.get(0).toString());
-	        	conf.set(ArgsParser.WORKFLOW_LOCATION, tavernaArguments.get(1).toString());
-	        }
+	        if (pargs.hasOption("v")) conf.set(ArgsParser.TAVERNA_HOME, pargs.getValue("v"));
+	        if (pargs.hasOption("w")) conf.set(ArgsParser.WORKFLOW_LOCATION, pargs.getValue("w"));
 
             // TODO validate input parameters (eg. look for toolspec, action, ...)
 	        
