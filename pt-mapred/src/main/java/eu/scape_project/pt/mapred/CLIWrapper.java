@@ -41,7 +41,6 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          */
         static ArgsParser parser = null;
 
-			
         /**
          * Sets up stuff which needs to be created only once and can be used in 
          * all maps this Mapper performs.
@@ -56,30 +55,10 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	    	executor.setup();
 		}
 
-        /**
-         * The map gets a key and value, the latter being a single command-line 
-         * with execution parameters for pre-defined Processor (@see setup())
-         * 
-         * 1. Parse the input command-line and read parameters and arguments.
-         * 2. Find input- and output-files. Input files are copied from their 
-         *    remote location (eg. HDFS) to a local temporary location. A local 
-         *    temporary location for the output-files is defined.
-         *    Caveat: input and output-values are found by conventional keys 
-         *    "input" and "output".
-         * 3. Run the tool using generic Processor.
-         * 4. Copy output-files (if needed) from the temp. local location to the 
-         *    remote location which may be defined in the command-line parameter.
-         * 
-         * @param key 
-         * @param value command-line with parameters and values for the tool
-         * @param context Job context
-         * @throws IOException
-         * @throws InterruptedException
-         */
         @Override
 		public void map(Object key, Text value, Context context
 	                    ) throws IOException, InterruptedException {
-	    	executor.map(key, value);
+	    	executor.map(key, value, context);
 	    }	  
 	}
 
