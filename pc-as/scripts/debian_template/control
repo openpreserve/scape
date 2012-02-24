@@ -1,0 +1,14 @@
+Source: ##NAME##
+Section: misc
+Priority: extra
+Maintainer: Hélder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0), perl
+Standards-Version: 3.9.2
+Homepage: http://scape-project.eu/
+
+Package: ##NAME##
+Architecture: all
+Depends: ${misc:Depends}, ##DEPENDENCIES## 
+Description: ##DESCRIPTION##
+ This is the long description for this package.
+ ##DESCRIPTION##

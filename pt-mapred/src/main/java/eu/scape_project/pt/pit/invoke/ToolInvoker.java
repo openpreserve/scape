@@ -11,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 
 import eu.scape_project.pt.fs.util.PtFileUtil;
 import eu.scape_project.pt.pit.ToolSpec;
-import eu.scape_project.pt.proc.Processor;
 
 /*
  * Class to invoke tools as native processes. Supports IO via files and streams.

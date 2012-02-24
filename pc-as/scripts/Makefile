@@ -1,6 +1,6 @@
 deb : init
 	@echo "Generating all the debian packages..."
-	@./generateAllDebianPackages.sh ${toolspec}
+	@bash generateAllDebianPackages.sh ${toolspec}
 	@echo " Done"
 
 init :

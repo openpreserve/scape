@@ -2,8 +2,10 @@ package eu.scape_project.pit.tools;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
 
+/**
+ * @author  <a href="mailto:andrew.jackson@bl.uk">Andrew Jackson</a>
+ */
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Version {
 

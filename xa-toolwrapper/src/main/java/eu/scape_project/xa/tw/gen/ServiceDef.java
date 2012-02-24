@@ -28,7 +28,9 @@ public class ServiceDef {
     private String midfix;
     private String directory;
 
-    private ServiceDef() {
+    /** Prevent default construction */
+    @SuppressWarnings("unused")
+	private ServiceDef() {
     }
 
     /**

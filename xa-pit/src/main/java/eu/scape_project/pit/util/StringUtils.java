@@ -45,6 +45,11 @@ public final class StringUtils {
     }
 
 
+    /**
+     * @param uri
+     * @param preserveExtension
+     * @return A string file name derived from the URI
+     */
     public static String getFilenameFromURI(URI uri, boolean preserveExtension) {
         int slashIndex = uri.toString().lastIndexOf('/');
         int dotIndex = uri.toString().lastIndexOf('.');

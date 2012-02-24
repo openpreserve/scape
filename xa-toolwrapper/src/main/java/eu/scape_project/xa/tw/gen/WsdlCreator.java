@@ -53,6 +53,13 @@ public class WsdlCreator {
     private Document doc;
     private List<Operation> operations;
 
+    /**
+     * Constructor for a new wsdl creator
+     * @param st
+     * @param wsdlSourcePath
+     * @param wsdlTargetAbsPath
+     * @param operations
+     */
     public WsdlCreator(PropertiesSubstitutor st, String wsdlSourcePath, String wsdlTargetAbsPath, List<Operation> operations) {
         this.wsdlSourcePath = wsdlSourcePath;
         this.wsdlTargetPath = wsdlTargetAbsPath;
@@ -60,11 +67,9 @@ public class WsdlCreator {
         this.operations = operations;
     }
 
-    public WsdlCreator() {
-    }
-
     /**
      * Insert data types
+     * @throws GeneratorException 
      */
     public void insertDataTypes() throws GeneratorException {
         File wsdlTemplate = new File(this.wsdlSourcePath);
@@ -112,9 +117,9 @@ public class WsdlCreator {
         Node definitionsNode = doc.getDocumentElement();
         NodeList portTypeNodeList = doc.getElementsByTagName("wsdl:portType");
         Node portTypeNode = portTypeNodeList.item(0);
-        List<Input> inputs = operation.getInputs().getInput();
+        operation.getInputs().getInput();
         createMessageDataType(definitionsNode, portTypeNode, MsgType.REQUEST, operation);
-        List<Output> outputs = operation.getOutputs().getOutput();
+        operation.getOutputs().getOutput();
         createMessageDataType(definitionsNode, portTypeNode, MsgType.RESPONSE, operation);
 
     }

@@ -1,0 +1,43 @@
+=head1 NAME
+
+scape-as-execute-workflow-with-webservice - Taverna workflow execution simplified for SCAPE webservices 
+
+=head1 SYNOPSIS
+
+scape-as-execute-workflow-with-webservice [I<file>] [I<workflow>]
+
+=head1 DESCRIPTION
+
+Script that allows the user to execute a Taverna
+workflow through the command-line using a local webservice
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<file>
+
+File to be converted
+
+=item B<workflow>
+
+Workflow to be used
+
+=back
+
+=head1 AUTHORS
+B<scape-as-execute-workflow-with-webservice> was written by Helder Silva <hsilva@keep.pt>.
+
+This manual page was written by Helder Silva <hsilva@keep.pt>. 
+
+=head1 COPYRIGHT
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+
+On Debian GNU/Linux systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+
+=cut

@@ -66,6 +66,7 @@ public abstract class Substitutor {
      * Apply substitution
      * @param srcFileAbsPath Source file
      * @param trgtFileAbsPath Target file
+     * @throws GeneratorException 
      */
     public void applySubstitution(String srcFileAbsPath, String trgtFileAbsPath) throws GeneratorException {
         File srcFile = new File(srcFileAbsPath);
@@ -109,6 +110,7 @@ public abstract class Substitutor {
      * is applied.
      * @param path Path to start with
      * @throws IOException
+     * @throws GeneratorException 
      */
     public void processDirectory(File path) throws IOException, GeneratorException {
         if (path.isDirectory()) {

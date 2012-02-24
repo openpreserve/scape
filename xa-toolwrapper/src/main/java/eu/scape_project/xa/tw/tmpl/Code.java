@@ -38,6 +38,11 @@ public abstract class Code {
     private VelocityContext ctx;
     private String code;
 
+    /**
+     * Constructs a Code object from a template file
+     * @param templateFilePath the strin path to the template file
+     * @throws IOException
+     */
     public Code(String templateFilePath) throws IOException {
         ctx = new VelocityContext();
         this.code = FileUtils.readFileToString(new File(templateFilePath));
@@ -53,7 +58,7 @@ public abstract class Code {
 
     /**
      * Add a key value pair to the Velocity context
-     * @param string Key
+     * @param key Key
      * @param val Value
      */
     public void put(String key, String val) {
@@ -61,7 +66,9 @@ public abstract class Code {
 
     }
 
-
+    /**
+     * @param context
+     */
     public void put(VelocityContext context) {
         Object[] keys = (Object[]) context.getKeys();
         for (Object obj : keys) {

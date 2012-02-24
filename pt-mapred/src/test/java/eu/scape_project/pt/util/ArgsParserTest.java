@@ -1,17 +1,13 @@
 package eu.scape_project.pt.util;
 
-import java.util.Map.Entry;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import java.net.URI;
-import eu.scape_project.pt.mapred.CLIWrapper;
-import joptsimple.OptionSet;
-import joptsimple.OptionParser;
 import java.util.HashMap;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import java.util.Map.Entry;
+
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  * Test Class for ArgsParser
@@ -19,25 +15,6 @@ import static org.junit.Assert.*;
  */
 public class ArgsParserTest {
     
-    public ArgsParserTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of readParameters method, of class ArgsParser.
      */
@@ -45,12 +22,12 @@ public class ArgsParserTest {
     public void testReadParameters() {
         System.out.println("readParameters");
         String strParameters = "--key1 value1 --key2 value2   --key3 value with space --key4 --key5 value-with-dash";
-        HashMap expResult = new HashMap<String, String>();
+        HashMap<String, String> expResult = new HashMap<String, String>();
         expResult.put("key1", "value1");
         expResult.put("key2", "value2");
         expResult.put("key3", "value with space");
         expResult.put("key5", "value-with-dash");
-        HashMap result = ArgsParser.readParameters(strParameters);
+        HashMap<String, String> result = ArgsParser.readParameters(strParameters);
         assertEquals(expResult, result);
     }
 

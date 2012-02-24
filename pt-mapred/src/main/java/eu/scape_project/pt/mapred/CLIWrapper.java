@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -17,20 +16,9 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
-import eu.scape_project.pt.proc.FileProcessor;
+import eu.scape_project.pt.executors.Executor;
+import eu.scape_project.pt.executors.ToolspecExecutor;
 import eu.scape_project.pt.util.ArgsParser;
-
-import eu.scape_project.pt.proc.PitProcessor;
-import eu.scape_project.pt.proc.Processor;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.StringWriter;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
 
 /**
  * A command-line interaction wrapper to execute cmd-line tools with MapReduce.
@@ -41,25 +29,19 @@ import java.util.Map.Entry;
  */
 public class CLIWrapper extends Configured implements org.apache.hadoop.util.Tool {
 
-    private static Log LOG = LogFactory.getLog(CLIWrapper.class);
+	private static Log LOG = LogFactory.getLog(CLIWrapper.class);
+	
+	public static class CLIMapper extends Mapper<Object, Text, Text, IntWritable> {
 
-    public static class CLIMapper extends Mapper<Object, Text, Text, Text> {
-        //Mapper<Text, Buffer, Text, IntWritable> {
-
-        /**
-         * The Command-Line Processor. 
-         * The same for all maps.
-         */
-        static Processor p = null;
+		// Executes the setup and map jobs.
+		Executor executor;
+		
         /**
          * Parser for the parameters in the command-lines (records).
          */
         static ArgsParser parser = null;
-        /**
-         * Workaround data structure to represent Toolspec Input Specifications
-         */
-        static HashMap<String, HashMap> mapInputs = null;
 
+			
         /**
          * Sets up stuff which needs to be created only once and can be used in 
          * all maps this Mapper performs.
@@ -69,38 +51,10 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          * @param context
          */
         @Override
-        public void setup(Context context) {
-            String strProc = context.getConfiguration().get(ArgsParser.PROCSTRING);
-
-            if( strProc.equals(ArgsParser.PROC_TOOLSPEC ) ) {
-                String strTool = 
-                    context.getConfiguration().get(ArgsParser.TOOLSTRING);
-                String strAction = 
-                    context.getConfiguration().get(ArgsParser.ACTIONSTRING);
-                p = new PitProcessor(strTool, strAction);
-            }
-            else if( strProc.equals( ArgsParser.PROC_TAVERNA ) ) 
-                throw new UnsupportedOperationException(
-                        "taverna processor not implemented");
-            else
-                throw new RuntimeException(
-                        "processor (name: " + strProc + ") not found");
-
-
-            p.initialize();
-            // get parameters accepted by the processor.
-            // this could be needed to validate input parameters 
-            // mapInputs = p.getInputs();
-
-            // get the parameters (the vars in the toolspec action command)
-            // if mapInputs can be retrieved and parsing of the record 
-            // as a command line would work:
-            // parser = new ArgsParser();
-            // for (Entry<String, HashMap> entry : mapInputs.entrySet()) {
-            //    parser.setOption(entry.getKey(), entry.getValue());
-            //}
-
-        }
+		public void setup( Context context ) {
+        	executor = new ToolspecExecutor(context.getConfiguration().get(ArgsParser.TOOLSTRING), context.getConfiguration().get(ArgsParser.ACTIONSTRING));
+	    	executor.setup();
+		}
 
         /**
          * The map gets a key and value, the latter being a single command-line 
@@ -123,137 +77,11 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          * @throws InterruptedException
          */
         @Override
-        public void map(Object key, Text value, Context context) 
-                throws IOException, InterruptedException {
-
-            LOG.info("MyMapper.map key:" + key.toString() + " value:" + value.toString());
-
-            // Unix-style parsing (if mapInputs would be known in advance):
-            /*
-            String[] args = ArgsParser.makeCLArguments(value.toString());
-            parser.parse(args);
-
-            for (String strKey : mapInputs.keySet()) {
-                if (parser.hasOption(strKey)) {
-                    mapParams.put(strKey, parser.getValue(strKey));
-                }
-            }
-            */
-
-            // if mapInputs are not known, the paramters could be parsed that way:
-            HashMap<String, String> mapParams = ArgsParser.readParameters( 
-                  value.toString() );
-
-            // parse parameter values for input- and output-files
-            // FIXME that part should be done within the FilePreprocessor
-            // and it should not rely on "input" and "output" conventions
-            // maybe: a separate Preconditions-Specification where
-            // input- and output-files are marked up
-            ArrayList<String> inFiles = new ArrayList<String>();
-            ArrayList<String> outFiles = new ArrayList<String>();
-
-            String strInputFile = mapParams.get("input");
-            String strOutputFile = mapParams.get("output");
-
-            if (strInputFile != null ) {
-                inFiles.add(strInputFile);
-                // replace the input parameter with the tmp local location
-                mapParams.put( "input", 
-                        FileProcessor.getTempInputLocation(strInputFile));
-            } 
-            if (strOutputFile != null ) {
-                outFiles.add(strOutputFile);
-                // replace the output parameter with the tmpt local location
-                mapParams.put("output", 
-                        FileProcessor.getTempOutputLocation(strOutputFile));
-            }
-
-            // bring hdfs files to the exec-dir and use a hash 
-            // FIXME maybe they are not hdfs-files ...
-            // of the file's full path as identifier
-            // prepares input files for local processing through cmd line tool
-
-            FileSystem hdfs = FileSystem.get(new Configuration());
-            FileProcessor fileProcessor = new FileProcessor(
-                    inFiles.toArray(new String[0]), 
-                    outFiles.toArray(new String[0]), 
-                    hdfs);
-
-            try {
-                fileProcessor.resolvePrecondition();
-            } catch (Exception e_pre) {
-                LOG.error("Exception in preprocessing phase: " 
-                        + e_pre.getMessage(), e_pre);
-                e_pre.printStackTrace();
-            }
-
-            // run processor
-            // TODO use sthg. like contextObject to manage type safety (?)
-
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-            try {
-                p.setStdout( bos );
-                p.setContext(mapParams);
-                p.execute();
-            } catch (Exception e_exec) {
-                LOG.error( "Exception in execution phase: " 
-                        + e_exec.getMessage(), e_exec);
-                e_exec.printStackTrace();
-            }
-
-            // bring output files in exec-dir back to the locations on hdfs 
-            // as defined in the parameter value
-            try {
-                fileProcessor.resolvePostcondition();
-            } catch (Exception e_post) {
-                LOG.error("Exception in postprocessing phase: " 
-                        + e_post.getMessage(), e_post);
-                e_post.printStackTrace();
-            }
-
-            // write processor output to map context
-            // use the first input file as key (workaround)
-            // TODO fix that workaround
-            context.write( new Text( inFiles.get(0)), new Text(bos.toByteArray()));
-
-            /** STREAMING works but we'll integrate that later
-            //Path inFile = new Path("hdfs://"+value.toString());
-            //Path outFile = new Path("hdfs://"+value.toString()+".pdf");
-            //Path fs_outFile = new Path("/home/rainer/tmp/"+inFile.getName()+".pdf");
-            
-            
-            String[] cmds = {"ps2pdf", "-", "/home/rainer/tmp"+fn+".pdf"};
-            //Process p = new ProcessBuilder(cmds[0],cmds[1],cmds[2]).start();
-            Process p = new ProcessBuilder(cmds[0],cmds[1],cmds[1]).start();
-            
-            //opening file
-            FSDataInputStream hdfs_in = hdfs.open(inFile);
-            FSDataOutputStream hdfs_out = hdfs.create(outFile);
-            //FileOutputStream fs_out = new FileOutputStream(fs_outFile.toString());
-            
-            //pipe(process.getErrorStream(), System.err);
-            
-            OutputStream p_out = p.getOutputStream();
-            InputStream p_in = p.getInputStream();
-            //TODO copy outstream and send to log file
-            
-            byte[] buffer = new byte[1024];
-            int bytesRead = -1;
-            
-            System.out.println("streaming data to process");
-            Thread toProc = pipe(hdfs_in, new PrintStream(p_out), '>');
-            
-            System.out.println("streaming data to hdfs");()
-            Thread toHdfs = pipe(p_in, new PrintStream(hdfs_out), 'h'); 
-            
-            //pipe(process.getErrorStream(), System.err);
-            
-            toProc.join();	    	
-            
-             */
-        }
-    }
+		public void map(Object key, Text value, Context context
+	                    ) throws IOException, InterruptedException {
+	    	executor.map(key, value);
+	    }	  
+	}
 
     public static class CLIReducer extends 
             Reducer<Text, IntWritable, Text, IntWritable> {

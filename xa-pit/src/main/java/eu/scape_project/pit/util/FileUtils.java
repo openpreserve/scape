@@ -32,9 +32,9 @@ import org.slf4j.LoggerFactory;
  */
 public final class FileUtils {
 
+    /** Path to the Java System temp directory */
     public static final String JAVA_TMP = System.getProperty("java.io.tmpdir");
     private static final String TMP_DIR = "${project_midfix_lc}-tmp-store";
-    private static final int BUFF = 32768;
     private static Logger logger = LoggerFactory.getLogger(FileUtils.class.getName());
 
     /**
@@ -43,6 +43,10 @@ public final class FileUtils {
     private FileUtils() {
     }
 
+    /**
+     * @param inputUrl
+     * @return the file name derived from the URL
+     */
     public static String getFileNameFromUrl(URL inputUrl) {
         String urlStr = inputUrl.toString();
         String fileName = urlStr.substring(urlStr.lastIndexOf("/")+1);
@@ -100,7 +104,9 @@ public final class FileUtils {
     /**
      * Read file of URL into file.
      * @param url URL where the input file is located
+     * @param ext 
      * @return Result file
+     * @throws IOException 
      */
     public static File urlToFile(URL url, String ext) throws IOException {
         File fOut = null;
