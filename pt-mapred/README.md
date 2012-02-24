@@ -54,4 +54,9 @@ Example:
 
 Example input for example workflow TiffWorkflow_*.t2flow thatneeds to be specified in {input-file-with-workflow-inputs}, one per line
     
-     -inputvalue image_location {image-location}
+    -inputvalue image_location {image-location}
+
+### URLs
+
+Taverna: http://www.taverna.org.uk/download/workbench/
+Fits: http://code.google.com/p/fits/
