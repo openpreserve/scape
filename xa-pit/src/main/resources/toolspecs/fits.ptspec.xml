@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec xmlns="http://www.scape-project.eu/schemas/2011/11/16/toolspec">
+  <!-- A unique ID for this tool spec. -->
+  <id>fits-toolspec</id>
+  <!-- The version for this tool spec. -->
+  <version>0.1</version>
+  
+  <!-- Tool Information -->
+  <tool>
+    <name>FITS</name>
+    <homepage></homepage>
+    <version>x.xx</version>
+<!-- Future automatic version.
+  <version>
+    <action>
+      <command>file -v</command>
+      <match>file-(.*)</match>
+      <test>.\...</test>
+    </action>
+  </version>
+ -->  
+    <installation>
+  	  <os type="linux">
+          Download at http://code.google.com/p/fits/downloads/list
+      </os>
+	  <os type="windows">
+          Download at http://code.google.com/p/fits/downloads/list
+	  </os>
+    </installation>
+  </tool>
+  
+  <!-- Shared input definitions -->
+  <inputs>
+	<input name="dummy" var="dummy">
+	  <default>dummy</default>
+	  <documentation>Dummy input, inputs must not be empty</documentation>
+	  <!-- All datatypes are xsd:string by default. -->
+	  <datatype>xsd:string</datatype>
+	</input>
+  </inputs>
+ 
+  <!-- Actions -->
+  <action type="identify" id="fits-to-stdout">
+  	<command>fits.sh -i ${input}</command>
+  </action>
+
+  <action type="identify" id="fits-to-xml">
+  	<command>fits.sh -i ${input} -o ${output}</command>
+  </action>
+
+</toolspec>

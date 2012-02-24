@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec xmlns="http://www.scape-project.eu/schemas/2011/11/16/toolspec">
+  <!-- A unique ID for this tool spec. -->
+  <id>convert-toolspec</id>
+  <!-- The version for this tool spec. -->
+  <version>0.1</version>
+  
+  <!-- Tool Information -->
+  <tool>
+    <name>ImageMagick Convert</name>
+    <homepage></homepage>
+    <version>X.XX</version>
+<!-- Future automatic version.
+  <version>
+    <action>
+      <command>file -v</command>
+      <match>file-(.*)</match>
+      <test>.\...</test>
+    </action>
+  </version>
+ -->  
+    <installation>
+  	  <os type="linux">
+          apt-get install imagemagick
+      </os>
+	  <os type="windows">
+	  </os>
+    </installation>
+  </tool>
+  
+  <!-- Shared input definitions -->
+  <inputs>
+	<input name="dummy" var="dummy">
+	  <default>dummy</default>
+	  <documentation>Dummy input, inputs must not be empty</documentation>
+	  <!-- All datatypes are xsd:string by default. -->
+	  <datatype>xsd:string</datatype>
+	</input>
+  </inputs>
+ 
+  <!-- Actions -->
+  <action type="convert" id="convertTIFFtoTIFF">
+  	<command>convert ${input} +compress ${output}</command>
+  </action>
+
+</toolspec>
