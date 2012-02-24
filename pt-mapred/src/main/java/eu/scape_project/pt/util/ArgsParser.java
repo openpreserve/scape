@@ -1,6 +1,7 @@
 package eu.scape_project.pt.util;
 
 import java.util.HashMap;
+import java.util.List;
 
 import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.OptionParser;
@@ -23,6 +24,10 @@ public class ArgsParser {
 	static public final String PROCSTRING = "PROC_STRING";
 	static public final String PROC_TOOLSPEC = "toolspec";
 	static public final String PROC_TAVERNA = "taverna";
+	
+	// Taverna specific settigns
+	static public final String TAVERNA_HOME = "TAVERNA_HOME";
+	static public final String WORKFLOW_LOCATION = "WORKFLOW_LOCATION";
 
 	private OptionParser parser = null;
 	private OptionSet options = null;
@@ -34,6 +39,8 @@ public class ArgsParser {
 	public ArgsParser(String optionString, String[] args) {
 		this.parser = new OptionParser(optionString);
 		this.options = parser.parse(args);
+		
+		LOG.info("Options: " + options.toString());
 	}
 
     public void accepts( String strOption ) {
@@ -46,6 +53,11 @@ public class ArgsParser {
 		//System.out.println(opt+" has am argument: "+options.hasArgument(opt));
 		//System.out.println(opt+" has argument: "+options.valueOf(opt));
 		if (options.hasArgument(opt)) return options.valueOf(opt).toString();
+		return null;
+	}
+	
+	public List<?> getValues(String opt) {
+		if (options.hasArgument(opt)) return options.valuesOf(opt);
 		return null;
 	}
 	
