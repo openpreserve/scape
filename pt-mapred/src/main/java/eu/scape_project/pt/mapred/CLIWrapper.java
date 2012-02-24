@@ -51,7 +51,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          */
         @Override
 		public void setup( Context context ) {
-        	if(context.getConfiguration().get(ArgsParser.TAVERNA_HOME) != null && context.getConfiguration().get(ArgsParser.TAVERNA_HOME) != "") {
+        	if(context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION) != null && context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION) != "") {
         		executor = new TavernaCLExecutor(context.getConfiguration().get(ArgsParser.TAVERNA_HOME),
         				context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION),
         				context.getConfiguration().get(ArgsParser.OUTDIR));
@@ -158,8 +158,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 			//defined parameter list
 			LOG.info("parameters: " + pargs.getValue("p"));
 			// taverna set?
-			LOG.info("taverna: " + pargs.getValues("v"));
-			LOG.info("workflow: " + pargs.getValues("w"));
+			LOG.info("taverna: " + pargs.getValue("v"));
+			LOG.info("workflow: " + pargs.getValue("w"));
 			
 			conf.set(ArgsParser.INFILE, pargs.getValue("i"));			
 			//toolMap.initialize();
@@ -171,8 +171,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
 	        
 	        // Get Taverna home directory and workflow location
-	        if (pargs.hasOption("v")) conf.set(ArgsParser.TAVERNA_HOME, pargs.getValue("v"));
 	        if (pargs.hasOption("w")) conf.set(ArgsParser.WORKFLOW_LOCATION, pargs.getValue("w"));
+	        if (pargs.hasOption("v")) conf.set(ArgsParser.TAVERNA_HOME, pargs.getValue("v"));
 
             // TODO validate input parameters (eg. look for toolspec, action, ...)
 	        
@@ -214,6 +214,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	        }
 		} catch (Exception e) {
 			System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] -t cmd");
+			System.out.println("   or: CLIWrapper -i inFile -o outFile [-v tavernaDir] -w workflow");
 			LOG.info(e);
 			e.printStackTrace();
 			System.exit(-1);
