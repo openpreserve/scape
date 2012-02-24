@@ -1,6 +1,7 @@
 package eu.scape_project.pt.mapred;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,6 +18,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
 import eu.scape_project.pt.executors.Executor;
+import eu.scape_project.pt.executors.TavernaCLExecutor;
 import eu.scape_project.pt.executors.ToolspecExecutor;
 import eu.scape_project.pt.util.ArgsParser;
 
@@ -26,6 +28,7 @@ import eu.scape_project.pt.util.ArgsParser;
  * 
  * @author Rainer Schmidt [rschmidt13]
  * @author Matthias Rella [myrho]
+ * @author Martin Schenck [schenck]
  */ 
 public class CLIWrapper extends Configured implements org.apache.hadoop.util.Tool {
 
@@ -49,7 +52,13 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          */
         @Override
 		public void setup( Context context ) {
-        	executor = new ToolspecExecutor(context.getConfiguration().get(ArgsParser.TOOLSTRING), context.getConfiguration().get(ArgsParser.ACTIONSTRING));
+        	if(context.getConfiguration().get(ArgsParser.TAVERNA_HOME) != null && context.getConfiguration().get(ArgsParser.TAVERNA_HOME) != "") {
+        		executor = new TavernaCLExecutor(context.getConfiguration().get(ArgsParser.TAVERNA_HOME),
+        				context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION),
+        				context.getConfiguration().get(ArgsParser.OUTDIR));
+        	} else {
+        		executor = new ToolspecExecutor(context.getConfiguration().get(ArgsParser.TOOLSTRING), context.getConfiguration().get(ArgsParser.ACTIONSTRING));
+        	}
 	    	executor.setup();
 		}
 
@@ -138,26 +147,37 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         Configuration conf = new Configuration();
         		
 		try {
-			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x", args);
+			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v::", args);
 			//input file
-			LOG.info("input: "+ pargs.getValue("i"));
+			LOG.info("input: " + pargs.getValue("i"));
 			//hadoop's output 
-			LOG.info("output: "+pargs.getValue("o"));
+			LOG.info("output: " + pargs.getValue("o"));
 			//tool to select
-			LOG.info("tool: "+pargs.getValue("t"));
+			LOG.info("tool: " + pargs.getValue("t"));
             //action to select
-            LOG.info("action: "+pargs.getValue("a"));
+            LOG.info("action: " + pargs.getValue("a"));
 			//defined parameter list
-			LOG.info("parameters: "+pargs.getValue("p"));
+			LOG.info("parameters: " + pargs.getValue("p"));
+			// taverna set?
+			LOG.info("taverna: " + pargs.getValues("v").get(0));
 			
 			conf.set(ArgsParser.INFILE, pargs.getValue("i"));			
 			//toolMap.initialize();
 			//ToolSpec tool = toolMap.get(pargs.getValue("t"));
 			//if(tool != null) conf.set(ArgsParser.TOOLSTRING, tool.toString());
-            conf.set(ArgsParser.TOOLSTRING, pargs.getValue("t"));
-            conf.set(ArgsParser.ACTIONSTRING, pargs.getValue("a"));
+			if (pargs.hasOption("t")) conf.set(ArgsParser.TOOLSTRING, pargs.getValue("t"));
+			if (pargs.hasOption("a")) conf.set(ArgsParser.ACTIONSTRING, pargs.getValue("a"));
 	        if (pargs.hasOption("o")) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
 	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
+	        
+	        // Get Taverna home directory and workflow location
+	        if(pargs.hasOption("v")) {
+	        	List<?> tavernaArguments = pargs.getValues("v");
+	        	
+	        	// Home dir is given first, workflow location second
+	        	conf.set(ArgsParser.TAVERNA_HOME, tavernaArguments.get(0).toString());
+	        	conf.set(ArgsParser.WORKFLOW_LOCATION, tavernaArguments.get(1).toString());
+	        }
 
             // TODO validate input parameters (eg. look for toolspec, action, ...)
 	        
@@ -200,6 +220,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		} catch (Exception e) {
 			System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] -t cmd");
 			LOG.info(e);
+			e.printStackTrace();
 			System.exit(-1);
 		}
 				
