@@ -6,12 +6,22 @@ Usage
 
 Having Hadoop set up you can run CLIWrapper:
 
-    hadoop jar {path-to-jar} -i {input-file-with-command-lines} -t {toolspec-name} -a {action-id} -p {processor}
+    hadoop jar {path-to-jar} -i {input-file-with-command-lines} -t {toolspec-name} -a {action-id} [-o {output-dir-for-the-job}]
+
+See at the end for the usage of the wrapper with Taverna.
+
+*Working toolspecs/actions combinations:*
+
+* file/file (identify a file using the file command, see files/hinput_file.txt for example input)
+* fits/fits-to-xml or fits/fits-to-stdout (identify a file using FITS, see files/hinput_fits.txt for example input)
+* ghostscript/ps-to-pdfa (make a ps to pdfa, see files/hinput_ps2pdf.txt for example input)
+
+Stdout output will be written to the output directory of the hadoop job (parameter -o).
 
 CLIWrapper
 ----------
 
-This wrapper depends essentially on eu.scape_project.pit.invoke.processor (Subproject xa-pit), which wraps command-line tools for invocation through Toolspec actions. It takes a Toolspec name and an action id and creates the Processor (use "toolspec" or "taverna" as input argument). 
+This wrapper depends essentially on eu.scape_project.pit.invoke.processor (Subproject xa-pit), which wraps command-line tools for invocation through Toolspec actions. It takes a Toolspec name and an action id and creates the Processor. 
 
 So these two parameters are one part of a MapReduce Job's input. The other part is a text file listing command-lines with various arguments for the specified Toolspec/action-id. See an example here: https://github.com/openplanets/scape/blob/master/pt-mapred/files/hinput.txt (ignore comment lines).
 

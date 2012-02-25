@@ -1,0 +1,5 @@
+# for use with toolspec "file" and action "file"
+--input hdfs:///path/to/input-file1
+--input hdfs:///path/to/input-file2
+
+# add more ...
