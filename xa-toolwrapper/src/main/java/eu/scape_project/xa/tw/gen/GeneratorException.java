@@ -15,22 +15,38 @@
  */
 package eu.scape_project.xa.tw.gen;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * GeneratorException
  * @author shsdev https://github.com/shsdev
  * @version 0.3
  */
 public class GeneratorException extends Exception {
-    private static Logger logger = LoggerFactory.getLogger(GeneratorException.class.getName());
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6823299223266457711L;
 
+	/**
+     * Default constructor
+     */
     public GeneratorException() {
+    	super();
     }
 
+    /**
+     * Construct exception with message
+     * @param message the message for the exception.
+     */
     public GeneratorException(String message) {
         super(message);
-        logger.error(message);
+    }
+    
+    /**
+     * Construct with message and cause
+     * @param message the message for the exception
+     * @param thrw the root cause for the exception.
+     */
+    public GeneratorException(String message, Throwable thrw) {
+    	super(message, thrw);
     }
 }

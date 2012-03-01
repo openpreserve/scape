@@ -30,7 +30,7 @@ public class OutputItemCode extends Code {
 
     /**
      * Constructor for a service code instance
-     * @param templateFilePath Path to template file
+     * @param filePath Path to template file
      * @throws IOException Exception while reading the template file
      */
     public OutputItemCode(String filePath) throws IOException {

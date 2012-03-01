@@ -1,3 +1,16 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+DEMO_WORKFLOWS (our webservices, markus (characterization) and jyplyzer (carl)
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+* markus workflow 
+	1) commented the tmp dir removal
+	2) deleted the beanshell that checks the removal
+	3) added the absolute path to tmp as output
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+THINGS TO KNOW
+------------------------------------------------------------------------------------------------------------------------------------------------------------
 * toolwrapper changes:
 	1) allow xml to contain information about the debian package deployment (pre/post install/remove scripts and scripts for /etc/init.d/), probably inside /installation/os, and also about changes (to generate debian changelog), probably a sequence of "change" elements, wtih a "date" atribute, and pcdata inside for change description, also an element to contain the README content? and copyrights content?.
 	2) xa-toolwrapper/template/src/main/java/eu/scape_project/pc/services/util/StringUtils.java has a method called "getFileExtension" that obtains the file extension from a string, and if that same extension has more than 3 characters, it returns "tmp" as extension (it makes conversion of docx, pptx and xslx to fail) > test commented, in our compiled version of toolwrapper
@@ -54,3 +67,11 @@
 
 * Netpbm
 	! it must use a bash script because the command needed pipe and output redirection and it doesn't work well it the toolwrapper process runner
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+libraries/api's to package
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+* Apache Sanselan
+* PDFBox
+* 

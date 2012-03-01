@@ -20,8 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Template-based service code generator.
@@ -32,19 +30,15 @@ import org.slf4j.LoggerFactory;
  * @version 0.3
  */
 public class ServiceXml extends Code {
-    
-    
-    /** Logger */
-    private static Logger logger = LoggerFactory.getLogger(ServiceXml.class.getName());
-
     private ArrayList<ServiceXmlOp> operations;
 
     /**
      * Constructor for a service code instance
-     * @param templateFilePath Path to template file
+     * @param filePath Path to template file
      * @throws IOException Exception while reading the template file
      */
-    public ServiceXml(String filePath) throws IOException {
+    @SuppressWarnings("serial")
+	public ServiceXml(String filePath) throws IOException {
         super(filePath);
         operations = new ArrayList<ServiceXmlOp>() {};
     }
@@ -57,7 +51,7 @@ public class ServiceXml extends Code {
     }
 
     /**
-     * @param operationSnippet the operationSnippets to add
+     * @param servxmlop the operationSnippets to add
      */
     public void addOperation(ServiceXmlOp servxmlop) {
         this.operations.add(servxmlop);
@@ -74,6 +68,10 @@ public class ServiceXml extends Code {
         getCtx().put(string, operations);
     }
 
+    /**
+     * @param targetFilePath
+     * @throws IOException
+     */
     public void create(String targetFilePath) throws IOException {
         this.evaluate();
         File targetFile = new File(targetFilePath);

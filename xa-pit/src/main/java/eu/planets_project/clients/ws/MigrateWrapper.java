@@ -4,10 +4,8 @@
 package eu.planets_project.clients.ws;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -22,7 +20,6 @@ import org.apache.commons.io.IOUtils;
 
 import com.sun.xml.ws.developer.JAXWSProperties;
 
-import eu.planets_project.ifr.core.techreg.formats.Format;
 import eu.planets_project.ifr.core.techreg.formats.FormatRegistry;
 import eu.planets_project.ifr.core.techreg.formats.FormatRegistryFactory;
 import eu.planets_project.services.datatypes.Content;
@@ -61,6 +58,7 @@ public class MigrateWrapper extends Service implements Migrate {
     
     /**
      * @param wsdl The WSDL to wrap as a service.
+     * @return the MigrateWrapper
      */
     public static Migrate createWrapper( URL wsdl ) {
         MigrateWrapper mw = new MigrateWrapper(wsdl, Migrate.QNAME);
@@ -119,7 +117,7 @@ public class MigrateWrapper extends Service implements Migrate {
     	FormatRegistry fr = FormatRegistryFactory.getFormatRegistry();
     	URI rtf = fr.createExtensionUri("rtf");
     	URI wpd = fr.createExtensionUri("wpd");
-    	Format f = fr.getFormatForUri( rtf );
+    	fr.getFormatForUri( rtf );
     	URI service  = URI.create("http://132.230.8.85:8080/psuite-pa-ufcmigrate/UfcMigrate?wsdl");
     	Migrate m = MigrateWrapper.createWrapper(service.toURL());
     	System.out.println("Description: "+m.describe().toXmlFormatted());

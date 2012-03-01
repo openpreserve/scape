@@ -1,13 +1,12 @@
 package eu.scape_project.pt.proc;
 
-import java.io.IOException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import eu.scape_project.pt.pit.ToolSpec;
 import eu.scape_project.pt.pit.invoke.ToolInvoker;
 
+@Deprecated
 public class TaskProcessor implements Processor {
 	
 	private static Log LOG = LogFactory.getLog(TaskProcessor.class);

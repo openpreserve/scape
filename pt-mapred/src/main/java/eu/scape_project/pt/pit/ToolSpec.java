@@ -8,18 +8,19 @@ import org.apache.commons.logging.LogFactory;
 
 import eu.scape_project.pt.proc.Executable;
 
-/*
+/**
  *  Represents a command-line tool to be executed by the wrapper. 
  *  Note: This is not the cmd-line string used for job submission. 
  *  There is no notion of mapReduce at this level
  *  
- *  @author Rainer Schmidt [rschmidt13]
- *  <p>
+ *  [@]file ... file parameters are specified in the job input file 
+ *	[@]param ...cmd-line parameters are specified when submitting a job 
  *  
- *  @file ... file parameters are specified in the job input file 
- *	@param ...cmd-line parameters are specified when submitting a job 
+ *  @author Rainer Schmidt [rschmidt13]
+ *  @deprecated using core Toolspec instead
  *
  */
+@Deprecated
 public class ToolSpec extends Executable {
 	
 	//TODO implement proper serialization

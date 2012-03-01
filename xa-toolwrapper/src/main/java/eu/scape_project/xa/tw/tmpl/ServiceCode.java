@@ -20,8 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Template-based service code generator.
@@ -33,14 +31,11 @@ import org.slf4j.LoggerFactory;
  */
 public class ServiceCode extends Code {
     
-    /** Logger */
-    private static Logger logger = LoggerFactory.getLogger(ServiceCode.class.getName());
-
     private List<OperationCode> operations;
 
     /**
      * Constructor for a service code instance
-     * @param templateFilePath Path to template file
+     * @param filePath Path to template file
      * @throws IOException Exception while reading the template file
      */
     public ServiceCode(String filePath) throws IOException {
@@ -71,9 +66,12 @@ public class ServiceCode extends Code {
         getCtx().put(string, operations);
     }
 
+    /**
+     * @param targetFilePath
+     * @throws IOException
+     */
     public void create(String targetFilePath) throws IOException {
         this.evaluate();
-        //logger.debug("Template evaluation result:\n" + this.getCode());
         File targetFile = new File(targetFilePath);
         org.apache.commons.io.FileUtils.writeStringToFile(targetFile, this.getCode());
     }

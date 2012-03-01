@@ -22,6 +22,7 @@ package eu.scape_project.xa.tw.gen.types;
  */
 public enum ErrType {
 
+    /** Enum for an error */
     ERROR {
 
         @Override
@@ -29,6 +30,7 @@ public enum ErrType {
             return "Error";
         }
     },
+    /** Enum for a warning */
     WARNING {
 
         @Override

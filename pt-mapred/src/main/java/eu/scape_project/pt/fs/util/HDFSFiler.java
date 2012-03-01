@@ -8,6 +8,12 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
+/**
+ * Handles the transportation of files from the local filesystem to HDFS and vice-versa.
+ * 
+ * @author Rainer Schmidt [rschmidt13]
+ * @author Matthias Rella [myrho]
+ */
 public class HDFSFiler implements Filer{
 	
 	private static Log LOG = LogFactory.getLog(HDFSFiler.class);
@@ -24,57 +30,48 @@ public class HDFSFiler implements Filer{
 		return hdfs.exists(path);
 	}
 	
-	public File createTempFileFromReference(String hdfsRef) throws IOException {
-		Path path = new Path(hdfsRef);
-		if(!hdfs.exists(path)) throw new IOException("file does not exist! "+hdfsRef.toString());
+    @Override
+	public File copyFile(String strSrc, String strDest) throws IOException {
+		Path path = new Path(strSrc);
+		if(!hdfs.exists(path)) throw new IOException("file does not exist! "+strSrc);
 		//File temp = File.createTempFile(path.getName(), "", tempDir);		
-		File temp = new File(PtFileUtil.getExecDir(), path.getName());
-		hdfs.copyToLocalFile(path, new Path(temp.toString()));
+        File temp = new File( strDest );
+		hdfs.copyToLocalFile(path, new Path(strDest));
 		return temp;
 	}
 	
 	@Override
-	public void depositTempDirectoryOrFile(String hdfsRef) throws IOException {
-		// TODO have better means to identify directory
-		if(hdfsRef.endsWith("/")) {
-			depositTempDirectory(hdfsRef);
+	public void depositDirectoryOrFile(String strSrc, String strDest) throws IOException {
+        File file = new File( strSrc );
+		if(file.isDirectory()) {
+			depositDirectory(strSrc, strDest);
 		} else {
-			depositTempFile(hdfsRef);
+			depositFile(strSrc, strDest);
 		}
 	}
 	
 	@Override
-	public void depositTempDirectory(String hdfsRef) throws IOException {
-		// Get output directory name from hdfsRef
-		String[] splits = hdfsRef.split("/");
+	public void depositDirectory(String strSrc, String strDest) throws IOException {
+		// Get output directory name from strSrc
+        File dir = new File( strSrc );
 		
-		// Execution directory plus the new folder
-		File directory = new File(PtFileUtil.getExecDir().toString() + "/" + splits[splits.length - 1]);
-		
-		if(!directory.isDirectory()) {
-			LOG.error("Could not find correct local output directory: " + directory);
+		if(!dir.isDirectory()) {
+			LOG.error("Could not find correct local output directory: " + dir );
 			return;
 		}
 		
-		LOG.info("Local directory is: " + directory);
+		LOG.info("Local directory is: " + dir );
 		
-		for(File file : directory.listFiles()) {
-			depositTempFile(hdfsRef + file.getName(), directory);
+        // FIXME if strSrc is a directory then strDest should be a directory too
+		for(File file : dir.listFiles()) {
+			depositDirectoryOrFile(file.getCanonicalPath(), strDest);
 		}
 	}
 
-	private void depositTempFile(String hdfsRef, File localDirectory) throws IOException {
-		Path dest = new Path(hdfsRef);
-		Path src = new Path(localDirectory.getAbsolutePath(), dest.getName());
-		
-		LOG.info("local file name is: "+src+" destination path is:" +dest);
-		hdfs.copyFromLocalFile(src, dest);
-	}
-
 	@Override
-	public void depositTempFile(String hdfsRef) throws IOException {
-		Path dest = new Path(hdfsRef);
-		Path src = new Path( new Path(PtFileUtil.getExecDir().toString()), new Path(dest.getName()) );
+	public void depositFile(String strSrc, String strDest) throws IOException {
+		Path src = new Path(strSrc);
+		Path dest = new Path(strDest);
 		
 		LOG.info("local file name is: "+src+" destination path is:" +dest);
 		hdfs.copyFromLocalFile(src, dest);

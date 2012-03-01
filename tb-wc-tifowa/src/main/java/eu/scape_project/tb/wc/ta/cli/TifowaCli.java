@@ -16,27 +16,23 @@
  */
 package eu.scape_project.tb.wc.ta.cli;
 
-import eu.scape_project.tb.wc.ta.Constants;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import org.apache.tika.Tika;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.tika.Tika;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.metadata.TikaMetadataKeys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import eu.scape_project.tb.wc.ta.Constants;
 
 /**
  *
@@ -207,7 +203,7 @@ public class TifowaCli {
     
     private static void displayMyTypes(HashMap<String, Integer> myCollection, int countAllCalls, int countAllGoodItems, int countAllFailedItems, long elapsedTimeSec) {
         
-        Iterator it = myCollection.keySet().iterator();
+        Iterator<String> it = myCollection.keySet().iterator();
 
         System.out.println("************************************");
         System.out.println("Total file processing time (sec): " + elapsedTimeSec/1000F );

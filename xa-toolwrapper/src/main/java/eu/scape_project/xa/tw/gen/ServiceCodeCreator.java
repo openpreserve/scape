@@ -64,10 +64,9 @@ public class ServiceCodeCreator {
         this.sxml = sxml;
     }
 
-    /**
-     * Constructor
-     */
-    private ServiceCodeCreator() {
+    /** Prevent default construction */
+    @SuppressWarnings("unused")
+	private ServiceCodeCreator() {
     }
 
     /**

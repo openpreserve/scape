@@ -59,12 +59,39 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 			LOG.info("trying to retrieve file: "+file);
 			Filer filer = getFiler(file);
 			if(filer == null) continue;
-	    	File inFile = filer.createTempFileFromReference(file);
+	    	File inFile = filer.copyFile(file, getTempInputLocation( file ));
 	    	files.add(inFile);
 	    	LOG.info("retrieving file: "+inFile.getName());
 		}	
 		this.inputFiles = files.toArray(new File[0]);
 	}
+    
+    /**
+     * Returns the full path to the location of temporary input file.
+     * @param fileRef location of original source (eg. an HDFS-location)
+     * @return 
+     */
+    static public String getTempInputLocation( String fileRef ) {
+        return getTempLocation( fileRef );
+    }
+
+    /**
+     * Returns the full path to the location of temporary output file.
+     * @param fileRef location of original destination (eg. an HDFS-location)
+     * @return 
+     */
+    static public String getTempOutputLocation( String fileRef ) {
+        return getTempLocation( fileRef );
+    }
+
+    /**
+     * Returns the full path to the location of temporary file.
+     * @param fileRef location of original (eg. an HDFS-location)
+     * @return 
+     */
+    static public String getTempLocation( String fileRef ) {
+        return PtFileUtil.getExecDir().toString() + File.separator + "tmp"+fileRef.hashCode();
+    }
 	
 	public File[] getInputFiles() {
 		return inputFiles;
@@ -81,7 +108,7 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 			LOG.info("trying to deposit file: "+file);			
 			Filer filer = getFiler(file);
 			if(filer == null) continue;
-			filer.depositTempDirectoryOrFile(file);
+			filer.depositDirectoryOrFile(getTempOutputLocation( file ), file);
 		}
 	}
 		

@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.w3c.dom.Element;
 
+/**
+ * @author  <a href="mailto:andrew.jackson@bl.uk">Andrew Jackson</a>
+ */
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Input {
 	

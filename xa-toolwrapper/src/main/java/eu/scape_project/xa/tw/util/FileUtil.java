@@ -34,9 +34,9 @@ import org.slf4j.LoggerFactory;
  */
 public final class FileUtil {
 
+    /** The Java property for the system temp directory */
     public static final String JAVA_TMP = System.getProperty("java.io.tmpdir");
     private static final String TMP_DIR = "gwg-tmp-store";
-    private static final int BUFF = 32768;
     private static Logger logger = LoggerFactory.getLogger(FileUtil.class.getName());
 
     /**
@@ -513,6 +513,10 @@ public final class FileUtil {
         }
     }
 
+    /**
+     * @param parts String args to be assembled into a path.
+     * @return the created path.
+     */
     public static String makePath(String... parts) {
         StringBuilder sb = new StringBuilder();
         for (String part : parts) {

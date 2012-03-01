@@ -34,9 +34,9 @@ public class ServiceDefTest {
     ServiceDef servicedef3;
     ServiceDef servicedef4;
 
-    public ServiceDefTest() {
-    }
-
+    /**
+     * Set up required service definitions.
+     */
     @Before
     public void setUp() {
         servicedef1 = new ServiceDef("OpenJPEG", "1.4");
@@ -45,6 +45,9 @@ public class ServiceDefTest {
         servicedef4 = new ServiceDef("Fits", "0.5.0");
     }
 
+    /**
+     * Reset the service definition references.
+     */
     @After
     public void tearDown() {
         servicedef1 = null;

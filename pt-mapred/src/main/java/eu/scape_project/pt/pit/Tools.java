@@ -1,11 +1,17 @@
 package eu.scape_project.pt.pit;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Maps tools to commands.
+ * 
+ * @author ait
+ * @deprecated Using the cmd specification in Toolspec files
+ */
+@Deprecated
 public class Tools {
 	
 	public static String TOOL_FILE = "tools.properties";

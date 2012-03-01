@@ -1,6 +1,5 @@
 package eu.scape_project.pit.tools;
 
-import java.net.URL;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -30,18 +29,10 @@ public class Action {
 	
 	private String command;
 	
-	/* Best done as class, with room for more than URL (?), including supported types? */
-	private URL service;
-	
 	@XmlElement()
 	private Inputs inputs;
 	
 	private List<PathwaySpec> formats;
-
-	
-	public Action() {
-		super();
-	}
 
 	/**
 	 * @return the id
