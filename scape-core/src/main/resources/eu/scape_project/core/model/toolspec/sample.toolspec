@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="toolspec_proposal.xsd">
+
+    <id>ffmpeg</id>
+    <name>FFMpeg</name>
+    <homepage>http://ffmpeg.org/</homepage>
+    <version>0.10</version>
+
+    <installation>
+        <os type="Debian">ffmpeg, tomcat6</os>
+        <os type="Windows">ffmpeg, tomcat6</os>
+    </installation>
+
+    <operations>
+        <operation name="video2flv">
+            <description>Converts any FFmpeg supported video format to FLV</description>
+            <command>ffmpeg -y -i ${input} ${params} ${output}</command>
+            <inputs>
+                <input name="input" required="true">
+                    <datatype>xsd:anyURI</datatype>
+                    <format>video/*</format>
+                    <description>URL reference to input file</description>
+                    <defaultValue>http://scape.keep.pt/scape/testdata/video/big_buck_bunny_480p_stereo.ogg</defaultValue>
+                </input>
+                <input name="params" required="true">
+                    <datatype>xsd:anyURI</datatype>
+                    <format>video/*</format>
+                    <description>URL reference to input file</description>
+                    <defaultValue>-ar 48000</defaultValue>
+                    <restriction multiple="true">
+                        <Value>What is</Value>
+                        <Value>this?</Value>
+                    </restriction>
+                </input>
+            </inputs>
+            
+            <outputs>
+                <output name="output" required="false">
+                    <datatype>xsd:anyURI</datatype>
+                    <format>video/avi; codecs="theora, vorbis"</format>
+                    <description>URL reference to output file</description>
+                    <extension>flv</extension>
+                    
+                    <prefixFromInput>input</prefixFromInput>
+                    <autoExtension>true</autoExtension>
+                    <outFileId>false</outFileId>
+                </output>
+            </outputs>
+        </operation>
+        <operation name="video2avi">
+            <description>Converts any FFmpeg supported video format to AVI</description>
+            <command>ffmpeg -y -i ${input} ${params} ${output}</command>
+            <inputs>
+                <input name="input" required="true">
+                    <datatype>xsd:anyURI</datatype>
+                    <format>video/*</format>
+                    <description>URL reference to input file</description>
+                </input>
+                <input name="params" required="false">
+                    <datatype>xsd:string</datatype>
+                    <description>Additional encoding parameters</description>
+                </input>
+            </inputs>
+            
+            <outputs>
+                <output name="output" required="false">
+                    <datatype>xsd:anyURI</datatype>
+                    <format>video/avi; codecs="iv50"</format>
+                    <description>URL reference to output file</description>
+                    <extension>avi</extension>
+                </output>
+            </outputs>
+        </operation>
+    </operations>
+
+</toolspec>
