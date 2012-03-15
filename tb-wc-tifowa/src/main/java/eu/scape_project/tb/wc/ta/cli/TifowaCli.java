@@ -164,6 +164,7 @@ public class TifowaCli {
             String myType = met.get("Content-Type").toLowerCase();
             myType = myType.replaceAll("([^A-Za-z-/;=0-9]|;$)",""); //normalize tags
             myType = myType.replaceAll("text-html","text/html"); //normalize tags
+            //if(myType.indexOf("html") > 0 && (myType.indexOf("charset") > 0)) myType = "text/html"; //normalize txt formats
             fileStr.close();
             
             

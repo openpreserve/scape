@@ -1,0 +1,28 @@
+
+- Several elements were transformed into types. There's only one element, toolspec.
+- Case has changed elements and types. Types have UpperCamelCase, elements have lowerCamelCase
+
+- /toolspec/@model removed 
+- /toolspec/name is optional, but if present cannot be emtpy
+- /toolspec/homepage is optional, but if present cannot be emtpy
+- /toolspec/version is optional, but if present cannot be emtpy
+- /toolspec/services/service/operations moved to /toolspec/operations
+- /toolspec/services removed
+- /toolspec/deployments removed. Will this cause problems in SOAP webservices?
+
+InOut type
+ - element "required" transformed into an attribute "@required" (xs:boolean)
+ - element "CliMappping" removed (the attribute "@name" should be used to do the mapping)
+ - element "format" was added
+ - element "documentation" renamed to "description"
+
+Input type
+ - renamed element "Default" to "defaultValue"
+ - removed attribute defaultValue/@clireplacement
+ - what's the purpose of element "restriction"?
+
+Output type
+ - What the purpose of element "prefixFromInput" (xs:string) ?
+ - What the purpose of element "autoExtension" (xs:boolean) ?
+ - What the purpose of element "outFileId" (xs:boolean) ?
+

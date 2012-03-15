@@ -16,7 +16,7 @@
 	<properties>
 		<scape.core.version>0.0.1-SNAPSHOT</scape.core.version>
 		<org.codehaus.jackson.version>1.6.4</org.codehaus.jackson.version>
-                <tika.version>0.7</tika.version>
+                <tika.version>1.0</tika.version>
 	</properties>
 	<build>
 		<plugins>
