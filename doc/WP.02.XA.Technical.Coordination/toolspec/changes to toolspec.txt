@@ -1,4 +1,19 @@
+2012-03-15 - rcastro
 
+- "toolspec" element renamed to "tool" (type renamed from "Toolspec" to "Tool")
+- /tool/id removed
+- /tool/name element transformed into attribute /tool/@name (nonEmptyString)
+- /tool/version element transformed into attribute /tool/@version (nonEmptyString)
+- /tool/homepage element transformed into attribute /tool/@homepage (xs:anyURI)
+
+Input type
+ - removed "restriction" element
+
+Output type
+ - removed elements "prefixFromInput", "autoExtension" and "outFileId"
+
+
+2012-03-06 - rcastro
 - Several elements were transformed into types. There's only one element, toolspec.
 - Case has changed elements and types. Types have UpperCamelCase, elements have lowerCamelCase
 
