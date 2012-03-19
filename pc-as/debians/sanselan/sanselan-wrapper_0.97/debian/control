@@ -1,0 +1,15 @@
+Source: sanselan-wrapper
+Section: java
+Priority: extra
+Maintainer: Helder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0), perl, default-jdk, maven2, javahelper (>=0.25)
+Standards-Version: 3.9.2
+Homepage: http://www.keep.pt/
+#Vcs-Git: git://git.debian.org/collab-maint/sanselan-cli-wrapper-java.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/sanselan-cli-wrapper-java.git;a=summary
+
+Package: sanselan-wrapper
+Architecture: all
+Depends: ${misc:Depends}, ${java:Depends}, libsanselan-java (>= 0.97), libcommons-cli-java (>= 1.2), default-jre 
+Description: CLI wrapper for Apache Sanselan 
+ This intends to be a CLI wrapper for Apache Sanselan. 
