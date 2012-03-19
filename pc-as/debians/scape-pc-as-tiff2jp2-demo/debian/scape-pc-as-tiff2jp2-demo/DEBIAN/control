@@ -1,0 +1,12 @@
+Package: scape-pc-as-tiff2jp2-demo
+Version: 1.0
+Architecture: all
+Maintainer: Hélder Silva <hsilva@keep.pt>
+Installed-Size: 44
+Depends: taverna-commandline, scape-pc-as-execute-workflow-with-webservice, scape-pc-as-imagemagick-image2jp2
+Section: misc
+Priority: extra
+Homepage: http://scape-project.eu/
+Description: This is a meta-package for scape-pc-as-tiff2jp2-demo
+ This is a meta-package for scape-pc-as-tiff2jp2-demo, declaring this way
+ all the needed packages for the demo.

@@ -1,15 +1,14 @@
 Source: jpylyzer
-Section: unknown
+Section: misc
 Priority: extra
 Maintainer: Hélder Silva <hsilva@keep.pt>
-Build-Depends: debhelper (>= 8.0.0)
+Build-Depends: debhelper (>= 8.0.0), perl
 Standards-Version: 3.9.2
-Homepage: <insert the upstream URL, if relevant>
-#Vcs-Git: git://git.debian.org/collab-maint/jpylyzer.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/jpylyzer.git;a=summary
+Homepage: https://github.com/bitsgalore/jpylyzer
 
 Package: jpylyzer
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
+Description: JP2 (JPEG 2000 Part 1) validator and properties extractor.
+ JP2 (JPEG 2000 Part 1) image validator and properties extractor
+ KB / National Library of the Netherlands - Open Planets Foundation

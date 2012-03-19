@@ -53,7 +53,7 @@ THINGS TO KNOW
 
 
 * B2xtranslator
-   ! needs to debian packaged for easy deploy and also to put the .exec in a specific place so it can be invoked
+   ! needs to be debian packaged for easy deploy and also to put the .exec in a specific place so it can be invoked
 
 
 

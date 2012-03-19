@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="tool" type="Tool"/>
+
+	<xs:complexType name="Tool">
+		<xs:sequence>
+			<xs:element name="installation" type="Installation"/>
+			<xs:element name="operations" type="Operations"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="nonEmptyString" use="required"/>
+		<xs:attribute name="version" type="nonEmptyString" use="required"/>
+		<xs:attribute name="homepage" type="xs:anyURI"/>
+	</xs:complexType>
+
+	<xs:complexType name="Installation">
+		<xs:sequence>
+			<xs:element name="os" type="OperatingSystem" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="OperatingSystem">
+		<xs:annotation>
+			<xs:documentation>The operating system</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="type" type="OSType" use="required"/>
+				<xs:attribute name="othertype" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="OSType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Debian"/>
+			<xs:enumeration value="Ubuntu"/>
+			<xs:enumeration value="Redhat"/>
+			<xs:enumeration value="CentOS"/>
+			<xs:enumeration value="Windows"/>
+			<xs:enumeration value="MacOS"/>
+			<xs:enumeration value="Othertype"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="nonEmptyString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="InOut">
+		<xs:sequence>
+			<xs:element name="datatype" type="xs:string"/>
+			<xs:element name="format" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="required" type="xs:boolean"/>
+	</xs:complexType>
+
+	<xs:complexType name="Inputs">
+		<xs:sequence>
+			<xs:element name="input" type="Input" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Input">
+		<xs:complexContent>
+			<xs:extension base="InOut">
+				<xs:sequence>
+					<xs:element name="defaultValue" type="xs:string" minOccurs="0" maxOccurs="1"/>
+					<!--<xs:element name="restriction" type="Restriction" minOccurs="0" maxOccurs="1"/>-->
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Outputs">
+		<xs:sequence>
+			<xs:element name="output" type="Output" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Output">
+		<xs:complexContent>
+			<xs:extension base="InOut">
+				<xs:sequence>
+					<xs:element name="extension" type="xs:string" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Operations">
+		<xs:sequence>
+			<xs:element name="operation" type="Operation" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Operation">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string"/>
+			<xs:element name="command" type="xs:string"/>
+			<xs:element name="inputs" type="Inputs"/>
+			<xs:element name="outputs" type="Outputs"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<!--
+	<xs:complexType name="Restriction">
+		<xs:sequence>
+			<xs:element type="xs:string" name="Value" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="multiple" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+-->
+
+</xs:schema>
