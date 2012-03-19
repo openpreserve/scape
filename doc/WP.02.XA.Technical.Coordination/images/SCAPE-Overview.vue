@@ -1,14 +1,14 @@
-<!-- Tufts VUE 3.1.1 concept-map (SCAPE-Overview.vue) 2012-02-14 -->
+<!-- Tufts VUE 3.1.2 concept-map (SCAPE-Overview.vue) 2012-03-19 -->
 <!-- Tufts VUE: http://vue.tufts.edu/ -->
 <!-- Do Not Remove: VUE mapping @version(1.1) jar:file:/Applications/VUE.app/Contents/VUE.jar!/tufts/vue/resources/lw_mapping_1_1.xml -->
-<!-- Do Not Remove: Saved date Tue Feb 14 14:53:30 GMT 2012 by andy on platform Mac OS X 10.7.2 in JVM 1.6.0_29-b11-402-11M3527 -->
-<!-- Do Not Remove: Saving version @(#)VUE: built March 16 2011 at 1142 by vue on Linux 2.4.21-63.EL i386 JVM 1.5.0_06-b05(bits=32) -->
+<!-- Do Not Remove: Saved date Mon Mar 19 17:00:39 CET 2012 by andy on platform Mac OS X 10.7.3 in JVM 1.6.0_29-b11-402-11D50b -->
+<!-- Do Not Remove: Saving version @(#)VUE: built March 8 2012 at 1310 by vue on Linux 2.4.21-63.EL i386 JVM 1.5.0_06-b05(bits=32) -->
 <?xml version="1.0" encoding="US-ASCII"?>
 <LW-MAP xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="none" ID="0"
     label="SCAPE-Overview.vue" created="1314476338929" x="0.0" y="0.0"
     width="2587.91" height="1803.1694" strokeWidth="0.0" autoSized="false">
-    <resource referenceCreated="1329231210115" size="169600"
+    <resource referenceCreated="1332172839644" size="169770"
         spec="/Users/andy/Documents/workspace/scape/doc/WP.02.XA.Technical.Coordination/images/SCAPE-Overview.vue"
         type="1" xsi:type="URLResource">
         <title>SCAPE-Overview.vue</title>
@@ -35,10 +35,10 @@
     <URIString>http://vue.tufts.edu/rdf/resource/0ce5826dc0a800d7018a37456ad1bc89</URIString>
     <child ID="294" layerID="293" created="1315390981347" x="959.90753"
         y="-314.67575" width="873.5674" height="464.22888"
-        strokeWidth="1.0" autoSized="false" xsi:type="node">
+        strokeWidth="2.0" autoSized="false" xsi:type="node">
         <notes>Testbeds</notes>
-        <fillColor>#F5F5F5</fillColor>
-        <strokeColor>#F5F5F5</strokeColor>
+        <fillColor>#EEEEEE</fillColor>
+        <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
         <metadata-list category-list-size="1" other-list-size="0"
@@ -55,10 +55,10 @@
     </child>
     <child ID="295" layerID="293" created="1315390981347" x="-29.472858"
         y="94.99031" width="1065.1687" height="800.71313"
-        strokeWidth="1.0" autoSized="false" xsi:type="node">
+        strokeWidth="2.0" autoSized="false" xsi:type="node">
         <notes>SCAPE Platform</notes>
-        <fillColor>#F5F5F5</fillColor>
-        <strokeColor>#F5F5F5</strokeColor>
+        <fillColor>#EEEEEE</fillColor>
+        <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
         <metadata-list category-list-size="1" other-list-size="0"
@@ -75,10 +75,10 @@
     </child>
     <child ID="296" layerID="293" created="1315390981347" x="-753.4351"
         y="-351.63263" width="800.7131" height="537.72656"
-        strokeWidth="1.0" autoSized="false" xsi:type="node">
+        strokeWidth="2.0" autoSized="false" xsi:type="node">
         <notes>Preservation Planning &amp; Watch</notes>
-        <fillColor>#F5F5F5</fillColor>
-        <strokeColor>#F5F5F5</strokeColor>
+        <fillColor>#EEEEEE</fillColor>
+        <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
         <metadata-list category-list-size="1" other-list-size="0"
@@ -95,10 +95,10 @@
     </child>
     <child ID="297" layerID="293" created="1315390981347" x="352.11038"
         y="998.1804" width="671.42365" height="452.35632"
-        strokeWidth="1.0" autoSized="false" xsi:type="node">
+        strokeWidth="2.0" autoSized="false" xsi:type="node">
         <notes>Preservation Components</notes>
-        <fillColor>#F5F5F5</fillColor>
-        <strokeColor>#F5F5F5</strokeColor>
+        <fillColor>#EEEEEE</fillColor>
+        <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
         <metadata-list category-list-size="1" other-list-size="0"
@@ -135,7 +135,7 @@
     <child ID="18" label="Platform&#xa;Releases" layerID="1"
         created="1314476427775" x="389.9514" y="420.65292" width="63.0"
         height="36.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -182,7 +182,7 @@
             type="2" xsi:type="URLResource">
             <property key="URL" value="http://wiki.opf-labs.org/display/SP/Workflow+Support"/>
         </resource>
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -201,7 +201,7 @@
     <child ID="71" label="Workflow Compilation Engine" layerID="1"
         created="1314716022428" x="541.80554" y="439.3056" width="172.0"
         height="22.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -220,7 +220,7 @@
     <child ID="73" label="Job Submission&#xa;Language &amp; Interface"
         layerID="1" created="1314716075539" x="517.0" y="318.5"
         width="128.0" height="36.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -244,7 +244,7 @@
             type="2" xsi:type="URLResource">
             <property key="URL" value="http://wiki.opf-labs.org/display/SP/SCAPE+Scenarios+-+Datasets%2C+Issues+and+Solutions"/>
         </resource>
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -269,7 +269,7 @@
             <property key="Content.type" value="text/html"/>
             <property key="URL" value="http://www.myexperiment.org/groups/490.html"/>
         </resource>
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -289,7 +289,7 @@
         created="1314716284445" x="1415.5966" y="41.16336" width="91.0"
         height="36.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
         <notes>Large sets of realistic test data for evaluating the tools and workflows.</notes>
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -328,7 +328,7 @@
         created="1314716545901" x="-297.9511" y="-266.53772"
         width="169.0" height="27.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
         <notes>For simulating the effects of planning and watch.</notes>
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -348,7 +348,7 @@
         created="1314716593545" x="-530.6815" y="91.65125" width="203.0"
         height="27.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
         <notes>Catalogue of preservation policy elements%nl;and an RDF/OWL policy modelling framework.</notes>
-        <fillColor>#F2AE45</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -393,7 +393,7 @@
         created="1314717497930" x="399.72214" y="231.30556"
         width="115.0" height="42.0" strokeWidth="1.0" autoSized="false" xsi:type="node">
         <notes>HADOOP and HBase plus SCAPE extensions.</notes>
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -789,7 +789,7 @@
         <child ID="146" label="Software/documentation"
             created="1314783526443" x="34.0" y="93.1875" width="183.0"
             height="27.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-            <fillColor>#FFC63B</fillColor>
+            <fillColor>#FDE888</fillColor>
             <strokeColor>#000000</strokeColor>
             <textColor>#000000</textColor>
             <font>Arial-plain-16</font>
@@ -870,9 +870,9 @@
         <ctrlPoint0 x="1503.8328" y="1085.8208" xsi:type="point"/>
     </child>
     <child ID="151" label="Queries..." layerID="1"
-        created="1314910987893" x="-303.67163" y="-140.78088"
-        width="891.5372" height="1469.9052" strokeWidth="1.0"
-        autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
+        created="1314910987893" x="-314.57352" y="-140.78088"
+        width="832.1438" height="1485.697" strokeWidth="1.0"
+        autoSized="false" controlCount="2" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#404040</textColor>
         <font>Arial-plain-11</font>
@@ -887,10 +887,11 @@
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/26ce9f1ac0a8001400e31ef2ccd00c8e</URIString>
         <point1 x="-281.64255" y="-140.28088"/>
-        <point2 x="587.36554" y="1328.6243"/>
+        <point2 x="517.0703" y="1344.4161"/>
         <ID1 xsi:type="node">94</ID1>
         <ID2 xsi:type="node">318</ID2>
         <ctrlPoint0 x="-442.13318" y="949.9774" xsi:type="point"/>
+        <ctrlPoint1 x="13.059677" y="1355.2115" xsi:type="point"/>
     </child>
     <child ID="154" label="Using..." layerID="1" created="1315322306242"
         x="-330.0334" y="34.635956" width="185.17581" height="62.041702"
@@ -1400,8 +1401,8 @@
         <ctrlPoint0 x="839.9028" y="809.4881" xsi:type="point"/>
     </child>
     <child ID="126" label="Developed On..." layerID="1"
-        created="1314717784863" x="580.38135" y="594.19446"
-        width="218.32947" height="506.57727" strokeWidth="1.0"
+        created="1314717784863" x="578.2158" y="594.19446"
+        width="260.45428" height="506.57727" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#404040</textColor>
@@ -1416,11 +1417,11 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/1b68838ac0a800d7018a37450aa2ad2c</URIString>
-        <point1 x="580.88135" y="1100.2717"/>
-        <point2 x="710.30536" y="594.69446"/>
+        <point1 x="578.7158" y="1100.2717"/>
+        <point2 x="720.308" y="594.69446"/>
         <ID1 xsi:type="node">121</ID1>
         <ID2 xsi:type="node">67</ID2>
-        <ctrlPoint0 x="872.8283" y="877.80786" xsi:type="point"/>
+        <ctrlPoint0 x="948.8283" y="768.47455" xsi:type="point"/>
     </child>
     <child ID="129" label="Designed For..." layerID="1"
         created="1314717942182" x="621.4456" y="-51.82422"
@@ -1444,52 +1445,6 @@
         <ID1 xsi:type="node">121</ID1>
         <ID2 xsi:type="node">81</ID2>
         <ctrlPoint0 x="1750.1366" y="1091.8076" xsi:type="point"/>
-    </child>
-    <child ID="128" label="Deployed On..." layerID="1"
-        created="1314717826544" x="169.90521" y="203.22229"
-        width="341.67868" height="906.864" strokeWidth="1.0"
-        autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
-        <strokeColor>#AD0C03</strokeColor>
-        <textColor>#404040</textColor>
-        <font>Arial-plain-11</font>
-        <metadata-list category-list-size="1" other-list-size="0"
-            ontology-list-size="0" RCategoryListSize="0">
-            <ontology-list-string></ontology-list-string>
-            <metadata xsi:type="vue-metadata-element">
-                <value></value>
-                <key>http://vue.tufts.edu/vue.rdfs#none</key>
-                <type>1</type>
-            </metadata>
-        </metadata-list>
-        <URIString>http://vue.tufts.edu/rdf/resource/1b68838ac0a800d7018a374501fb4c61</URIString>
-        <point1 x="511.08395" y="1109.5864"/>
-        <point2 x="281.11566" y="203.72229"/>
-        <ID1 xsi:type="node">121</ID1>
-        <ID2 xsi:type="node">9</ID2>
-        <ctrlPoint0 x="16.710617" y="1094.5364" xsi:type="point"/>
-    </child>
-    <child ID="127" label="Registered In..." layerID="1"
-        created="1314717818338" x="575.7627" y="486.28125"
-        width="352.81982" height="735.91907" strokeWidth="1.0"
-        autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
-        <strokeColor>#AD0C03</strokeColor>
-        <textColor>#404040</textColor>
-        <font>Arial-plain-11</font>
-        <metadata-list category-list-size="1" other-list-size="0"
-            ontology-list-size="0" RCategoryListSize="0">
-            <ontology-list-string></ontology-list-string>
-            <metadata xsi:type="vue-metadata-element">
-                <value></value>
-                <key>http://vue.tufts.edu/vue.rdfs#none</key>
-                <type>1</type>
-            </metadata>
-        </metadata-list>
-        <URIString>http://vue.tufts.edu/rdf/resource/1b68838ac0a800d7018a3745e5ecae13</URIString>
-        <point1 x="576.2627" y="1122.2717"/>
-        <point2 x="928.0825" y="486.78125"/>
-        <ID1 xsi:type="node">121</ID1>
-        <ID2 xsi:type="node">66</ID2>
-        <ctrlPoint0 x="906.71075" y="1492.5364" xsi:type="point"/>
     </child>
     <child ID="125" layerID="1" created="1314717780685" x="595.4592"
         y="1210.3484" width="114.32587" height="10.7508545"
@@ -1965,7 +1920,7 @@
             type="2" xsi:type="URLResource">
             <property key="URL" value="http://wiki.opf-labs.org/display/SP/Repository+System"/>
         </resource>
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -1984,7 +1939,7 @@
     <child ID="106" label="Fedora/eSciDoc" layerID="1"
         created="1314717350613" x="55.067505" y="479.33356" width="99.0"
         height="22.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2003,7 +1958,7 @@
     <child ID="107" label="Fedora/DOMS" layerID="1"
         created="1314717364805" x="55.067505" y="501.33356" width="89.0"
         height="22.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2022,7 +1977,7 @@
     <child ID="108" label="Fedora/RODA" layerID="1"
         created="1314717364973" x="55.067505" y="523.33356" width="88.0"
         height="22.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2041,7 +1996,7 @@
     <child ID="109" label="Rosetta" layerID="1" created="1314717365149"
         x="55.067505" y="545.33356" width="53.0" height="22.0"
         strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2085,7 +2040,7 @@
             type="2" xsi:type="URLResource">
             <property key="URL" value="http://wiki.opf-labs.org/display/SP/Requirements+for+the+Service+Catalogue"/>
         </resource>
-        <fillColor>#F2AE45</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2123,7 +2078,7 @@
     <child ID="77" label="Characterisation&#xa;Tools" layerID="1"
         created="1314716152920" x="510.94562" y="1122.2717"
         width="101.0" height="36.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2142,7 +2097,7 @@
     <child ID="76" label="Preservation&#xa;Action Tools" layerID="1"
         created="1314716152777" x="510.94562" y="1158.2722" width="80.0"
         height="36.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2161,7 +2116,7 @@
     <child ID="75" label="QA Tools" layerID="1" created="1314716152552"
         x="510.94562" y="1194.2722" width="61.0" height="22.0"
         strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2180,7 +2135,7 @@
     <child ID="123" label="QA Workflows" layerID="1"
         created="1314717723395" x="510.94562" y="1216.2722" width="87.0"
         height="22.0" strokeWidth="1.0" autoSized="true" xsi:type="node">
-        <fillColor>#F1A83E</fillColor>
+        <fillColor>#FDE888</fillColor>
         <strokeColor>#000000</strokeColor>
         <textColor>#000000</textColor>
         <font>Arial-plain-12</font>
@@ -2508,9 +2463,9 @@
         <URIString>http://vue.tufts.edu/rdf/resource/444cd068c0a800f9006d70fc5442a633</URIString>
         <shape arcwidth="20.0" archeight="20.0" xsi:type="roundRect"/>
     </child>
-    <child ID="299" layerID="1" created="1315405771935" x="639.474"
-        y="1194.4425" width="155.60718" height="156.99768"
-        strokeWidth="1.0" autoSized="false" controlCount="2"
+    <child ID="299" layerID="1" created="1315405771935" x="787.38043"
+        y="1221.8005" width="35.341553" height="129.63965"
+        strokeWidth="1.0" autoSized="false" controlCount="1"
         arrowState="2" xsi:type="link">
         <strokeColor>#000000</strokeColor>
         <textColor>#404040</textColor>
@@ -2525,12 +2480,11 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/444cd068c0a800f9006d70fc1948e112</URIString>
-        <point1 x="715.3538" y="1196.1125"/>
-        <point2 x="794.5812" y="1350.9402"/>
+        <point1 x="822.222" y="1222.3005"/>
+        <point2 x="821.1699" y="1350.9402"/>
         <ID1 xsi:type="node">34</ID1>
         <ID2 xsi:type="node">298</ID2>
-        <ctrlPoint0 x="575.4033" y="1181.9558" xsi:type="point"/>
-        <ctrlPoint1 x="646.8742" y="1298.528" xsi:type="point"/>
+        <ctrlPoint0 x="754.0649" y="1271.8674" xsi:type="point"/>
     </child>
     <child ID="300" label="Hosted By..." layerID="1"
         created="1315405798944" x="908.12665" y="665.9658"
@@ -2646,8 +2600,8 @@
         <ID2 xsi:type="node">18</ID2>
         <ctrlPoint0 x="554.06744" y="637.83356" xsi:type="point"/>
     </child>
-    <child ID="303" layerID="1" created="1316202289701" x="592.95953"
-        y="1181.837" width="116.82556" height="120.28723"
+    <child ID="303" layerID="1" created="1316202289701" x="591.20874"
+        y="1183.3483" width="118.576355" height="118.776"
         strokeWidth="1.0" autoSized="false" controlCount="1"
         arrowState="2" xsi:type="link">
         <strokeColor>#000000</strokeColor>
@@ -2663,11 +2617,11 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/73c60b74c0a8020801f365b251f2e2d7</URIString>
-        <point1 x="709.2851" y="1182.337"/>
-        <point2 x="593.45953" y="1301.6243"/>
+        <point1 x="709.2851" y="1183.8483"/>
+        <point2 x="591.70874" y="1301.6243"/>
         <ID1 xsi:type="node">33</ID1>
         <ID2 xsi:type="node">149</ID2>
-        <ctrlPoint0 x="645.37726" y="1182.6135" xsi:type="point"/>
+        <ctrlPoint0 x="627.3982" y="1185.2007" xsi:type="point"/>
     </child>
     <child ID="304" label="Policy Element Catalogue" layerID="1"
         created="1317980340355" x="-216.86774" y="13.135941"
@@ -2758,8 +2712,8 @@
         <ctrlPoint0 x="-111.1196" y="1162.8313" xsi:type="point"/>
     </child>
     <child ID="309" label="Queries..." layerID="1"
-        created="1323785503889" x="-61.042458" y="-83.04113"
-        width="1022.5898" height="534.32117" strokeWidth="1.0"
+        created="1323785503889" x="-60.367737" y="-18.07547"
+        width="965.29126" height="469.3555" strokeWidth="1.0"
         autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
         <strokeColor>#AD0C03</strokeColor>
         <textColor>#000000</textColor>
@@ -2774,11 +2728,11 @@
             </metadata>
         </metadata-list>
         <URIString>http://vue.tufts.edu/rdf/resource/37d380e2c0a8007d01504a8493ce2a0e</URIString>
-        <point1 x="-60.542458" y="-24.206078"/>
-        <point2 x="933.45355" y="450.78003"/>
+        <point1 x="-59.867737" y="-16.116098"/>
+        <point2 x="904.4235" y="450.78003"/>
         <ID1 xsi:type="node">97</ID1>
         <ID2 xsi:type="node">66</ID2>
-        <ctrlPoint0 x="1130.1421" y="-258.93057" xsi:type="point"/>
+        <ctrlPoint0 x="243.3982" y="-44.13261" xsi:type="point"/>
     </child>
     <child ID="310" label="References..." layerID="1"
         created="1323785550404" x="656.6169" y="281.64746"
@@ -2985,6 +2939,53 @@
         <URIString>http://vue.tufts.edu/rdf/resource/37fdace4c0a8007d01504a8414bebae3</URIString>
         <shape arcwidth="20.0" archeight="20.0" xsi:type="roundRect"/>
     </child>
+    <child ID="127" label="Registered In..." layerID="1"
+        created="1314717818338" x="589.1362" y="466.7966"
+        width="524.2754" height="633.9751" strokeWidth="1.0"
+        autoSized="false" controlCount="2" arrowState="2" xsi:type="link">
+        <strokeColor>#AD0C03</strokeColor>
+        <textColor>#404040</textColor>
+        <font>Arial-plain-11</font>
+        <metadata-list category-list-size="1" other-list-size="0"
+            ontology-list-size="0" RCategoryListSize="0">
+            <ontology-list-string></ontology-list-string>
+            <metadata xsi:type="vue-metadata-element">
+                <value></value>
+                <key>http://vue.tufts.edu/vue.rdfs#none</key>
+                <type>1</type>
+            </metadata>
+        </metadata-list>
+        <URIString>http://vue.tufts.edu/rdf/resource/1b68838ac0a800d7018a3745e5ecae13</URIString>
+        <point1 x="589.6362" y="1100.2717"/>
+        <point2 x="1018.965" y="467.2966"/>
+        <ID1 xsi:type="node">121</ID1>
+        <ID2 xsi:type="node">66</ID2>
+        <ctrlPoint0 x="788.8107" y="1005.79724" xsi:type="point"/>
+        <ctrlPoint1 x="1329.176" y="462.21185" xsi:type="point"/>
+    </child>
+    <child ID="128" label="Deployed On..." layerID="1"
+        created="1314717826544" x="271.54053" y="203.22217"
+        width="239.90509" height="908.6448" strokeWidth="1.0"
+        autoSized="false" controlCount="1" arrowState="2" xsi:type="link">
+        <strokeColor>#AD0C03</strokeColor>
+        <textColor>#404040</textColor>
+        <font>Arial-plain-11</font>
+        <metadata-list category-list-size="1" other-list-size="0"
+            ontology-list-size="0" RCategoryListSize="0">
+            <ontology-list-string></ontology-list-string>
+            <metadata xsi:type="vue-metadata-element">
+                <value></value>
+                <key>http://vue.tufts.edu/vue.rdfs#none</key>
+                <type>1</type>
+            </metadata>
+        </metadata-list>
+        <URIString>http://vue.tufts.edu/rdf/resource/1b68838ac0a800d7018a374501fb4c61</URIString>
+        <point1 x="510.94562" y="1111.367"/>
+        <point2 x="285.12866" y="203.72217"/>
+        <ID1 xsi:type="node">121</ID1>
+        <ID2 xsi:type="node">9</ID2>
+        <ctrlPoint0 x="218.04396" y="1111.8696" xsi:type="point"/>
+    </child>
     <layer ID="293" label="Areas" created="1315390970084" x="0.0"
         y="0.0" width="1.4E-45" height="1.4E-45" locked="true"
         strokeWidth="0.0" autoSized="false">
@@ -2995,8 +2996,7 @@
         <URIString>http://vue.tufts.edu/rdf/resource/4373b2f9c0a80208004a25d55f540aeb</URIString>
     </layer>
     <layer ID="1" label="Components" created="1314476339729" x="0.0"
-        y="0.0" width="1.4E-45" height="1.4E-45" locked="true"
-        strokeWidth="0.0" autoSized="false">
+        y="0.0" width="1.4E-45" height="1.4E-45" strokeWidth="0.0" autoSized="false">
         <metadata-list category-list-size="0" other-list-size="0"
             ontology-list-size="0" RCategoryListSize="0">
             <ontology-list-string></ontology-list-string>
@@ -3004,7 +3004,7 @@
         <URIString>http://vue.tufts.edu/rdf/resource/0ce5826ec0a800d7018a3745c8a39c40</URIString>
     </layer>
     <userZoom>0.5</userZoom>
-    <userOrigin x="-545.4676" y="-284.0663"/>
+    <userOrigin x="-387.21756" y="-186.31631"/>
     <presentationBackground>#202020</presentationBackground>
     <PathwayList currentPathway="0" revealerIndex="-1">
         <pathway ID="0" label="Untitled Pathway" created="1314476338879"
