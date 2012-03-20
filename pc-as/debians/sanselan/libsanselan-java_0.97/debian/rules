@@ -11,3 +11,6 @@
 
 %:
 	dh $@ --with javahelper 
+
+override_dh_prep:
+	uscan --force-download --rename
