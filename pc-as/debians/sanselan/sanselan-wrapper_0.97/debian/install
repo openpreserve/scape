@@ -1,0 +1,2 @@
+sanselan-wrapper/target/sanselan-wrapper-0.97.jar usr/share/sanselan-wrapper
+executeJar.sh usr/share/sanselan-wrapper

@@ -1,0 +1,32 @@
+=head1 NAME
+
+sanselan-wrapper - CLI wrapper for Apache Sanselan
+
+=head1 SYNOPSIS
+
+sanselan-wrapper (-i|--input-file=) I<INPUT_FILE> (-o|--output-file=) I<OUTPUT_FILE>
+
+=head1 DESCRIPTION
+
+sanselan-wrapper CLI wrapper for Apache Sanselan 
+
+=head1 OPTIONS                          
+
+=over 8
+
+=item B<INPUT_FILE>
+
+File to be converted
+
+=item B<OUTPUT_FILE>
+
+Conversion output file
+
+=back
+
+=head1 AUTHORS
+
+B<sanselan-wrapper> was written by Helder Silva <hsilva@keep.pt>.
+
+This manual page was written by Helder Silva <hsilva@keep.pt>.
+=cut

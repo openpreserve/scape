@@ -24,10 +24,18 @@ rm jpylyzer.tar.gz
 
 PYINSTALLER_DIR=`ls | egrep "pyinstaller"`
 JPYLYZER_DIR=`ls | egrep "jpylyzer"`
-for i in $(ls $JPYLYZER_DIR/*.py)
-do 
-	$PYINSTALLER_DIR/pyinstaller.py $i
-done
+
+
+
+#for i in $(ls $JPYLYZER_DIR/*.py)
+#do 
+#	$PYINSTALLER_DIR/pyinstaller.py $i
+#done
+
+$PYINSTALLER_DIR/pyinstaller.py $JPYLYZER_DIR/jpylyzer.py
+
+
+
 cd dist
 mkdir $INNER_TEMP_DIR
 for i in $(ls | egrep "^\w.*")
@@ -35,7 +43,6 @@ do
 	cp $i/* $INNER_TEMP_DIR
 done
 
-mv $INNER_TEMP_DIR ../../compiled/
+mv $INNER_TEMP_DIR ../../jpylyzer/
 cd ../../
-
-rm -rf $TEMP_DIR
+#rm -rf $TEMP_DIR

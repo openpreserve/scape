@@ -22,9 +22,9 @@ my $fileName = shift or die("Must provide .xml file containing the toolspec web 
 
 ## read the needed information in the .xml file and return it as a hash reference
 my $hashResultReference = getValuesFromXPath();
-for my $key (keys %$hashResultReference){
-	print $key.">".$hashResultReference->{$key}."\n";
-}
+#for my $key (keys %$hashResultReference){
+#	print $key.">".$hashResultReference->{$key}."\n";
+#}
 
 
 ## obtain and write information in the workflow files (rest and soap) with sed
