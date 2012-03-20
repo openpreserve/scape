@@ -7,6 +7,9 @@ FILE_DOWNLOADED=$3
 DPKG_FILES_VERSION=`dpkg-parsechangelog | sed -n 's/^Version: //p'`
 if [ "$DPKG_FILES_VERSION" != "${VERSION}" ]; then
 	echo "Version has changed (changelog=$DPKG_FILES_VERSION VS http=$VERSION)! Verify if dpkg files are according to the newer version (i.e., changelog, etc)!"
+	echo "---------------------------------"
+	egrep "$DPKG_FILES_VERSION" debian/*
+	echo "---------------------------------"
 fi
 UNZIP_OUT=`unzip $FILE_DOWNLOADED`
 DIR_CREATED=`echo -n "$UNZIP_OUT" | egrep "creating:" | sed 's/^\s*creating: //'`

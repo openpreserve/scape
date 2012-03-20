@@ -1,4 +1,12 @@
 xGarbage
 scripts/debs/
 scripts/wars/
-debians
+debians/_*
+debians/bak*
+debians/taverna/
+debians/hello/
+debians/jpylyzer/
+debians/scape-pc-as-workflow-demo/
+*.deb
+*.changes
+*.dsc
