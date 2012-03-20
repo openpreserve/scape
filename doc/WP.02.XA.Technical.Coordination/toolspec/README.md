@@ -1,3 +1,22 @@
+2012-03-20 - rcastro
+
+- assigned namespace "http://scape-project.eu/tool" to the schema 
+- added very short documentation to some types
+- type OperatingSystem renamed to OperatingSystemDependency
+- type OSType renamed to OperatingSystemName
+
+For Instalation type:
+- renamed element "os" to "dependency"
+
+For type OperatingSystemDependency
+- renamed attribute @type to @operatingSytemName
+- renamed attribute @othertype to @otherOperatingSytemName
+- added attribute @format (enumeration with possible values "Dpkg", "RPM" and "Other")
+- added attribute @otherFormat
+
+For type InOut
+ - removed element "datatype"
+
 2012-03-15 - rcastro
 
 - "toolspec" element renamed to "tool" (type renamed from "Toolspec" to "Tool")
