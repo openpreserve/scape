@@ -1,5 +1,12 @@
 2012-03-20 - rcastro
 
+Fixed typos in attributes of OperatingSystemDependency type
+ - renamed @operatingSytemName to @operatingSystemName
+ - renamed @otherOperatingSytemName to @otherOperatingSystemName
+ - renamed @operatingSytemVersion" to @operatingSystemVersion
+
+2012-03-20 - rcastro
+
 - assigned namespace "http://scape-project.eu/tool" to the schema 
 - added very short documentation to some types
 - type OperatingSystem renamed to OperatingSystemDependency

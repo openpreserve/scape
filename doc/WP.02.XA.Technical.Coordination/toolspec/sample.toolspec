@@ -4,8 +4,8 @@
     xmlns="http://scape-project.eu/tool" name="FFMpeg" version="0.10" homepage="http://ffmpeg.org/">
 
     <installation>
-        <dependency operatingSytemName="Debian">ffmpeg, tomcat6</dependency>
-        <dependency operatingSytemName="Other" otherOperatingSytemName="Android" format="Other" otherFormat="apk">ffmpeg, tomcat6</dependency>
+        <dependency operatingSystemName="Debian">ffmpeg, tomcat6</dependency>
+        <dependency operatingSystemName="Other" otherOperatingSystemName="Android" format="Other" otherFormat="apk">ffmpeg, tomcat6</dependency>
         <!--<dependency osName="Other" otherOSName="Android" format="Other" otherFormat="apk">ffmpeg,
             tomcat6</dependency>-->
     </installation>

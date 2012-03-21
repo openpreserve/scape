@@ -37,9 +37,9 @@
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
-				<xs:attribute name="operatingSytemName" type="OperatingSystemName" use="required"/>
-				<xs:attribute name="otherOperatingSytemName" type="xs:string"/>
-				<xs:attribute name="operatingSytemVersion" type="xs:string"/>
+				<xs:attribute name="operatingSystemName" type="OperatingSystemName" use="required"/>
+				<xs:attribute name="otherOperatingSystemName" type="xs:string"/>
+				<xs:attribute name="operatingSystemVersion" type="xs:string"/>
 				<xs:attribute name="format" type="DependencyFormat"/>
 				<xs:attribute name="otherFormat" type="xs:string"/>
 			</xs:extension>
