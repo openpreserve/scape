@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" model="0.1" xsi:noNamespaceSchemaLocation="../scape-core/src/main/resources/eu/scape_project/core/model/toolspec/toolspec.xsd">
+  <id>convert</id>
+  <name>AbiWord converter (docx2odt)</name>
+  <homepage>http://www.abisource.com/</homepage>
+  <version>1.0</version>
+  <installation>
+    <os type="linux">
+            tomcat6,abiword
+        </os>
+    <os type="windows">
+            Install abiword
+        </os>
+  </installation>
+  <services>
+    <service sid="1" name="abiword-docx2odt" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+      <description>AbiWord conversion service (docx2odt)</description>
+      <operations>
+        <operation oid="1" name="convert">
+          <description>Converts Word (.docx) to OpenDocument Text</description>
+          <command>abiword --to=odt --to-name=${output} ${input}</command>
+          <inputs>
+            <input name="input">
+              <Datatype>xsd:anyURI</Datatype>
+              <Required>true</Required>
+              <CliMapping>input</CliMapping>
+              <Documentation>URL reference to input file</Documentation>
+              <Default>http://scape.keep.pt/scape/testdata/office/DSpace+ORE+usage+instructions.docx</Default>
+            </input>
+          </inputs>
+          <outputs>
+            <output name="output">
+              <Datatype>xsd:anyURI</Datatype>
+              <Required>false</Required>
+              <CliMapping>output</CliMapping>
+              <Documentation>URL reference to output file</Documentation>
+              <PrefixFromInput>input</PrefixFromInput>
+              <Extension>odt</Extension>
+            </output>
+          </outputs>
+        </operation>
+      </operations>
+      <deployto>
+        <deployref default="true" ref="local"/>
+      </deployto>
+    </service>
+  </services>
+  <deployments>
+    <deployment id="local">
+      <identifier>http://scape.keep.pt</identifier>
+      <host>scape.keep.pt</host>
+      <ports>
+        <port type="http">80</port>
+        <port type="https">8043</port>
+      </ports>
+      <manager>
+        <user>tomcat</user>
+        <password>tomcat</password>
+        <path>manager</path>
+      </manager>
+      <toolsbasedir/>
+      <dataexchange>
+        <accessdir>/var/lib/tomcat6/webapps/scape/tmp/</accessdir>
+        <accessurl>http://scape.keep.pt/scape/tmp/</accessurl>
+      </dataexchange>
+    </deployment>
+  </deployments>
+</toolspec>

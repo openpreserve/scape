@@ -11,3 +11,9 @@
 
 %:
 	dh $@ 
+override_dh_clean:
+	dh_clean
+	rm -f debian/jpylyzer.1
+override_dh_auto_build:
+	dh_auto_build
+	pod2man --section=1 --release=$(VERSION) --center "" debian/jpylyzer.pod > debian/jpylyzer.1
