@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <workflow xmlns="http://taverna.sf.net/2008/xml/t2flow" version="1" producedBy="taverna-2.3.0">
-  <dataflow id="1332948058" role="top">
-    <name>Workflow_netpbmtiff2png10</name>
+  <dataflow id="1332954096" role="top">
+    <name>Workflow_inkscapesvg2pdf10</name>
     <inputPorts>
       <port>
         <name>input_file_url</name>
@@ -28,7 +28,7 @@
     </outputPorts>
     <processors>
       <processor>
-        <name>netpbmtiff2png.convert</name>
+        <name>inkscapesvg2pdf.convert</name>
         <inputPorts>
           <port>
             <name>input_file</name>
@@ -66,7 +66,7 @@
             <configBean encoding="xstream">
               <net.sf.taverna.t2.activities.rest.RESTActivityConfigurationBean xmlns="">
                 <httpMethod>GET</httpMethod>
-                <urlSignature>http://scape.keep.pt/scapeservices/scape-netpbmtiff2png10-service/services/netpbmtiff2png10/convert?input={input_file}</urlSignature> 
+                <urlSignature>http://scape.keep.pt/scapeservices/scape-inkscapesvg2pdf10-service/services/inkscapesvg2pdf10/convert?input={input_file}</urlSignature> 
                 <acceptsHeaderValue>text/xml</acceptsHeaderValue>
                 <contentTypeForUpdates>application/xml</contentTypeForUpdates>
                 <outgoingDataFormat>String</outgoingDataFormat>
@@ -536,7 +536,7 @@ if ((url == void) || (url == null) || url.equals("")) {
     <datalinks>
       <datalink>
         <sink type="processor">
-          <processor>netpbmtiff2png.convert</processor>
+          <processor>inkscapesvg2pdf.convert</processor>
           <port>input_file</port>
         </sink>
         <source type="dataflow">
@@ -549,7 +549,7 @@ if ((url == void) || (url == null) || url.equals("")) {
           <port>status</port>
         </sink>
         <source type="processor">
-          <processor>netpbmtiff2png.convert</processor>
+          <processor>inkscapesvg2pdf.convert</processor>
           <port>status</port>
         </source>
       </datalink>
@@ -559,7 +559,7 @@ if ((url == void) || (url == null) || url.equals("")) {
           <port>xmltext</port>
         </sink>
         <source type="processor">
-          <processor>netpbmtiff2png.convert</processor>
+          <processor>inkscapesvg2pdf.convert</processor>
           <port>responseBody</port>
         </source>
       </datalink>

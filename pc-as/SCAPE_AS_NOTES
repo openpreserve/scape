@@ -1,11 +1,187 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
+done so far (cd $PC_AS ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]\+\).*/\1/' | uniq); do ls *$i* | sed 's/.*\s/\t$services$ /'; echo; done)
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+2.1	ImageMagick
+	# > sudo apt-get install imagemagick html2ps
+	$services$ scape-pc-as-imagemagick-html2jp2.xml
+	$services$ scape-pc-as-imagemagick-html2tiff.xml
+	$services$ scape-pc-as-imagemagick-html2txt.xml
+	$services$ scape-pc-as-imagemagick-image2jp2.xml
+	$services$ scape-pc-as-imagemagick-image2tiff.xml
+	$services$ scape-pc-as-imagemagick-image2txt.xml
+	$services$ scape-pc-as-imagemagick-txt2jp2.xml
+	$services$ scape-pc-as-imagemagick-txt2tiff.xml
+
+2.2	Mencoder
+	# sudo apt-get install mencoder
+	$services$ scape-pc-as-mencoder-video2mpeg2.xml
+
+2.3	HandBrake
+	# Create a new APT sources file for debian-multimedia repository
+	# > sudo editor /etc/apt/sources.list.d/debian-multimedia.list
+	# And add the following line
+	# deb http://www.debian-multimedia.org squeeze main non-free
+	# > sudo apt-get update && sudo apt-get install debian-multimedia-keyring && sudo apt-get update
+	# > sudo apt-get install handbrake-cli
+	#
+	# one line simplified version:
+	# > sudo touch /etc/apt/sources.list.d/debian-multimedia.list && echo "deb http://www.debian-multimedia.org squeeze main non-free" | sudo tee /etc/apt/sources.list.d/debian-multimedia.list
+	$services$ scape-pc-as-handbrake-video2mpeg4.xml
+
+2.4	FFMpeg
+	# > sudo apt-get install ffmpeg
+	$services$ scape-pc-as-ffmpeg-audio2aac.xml
+	$services$ scape-pc-as-ffmpeg-audio2mp3.xml
+	$services$ scape-pc-as-ffmpeg-image2tiff.xml
+	$services$ scape-pc-as-ffmpeg-txt2tiff.xml
+	$services$ scape-pc-as-ffmpeg-video2flv.xml
+	$services$ scape-pc-as-ffmpeg-video2mpeg2.xml
+
+2.5	SoX
+	# > sudo apt-get install sox
+	$services$ scape-pc-as-sox-audio2wav.xml
+
+2.6	GStreamer
+	!!!!!!!!! NO SERVICES DEFINED YET (can we do it or is it only a set of libraries???) !!!!!!!!!
+	# > sudo apt-get install gstreamer-tools gstreamer0.10-plugins-good gstreamer0.10-ffmpeg
+	# > sudo apt-get install gstreamer0.10-plugins-ugly
+	# > sudo apt-get install gstreamer0.10-plugins-bad
+
+2.7	OpenOffice (JODConverter) 
+	!!!!!!!!! openoffice as a server must be running in order to do the conversion. who should ensure this? now an init script is manually installed to ensure that at boot time openoffice as a server is put running !!!!!!!!!
+	# > sudo apt-get install jodconverter
+	$services$ scape-pc-as-jodconverter-doc2odt.xml
+	$services$ scape-pc-as-jodconverter-doc2pdf.xml
+	$services$ scape-pc-as-jodconverter-odp2pdf.xml
+	$services$ scape-pc-as-jodconverter-odp2ppt.xml
+	$services$ scape-pc-as-jodconverter-odp2swf.xml
+	$services$ scape-pc-as-jodconverter-ods2pdf.xml
+	$services$ scape-pc-as-jodconverter-ods2xls.xml
+	$services$ scape-pc-as-jodconverter-odt2doc.xml
+	$services$ scape-pc-as-jodconverter-odt2pdf.xml
+	$services$ scape-pc-as-jodconverter-ppt2odp.xml
+	$services$ scape-pc-as-jodconverter-ppt2pdf.xml
+	$services$ scape-pc-as-jodconverter-ppt2swf.xml
+	$services$ scape-pc-as-jodconverter-pptx2odp.xml
+	$services$ scape-pc-as-jodconverter-pptx2pdf.xml
+	$services$ scape-pc-as-jodconverter-pptx2swf.xml
+	$services$ scape-pc-as-jodconverter-xls2ods.xml
+	$services$ scape-pc-as-jodconverter-xls2pdf.xml
+
+2.8	Apache Sanselan
+	!!!!!!!!! package for libsanselan and for sanselan-wrapper CREATED but NOT submited to opf debian repository. services also need to be defined !!!!!!!!!
+
+2.9	OpenJPEG
+	# > sudo apt-get install openjpeg-tools
+	$services$ scape-pc-as-openjpeg-image2jp2.xml
+
+2.10	GIMP
+	# > sudo apt-get install gimp
+	$services$ scape-pc-as-gimp-tiff2jpg.postinst
+	$services$ scape-pc-as-gimp-tiff2jpg.sh
+	$services$ scape-pc-as-gimp-tiff2jpg.xml
+	$services$ scape-pc-as-gimp-tiff2png.postinst
+	$services$ scape-pc-as-gimp-tiff2png.sh
+	$services$ scape-pc-as-gimp-tiff2png.xml
+
+2.11	Inkscape
+	# > sudo apt-get install inkscape
+	$services$ scape-pc-as-inkscape-svg2pdf.xml
+	$services$ scape-pc-as-inkscape-svg2png.xml
+
+2.12	Avidemux
+	# > sudo apt-get install avidemux-cli
+	$services$ scape-pc-as-avidemux-flv2avi.xml
+
+2.13	PDFBox
+	!!!!!!!!! package for pdfbox needs to be created. as pdfbox already as a command-line tool, simple wrap will be done (no java wrapper is needed). services also need to be defined !!!!!!!!! 
+
+2.14	JTidy
+	!!!!!!!!! it does in place changes (cannot specify output file), so it cannot be used with toolwrapper as it is. one possible aproach is to define a script that takes two arguments: input-file and output-file. it copies the input-file to the output-file and invokes tidy with the output-file. services also need to be defined !!!!!!!!!
+	# > sudo apt-get install tidy
+
+2.15	JasPer
+	# > sudo apt-get install libjasper-runtime
+	$services$ scape-pc-as-jasper-jp22jpg.xml
+
+2.16	B2xtranslator
+	!!!!!!!!! needs to be packaged for platform dependent architecture as it depends on dynamically linked shared object libraries. services also need to be defined !!!!!!!!!
+	# Download from http://b2xtranslator.sourceforge.net/. 
+	# Recompile libzlibwapi for 64bit systems:
+	# Install build-essentials 
+	# > sudo apt-get install build-essential
+	# Install libzip-dev 
+	# > sudo apt-get install libzip-dev
+	# Copy libzlibwapi.so to the directories with the executables
+
+2.17	NedlibToArc
+	!!!!!!!!! package needs to be created. services also need to be defined !!!!!!!!!
+	# Download distribuition from http://nwatoolset.sourceforge.net/docs/NedlibToARC/NedlibToARC-1.0.tar.gz
+
+2.18	Heritix
+	!!!!!!!!! package needs to be created. services also need to be defined !!!!!!!!!
+	# Download from https://webarchive.jira.com/wiki/display/Heritrix/Heritrix
+	# It has a maven repository.
+
+2.19	Java Image I/O
+	!!!!!!!!! package needs to be created. services also need to be defined !!!!!!!!!
+	# It’s a Java API http://download.oracle.com/javase/6/docs/technotes/guides/imageio/
+
+2.20	GraphicsMagick
+	# > sudo apt-get install graphicsmagick
+	$services$ scape-pc-as-graphicsmagick-tiff2png.xml
+
+2.21	MsgText
+	# .NET executable available from http://www.enterag.ch/enterag/downloads/msgtext.xhtml.
+	# It doesn’t work in Linux using Mono because it depends on windows native components
+
+2.22	Tesseract-ocr
+	!!!!!!!!! version 3.* has major improvments but will only be available in the "wheezy" (next release prior to "squeeze"). imagename must be a TIF image with a .tif extension. one possible aproach is to define a script that takes two arguments: input-file and output-file. it renames the input-file to have the right extension (in case of being .tiff) and invokes the tool. other aproach is to simply raise the error. yet another aproach is to prevent that situation on the toolwrapper !!!!!!!!!
+	# > sudo apt-get install tesseract-ocr
+	$services$ scape-pc-as-tesseract-tif2txt.sh
+	$services$ scape-pc-as-tesseract-tif2txt.xml
+	
+2.23	AbiWord
+	# > sudo apt-get install abiword
+	$services$ scape-pc-as-abiword-doc2html.xml
+	$services$ scape-pc-as-abiword-doc2odt.xml
+	$services$ scape-pc-as-abiword-doc2pdf.xml
+	$services$ scape-pc-as-abiword-doc2txt.xml
+	$services$ scape-pc-as-abiword-docx2doc.xml
+	$services$ scape-pc-as-abiword-docx2html.xml
+	$services$ scape-pc-as-abiword-docx2odt.xml
+	$services$ scape-pc-as-abiword-docx2pdf.xml
+	$services$ scape-pc-as-abiword-docx2txt.xml
+
+2.24	Netpbm
+	# > sudo apt-get install netpbm
+	$services$ scape-pc-as-netpbm-tiff2jpg.xml
+	$services$ scape-pc-as-netpbm-tiff2png.xml
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+libraries/api's to package and/or wrap (identified in the deliverable d10.1)
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+* Apache Sanselan
+* PDFBox (only packaging is needed as pdfbox already provides a jar with command-line invokation)
+* NedlibToArc
+* Heritrix
+* Java Image I/O
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
 DEMO_WORKFLOWS (our webservices, markus (characterization) and jyplyzer (carl)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 * markus workflow 
 	1) commented the tmp dir removal
 	2) deleted the beanshell that checks the removal
 	3) added the absolute path to tmp as output
-
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -55,23 +231,3 @@ THINGS TO KNOW
 * B2xtranslator
    ! needs to be debian packaged for easy deploy and also to put the .exec in a specific place so it can be invoked
 
-
-
-* MsgText
-   ! doesn't work in linux using mono
-
-
-* tesseract
-	! imagename must be a TIF image with a .tif extension (if it is .tiff, an error occurs)
-
-
-* Netpbm
-	! it must use a bash script because the command needed pipe and output redirection and it doesn't work well it the toolwrapper process runner
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------
-libraries/api's to package
-------------------------------------------------------------------------------------------------------------------------------------------------------------
-* Apache Sanselan
-* PDFBox
-* 

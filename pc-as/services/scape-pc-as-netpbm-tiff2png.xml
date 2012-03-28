@@ -18,8 +18,7 @@
       <operations>
         <operation oid="1" name="convert">
           <description>Converts TIFF to PNG</description>
-          <!--<command>tifftopnm ${input} | pnmtopng > ${output}</command>-->
-          <command>/home/hsilva/Git/scape/pc-as/scriptsNeededForWebservices/netpbm-tiff2X.sh pnmtopng ${input} ${output}</command>
+          <command>scape-pc-as-netpbm-tiff2png ${input} ${output}</command>
           <inputs>
             <input name="input">
               <Datatype>xsd:anyURI</Datatype>
