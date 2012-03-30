@@ -1,0 +1,11 @@
+csv2Tifowa
+
+The csv2Tifowa tool converts DROID CSV reports into a output format similar to
+the output produced by tifowa.
+The output of DROID is completely different compared to the output of TIFOWA.
+To keep the other parts of a particular Taverna workflow identical to the
+TIFOWA version of the workflow, an additional step needs to be performed to
+convert the output format. csv2Tifowa can be used to do this.
+
+Usage:
+	java -jar csv2Tifowa.jar [DroidCSVFile] > [TifowaCompatibleOutputFile]

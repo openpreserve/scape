@@ -1,0 +1,21 @@
+mergeTifowaReports
+
+MergeTifowaReports merges the single reports produced by tifowa or csv2Tifowa into
+an overall summary report file.
+
+During the run time of the Taverna component “MergeTifowaReports” in the "scanARC"
+workflow, the tool is called twice. First to create the actual overall report in
+csv format and secondly to create a report in Javascript/JSON format which is needed
+as input for the graphical representation (see: "Workflow Setup - more details")
+of the report.
+
+Usage:
+	java -jar mergeTifowaReports.jar [ReportDirectory] [OutputFile] [FormatOption]
+
+	ReportDirectory	…	the directory containing the single tifowa report files
+	OutputFile		…	the output file
+	FormatOption	…	xls | csv | js
+		xls	…	currently not used by the workflow 
+		csv	…	this is the output the workflow uses for the full report
+		js	…	this format is used as input for the graphical representation
+
