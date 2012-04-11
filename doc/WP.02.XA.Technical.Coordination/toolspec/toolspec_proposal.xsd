@@ -22,14 +22,35 @@
 		<xs:attribute name="homepage" type="xs:anyURI"/>
 	</xs:complexType>
 
+
 	<xs:complexType name="Installation">
 		<xs:annotation>
 			<xs:documentation>Declares 1 or more installation dependencies.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="dependency" type="OperatingSystemDependency" maxOccurs="unbounded"/>
+			<xs:element name="license" type="License" minOccurs="1" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:complexType name="License" mixed="true">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="type" type="LicenseType" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="LicenseType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GPLv1"/>
+			<xs:enumeration value="GPLv2"/>
+			<xs:enumeration value="GPLv3"/>
+			<xs:enumeration value="BSD"/>
+			<xs:enumeration value="Apache Licence 2"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:complexType name="OperatingSystemDependency">
 		<xs:annotation>

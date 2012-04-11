@@ -8,6 +8,7 @@
         <dependency operatingSystemName="Other" otherOperatingSystemName="Android" format="Other" otherFormat="apk">ffmpeg, tomcat6</dependency>
         <!--<dependency osName="Other" otherOSName="Android" format="Other" otherFormat="apk">ffmpeg,
             tomcat6</dependency>-->
+        <license type="Other">This software can only be used by nice people</license>
     </installation>
 
     <operations>
