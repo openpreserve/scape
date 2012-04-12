@@ -33,6 +33,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import eu.scape_project.tb.wc.ta.Constants;
+import org.apache.tika.detect.DefaultDetector;
+import org.apache.tika.io.TikaInputStream;
+import org.apache.tika.mime.MediaType;
 
 /**
  *
@@ -60,7 +63,10 @@ public class TifowaCli {
     static int countAllFailedItems = 0;
     
     private static Tika tika;
-
+    private static DefaultDetector detector;
+    
+    
+    
     static {
         OPTIONS.addOption(HELP_FLG, HELP_OPT, false, HELP_OPT_DESC);
         OPTIONS.addOption(DIR_FLG, DIR_OPT, true, DIR_OPT_DESC);
@@ -70,6 +76,7 @@ public class TifowaCli {
     public static void main(String[] args) {
         // Static for command line option parsing
         TifowaCli tc = new TifowaCli();
+        detector = new DefaultDetector();
         CommandLineParser cmdParser = new PosixParser();
         try {
             CommandLine cmd = cmdParser.parse(OPTIONS, args);
@@ -135,27 +142,51 @@ public class TifowaCli {
         }
     }
     private synchronized void processFile(File path)  {
-        
-        /*
-        try {
-            String mediaType = tika.detect(path);
-            logger.info(path.getAbsolutePath()+":"+mediaType);
-            
-        } catch (IOException ex) {
-            logger.warn("IOException with file \"" + path.getAbsolutePath() + "\"");
-        }
-        */
-                
+                        
         //  *** count calls
         countAllCalls++;
         
         //  *** count and display file types found during this run
-        createTypeDistribution(path);
-            
+        //createTypeDistributionContentType(path); //This is for reading "Content-Type" (e.g. added by the Crawler)
+        createTypeDistributionDetect(path); // This is for detection          
     }
     
     
-    private synchronized void createTypeDistribution(File path){
+    
+    private synchronized void createTypeDistributionDetect(File path){
+        try {
+            Metadata met = new Metadata();
+
+            met.set(Metadata.RESOURCE_NAME_KEY,path.getName());
+            TikaInputStream stream = TikaInputStream.get(path,met);
+            MediaType mediaType = detector.detect(stream, met);
+            stream.close();
+            
+            String myType = mediaType.toString().intern();
+            
+            
+            // Check for an existing key for the current type. Create it if it is not existing.
+            try{int myGetCounter = myCollection.get(myType);}
+            catch (Exception ex)
+            {   //logger.debug("1st >" + myType + "< file type. Create NEW key for counter. ");
+                myCollection.put(myType, 0);}
+            
+            // Read the counter for the current type and increase the type counter 
+            myCollection.put(myType, myCollection.get(myType) + 1);
+                        
+            // Increase overall item counter
+            countAllGoodItems++;
+            
+        } catch (Exception ex) {
+            countAllFailedItems++;
+            logger.warn("Exception processing file: \"" + path.getAbsolutePath() + "\"");
+            logger.warn("Exception: " + ex.getMessage());
+        }  
+    }
+    
+    
+    
+    private synchronized void createTypeDistributionContentType(File path){
         
         try {
             Metadata met = new Metadata();

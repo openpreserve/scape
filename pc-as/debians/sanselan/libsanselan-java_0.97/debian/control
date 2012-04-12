@@ -1,7 +1,7 @@
-Source: libsanselan-java
+Source: sanselan
 Priority: extra
 Maintainer: Helder Silva <hsilva@keep.pt>
-Build-Depends: debhelper (>= 8.0.0)
+Build-Depends: debhelper (>= 8.0.0), maven2
 Standards-Version: 3.9.2
 Section: java
 Homepage: http://commons.apache.org/sanselan/
@@ -10,7 +10,7 @@ Vcs-Browser: https://svn.apache.org/repos/asf/commons/proper/sanselan/trunk/
 Package: libsanselan-java
 Section: java
 Architecture: all
-Depends: ${misc:Depends}, ${java:Depends}
+Depends: ${misc:Depends}
 Description: Pure-Java Image Library
  This Pure-Java library reads and writes a variety of image formats, 
  including fast parsing of image info (size, color space,
@@ -19,3 +19,18 @@ Description: Pure-Java Image Library
  It's easier to use than ImageIO/JAI/Toolkit (Sun/Java's image support), 
  supports more formats (and supports them more correctly). 
  It also provides easy access to metadata.
+
+#Package: libsanselan-java-doc
+#Architecture: all
+#Section: doc
+#Depends: ${misc:Depends}
+#Recommends: default-jdk-doc
+#Suggests: libsanselan-java
+#Description: Pure-Java Image Library - documentation
+# This Pure-Java library reads and writes a variety of image formats, 
+# including fast parsing of image info (size, color space,
+# icc profile, etc.) and metadata.
+# This library is pure Java. It's slow, consequently, but perfectly portable. 
+# It's easier to use than ImageIO/JAI/Toolkit (Sun/Java's image support), 
+# supports more formats (and supports them more correctly). 
+# It also provides easy access to metadata.

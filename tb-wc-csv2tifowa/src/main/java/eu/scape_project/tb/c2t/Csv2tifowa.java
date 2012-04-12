@@ -15,7 +15,7 @@
  *  under the License.
  */
 
-package com.mycompany.csv2tifowa;
+package eu.scape_project.tb.c2t;
 
 
 import java.io.BufferedReader;

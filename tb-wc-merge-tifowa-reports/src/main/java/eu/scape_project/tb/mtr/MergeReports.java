@@ -15,7 +15,7 @@
  *  under the License.
  */
 
-package com.mycompany.mergetifowareports;
+package eu.scape_project.tb.mtr;
 
 import java.io.BufferedReader;
 import java.io.File;

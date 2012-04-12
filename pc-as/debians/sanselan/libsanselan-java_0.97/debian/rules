@@ -10,7 +10,7 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@ --with javahelper 
+	dh $@
 
 override_dh_prep:
 	uscan --force-download --rename
