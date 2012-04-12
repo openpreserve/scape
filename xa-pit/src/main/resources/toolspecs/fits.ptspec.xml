@@ -40,11 +40,7 @@
   </inputs>
  
   <!-- Actions -->
-  <action type="identify" id="fits-to-stdout">
-  	<command>fits.sh -i ${input}</command>
-  </action>
-
-  <action type="identify" id="fits-to-xml">
+  <action type="identify" id="identify">
   	<command>fits.sh -i ${input} -o ${output}</command>
   </action>
 

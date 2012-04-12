@@ -20,6 +20,7 @@ public class ArgsParser {
 	static public final String TOOLSTRING = "TOOLSTRING";
 	static public final String ACTIONSTRING = "ACTIONSTRING";
 	static public final String PARAMETERLIST = "PARAMETERLIST";
+    public static final String REPO_LOCATION = "REPO_LOCATION";
 
 	static public final String PROCSTRING = "PROC_STRING";
 	static public final String PROC_TOOLSPEC = "toolspec";
@@ -82,7 +83,7 @@ public class ArgsParser {
      * 2. For each component: first word is key, rest is value
      * 2a. If value is not set, key is not put into HashMap
      * 
-     * @param strParameters a string of multiples of "-{key} {value}"
+     * @param strParameters a string of multiples of "--{key} {value}"
      * @return a HashMap of keys and values
      */
 

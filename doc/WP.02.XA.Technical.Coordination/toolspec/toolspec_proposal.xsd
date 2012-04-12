@@ -1,26 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://scape-project.eu/tool" elementFormDefault="qualified"
+	xmlns="http://scape-project.eu/tool">
 
-	<xs:element name="toolspec" type="Toolspec"/>
+	<xs:annotation>
+		<xs:documentation>This schema ...</xs:documentation>
+	</xs:annotation>
 
-	<xs:complexType name="OperatingSystem">
+	<xs:element name="tool" type="Tool"/>
+
+	<xs:complexType name="Tool">
 		<xs:annotation>
-			<xs:documentation>The operating system</xs:documentation>
+			<xs:documentation>Describes a command line tool.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="installation" type="Installation" minOccurs="0"/>
+			<xs:element name="operations" type="Operations"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="nonEmptyString" use="required"/>
+		<xs:attribute name="version" type="nonEmptyString" use="required"/>
+		<xs:attribute name="homepage" type="xs:anyURI"/>
+	</xs:complexType>
+
+	<xs:complexType name="Installation">
+		<xs:annotation>
+			<xs:documentation>Declares 1 or more installation dependencies.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="dependency" type="OperatingSystemDependency" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="OperatingSystemDependency">
+		<xs:annotation>
+			<xs:documentation>Declares an operating system dependency.</xs:documentation>
 		</xs:annotation>
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
-				<xs:attribute name="type" type="OSType" use="required"/>
-				<xs:attribute name="othertype" type="xs:string"/>
+				<xs:attribute name="operatingSystemName" type="OperatingSystemName" use="required"/>
+				<xs:attribute name="otherOperatingSystemName" type="xs:string"/>
+				<xs:attribute name="operatingSystemVersion" type="xs:string"/>
+				<xs:attribute name="format" type="DependencyFormat"/>
+				<xs:attribute name="otherFormat" type="xs:string"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
 
-	<xs:complexType name="Dependency">
-		<xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
-		<xs:attribute name="version" type="xs:string"/>
-	</xs:complexType>
-
-	<xs:simpleType name="OSType">
+	<xs:simpleType name="OperatingSystemName">
+		<xs:annotation>
+			<xs:documentation>The operating system name. Use "Other" together with
+				@otherOperatingSystemName to specify a different operating
+				system.</xs:documentation>
+		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Debian"/>
 			<xs:enumeration value="Ubuntu"/>
@@ -28,26 +59,22 @@
 			<xs:enumeration value="CentOS"/>
 			<xs:enumeration value="Windows"/>
 			<xs:enumeration value="MacOS"/>
-			<xs:enumeration value="Othertype"/>
+			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:complexType name="Installation">
-		<xs:sequence>
-			<xs:element name="os" type="OperatingSystem" maxOccurs="unbounded"/>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="Toolspec">
-		<xs:sequence>
-			<xs:element name="id" type="xs:ID"/>
-			<xs:element name="name" type="nonEmptyString" minOccurs="0"/>
-			<xs:element name="homepage" type="nonEmptyString" minOccurs="0"/>
-			<xs:element name="version" type="nonEmptyString"/>
-			<xs:element name="installation" type="Installation"/>
-			<xs:element name="operations" type="Operations"/>
-		</xs:sequence>
-	</xs:complexType>
+	<xs:simpleType name="DependencyFormat">
+		<xs:annotation>
+			<xs:documentation>The format of the dependency text must conform to one of the packaging
+				systems. Use "Other" together with @otherFormat to specify a different packaging
+				system.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Dpkg"/>
+			<xs:enumeration value="RPM"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:simpleType name="nonEmptyString">
 		<xs:restriction base="xs:string">
@@ -57,12 +84,16 @@
 
 	<xs:complexType name="InOut">
 		<xs:sequence>
-			<xs:element name="datatype" type="xs:string"/>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="format" type="xs:string"/>
+			<xs:element name="format" type="Format" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 		<xs:attribute name="required" type="xs:boolean"/>
+	</xs:complexType>
+
+	<xs:complexType name="Format" mixed="true">
+		<xs:attribute name="registryName" type="xs:string" use="required"/>
+		<xs:attribute name="version" type="xs:string"/>
 	</xs:complexType>
 
 	<xs:complexType name="Inputs">
@@ -76,7 +107,6 @@
 			<xs:extension base="InOut">
 				<xs:sequence>
 					<xs:element name="defaultValue" type="xs:string" minOccurs="0" maxOccurs="1"/>
-					<xs:element name="restriction" type="Restriction" minOccurs="0" maxOccurs="1"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -93,17 +123,15 @@
 			<xs:extension base="InOut">
 				<xs:sequence>
 					<xs:element name="extension" type="xs:string" minOccurs="0" maxOccurs="1"/>
-					<xs:element name="prefixFromInput" type="xs:string" minOccurs="0" maxOccurs="1"/>
-					<xs:element name="autoExtension" type="xs:boolean" default="false" minOccurs="0"
-						maxOccurs="1"/>
-					<xs:element name="outFileId" type="xs:string" default="false" minOccurs="0"
-						maxOccurs="1"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="Operations">
+		<xs:annotation>
+			<xs:documentation>Declares 1 or more operations provided by the tool.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="operation" type="Operation" maxOccurs="unbounded"/>
 		</xs:sequence>
@@ -117,13 +145,6 @@
 			<xs:element name="outputs" type="Outputs"/>
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required"/>
-	</xs:complexType>
-
-	<xs:complexType name="Restriction">
-		<xs:sequence>
-			<xs:element type="xs:string" name="Value" maxOccurs="unbounded"/>
-		</xs:sequence>
-		<xs:attribute name="multiple" type="xs:boolean" use="optional" default="false"/>
 	</xs:complexType>
 
 </xs:schema>

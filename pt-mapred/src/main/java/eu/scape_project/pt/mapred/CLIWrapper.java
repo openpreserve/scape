@@ -1,5 +1,6 @@
 package eu.scape_project.pt.mapred;
 
+import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.logging.Log;
@@ -19,7 +20,10 @@ import org.apache.hadoop.util.ToolRunner;
 import eu.scape_project.pt.executors.Executor;
 import eu.scape_project.pt.executors.TavernaCLExecutor;
 import eu.scape_project.pt.executors.ToolspecExecutor;
+import eu.scape_project.pt.pit.ToolSpecRepository;
 import eu.scape_project.pt.util.ArgsParser;
+import java.io.File;
+import org.apache.hadoop.fs.FileSystem;
 
 /**
  * A command-line interaction wrapper to execute cmd-line tools with MapReduce.
@@ -58,7 +62,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         	} else {
         		executor = new ToolspecExecutor(
                         context.getConfiguration().get(ArgsParser.TOOLSTRING), 
-                        context.getConfiguration().get(ArgsParser.ACTIONSTRING));
+                        context.getConfiguration().get(ArgsParser.ACTIONSTRING),
+                        context.getConfiguration().get(ArgsParser.REPO_LOCATION));
         	}
 	    	executor.setup();
 		}
@@ -103,7 +108,9 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
         //job.setReducerClass(MyReducer.class);
 
-        job.setInputFormatClass(PtInputFormat.class);
+        //job.setInputFormatClass(PtInputFormat.class);
+        NLineInputFormat.setNumLinesPerSplit(job, 1);
+        job.setInputFormatClass(NLineInputFormat.class);
         //job.setOutputFormatClass(FileOutputFormat.class);
 
 		//job.setOutputFormatClass(MultipleOutputFormat.class);
@@ -111,9 +118,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		//FileInputFormat.addInputPath(job, new Path(args[0])); ArgsParser.INFILE
 		//FileOutputFormat.setOutputPath(job, new Path(args[1])); ArgsParser.OUTDIR
 		FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE)));
-		String outDir = (conf.get(ArgsParser.OUTDIR) == null) ? "out/"+System.nanoTime()%10000 : conf.get(ArgsParser.OUTDIR); 
-		conf.set(ArgsParser.OUTDIR, outDir);
-		FileOutputFormat.setOutputPath(job, new Path(outDir) ); 
+		FileOutputFormat.setOutputPath(job, new Path(conf.get(ArgsParser.OUTDIR)) ); 
 				
 		//add command to job configuration
 		//conf.set(TOOLSPEC, args[2]);
@@ -136,20 +141,14 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         Configuration conf = new Configuration();
         		
 		try {
-			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v:w:", args);
-			//input file
-			LOG.info("input: " + pargs.getValue("i"));
-			//hadoop's output 
-			LOG.info("output: " + pargs.getValue("o"));
-			//tool to select
-			LOG.info("tool: " + pargs.getValue("t"));
-            //action to select
-            LOG.info("action: " + pargs.getValue("a"));
-			//defined parameter list
-			LOG.info("parameters: " + pargs.getValue("p"));
-			// taverna set?
-			LOG.info("taverna: " + pargs.getValue("v"));
-			LOG.info("workflow: " + pargs.getValue("w"));
+			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v:w:r:", args);
+
+            String outDir = 
+                (conf.get(ArgsParser.OUTDIR) == null) ? 
+                    "out/"+System.nanoTime()%10000 : 
+                    conf.get(ArgsParser.OUTDIR); 
+
+            conf.set(ArgsParser.OUTDIR, outDir);
 			
 			conf.set(ArgsParser.INFILE, pargs.getValue("i"));			
 			//toolMap.initialize();
@@ -159,12 +158,40 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 			if (pargs.hasOption("a")) conf.set(ArgsParser.ACTIONSTRING, pargs.getValue("a"));
 	        if (pargs.hasOption("o")) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
 	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
+	        if (pargs.hasOption("r")) conf.set(ArgsParser.REPO_LOCATION, pargs.getValue("r"));
+
+			//input file
+			LOG.info("Input: " + conf.get(ArgsParser.INFILE));
+			//hadoop's output 
+			LOG.info("Output: " + conf.get(ArgsParser.OUTDIR));
+			//tool to select
+			LOG.info("ToolSpec: " + conf.get(ArgsParser.TOOLSTRING));
+            //action to select
+            LOG.info("Action: " + conf.get(ArgsParser.ACTIONSTRING));
+			//defined parameter list
+			LOG.info("Parameters: " + conf.get(ArgsParser.PARAMETERLIST));
+			// taverna set?
+			//LOG.info("taverna: " + pargs.getValue("v"));
+			//LOG.info("workflow: " + pargs.getValue("w"));
+
+            LOG.info("Toolspec Repository: " + conf.get(ArgsParser.REPO_LOCATION));
 	        
 	        // Get Taverna home directory and workflow location
-	        if (pargs.hasOption("w")) conf.set(ArgsParser.WORKFLOW_LOCATION, pargs.getValue("w"));
-	        if (pargs.hasOption("v")) conf.set(ArgsParser.TAVERNA_HOME, pargs.getValue("v"));
+	        //if (pargs.hasOption("w")) conf.set(ArgsParser.WORKFLOW_LOCATION, pargs.getValue("w"));
+	        //if (pargs.hasOption("v")) conf.set(ArgsParser.TAVERNA_HOME, pargs.getValue("v"));
 
             // TODO validate input parameters (eg. look for toolspec, action, ...)
+            Path fRepo = new Path( conf.get(ArgsParser.REPO_LOCATION) );
+            ToolSpecRepository repo = new ToolSpecRepository(FileSystem.get( conf ),fRepo );
+
+            String[] astrToolspecs = repo.getToolSpecList();
+            LOG.info( "Available ToolSpecs: ");
+            for( String strToolspec: astrToolspecs ) 
+                LOG.info( strToolspec );
+            
+            if( !repo.toolspecExists( conf.get(ArgsParser.TOOLSTRING)))
+                throw new ToolSpecNotFoundException( "Toolspec " + conf.get(ArgsParser.TOOLSTRING) + " not found" );
+
 	        
             /*
 			if(tool == null) {
@@ -203,8 +230,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	        	System.exit(1);
 	        }
 		} catch (Exception e) {
-			System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] -t cmd");
-			System.out.println("   or: CLIWrapper -i inFile -o outFile [-v tavernaDir] -w workflow");
+			System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] [-r toolspec repository on hdfs] -t toolspec -a action");
+			//System.out.println("   or: CLIWrapper -i inFile -o outFile [-v tavernaDir] -w workflow");
 			LOG.info(e);
 			e.printStackTrace();
 			System.exit(-1);

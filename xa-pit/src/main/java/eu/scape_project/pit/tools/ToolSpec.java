@@ -175,7 +175,6 @@ public class ToolSpec {
 		Unmarshaller u = jc.createUnmarshaller();
 		return (ToolSpec) u.unmarshal(new StreamSource(input));
 	}
-	
-	
+
 
 }

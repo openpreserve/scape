@@ -31,7 +31,7 @@
   </inputs>
  
   <!-- Actions -->
-  <action type="convert" id="gs-to-pdfa">
+  <action type="convert" id="ps-to-pdfa">
     <command>gs -dPDFA -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=${output} ${input}</command>
     <formats in="eps,pdf,ps" out="pdfa"/>
   </action>

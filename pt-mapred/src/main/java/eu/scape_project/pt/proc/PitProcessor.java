@@ -3,11 +3,20 @@ package eu.scape_project.pt.proc;
 import eu.scape_project.pit.invoke.CommandNotFoundException;
 import eu.scape_project.pit.invoke.Out;
 import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
+import eu.scape_project.pit.tools.Action;
+import eu.scape_project.pit.tools.ToolSpec;
+import eu.scape_project.pt.pit.ToolSpecRepository;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.HashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 
 /**
  * Wraps the eu.scape_project.pit.invoke.Processor
@@ -37,6 +46,7 @@ public class PitProcessor implements Processor {
      * In this Processor context is used as the Processor input parameters set.
      */
     private HashMap<String, String> context;
+    private final String strRepo;
 
     /**
      * Sets toolstring and actionstring.
@@ -44,9 +54,10 @@ public class PitProcessor implements Processor {
      * @param strTool
      * @param strAction
      */
-    public PitProcessor( String strTool, String strAction ) {
+    public PitProcessor( String strTool, String strAction, String strRepo ) {
         this.strTool = strTool;
         this.strAction = strAction;
+        this.strRepo = strRepo;
     }
 
     /**
@@ -79,9 +90,16 @@ public class PitProcessor implements Processor {
     @Override
     public void initialize() {
         try {
-            p = eu.scape_project.pit.invoke.Processor.createProcessor(
-                    this.strTool, this.strAction);
-        } catch (ToolSpecNotFoundException ex) {
+            Path fRepo = new Path( strRepo );
+            FileSystem fs = FileSystem.get( new Configuration() );
+            ToolSpecRepository repo = new ToolSpecRepository(fs, fRepo);
+            ToolSpec toolSpec = repo.getToolSpec( this.strTool);
+
+            Action action = eu.scape_project.pit.invoke.Processor.findTool(toolSpec, strAction);
+            p = new eu.scape_project.pit.invoke.Processor( toolSpec, action);
+        } catch( FileNotFoundException ex ) {
+            LOG.error(ex);
+        } catch( IOException ex ) {
             LOG.error(ex);
         } catch (CommandNotFoundException ex) {
             LOG.error(ex);

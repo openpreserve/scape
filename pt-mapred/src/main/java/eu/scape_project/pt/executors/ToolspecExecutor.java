@@ -44,15 +44,17 @@ public class ToolspecExecutor implements Executor {
     static HashMap<String, HashMap> mapInputs = null;
     private ArgsParser parser;
     private String tstr, astr;
+    private final String strRepo;
 
-    public ToolspecExecutor(String tstr, String astr) {
+    public ToolspecExecutor(String tstr, String astr, String strRepo ) {
         this.tstr = tstr;
         this.astr = astr;
+        this.strRepo = strRepo;
     }
 
     @Override
     public void setup() {
-        p = new PitProcessor(tstr, astr);
+        p = new PitProcessor(tstr, astr, strRepo);
         p.initialize();
 
         // get parameters accepted by the processor.

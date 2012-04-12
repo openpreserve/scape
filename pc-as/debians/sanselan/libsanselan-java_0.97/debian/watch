@@ -1,0 +1,2 @@
+version=3
+http://archive.apache.org/dist/commons/sanselan/binaries/apache-sanselan-incubating-([\.0-9]+)-bin\.zip debian debian/unzip.sh

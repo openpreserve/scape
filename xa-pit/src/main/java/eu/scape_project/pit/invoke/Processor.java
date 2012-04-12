@@ -72,7 +72,7 @@ public class Processor {
 		return null;
 	}
 	
-	protected static Action findTool( ToolSpec ts, String command_id ) throws CommandNotFoundException {
+	public static Action findTool( ToolSpec ts, String command_id ) throws CommandNotFoundException {
 		Action cmd = null;
 		for( Action c : ts.getActions() ) {
 			if( c.getId() != null && c.getId().equals(command_id) ) cmd = c;

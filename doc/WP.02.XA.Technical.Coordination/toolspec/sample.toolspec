@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://scape-project.eu/tool toolspec_proposal.xsd"
+    xmlns="http://scape-project.eu/tool" name="FFMpeg" version="0.10" homepage="http://ffmpeg.org/">
+
+    <installation>
+        <dependency operatingSystemName="Debian">ffmpeg, tomcat6</dependency>
+        <dependency operatingSystemName="Other" otherOperatingSystemName="Android" format="Other" otherFormat="apk">ffmpeg, tomcat6</dependency>
+        <!--<dependency osName="Other" otherOSName="Android" format="Other" otherFormat="apk">ffmpeg,
+            tomcat6</dependency>-->
+    </installation>
+
+    <operations>
+        <operation name="video2flv">
+            <description>Converts any FFmpeg supported video format to FLV</description>
+            <command>ffmpeg -y -i ${input} ${params} ${output}</command>
+            <inputs>
+                <input name="input" required="true">
+                    <format registryName="mimetype">video/*</format>
+                    <description>URL reference to input file</description>
+                    <defaultValue>http://scape.keep.pt/scape/testdata/video/big_buck_bunny_480p_stereo.ogg</defaultValue>
+                </input>
+                <input name="params" required="true">
+                    <format registryName="mimetype">text/plain</format>
+                    <description>Additional encoding parameters</description>
+                    <defaultValue>-ar 48000</defaultValue>
+                </input>
+            </inputs>
+
+            <outputs>
+                <output name="output" required="false">
+                    <format registryName="mimetype">video/avi; codecs="theora, vorbis"</format>
+                    <description>URL reference to output file</description>
+                    <extension>flv</extension>
+                </output>
+            </outputs>
+        </operation>
+
+        <operation name="video2avi">
+            <description>Converts any FFmpeg supported video format to AVI</description>
+            <command>ffmpeg -y -i ${input} ${params} ${output}</command>
+            <inputs>
+                <input name="input" required="true">
+                    <format registryName="mimetype">video/*</format>
+                    <description>URL reference to input file</description>
+                </input>
+                <input name="params" required="false">
+                    <description>Additional encoding parameters</description>
+                </input>
+            </inputs>
+
+            <outputs>
+                <output name="output" required="false">
+                    <format registryName="mimetype">video/avi; codecs="iv50"</format>
+                    <description>URL reference to output file</description>
+                    <extension>avi</extension>
+                </output>
+            </outputs>
+        </operation>
+    </operations>
+
+</tool>
