@@ -1,3 +1,14 @@
+2012-04-13 - rcastro
+
+
+Added element /tool/licence (can contain license text)
+Added atribute /tool/licence/@type (enumeration with possible values "GPLv1", "GPLv2", "GPLv3", "LGPLv2.1", "LGPLv3", "BSD-old", "BSD-new", "FreeBSD", "Apache Licence 2.0", "Other")
+Added atribute /tool/licence/@otherType (free string to specify a licence name)
+
+Added element /tool/otherProperties
+Added element /tool/otherProperties/mdRef (reference to an external file, following PREMIS style)
+Added element /tool/otherProperties/mdWrap (wraps xml or base64 data, following PREMIS style)
+
 2012-03-20 - rcastro
 
 Fixed typos in attributes of OperatingSystemDependency type

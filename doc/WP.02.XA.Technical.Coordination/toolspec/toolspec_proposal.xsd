@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://scape-project.eu/tool" elementFormDefault="qualified"
-	xmlns="http://scape-project.eu/tool">
+	xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+	<!-- import XLink-->
+	<xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlink.xsd"/>
 
 	<xs:annotation>
 		<xs:documentation>This schema ...</xs:documentation>
@@ -15,6 +18,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="installation" type="Installation" minOccurs="0"/>
+			<xs:element name="otherProperties" type="MdSec" minOccurs="0"/>
 			<xs:element name="operations" type="Operations"/>
 		</xs:sequence>
 		<xs:attribute name="name" type="nonEmptyString" use="required"/>
@@ -25,7 +29,8 @@
 
 	<xs:complexType name="Installation">
 		<xs:annotation>
-			<xs:documentation>Declares 1 or more installation dependencies.</xs:documentation>
+			<xs:documentation>Declares 1 or more installation dependencies and
+				license.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="dependency" type="OperatingSystemDependency" maxOccurs="unbounded"/>
@@ -37,6 +42,7 @@
 		<xs:simpleContent>
 			<xs:extension base="xs:string">
 				<xs:attribute name="type" type="LicenseType" use="required"/>
+				<xs:attribute name="otherType" type="xs:string"/>
 			</xs:extension>
 		</xs:simpleContent>
 	</xs:complexType>
@@ -46,8 +52,12 @@
 			<xs:enumeration value="GPLv1"/>
 			<xs:enumeration value="GPLv2"/>
 			<xs:enumeration value="GPLv3"/>
-			<xs:enumeration value="BSD"/>
-			<xs:enumeration value="Apache Licence 2"/>
+			<xs:enumeration value="LGPLv2.1"/>
+			<xs:enumeration value="LGPLv3"/>
+			<xs:enumeration value="BSD-old"/>
+			<xs:enumeration value="BSD-new"/>
+			<xs:enumeration value="FreeBSD"/>
+			<xs:enumeration value="Apache Licence 2.0"/>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -167,5 +177,148 @@
 		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="required"/>
 	</xs:complexType>
+
+	<xs:complexType name="MdSec">
+		<xs:sequence>
+			<xs:element name="mdRef" type="MdRef" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="mdWrap" type="MdWrap" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MdRef">
+		<xs:attribute name="mdType" type="xs:string"/>
+		<xs:attribute name="locType" type="LocType" use="required"/>
+		<xs:attribute name="otherLocType" type="xs:string"/>
+		<xs:attributeGroup ref="xlink:simpleLink"/>
+		<xs:attributeGroup ref="FilecoreAttributeGroup"/>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="MdWrap">
+		<xs:choice>
+			<xs:element name="binData" type="xs:base64Binary" minOccurs="0"/>
+			<xs:element name="xmlData" type="XmlData" minOccurs="0"/>
+		</xs:choice>
+		<xs:attribute name="label" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="XmlData">
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="lax" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="LocType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ARK"/>
+			<xs:enumeration value="URN"/>
+			<xs:enumeration value="URL"/>
+			<xs:enumeration value="PURL"/>
+			<xs:enumeration value="HANDLE"/>
+			<xs:enumeration value="DOI"/>
+			<xs:enumeration value="OTHER"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:attributeGroup name="FilecoreAttributeGroup">
+		<xs:attribute name="mimetype" type="xs:string"/>
+		<xs:attribute name="size" type="xs:long"/>
+		<xs:attribute name="created" type="edtfSimpleType"/>
+		<xs:attribute name="checksum" type="xs:string"/>
+		<xs:attribute name="checksumType" type="ChecksumType"/>
+	</xs:attributeGroup>
+
+	<xs:simpleType name="ChecksumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Adler-32"/>
+			<xs:enumeration value="CRC32"/>
+			<xs:enumeration value="HAVAL"/>
+			<xs:enumeration value="MD5"/>
+			<xs:enumeration value="MNP"/>
+			<xs:enumeration value="SHA-1"/>
+			<xs:enumeration value="SHA-256"/>
+			<xs:enumeration value="SHA-384"/>
+			<xs:enumeration value="SHA-512"/>
+			<xs:enumeration value="TIGER"/>
+			<xs:enumeration value="WHIRLPOOL"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- 	
+****************************************************************************************************
+
+date/time Definition:  edtfSimpleType 
+Extended Date/Time Format
+
+****************************************************************************************************
+
+edtfSimpleType  is the type used throughout the schema for "date"  and "dateTime" type elements: dateCreatedByApplication, copyrightStatusDeterminationDate, eventDateTime, preservationLevelDateAssigned, statuteInformationDeterminationDate, and others. 
+
+iIt s the union of three simple types: xsDate, xs:dateTime -  and edtfRegularExpressions, as folloiws:
+-->
+	<xs:simpleType name="edtfSimpleType">
+		<xs:union memberTypes="xs:date xs:dateTime edtfRegularExpressions"/>
+	</xs:simpleType>
+	<!-- 
+"xs:union" (above) means that any string conforming to any one of the types in the union will validate.  xs:date and xs:dateTime are built-in W3C schema types.  edtfRegularExpressions is a set of  regular expressions which are described below. So any string that conforms to one of the two built-in types or any of the  regular expressions will validate. 
+
+
+******** edftRegularExpressions
+-->
+	<xs:simpleType name="edtfRegularExpressions">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{2}(\d{2}|\?\?|\d(\d|\?))(-(\d{2}|\?\?))?~?\??"/>
+			<xs:pattern value="\d{6}(\d{2}|\?\?)~?\??"/>
+			<xs:pattern value="\d{8}T\d{6}"/>
+			<xs:pattern value="((\d{4}(-\d{2})?)|UNKNOWN)/((\d{4}(-\d{2})?)|UNKNOWN|OPEN)"/>
+
+			<!-- *****************************  
+THE FOLLOWING PATTERN ADDED DECEMBER 20, 2010, JUST PRIOR TO RELEASE OF THIS VERSION. SEE EXPLANATION BELOW .
+********************************** -->
+			<xs:pattern
+				value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?"/>
+			<!-- 
+				
+The first  pattern: 	
+<xs:pattern value="\d{2}(\d{2}|\?\?|\d(\d|\?))(-(\d{2}|\?\?))?~?\??"/>,  
+
+is for year (yyyy) or year-month (yyyy-mm).   The last or last two digits of year may be '?'  meaning "one year in that range but not sure which year", for example 19?? means some year from 1990 to 1999.  Similarly month may be '??' so that 2004-?? "means some month in 2004".  And the entire string may end with '?' or '~' for "uncertain" or "approximate".
+Hyphen must separate year and month.
+
+The second pattern:
+			<xs:pattern value="\d{6}(\d{2}|\?\?)~?\??"/>,
+			
+is for  yearMonthDay - yyyymmdd,  where 'dd' may be '??'  so '200412??' means "some day during the month of 12/2004". 
+The whole  string may be followed by '?' or '~'  to mean "questionable" or "approximate".     hyphens are  not allowed for this pattern. 
+
+The Third patten:
+			<xs:pattern value="\d{8}T\d{6}"/>,
+			
+is for  date and time with  T separator:'yyyymmddThhmmss'.  Hyphens in date and colons in time not allowed for this pattern.   
+
+The following pattern:
+			<xs:pattern value="((\d{4}(-\d{2})?)|UNKNOWN)/((\d{4}(-\d{2})?)|UNKNOWN|OPEN)"/>
+			
+is for  a date range.  in years:  'yyyy/yyyy'; or year/month: yyyy-mm/yyyy-mm.    Beginning or end of range value may be 'UNKNOWN'. End of range value may be 'OPEN'.
+hyphens mandatory when month is present. 
+
+*****************************************************************************************************************************************************
+The following comment added 12/20/2011. The above edtf comments are (essentially) unchanged from the previous version.
+
+This version has not attempted to keep pace with the development of the edtf spec, which (still a draft) has changed considerably
+since the release of version 2.0 more than 2 and a half years ago.  However, there was one comment during the comment period,
+requesting that date/time intervals be supported, with time zones. For example:
+
+2010-04-19T22:41:44Z/2010-04-19T22:48:50Z
+Or
+2010-04-19T22:41:44+02:00/2010-04-19T22:48:50+02:00.
+
+The final pattern added ...
+	<xs:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?"></xs:pattern>
+....  was added to support these.
+-->
+		</xs:restriction>
+	</xs:simpleType>
+
 
 </xs:schema>
