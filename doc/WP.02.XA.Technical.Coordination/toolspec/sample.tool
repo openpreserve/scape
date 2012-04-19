@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://scape-project.eu/tool toolspec_proposal.xsd"
+    xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd"
     xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" name="FFMpeg"
-    version="0.10" homepage="http://ffmpeg.org/">
+    version="0.10" homepage="http://ffmpeg.org/" schemaVersion="1.0">
 
     <installation>
         <dependency operatingSystemName="Debian">ffmpeg, tomcat6</dependency>

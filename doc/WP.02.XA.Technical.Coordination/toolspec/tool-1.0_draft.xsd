@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	targetNamespace="http://scape-project.eu/tool" elementFormDefault="qualified"
-	xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink">
+	xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0">
 
 	<!-- import XLink-->
-	<xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlink.xsd"/>
+	<!--<xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="http://www.w3.org/XML/2008/06/xlink.xsd"/>-->
+	<xs:import namespace="http://www.w3.org/1999/xlink" schemaLocation="xlink-1.1.xsd"/>
 
 	<xs:annotation>
 		<xs:documentation>This schema ...</xs:documentation>
@@ -24,6 +25,7 @@
 		<xs:attribute name="name" type="nonEmptyString" use="required"/>
 		<xs:attribute name="version" type="nonEmptyString" use="required"/>
 		<xs:attribute name="homepage" type="xs:anyURI"/>
+		<xs:attribute name="schemaVersion" type="xs:decimal" use="required"/>
 	</xs:complexType>
 
 
@@ -189,7 +191,7 @@
 		<xs:attribute name="mdType" type="xs:string"/>
 		<xs:attribute name="locType" type="LocType" use="required"/>
 		<xs:attribute name="otherLocType" type="xs:string"/>
-		<xs:attributeGroup ref="xlink:simpleLink"/>
+		<xs:attributeGroup ref="xlink:simpleAttrs"/>
 		<xs:attributeGroup ref="FilecoreAttributeGroup"/>
 		<xs:attribute name="label" type="xs:string"/>
 	</xs:complexType>
