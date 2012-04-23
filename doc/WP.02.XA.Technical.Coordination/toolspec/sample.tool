@@ -55,6 +55,29 @@
             </outputs>
         </operation>
 
+        <operation name="video2flv_pipe">
+            <description>Converts any FFmpeg supported video format to FLV reading from stdin and writting to stdout</description>
+            <command>ffmpeg -y -i pipe:0 ${params} -f flv pipe:1</command>
+            <inputs>
+                <stdin required="true">
+                    <format registryName="mimetype">video/*</format>
+                    <description>Contents of video stream</description>
+                </stdin>
+                <input name="params" required="true">
+                    <format registryName="mimetype">text/plain</format>
+                    <description>Additional encoding parameters</description>
+                    <defaultValue>-ar 48000</defaultValue>
+                </input>
+            </inputs>
+            
+            <outputs>
+                <stdout>
+                    <format registryName="mimetype">video/avi; codecs="theora, vorbis"</format>
+                    <description>Contents of converted video stream</description>
+                </stdout>
+            </outputs>
+        </operation>
+        
         <operation name="video2avi">
             <description>Converts any FFmpeg supported video format to AVI</description>
             <command>ffmpeg -y -i ${input} ${params} ${output}</command>

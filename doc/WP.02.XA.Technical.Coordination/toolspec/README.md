@@ -1,3 +1,9 @@
+2012-04-23 - rcastro
+
+Added new element /tool/operations/operation/inputs/stdin
+Added new element /tool/operations/operation/outputs/stdout
+Updated sample file with stdin/stdout use
+
 2012-04-19 - rcastro
 
 Added attribute @version to schema definition and renamed file to tool-1.0_draft.xsd
