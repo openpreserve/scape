@@ -119,7 +119,9 @@ public class Processor {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} finally {
+            start.destroy();
+        }
 	}
 	
 	/**

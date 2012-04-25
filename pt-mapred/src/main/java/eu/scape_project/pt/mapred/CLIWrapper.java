@@ -109,7 +109,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         //job.setReducerClass(MyReducer.class);
 
         //job.setInputFormatClass(PtInputFormat.class);
-        NLineInputFormat.setNumLinesPerSplit(job, 1);
+        NLineInputFormat.setNumLinesPerSplit(job, 10);
         job.setInputFormatClass(NLineInputFormat.class);
         //job.setOutputFormatClass(FileOutputFormat.class);
 
