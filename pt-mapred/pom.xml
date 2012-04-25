@@ -59,6 +59,7 @@
 	  	      <groupId>ant</groupId>
 	  	    </exclusion>
 	  	  </exclusions>
+                <scope>provided</scope>
 	  	</dependency>  	
 	  	<dependency>
 	    	<groupId>net.sf.jopt-simple</groupId>
@@ -69,7 +70,7 @@
     		<groupId>log4j</groupId>
     		<artifactId>log4j</artifactId>
     		<version>1.2.16</version>
-		</dependency>
+           </dependency>
   	   <dependency>
   	      <groupId>eu.scape-project</groupId>
   	      <artifactId>xa-pit</artifactId>
