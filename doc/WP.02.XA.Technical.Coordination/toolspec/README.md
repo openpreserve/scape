@@ -1,3 +1,29 @@
+2012-04-23 - rcastro
+
+Added new element /tool/operations/operation/inputs/stdin
+Added new element /tool/operations/operation/outputs/stdout
+Updated sample file with stdin/stdout use
+
+2012-04-19 - rcastro
+
+Added attribute @version to schema definition and renamed file to tool-1.0_draft.xsd
+Updated included xlink to version 1.1 (http://www.w3.org/TR/xlink11/) and renamed schema file to xlink-1.1.xsd
+
+Type "Tool":
+ - Added attribute /tool/@schemaVersion (xs:decimal)
+
+Renamed sample file to sample.tool
+
+2012-04-13 - rcastro
+
+Added element /tool/licence (can contain license text)
+Added atribute /tool/licence/@type (enumeration with possible values "GPLv1", "GPLv2", "GPLv3", "LGPLv2.1", "LGPLv3", "BSD-old", "BSD-new", "FreeBSD", "Apache Licence 2.0", "Other")
+Added atribute /tool/licence/@otherType (free string to specify a licence name)
+
+Added element /tool/otherProperties
+Added element /tool/otherProperties/mdRef (reference to an external file, following PREMIS style)
+Added element /tool/otherProperties/mdWrap (wraps xml or base64 data, following PREMIS style)
+
 2012-03-20 - rcastro
 
 Fixed typos in attributes of OperatingSystemDependency type
