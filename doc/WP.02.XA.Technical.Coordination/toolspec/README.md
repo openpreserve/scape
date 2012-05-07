@@ -1,3 +1,10 @@
+2012-05-07 - rcastro
+
+Removed element /tool/otherProperties/mdRef
+Removed element /tool/otherProperties/mdWrap
+Added element /tool/otherProperties/property (mixed content)
+Added attribute /tool/otherProperties/property/@name
+
 2012-04-23 - rcastro
 
 Added new element /tool/operations/operation/inputs/stdin
