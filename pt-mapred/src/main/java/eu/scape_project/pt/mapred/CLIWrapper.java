@@ -109,10 +109,12 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         //job.setReducerClass(MyReducer.class);
 
         //job.setInputFormatClass(PtInputFormat.class);
-        NLineInputFormat.setNumLinesPerSplit(job, 10);
+        
+        if(conf.get(ArgsParser.NUM_LINES_PER_SPLIT) != null) 
+        	NLineInputFormat.setNumLinesPerSplit(job, Integer.parseInt(conf.get(ArgsParser.NUM_LINES_PER_SPLIT)));
         job.setInputFormatClass(NLineInputFormat.class);
+        
         //job.setOutputFormatClass(FileOutputFormat.class);
-
 		//job.setOutputFormatClass(MultipleOutputFormat.class);
 		
 		//FileInputFormat.addInputPath(job, new Path(args[0])); ArgsParser.INFILE
@@ -141,7 +143,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         Configuration conf = new Configuration();
         		
 		try {
-			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v:w:r:", args);
+			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v:w:r:j:n:", args);
 
             String outDir = 
                 (conf.get(ArgsParser.OUTDIR) == null) ? 
@@ -159,7 +161,12 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	        if (pargs.hasOption("o")) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
 	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
 	        if (pargs.hasOption("r")) conf.set(ArgsParser.REPO_LOCATION, pargs.getValue("r"));
-
+	        
+	        //parameters for job fine tuning
+	        if (pargs.hasOption("j")) conf.setInt("mapred.job.reuse.jvm.num.tasks", Integer.parseInt(pargs.getValue("j")));
+	        if (pargs.hasOption("n")) conf.set(ArgsParser.NUM_LINES_PER_SPLIT, pargs.getValue("n"));
+	        else conf.set(ArgsParser.NUM_LINES_PER_SPLIT, "10");
+	        
 			//input file
 			LOG.info("Input: " + conf.get(ArgsParser.INFILE));
 			//hadoop's output 
@@ -170,11 +177,17 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
             LOG.info("Action: " + conf.get(ArgsParser.ACTIONSTRING));
 			//defined parameter list
 			LOG.info("Parameters: " + conf.get(ArgsParser.PARAMETERLIST));
-			// taverna set?
+			//toolspec directory
+            LOG.info("Toolspec Directory: " + conf.get(ArgsParser.REPO_LOCATION));
+            //jvm reuse
+            LOG.info("JVM reuse: " + conf.get("mapred.job.reuse.jvm.num.tasks"));
+            //NInputFormat
+            LOG.info("Number of Lines: " + conf.get(ArgsParser.NUM_LINES_PER_SPLIT));
+
+
+            // taverna set?
 			//LOG.info("taverna: " + pargs.getValue("v"));
 			//LOG.info("workflow: " + pargs.getValue("w"));
-
-            LOG.info("Toolspec Repository: " + conf.get(ArgsParser.REPO_LOCATION));
 	        
 	        // Get Taverna home directory and workflow location
 	        //if (pargs.hasOption("w")) conf.set(ArgsParser.WORKFLOW_LOCATION, pargs.getValue("w"));
