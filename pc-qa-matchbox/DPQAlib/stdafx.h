@@ -1,0 +1,3 @@
+#ifndef __MSXML_LIBRARY_DEFINED__
+#define __MSXML_LIBRARY_DEFINED__
+#endif
