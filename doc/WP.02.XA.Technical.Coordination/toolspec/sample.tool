@@ -11,22 +11,8 @@
     </installation>
 
     <otherProperties>
-        <mdRef label="external" mdType="PlanningProperties" locType="URL" xlink:href="planning.props"/>
-        <mdWrap label="internal xml">
-            <xmlData>
-                <anyxml>
-                    <anyelem></anyelem>
-                </anyxml>
-            </xmlData>
-        </mdWrap>
-        <mdWrap label="internal bin">
-            <binData>U0NBUEUNCj09PT09DQoNClRoaXMgaXMgdGhlIGdpdCByZXBvc2l0b3J5IGZvciB0aGUgU0NBUEUg
-                cHJvamVjdC4gSXQgaXMgYSBwbGFjZSB0byBleHBlcmltZW50IHRvZ2V0aGVyIC0gbWF0dXJlIA0K
-                YXBwbGljYXRpb25zIHNob3VsZCBiZSBtb3ZlZCB0byBkZWRpY2F0ZWQgcmVwb3NpdG9yaWVzLg0K
-                DQpJZiB5b3Ugc3RhcnQgYSBuZXcgcHJvamVjdCBvciBtYWtlIGNoYW5nZXMsIHBsZWFzZSBzZW5k
-                IGEgbWFpbCB0byB0aGUgdGVjaGllIG1haWxpbmcgbGlzdDoNCg0KKiBodHRwOi8vbGlzdC5zY2Fw
-                ZS1wcm9qZWN0LmV1L2NnaS1iaW4vbWFpbG1hbi9saXN0aW5mby90ZWNoaWUNCg0K</binData>
-        </mdWrap>
+        <property name="cost">0</property>
+        <property name="rating">5</property>
     </otherProperties>
     
     <operations>

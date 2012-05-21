@@ -1,0 +1,159 @@
+
+           -------------------------------------------------
+
+          DPQA - Digital Preservation Quality Assurance Tools
+         
+               Austrian Institute of Technology - 2011
+           
+         Alexander Schindler <alexander.schindler.fl@ait.ac.at>
+          Reinhold Huber-Mörk <Reinhold.Huber-Moerk@ait.ac.at>
+           
+           -------------------------------------------------
+
+-----------------
+1. Prerequisites
+-----------------
+
+
+1.1. OpenCV
+
+
+	> OpenCV (Open Source Computer Vision)  is  a library  of programming
+	> functions for real time computer vision. 
+	>
+	> WebPage         : http://opencv.willowgarage.com/wiki/
+	> Version Required: 3.2.1
+	
+
+	Always use the most recent version of OpenCV. Many of the implemented
+	DPQA  features rely on newly introduced OpenCV features (e.g. Feature 
+	extraction and matching based on SIFT or SURF algorithms). 
+	
+	We  suggest  to  download  the source distribution of OpenCV. The Web
+	page provides detailed information about setting up your  environment
+	to  successfully  compile the sources. This garantees to meet all dep-
+	endencies that are also required by the DPQA tools and libraries.
+    
+    It  is  recommendet  to  add OpenCV's library path to the system path 
+    variable. It  is  also  possible to add the required libraries to the 
+    directory that contains the DPQA binaries.
+    
+    
+1.2. Xerces-C++
+
+
+	> Xerces-C++ is a validating XML parser written in a portable  subset
+	> of C++.  Xerces-C++ makes it easy to give your  application the ab-
+	> ility to read and write XML data.
+	>
+	> WebPage         : http://xerces.apache.org/xerces-c/
+	> Version Required: 3
+
+
+	The  Library  can  be  downloaded from the Web page. It is sufficient
+	to  download  the binary distribution, but mind the correct version (
+	32bit 64bit).
+
+1.3. Dirent.h
+
+
+	> dirent API for Microsoft Visual Studio.
+	> dirent  is  a standard library for scanning directories. To provide
+	> cross-platform  compatibility,  this header file has to be included
+	> in Visual Studio - otherwise WIN32  libraries have to be used, that
+	> are not available on other platforms.
+
+
+-------------------
+2. Installing DPQA
+-------------------
+
+
+2.1. Installing on Windows
+
+
+	2.1.1. Development Environment
+	
+	DPQA was  initially developed in an Microsoft Visual Studio 2008 env-
+	ironment. Build parameters have been set  to  32bit  and  appropriate
+	32bit versions of external dependencies have been used. We suggest to
+	use these settings as well. Compiling the sources in Microsoft Visual
+	Studio 2010 has not been tested yet.
+
+
+	2.1.2. Sources
+
+	Sources  currently  reside in a Team Foundation Server (TFS)  at  the
+	Austrian Institute of Technology (AIT).
+
+	
+	2.1.3. Build Dependencies
+
+	There are several dependecies. Take a look at the project  properties
+	and confirm that the required include and library path's point to the
+	correct directories.
+	
+	+ Configuration Properties
+	|
+	+-+ C/C++
+	| |
+	| +-+ General
+	|   |
+	|     => Additional Include Directories:
+	|  
+	|        * Check if the  OpenCV  include directories 
+	|          correspond with your OpenCV installation.
+	|           
+	|	     * The two OpenCV entries '../build/include'
+	|          and  '../build/include/opencv'  may  seem
+	|          redundant,  but  are necessarily required
+	|          for providing the old c-style OpenCV API,
+	|          that is still required in some cases.
+    |
+	+-+ Linker
+	  |
+	  +-+ Input
+	    |
+		  => Additional Dependencies
+		   
+		     * Check if the path references of  required
+		       OpenCV libraries correspond to your Open-
+		       CV installation.
+
+
+
+
+2.2. Installing on Linux
+---------------------------------------
+
+	2.2.1. Development Environment
+	
+	To build DPQA on Linux we use CMake.
+	
+	
+	2.2.2.1. CMake
+	
+	> CMake is a cross-platform, open-source build system. CMake is a fa-
+	> mily of tools designed to build, test  and package  software. CMake 
+	> is used  to  control  the software compilation process using simple
+	> platform  and  compiler independent configuration files. CMake gen-
+	> erates  native  makefiles  and  workspaces that can be used  in the 
+	> compiler environment of your choice. 
+	>
+	> Webpage: http://www.cmake.org/
+	
+	
+	2.2.2.2. Copy the Sources
+	
+	Copy all required sources to the linux system. Currently there is no
+	way to checkout the sources from a repository.
+		
+	
+	2.2.2. Building DPQA
+	
+	To build DPQA with cmake change to the home directory of the solution
+	and type the command 'cmake'. This  will  generate all required build
+	files for your local compiler.
+	
+	Use  the  build framework of the system to compile and build the bin-
+	aries (e.g. make).
