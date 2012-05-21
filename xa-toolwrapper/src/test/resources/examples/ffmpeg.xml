@@ -17,9 +17,9 @@
         <service sid="1" name="FFMPEG" type="migrate" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
             <description>Service for migrating audio files</description>
             <operations>
-                <operation oid="1" name="ffmpeg">
+                <operation oid="1" name="ffmpegMigrate">
                     <description>Migrates an mp3 file to the wav file format</description>
-                    <command>ffmpeg.sh ${mp3} ${wav}</command>
+                    <command>ffmpegMigrateMp3ToWav.sh ${mp3} ${wav}</command>
                     <inputs>
                         <input name="mp3">
                             <Datatype>xsd:anyURI</Datatype>
@@ -37,6 +37,50 @@
                             <Documentation>URL reference to Wave output file</Documentation>
                             <PrefixFromInput>mp3</PrefixFromInput>
                             <Extension>wav</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+                <operation oid="2" name="ffmpegCut">
+                    <description>Cut out a piece of an audio file</description>
+                    <command>ffmpegCut.sh ${input_file} ${timestampStart} ${durationTimestamp} ${extension} ${output_file}</command>
+                    <inputs>
+                        <input name="input_file">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>input_file</CliMapping>
+                            <Documentation>URL reference to input file</Documentation>
+                            <Default>http://iapetus:9441/scape-data/test-data/sample1.wav</Default>
+                        </input>
+                        <input name="timestampStart">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>timestampStart</CliMapping>
+                            <Documentation>timeStamp indicating where in input file to start cut. position may be either in seconds or in hh:mm:ss[.xxx] form.</Documentation>
+                            <Default>0</Default>
+                        </input>
+                        <input name="durationTimestamp">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>durationTimestamp</CliMapping>
+                            <Documentation>Stop writing the output after its duration reaches durationTimestamp. duration may be a number in seconds, or in hh:mm:ss[.xxx] form. </Documentation>
+                            <Default>20</Default>
+                        </input>
+                        <input name="extension">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>extension</CliMapping>
+                            <Documentation>The extension and thus the format of the output file</Documentation>
+                            <Default>wav</Default>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="output_file">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <CliMapping>output_file</CliMapping>
+                            <Required>true</Required>
+                            <Documentation>URL reference to cut output file</Documentation>
+                            <PrefixFromInput>input_file</PrefixFromInput>
+                            <Extension>tmp</Extension>
                         </output>
                     </outputs>
                 </operation>
