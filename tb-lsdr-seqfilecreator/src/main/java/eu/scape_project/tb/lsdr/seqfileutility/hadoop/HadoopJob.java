@@ -1,0 +1,173 @@
+/*
+ *  Copyright 2012 The SCAPE Project Consortium.
+ * 
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ * 
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *  under the License.
+ */
+package eu.scape_project.tb.lsdr.seqfileutility.hadoop;
+
+import eu.scape_project.tb.lsdr.seqfileutility.CompressionType;
+import eu.scape_project.tb.lsdr.seqfileutility.ProcessConfiguration;
+import eu.scape_project.tb.lsdr.seqfileutility.SequenceFileUtility;
+import eu.scape_project.tb.lsdr.seqfileutility.util.StringUtils;
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+import java.util.StringTokenizer;
+import org.apache.commons.io.FileUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.BytesWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
+import org.apache.hadoop.util.Tool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Map/recuce job creating a text file with the list of input paths of the
+ * files and initiates the job for creating the sequence file.
+ * 
+ * @author Sven Schlarb https://github.com/shsdev
+ * @version 0.1
+ */
+public class HadoopJob implements Tool {
+
+    ProcessConfiguration pc;
+    Configuration conf;
+    private static Logger logger = LoggerFactory.getLogger(HadoopJob.class.getName());
+
+    /**
+     * Empty constructor
+     */
+    public HadoopJob() {
+    }
+
+    /**
+     * Set process configuration
+     * @param pc Process configuration
+     */
+    public void setPc(ProcessConfiguration pc) {
+        this.pc = pc;
+    }
+
+    /**
+     * Run hadoop job
+     * @param strings Command line arguments
+     * @return Success indicator
+     * @throws Exception 
+     */
+    @Override
+    public int run(String[] strings) throws Exception  {
+        try {
+            String[] extensions = null;
+            if (pc.getExtStr() != null) {
+                StringTokenizer st = new StringTokenizer(pc.getExtStr(), ",");
+                extensions = new String[st.countTokens()];
+                int i = 0;
+                while (st.hasMoreTokens()) {
+                    extensions[i] = st.nextToken();
+                    i++;
+                }
+            }
+            FileSystem hdfs = FileSystem.get(conf);
+            String hdfsInputDir = "input/sfu" + System.currentTimeMillis() + "/";
+            hdfs.mkdirs(new Path(hdfsInputDir));
+
+            String hdfsIinputPath = hdfsInputDir + "inputpaths.txt";
+            Path path = new Path(hdfsIinputPath);
+
+            FSDataOutputStream outputStream = hdfs.create(path);
+            byte[] buff;
+            List<String> dirs = StringUtils.getStringListFromString(pc.getDirsStr(), ",");
+            for (String dir : dirs) {
+                File directory = new File(dir);
+                if (directory.isDirectory()) {
+                    Iterator<File> filesit = FileUtils.iterateFiles(directory, extensions, true);
+                    while (filesit.hasNext()) {
+                        String pathStr = filesit.next().getCanonicalPath() + "\n";
+                        buff = pathStr.getBytes();
+                        outputStream.write(buff);
+                    }
+                } else {
+                    logger.warn("Parameter \"" + dir + "\" is not a directory "
+                            + "(skipped)");
+                }
+            }
+            outputStream.close();
+            if (hdfs.exists(path)) {
+                logger.info("Input paths created in \"" + hdfs.getHomeDirectory() 
+                        + "/" + path.toString() + "\"");
+            } else {
+                logger.error("Input paths have not been created in hdfs.");
+                return 1;
+            }
+
+            Job job = new Job(conf, "Hadoop map job adding small files to "
+                    + "sequence file");
+            
+            job.setJarByClass(SequenceFileUtility.class);
+            job.setMapperClass(SmallFilesSequenceFileMapper.class);
+            job.setInputFormatClass(TextInputFormat.class);
+            job.setOutputKeyClass(Text.class);
+            job.setOutputValueClass(BytesWritable.class);
+            job.setOutputFormatClass(SequenceFileOutputFormat.class);
+            TextInputFormat.addInputPath(job, new Path(hdfsInputDir));
+            
+            String hdfsOutputDir = "output/sfu" + System.currentTimeMillis() + "/";
+            
+            SequenceFileOutputFormat.setOutputPath(job, new Path(hdfsOutputDir));
+            SequenceFileOutputFormat.setOutputCompressionType(job, 
+                    CompressionType.get(pc.getCompressionType()));
+            
+            int success = job.waitForCompletion(true) ? 0 : 1;
+            boolean seqFileExists = hdfs.exists(new Path(hdfsOutputDir
+                    +"part-r-00000"));
+            if (success == 0 && seqFileExists) {
+                logger.info("Sequence file created: \"" 
+                        + hdfs.getHomeDirectory() + "/" 
+                        + hdfsOutputDir+"part-r-00000" + "\"");
+                return 0;
+            } else {
+                logger.error("Sequence file not created in hdfs");
+                return 1;
+            }
+        } catch (Exception e) {
+            logger.error("IOException occurred", e);
+        } finally {
+        }
+        return 0;
+    }
+
+    /**
+     * Setter for hadoop job configuration
+     * @param c Hadoop job configuration
+     */
+    @Override
+    public void setConf(Configuration c) {
+        this.conf = c;
+    }
+
+    /**
+     * Getter for hadoop job configuration
+     * @return Hadoop job configuration
+     */
+    @Override
+    public Configuration getConf() {
+        return conf;
+    }
+}
