@@ -1,0 +1,2 @@
+imageio-wrapper/target/imageio-wrapper-1.0.0.jar usr/share/imageio-wrapper
+executeJar.sh usr/share/imageio-wrapper

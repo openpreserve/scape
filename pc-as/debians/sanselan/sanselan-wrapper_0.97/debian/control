@@ -2,11 +2,9 @@ Source: sanselan-wrapper
 Section: java
 Priority: extra
 Maintainer: Helder Silva <hsilva@keep.pt>
-Build-Depends: debhelper (>= 8.0.0), perl, default-jdk, maven2, javahelper (>=0.25)
+Build-Depends: debhelper (>= 8.0.0), perl, default-jdk, maven, javahelper (>=0.25)
 Standards-Version: 3.9.2
-Homepage: http://www.keep.pt/
-#Vcs-Git: git://git.debian.org/collab-maint/sanselan-cli-wrapper-java.git
-#Vcs-Browser: http://git.debian.org/?p=collab-maint/sanselan-cli-wrapper-java.git;a=summary
+Homepage: http://www.scape-project.eu/
 
 Package: sanselan-wrapper
 Architecture: all

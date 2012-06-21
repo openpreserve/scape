@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>eu.scape-project</groupId>
-	<artifactId>sanselan-wrapper</artifactId>
-	<version>0.97</version>
+	<artifactId>imageio-wrapper</artifactId>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>sanselan-wrapper</name>
+	<name>imageio-wrapper</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -32,7 +32,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>eu.scape_project.sanselan_wrapper.SanselanCli</mainClass>
+							<mainClass>eu.scape_project.imageio_wrapper.ImageIOCli</mainClass>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>/usr/share/java/</classpathPrefix>
 						</manifest>
@@ -42,12 +42,6 @@
 		</plugins>
 	</build>
 	<dependencies>
-		<dependency>
-			<groupId>org.apache.sanselan</groupId>
-			<artifactId>sanselan</artifactId>
-			<version>0.97-incubator</version>
-			<scope>compile</scope>
-		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
 			<artifactId>commons-cli</artifactId>

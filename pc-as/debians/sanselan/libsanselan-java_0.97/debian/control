@@ -1,11 +1,11 @@
 Source: sanselan
 Priority: extra
 Maintainer: Helder Silva <hsilva@keep.pt>
-Build-Depends: debhelper (>= 8.0.0), maven2
+Build-Depends: debhelper (>= 8.0.0), maven
 Standards-Version: 3.9.2
 Section: java
 Homepage: http://commons.apache.org/sanselan/
-Vcs-Browser: https://svn.apache.org/repos/asf/commons/proper/sanselan/trunk/
+Vcs-Browser: http://svn.apache.org/repos/asf/commons/proper/imaging/trunk/
 
 Package: libsanselan-java
 Section: java
