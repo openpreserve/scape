@@ -118,7 +118,7 @@ done so far (cd $PC_AS/services/ ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]
 	# Copy libzlibwapi.so to the directories with the executables
 
 2.17	NedlibToArc
-	!!!!!!!!! package needs to be created. services also need to be defined !!!!!!!!!
+	!!!!!!!!! very old version (based on heritrix 0.6.0) package needs to be created. services also need to be defined !!!!!!!!!
 	# Download distribuition from http://nwatoolset.sourceforge.net/docs/NedlibToARC/NedlibToARC-1.0.tar.gz
 
 2.18	Heritrix
@@ -127,7 +127,7 @@ done so far (cd $PC_AS/services/ ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]
 	# It has a maven repository.
 
 2.19	Java Image I/O
-	!!!!!!!!! package for libsanselan and for sanselan-wrapper CREATED but NOT submited to opf debian repository (see /pc-as/debians/imageio/). !!!!!!!!!
+	!!!!!!!!! package for imageio CREATED but NOT submited to opf debian repository (see /pc-as/debians/imageio/). !!!!!!!!!
 	# It’s a Java API http://download.oracle.com/javase/6/docs/technotes/guides/imageio/
 	$services$ scape-pc-as-imageio-image2bmp.xml
 	$services$ scape-pc-as-imageio-image2gif.xml
