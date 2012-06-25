@@ -23,9 +23,9 @@ public class ToolWrapperGenerator {
 
 	/** Method used to print command-line syntax (usage) */
 	private static void printUsage() {
-		System.out
-				.println("usage: (-t|--toolspec=) TOOL_SPEC_FILE (-g|--generate=) ARTIFACTS_TO_GENERATE");
-		System.out
+		System.err
+				.println("usage: (-t|--toolspec=) TOOL_SPEC_FILE (-g|--generate=) ARTIFACTS_TO_GENERATE (-o|--outDir) OUT_DIR");
+		System.err
 				.println("\t where ARTIFACTS_TO_GENERATE is a comma-separated list with zero or more values: soap|rest|bash");
 	}
 
@@ -37,6 +37,8 @@ public class ToolWrapperGenerator {
 		Options options = new Options();
 		options.addOption("t", "toolspec", true, "toolspec file");
 		options.addOption("g", "generate", true, "artifacts to generate");
+		options.addOption("o", "outDir", true,
+				"directory where to put the generated artifacts");
 
 		CommandLineParser parser = new PosixParser();
 		CommandLine commandLine = null;
@@ -65,19 +67,20 @@ public class ToolWrapperGenerator {
 
 	/** Method that invokes the methods to created the necessary artifacts */
 	public static void generateWrappers(Tool tool,
-			List<String> artifactsToGenerate) {
+			List<String> artifactsToGenerate, String outputDirectory) {
 		for (Operation operation : tool.getOperations().getOperation()) {
-			System.out.println("operation=" + operation.getName());
+			System.err.println("operation=" + operation.getName());
 			for (String artifact : artifactsToGenerate) {
 				if (artifact.equals("soap")
 						&& operation.getInputs().getStdin() == null) {
-					System.out.println("\tgoing to generate soap web service");
+					System.err.println("\tgoing to generate soap web service");
 				} else if (artifact.equals("rest")
 						&& operation.getInputs().getStdin() == null) {
-					System.out.println("\tgoing to generate rest web service");
+					System.err.println("\tgoing to generate rest web service");
 				} else if (artifact.equals("bash")) {
-					System.out.println("\tgoing to generate bash script");
-					new BashWrapperGenerator(tool, operation).generateWrapper();
+					System.err.println("\tgoing to generate bash script");
+					new BashWrapperGenerator(tool, operation, outputDirectory)
+							.generateWrapper();
 				}
 			}
 		}
@@ -85,11 +88,12 @@ public class ToolWrapperGenerator {
 
 	public static void main(String[] args) {
 		CommandLine cmd = parseArguments(args);
-		if (cmd != null && cmd.hasOption("t")) {
+		if (cmd != null && cmd.hasOption("t") && cmd.hasOption("o")) {
 			Tool tool = Utils.createTool(cmd.getOptionValue("t"));
 			List<String> artifactsToGenerate = parseArtifactsToGenerate(cmd);
 			if (tool != null) {
-				generateWrappers(tool, artifactsToGenerate);
+				generateWrappers(tool, artifactsToGenerate,
+						cmd.getOptionValue("o"));
 				System.exit(0);
 			} else {
 				System.exit(1);
