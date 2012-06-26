@@ -50,9 +50,15 @@ public class BashWrapperGenerator {
 	}
 
 	// FIXME add sdtin/stdout functionality
+	// algorithm: if stdin is not present, then add functionality through grabbing
+	// the input from stdin and copying it into a tmp file. then, on the execute
+	// command function verify if stdin was used and instead of using the variable that
+	// contains the value of the parameter "-i", use the tmp file location instead
+	// NOTE: the same is valid to STDOUT (dd if=OUT_FILE) to output the output file content
 	private void addCommandInformationToContext(VelocityContext context) {
 		String command = operation.getCommand();
 		VelocityContext context4command = new VelocityContext();
+
 		context.put("listOfInputs", operation.getInputs().getInput());
 		int i = 1;
 		for (Input input : operation.getInputs().getInput()) {
@@ -60,6 +66,7 @@ public class BashWrapperGenerator {
 					wrapWithDoubleQuotes("${input_files" + i + "[@]}"));
 			i++;
 		}
+
 		context.put("listOfOutputs", operation.getOutputs().getOutput());
 		i = 1;
 		for (Output output : operation.getOutputs().getOutput()) {
@@ -67,6 +74,7 @@ public class BashWrapperGenerator {
 					wrapWithDoubleQuotes("${output_files" + i + "[@]}"));
 			i++;
 		}
+
 		StringWriter w = new StringWriter();
 		context4command.put("param", "");
 		Velocity.evaluate(context4command, w, "command", command);
