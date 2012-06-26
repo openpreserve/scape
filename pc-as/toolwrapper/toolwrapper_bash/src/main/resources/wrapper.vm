@@ -67,26 +67,14 @@ parse_arguments(){
 				if [ "$input" == "1" ]; then
 					#foreach( $input in $listOfInputs )
 	if [ $i -eq $foreach.count ]; then
-							if [ "$input_files$foreach.count" == "" ]; then
-								input_files$foreach.count=`echo $1 | sed -e 's/\ /\\\ /g'`
-								# input_files$foreach.count=$1
-							else
-								val=`echo $1 | sed -e 's/\ /\\\ /g'`
-								input_files$foreach.count="$input_files$foreach.count $val"
-								# input_files$foreach.count="$input_files$foreach.count $1"
-							fi
+							input_files$foreach.count+=("$1")
 						fi
 					#end
 fi
 				if [ "$output" == "1" ]; then
 					#foreach( $output in $listOfOutputs )
 	if [ $o -eq $foreach.count ]; then
-							if [ "$output_files$foreach.count" == "" ]; then
-								output_files$foreach.count=`echo $1 | sed -e 's/\ /\\\ /g'`
-							else
-								val=`echo $1 | sed -e 's/\ /\\\ /g'`
-								output_files$foreach.count="$output_files$foreach.count $val"
-							fi
+							output_files$foreach.count+=("$1")
 						fi
 					#end
 fi

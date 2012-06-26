@@ -49,6 +49,7 @@ public class BashWrapperGenerator {
 		}
 	}
 
+	// FIXME add sdtin/stdout functionality
 	private void addCommandInformationToContext(VelocityContext context) {
 		String command = operation.getCommand();
 		VelocityContext context4command = new VelocityContext();
@@ -56,14 +57,14 @@ public class BashWrapperGenerator {
 		int i = 1;
 		for (Input input : operation.getInputs().getInput()) {
 			context4command.put(input.getName(),
-					wrapWithDoubleQuotes("$input_files" + i));
+					wrapWithDoubleQuotes("${input_files" + i + "[@]}"));
 			i++;
 		}
 		context.put("listOfOutputs", operation.getOutputs().getOutput());
 		i = 1;
 		for (Output output : operation.getOutputs().getOutput()) {
 			context4command.put(output.getName(),
-					wrapWithDoubleQuotes("$output_files" + i));
+					wrapWithDoubleQuotes("${output_files" + i + "[@]}"));
 			i++;
 		}
 		StringWriter w = new StringWriter();
@@ -161,11 +162,8 @@ public class BashWrapperGenerator {
 		}
 	}
 
-	// FIXME remove (if it isn't wrapping anything) this method and its
-	// invocations
 	private String wrapWithDoubleQuotes(String in) {
-		// return "\"" + in + "\"";
-		return in;
+		return "\"" + in + "\"";
 	}
 
 	private void addGeneralInformationToContext(VelocityContext context) {
