@@ -21,6 +21,8 @@ import eu.scape_project.tb.lsdr.seqfileutility.ProcessConfiguration;
 import eu.scape_project.tb.lsdr.seqfileutility.SequenceFileUtility;
 import eu.scape_project.tb.lsdr.seqfileutility.util.StringUtils;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -39,9 +41,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Map/recuce job creating a text file with the list of input paths of the
+ * Map/recuce job creating a text file with the traverse of input paths of the
  * files and initiates the job for creating the sequence file.
- * 
+ *
  * @author Sven Schlarb https://github.com/shsdev
  * @version 0.1
  */
@@ -59,20 +61,49 @@ public class HadoopJob implements Tool {
 
     /**
      * Set process configuration
+     *
      * @param pc Process configuration
      */
     public void setPc(ProcessConfiguration pc) {
         this.pc = pc;
     }
 
+    private void traverse(File file, FSDataOutputStream outputStream) throws IOException {
+        File[] list = file.listFiles();
+        for (File f : list) {
+            if (f.isDirectory()) {
+                traverse(f, outputStream);
+            } else if (f.isFile()) {
+                String pathStr = f.getAbsolutePath() + "\n";
+                byte[] buff = pathStr.getBytes();
+                outputStream.write(buff);
+            }
+        }
+    }
+
+    private void writeFilePaths(File directory, FSDataOutputStream outputStream) throws IOException {
+        String command = "find -L "+directory.getAbsolutePath()+" -type f -print";
+        logger.info("Get input paths: "+command);
+        Process p = Runtime.getRuntime().exec(command);
+        InputStream inStream = p.getInputStream();
+        byte buf[] = new byte[1024];
+        int len;
+        while ((len = inStream.read(buf)) > 0) {
+            outputStream.write(buf, 0, len);
+        }
+        outputStream.close();
+        inStream.close();
+    }
+    
     /**
      * Run hadoop job
+     *
      * @param strings Command line arguments
      * @return Success indicator
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
-    public int run(String[] strings) throws Exception  {
+    public int run(String[] strings) throws Exception {
         try {
             String[] extensions = null;
             if (pc.getExtStr() != null) {
@@ -92,17 +123,16 @@ public class HadoopJob implements Tool {
             Path path = new Path(hdfsIinputPath);
 
             FSDataOutputStream outputStream = hdfs.create(path);
-            byte[] buff;
+
             List<String> dirs = StringUtils.getStringListFromString(pc.getDirsStr(), ",");
             for (String dir : dirs) {
                 File directory = new File(dir);
                 if (directory.isDirectory()) {
-                    Iterator<File> filesit = FileUtils.iterateFiles(directory, extensions, true);
-                    while (filesit.hasNext()) {
-                        String pathStr = filesit.next().getCanonicalPath() + "\n";
-                        buff = pathStr.getBytes();
-                        outputStream.write(buff);
-                    }
+                    // Alternatively, the java traverse method can be used
+                    // for creating the file paths, but this is by far less
+                    // performant:
+                    //traverse(directory, outputStream);
+                    writeFilePaths(directory, outputStream);
                 } else {
                     logger.warn("Parameter \"" + dir + "\" is not a directory "
                             + "(skipped)");
@@ -110,16 +140,15 @@ public class HadoopJob implements Tool {
             }
             outputStream.close();
             if (hdfs.exists(path)) {
-                logger.info("Input paths created in \"" + hdfs.getHomeDirectory() 
+                logger.info("Input paths created in \"" + hdfs.getHomeDirectory()
                         + "/" + path.toString() + "\"");
             } else {
                 logger.error("Input paths have not been created in hdfs.");
                 return 1;
             }
 
-            Job job = new Job(conf, "Hadoop map job adding small files to "
-                    + "sequence file");
-            
+            Job job = new Job(conf, "small_files_to_sequence_file");
+
             job.setJarByClass(SequenceFileUtility.class);
             job.setMapperClass(SmallFilesSequenceFileMapper.class);
             job.setInputFormatClass(TextInputFormat.class);
@@ -127,20 +156,20 @@ public class HadoopJob implements Tool {
             job.setOutputValueClass(BytesWritable.class);
             job.setOutputFormatClass(SequenceFileOutputFormat.class);
             TextInputFormat.addInputPath(job, new Path(hdfsInputDir));
-            
+
             String hdfsOutputDir = "output/sfu" + System.currentTimeMillis() + "/";
-            
+
             SequenceFileOutputFormat.setOutputPath(job, new Path(hdfsOutputDir));
-            SequenceFileOutputFormat.setOutputCompressionType(job, 
+            SequenceFileOutputFormat.setOutputCompressionType(job,
                     CompressionType.get(pc.getCompressionType()));
-            
+
             int success = job.waitForCompletion(true) ? 0 : 1;
             boolean seqFileExists = hdfs.exists(new Path(hdfsOutputDir
-                    +"part-r-00000"));
+                    + "part-r-00000"));
             if (success == 0 && seqFileExists) {
-                logger.info("Sequence file created: \"" 
-                        + hdfs.getHomeDirectory() + "/" 
-                        + hdfsOutputDir+"part-r-00000" + "\"");
+                logger.info("Sequence file created: \""
+                        + hdfs.getHomeDirectory() + "/"
+                        + hdfsOutputDir + "part-r-00000" + "\"");
                 return 0;
             } else {
                 logger.error("Sequence file not created in hdfs");
@@ -155,6 +184,7 @@ public class HadoopJob implements Tool {
 
     /**
      * Setter for hadoop job configuration
+     *
      * @param c Hadoop job configuration
      */
     @Override
@@ -164,10 +194,12 @@ public class HadoopJob implements Tool {
 
     /**
      * Getter for hadoop job configuration
+     *
      * @return Hadoop job configuration
      */
     @Override
     public Configuration getConf() {
         return conf;
     }
+
 }

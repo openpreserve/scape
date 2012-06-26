@@ -8,10 +8,10 @@
  
  <!-- logging to file -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender" prudent="true">
-        <file>logs/scape_toolwrapper.log</file>
+        <file>/tmp/tb-lsdr-seqfileutility.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
    <!-- daily rollover -->
-            <fileNamePattern>logs/seqfileutility.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>/tmp/tb-lsdr-seqfileutility.%d{yyyy-MM-dd}.log</fileNamePattern>
    <!-- keep 30 days' log history -->
             <maxHistory>30</maxHistory>
         </rollingPolicy>

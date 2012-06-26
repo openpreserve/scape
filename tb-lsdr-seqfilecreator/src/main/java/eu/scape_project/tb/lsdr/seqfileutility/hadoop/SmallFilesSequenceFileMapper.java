@@ -1,4 +1,4 @@
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    package eu.scape_project.tb.lsdr.seqfileutility.hadoop;
+package eu.scape_project.tb.lsdr.seqfileutility.hadoop;
 
 import eu.scape_project.tb.lsdr.seqfileutility.util.FileUtils;
 import java.io.File;
@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 /**
  * The map class of the sequence file creation.
- * 
+ *
  * @author Sven Schlarb https://github.com/shsdev
  * @version 0.1
  */
@@ -17,13 +17,14 @@ public class SmallFilesSequenceFileMapper
         extends Mapper<Object, Text, Text, BytesWritable> {
 
     /**
-     * Map implementation assigns the absolute path to the file as key and
-     * the file content as value of the sequence file.
+     * Map implementation assigns the absolute path to the file as key and the
+     * file content as value of the sequence file.
+     *
      * @param key Key
-     * @param value Value 
+     * @param value Value
      * @param context Context
      * @throws IOException
-     * @throws InterruptedException 
+     * @throws InterruptedException
      */
     @Override
     public void map(Object key, Text value, Mapper.Context context)
@@ -38,8 +39,12 @@ public class SmallFilesSequenceFileMapper
             long length = 0;
             length = keyFile.length();
             buffer = FileUtils.readFileToByteArray(keyFile.getAbsolutePath());
-            outvalue.set(buffer, 0, (int) length);
-            context.write(outkey, outvalue);
+            if (buffer != null) {
+                outvalue.set(buffer, 0, (int) length);
+                context.write(outkey, outvalue);
+            } else {
+                throw new IOException("Unable to read file in buffer!");
+            }
         }
     }
 }
