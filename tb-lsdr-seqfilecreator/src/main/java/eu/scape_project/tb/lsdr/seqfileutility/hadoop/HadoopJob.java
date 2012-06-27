@@ -82,15 +82,27 @@ public class HadoopJob implements Tool {
     }
 
     private void writeFilePaths(File directory, FSDataOutputStream outputStream) throws IOException {
-        String command = "find -L "+directory.getAbsolutePath()+" -type f -print";
+        String regex = "";
+        if(pc.getExtStr() != null && !pc.getExtStr().equals(""))
+            regex = " -regex .*."+pc.getExtStr();
+        String command = "find -L "+directory.getAbsolutePath() + regex + " -type f -print";
         logger.info("Get input paths: "+command);
         Process p = Runtime.getRuntime().exec(command);
         InputStream inStream = p.getInputStream();
-        byte buf[] = new byte[1024];
+        long bytecount = 0;
+        byte buf[] = new byte[4096];
         int len;
         while ((len = inStream.read(buf)) > 0) {
             outputStream.write(buf, 0, len);
+            bytecount += len;
+            // Status message at each 10MB block
+            if(bytecount > 4096 && bytecount % 10485760 <= 4096) {
+                String mb = StringUtils.humanReadableByteCount(bytecount, true);
+                logger.info("Current size of input paths: "+mb);
+            }
         }
+        String mb = StringUtils.humanReadableByteCount(bytecount, true);
+        logger.info("Final size of input paths: "+mb);
         outputStream.close();
         inStream.close();
     }
