@@ -35,6 +35,8 @@ show_help(){
 parse_arguments(){
 	i=0
 	o=0
+	stdin=0
+	stdout=0
 	while [ "$1" != "" ];
 	do
 		case $1 in
@@ -70,13 +72,19 @@ parse_arguments(){
 							input_files$foreach.count+=("$1")
 						fi
 					#end
-fi
+	if [ "$1" == "STDIN" ]; then                
+                     stdin=1
+                  fi
+				fi
 				if [ "$output" == "1" ]; then
 					#foreach( $output in $listOfOutputs )
 	if [ $o -eq $foreach.count ]; then
 							output_files$foreach.count+=("$1")
 						fi
 					#end
+	if [ "$1" == "STDOUT" ]; then                
+                     stdout=1
+                  fi
 fi
 				shift
 		esac
@@ -88,13 +96,42 @@ execute_command(){
 	return $?
 }
 
+verify_stdin(){
+   tmp_input="/tmp/input`date +%s`"
+   if [ $stdin -eq 1 ]; then
+      dd of=$tmp_input >/dev/null 2>/dev/null
+      input_files1=()
+      input_files1+=("$tmp_input")
+   fi
+}
+
+verify_stdout(){
+   tmp_output="/tmp/output`date +%s`"
+   if [ $stdout -eq 1 ]; then
+      output_files1=()
+      output_files1+=("$tmp_output")
+   fi
+}
+
+verify_stdout_2(){
+   if [ $stdout -eq 1 ]; then
+      dd if=${output_files1[0]} 2>/dev/null
+   fi
+}
+
 #[[
 #################
 #   real deal   #
 #################]]#
 parse_arguments "$@"
 
+verify_stdin
+
+verify_stdout
+
 execute_command
 command_execution_exit_code=$?
+
+verify_stdout_2
 
 exit 0

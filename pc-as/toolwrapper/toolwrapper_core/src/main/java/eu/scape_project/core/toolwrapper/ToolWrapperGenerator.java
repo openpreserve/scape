@@ -15,7 +15,7 @@ import eu.scape_project.core.toolspec_objects.from_schema.Tool;
 import eu.scape_project.core.toolspec_objects.utils.Utils;
 import eu.scape_project.core.toolwrapper.bash.BashWrapperGenerator;
 
-public class ToolWrapperGenerator {
+public final class ToolWrapperGenerator {
 
 	private ToolWrapperGenerator() {
 

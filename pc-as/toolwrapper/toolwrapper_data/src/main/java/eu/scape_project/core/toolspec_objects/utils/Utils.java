@@ -8,7 +8,10 @@ import javax.xml.bind.Unmarshaller;
 
 import eu.scape_project.core.toolspec_objects.from_schema.Tool;
 
-public class Utils {
+public final class Utils {
+
+	private Utils() {
+	}
 
 	/** Method that creates a {@link Tool} instance from a toolspec filename */
 	public static Tool createTool(String toolFileName) {
