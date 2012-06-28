@@ -1,0 +1,19 @@
+Source: pdfbox-app-cli
+Section: java
+Priority: extra
+Maintainer: Helder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0), maven
+Standards-Version: 3.9.2
+Homepage: http://pdfbox.apache.org/
+Vcs-Browser: http://svn.apache.org/repos/asf/pdfbox/trunk/
+
+Package: pdfbox-app-cli
+Section: java
+Architecture: all
+Depends: ${misc:Depends}, default-jre
+Description: Open source Java tool for working with PDF documents
+ The Apache PDFBox library is an open source Java tool for working 
+ with PDF documents. 
+ This project allows creation of new PDF documents, manipulation 
+ of existing documents and the ability to extract content from documents. 
+ Apache PDFBox also includes several command line utilities.

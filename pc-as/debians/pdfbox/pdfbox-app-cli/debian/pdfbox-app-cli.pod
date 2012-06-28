@@ -1,0 +1,130 @@
+=head1 NAME
+
+pdfbox-app-cli - CLI wrapper for PDFBox 
+
+=head1 SYNOPSIS
+
+pdfbox-app-cli UTILITY [OPTIONS] ...
+
+=head1 DESCRIPTION
+
+pdfbox-app-cli CLI wrapper for PDFBox 
+
+=head1 UTILITIES and OPTIONS                          
+
+=over 4
+
+=item B<ConvertColorspace> Converts a PDF that uses one colorspace to another 
+
+Usage: pdfbox-app-cli org.apache.pdfbox.ConvertColorspace [OPTIONS] <inputfile> <outputfile> 
+
+Where OPTIONS:
+
+B<-password <password>> The password to the PDF document.E<10>
+B<-equiv <color equivalent>> Color equivalent to use for conversion.E<10>
+B<<inputfile>> The PDF file to convert.E<10>
+B<[outputfile]> The file to save the converted document to.E<10>
+
+=item B<Decrypt> Decrypts a PDF document
+
+Usage: pdfbox-app-cli Decrypt [OPTIONS] <inputfile> [outputfile]
+
+Where OPTIONS:
+
+B<-password> Password to the PDF or certificate in keystore.E<10>
+B<-keyStore> Path to keystore that holds certificate to decrypt the document. This is only required if the document is encrypted with a certificate, otherwise only the password is required.E<10>
+B<-alias> The alias to the certificate in the keystore.E<10>
+B<<inputfile>> The PDF file to decrypt.E<10>
+B<[outputfile]> The file to save the decrypted document to. If left blank then it will be the same as the input file.E<10>
+
+=item B<Encrypt> Encrypts a PDF document
+
+Usage: pdfbox-app-cli Encrypt [OPTIONS] <password> <inputfile>
+
+Where OPTIONS:
+
+B<-O <password>> The owner password to the PDF, ignored if -certFile is specified.E<10>
+B<-U <password>> The user password to the PDF, ignored if -certFile is specified.E<10>
+B<-certFile <path to certificate>> Path to X.509 cert file.E<10>
+B<-canAssemble <value>> Set the assemble permission.E<10>
+B<-canExtractContent <value>> Set the extraction permission.E<10>
+B<-canExtractForAccessibility <value>> Set the extraction permission.E<10>
+B<-canFillInForm <value>> Set the fill in form permission.E<10>
+B<-canModify <value>> Set the modify permission.E<10>
+B<-canModifyAnnotations <value>> Set the modify annots permission.E<10>
+B<-canPrint <value>> Set the print permission.E<10>
+B<-canPrintDegraded <value>> Set the print degraded permission.E<10>
+B<-keyLength <value>> The number of bits for the encryption key.E<10>
+B<<inputfile>> The PDF file to encrypt.E<10>
+B<[outputfile]> The file to save the encrypted document to. If left blank then it will be the same as the input file.E<10>
+
+=item B<ExtractText> Extracts all text from the given PDF document
+
+Usage: pdfbox-app-cli ExtractText [OPTIONS] <PDF file> [Text file]
+
+Where OPTIONS:
+
+B<-password <password>> The password to the PDF document.E<10>
+B<-encoding <output encoding>> The encoding type of the text file, e.g. ISO-8859-1, UTF-8, UTF-16BE.E<10>
+B<-console> Send text to console instead of file.E<10>
+B<-html> Output in HTML format instead of raw text.E<10>
+B<-sort> Sort the text before writing.E<10>
+B<-ignoreBeads> Disables the separation by beads.E<10>
+B<-force> Enables pdfbox to ignore corrupt objects.E<10>
+B<-debug> Enables debug output about the time consumption of every stage.E<10>
+B<-startPage <start page>> The first page to extract, one based.E<10>
+B<-endPage <end page>> The last page to extract, one based.E<10>
+B<-nonSeq> 	Use the new non sequential parser.E<10>
+
+=item B<PDFMerger> Take a list of pdf documents and merge them, saving the result in a new document.
+
+Usage: pdfbox-app-cli PDFMerger <Source PDF files (2 ..n)> <Target PDF file>
+
+=item B<PDFSplit> Takes an existing PDF document and splits it into a number of other documents
+
+Usage: pdfbox-app-cli PDFSplit [OPTIONS] <PDF file>
+
+Where OPTIONS:
+
+B<-password <password>> The password to the PDF document.E<10>
+B<-split <integer>> Number of pages of every splitted part of the pdf.E<10>
+B<-startPage <integer>> The page to start at.E<10>
+B<-endPage <integer>> The page to stop at.E<10>
+B<-nonSeq> Use the new non sequential parser.E<10>
+
+=item B<PDFToImage> Creates an image for every page in the PDF document
+
+Usage: pdfbox-app-cli PDFToImage [OPTIONS] <PDF file>
+
+Where OPTIONS:
+
+B<-password <password>> The password to the PDF document.E<10>
+B<-imageType <type>> The image type to write to. Currently only jpg or png.E<10>
+B<-outputPrefix <image file prefix>> The prefix to the image file.E<10>
+B<-startPage <start page>> The first page to extract, one based.E<10>
+B<-endPage <end page>> The last page to extract, one based.E<10>
+B<-nonSeq> Use the new non sequential parser.E<10>
+
+=item B<TextToPDF> Creates a PDF document from a text file
+
+Usage: pdfbox-app-cli TextToPDF [OPTIONS] <outputfile> <textfile>
+
+Where OPTIONS:
+
+B<-standardFont <fontname>> The font to use for the text. Either this or -ttf should be specified but not both.E<10>
+B<-ttf <fontfile>> The TTF font to use for the text. Either this or -standardFont should be specified but not both.E<10>
+B<-fontSize <fontsize>> The size of the font to use.E<10>
+
+=back
+
+=head1 MORE INFO
+
+For more information about the utilities and/or options visit: http://pdfbox.apache.org/commandlineutilities/index.html 
+
+=head1 AUTHORS
+
+B<pdfbox-app-cli> was written by Helder Silva <hsilva@keep.pt>.
+
+
+This manual page was written by Helder Silva <hsilva@keep.pt>.
+=cut

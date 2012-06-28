@@ -1,0 +1,13 @@
+Source: imageio-wrapper
+Section: java
+Priority: extra
+Maintainer: Helder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0), perl, default-jdk, maven, javahelper (>=0.25)
+Standards-Version: 3.9.2
+Homepage: http://www.scape-project.eu/
+
+Package: imageio-wrapper
+Architecture: all
+Depends: ${misc:Depends}, ${java:Depends}, libcommons-cli-java (>= 1.2), default-jre 
+Description: CLI wrapper for Java Image IO 
+ This intends to be a CLI wrapper for Java Image IO. 

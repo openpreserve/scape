@@ -1,5 +1,5 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-done so far (cd $PC_AS ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]\+\).*/\1/' | uniq); do ls *$i* | sed 's/.*\s/\t$services$ /'; echo; done)
+done so far (cd $PC_AS/services/ ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]\+\).*/\1/' | uniq); do ls *$i* | sed 's/.*\s/\t$services$ /'; echo; done)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 2.1	ImageMagick
 	# > sudo apt-get install imagemagick html2ps
@@ -21,11 +21,11 @@ done so far (cd $PC_AS ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]\+\).*/\1/
 	# > sudo editor /etc/apt/sources.list.d/debian-multimedia.list
 	# And add the following line
 	# deb http://www.debian-multimedia.org squeeze main non-free
+	# * the above instructions can be simplified by doing the following:
+	# > echo "deb http://www.debian-multimedia.org squeeze main non-free" | sudo tee /etc/apt/sources.list.d/debian-multimedia.list
+	#
 	# > sudo apt-get update && sudo apt-get install debian-multimedia-keyring && sudo apt-get update
 	# > sudo apt-get install handbrake-cli
-	#
-	# one line simplified version:
-	# > sudo touch /etc/apt/sources.list.d/debian-multimedia.list && echo "deb http://www.debian-multimedia.org squeeze main non-free" | sudo tee /etc/apt/sources.list.d/debian-multimedia.list
 	$services$ scape-pc-as-handbrake-video2mpeg4.xml
 
 2.4	FFMpeg
@@ -69,7 +69,9 @@ done so far (cd $PC_AS ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]\+\).*/\1/
 	$services$ scape-pc-as-jodconverter-xls2pdf.xml
 
 2.8	Apache Sanselan
-	!!!!!!!!! package for libsanselan and for sanselan-wrapper CREATED but NOT submited to opf debian repository. services also need to be defined !!!!!!!!!
+	!!!!!!!!! package for libsanselan and for sanselan-wrapper CREATED but NOT submited to opf debian repository (see /pc-as/debians/sanselan/). !!!!!!!!!
+	$services$ scape-pc-as-sanselan-image2bmp.xml
+	$services$ scape-pc-as-sanselan-image2png.xml
 
 2.9	OpenJPEG
 	# > sudo apt-get install openjpeg-tools
@@ -94,7 +96,8 @@ done so far (cd $PC_AS ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]\+\).*/\1/
 	$services$ scape-pc-as-avidemux-flv2avi.xml
 
 2.13	PDFBox
-	!!!!!!!!! package for pdfbox needs to be created. as pdfbox already as a command-line tool, simple wrap will be done (no java wrapper is needed). services also need to be defined !!!!!!!!! 
+	!!!!!!!!! package for pdfbox-app-cli CREATED but NOT submited to opf debian repository (see /pc-as/debians/pdfbox/). !!!!!!!!!
+	$services$ scape-pc-as-pdfbox-txt2pdf.xml	
 
 2.14	JTidy
 	!!!!!!!!! it does in place changes (cannot specify output file), so it cannot be used with toolwrapper as it is. one possible aproach is to define a script that takes two arguments: input-file and output-file. it copies the input-file to the output-file and invokes tidy with the output-file. services also need to be defined !!!!!!!!!
@@ -115,17 +118,20 @@ done so far (cd $PC_AS ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]\+\).*/\1/
 	# Copy libzlibwapi.so to the directories with the executables
 
 2.17	NedlibToArc
-	!!!!!!!!! package needs to be created. services also need to be defined !!!!!!!!!
+	!!!!!!!!! very old version (based on heritrix 0.6.0) package needs to be created. services also need to be defined !!!!!!!!!
 	# Download distribuition from http://nwatoolset.sourceforge.net/docs/NedlibToARC/NedlibToARC-1.0.tar.gz
 
-2.18	Heritix
+2.18	Heritrix
 	!!!!!!!!! package needs to be created. services also need to be defined !!!!!!!!!
 	# Download from https://webarchive.jira.com/wiki/display/Heritrix/Heritrix
 	# It has a maven repository.
 
 2.19	Java Image I/O
-	!!!!!!!!! package needs to be created. services also need to be defined !!!!!!!!!
+	!!!!!!!!! package for imageio CREATED but NOT submited to opf debian repository (see /pc-as/debians/imageio/). !!!!!!!!!
 	# It’s a Java API http://download.oracle.com/javase/6/docs/technotes/guides/imageio/
+	$services$ scape-pc-as-imageio-image2bmp.xml
+	$services$ scape-pc-as-imageio-image2gif.xml
+	$services$ scape-pc-as-imageio-image2jpeg.xml
 
 2.20	GraphicsMagick
 	# > sudo apt-get install graphicsmagick
@@ -176,7 +182,7 @@ libraries/api's to package and/or wrap (identified in the deliverable d10.1)
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-DEMO_WORKFLOWS (our webservices, markus (characterization) and jyplyzer (carl)
+DEMO_WORKFLOWS 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 * markus workflow 
 	1) commented the tmp dir removal

@@ -1,0 +1,43 @@
+<configuration scan="true">
+ <!-- logging to System.out -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender" prudent="true">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+ 
+ <!-- logging to file -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender" prudent="true">
+        <file>/tmp/tb-lsdr-seqfileutility.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+   <!-- daily rollover -->
+            <fileNamePattern>/tmp/tb-lsdr-seqfileutility.%d{yyyy-MM-dd}.log</fileNamePattern>
+   <!-- keep 30 days' log history -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+ 
+ <!-- logging to email -->
+ <!-- <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+  <SMTPHost>yoursmtphost</SMTPHost>
+  <To>yourmail@somehost.tld</To>
+  <From>logger@servername</From>
+  <Subject>ERROR report %logger{20} - %m</Subject>
+  <layout class="ch.qos.logback.classic.PatternLayout">
+   <Pattern>%level %d %logger{35} - %msg</Pattern>
+  </layout>
+ </appender> -->
+ 
+ <!-- default log level -->
+    <root level="info">
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+  <!-- <appender-ref ref="EMAIL" /> -->
+    </root>
+ 
+  
+ 
+</configuration>

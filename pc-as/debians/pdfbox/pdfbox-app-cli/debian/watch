@@ -1,0 +1,2 @@
+version=3
+http://archive.apache.org/dist/pdfbox/([\.0-9]+)/pdfbox-app-([\.0-9]+).jar
