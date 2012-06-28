@@ -129,33 +129,32 @@ void Feature::persist(string featureFileOutputDirectory)
 
 void Feature::loadData( void )
 {
+	verbosePrintln("reading data");
+
 	string filepath = getFilepath("");
 
-	// check if this file exists
-	ifstream ifile(filepath.c_str());
+	// open filestorage for reading
+	FileStorage* fs = new FileStorage(filepath.c_str() , FileStorage::READ);
 
-	if (ifile)
-	{
-		// open filestorage for reading
-		FileStorage* fs = new FileStorage(filepath.c_str() , FileStorage::READ);
+	FileNode features1 = fs->root();
+	for( FileNodeIterator it = features1.begin() ; it != features1.end(); ++it )
+	{	
+		FileNode node = *it;
+		string name = node.name();
 
-		FileNode features1 = fs->root();
-		for( FileNodeIterator it = features1.begin() ; it != features1.end(); ++it )
-		{	
-			FileNode node = *it;
-			string name = node.name();
-
-			if (name.compare(name) == 0)
-			{
-				readData(node);
-			}
+		if (name.compare(name) == 0)
+		{
+			readData(node);
 		}
 	}
 
-	ifile.close();
 }
 
-
+void Feature::loadData( FileNode node )
+{
+	verbosePrintln("reading data");
+	readData(node);
+}
 
 string Feature::getFilepath(string featureFileOutputDirectory)
 {

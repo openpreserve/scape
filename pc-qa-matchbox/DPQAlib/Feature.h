@@ -7,7 +7,7 @@
 
 #include <fstream>
 
-#include <cv.h>
+#include "opencv/cv.h"
 
 #include <tclap/CmdLine.h>
 #include <tclap/Arg.h>
@@ -40,7 +40,7 @@ protected:
 	int       level;
 
 	virtual void           writeOutput(FileStorage& fs)            = 0;
-	virtual void           readData(FileNode& fs)                  = 0;
+	
 
 	// protected methods
 	void                   verbosePrintln(string msg);
@@ -64,10 +64,11 @@ public:
 	
 	// persistence I/O
 	void                   persist(string featureFileOutputDirectory);
-
+	virtual void           readData(FileNode& fs)                  = 0;
 	
 
-	void                   loadData(void);
+	void                   loadData( FileNode node );
+	void                   loadData( void );
 	void                   addFilenode(FileNode node);
 
 	// result output methods

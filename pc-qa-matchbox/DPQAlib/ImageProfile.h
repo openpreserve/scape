@@ -10,7 +10,7 @@
 #include "ErrorOutputParameter.h"
 #include "DoubleOutputParameter.h"
 
-#include <cv.h>
+#include "opencv/cv.h"
 #include <tclap/CmdLine.h>
 
 using namespace cv;

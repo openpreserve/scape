@@ -9,7 +9,7 @@
 #include <list>
 
 #include "opencv2/imgproc/imgproc_c.h"
-#include <highgui.h>
+#include "opencv/highgui.h"
 #include <fstream>
 
 #include "StringUtils.h"

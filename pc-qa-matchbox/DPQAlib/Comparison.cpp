@@ -24,7 +24,7 @@ void Comparison::read(string *filename1, string *filename2)
 		VerboseOutput::println("Comparison", "reading data from file 1: '" + *filename1 + "'");
 
 		FileStorage fs1(*filename1, FileStorage::READ);
-		FileNode features1 = fs1.root();
+		FileNode features1 = fs1.root();		
 
 		for( FileNodeIterator it = features1.begin() ; it != features1.end(); ++it )
 		{	

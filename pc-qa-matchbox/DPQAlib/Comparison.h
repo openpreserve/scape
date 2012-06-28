@@ -15,6 +15,9 @@
 
 #include <tclap/CmdLine.h>
 
+#include "opencv2/imgproc/imgproc_c.h"
+#include "opencv/highgui.h"
+
 #include <string>
 #include <list>
 

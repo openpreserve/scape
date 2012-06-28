@@ -8,7 +8,7 @@
 #include <vector>
 #include <iostream>
 
-#include <cv.h>
+#include "opencv/cv.h"
 #include "opencv2/nonfree/features2d.hpp"
 
 #include "SIFTComparison.h"
@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
 				{
 					string filename = *it2;
 
-					VerboseOutput::println("train", "[%i of % in directory '%s']", i++, numFiles, dirName.c_str());
+					VerboseOutput::println("train", "[%i of %i in directory '%s']", i++, numFiles, dirName.c_str());
 					getDescriptorsFromFile(dirName, filename, bowtrainer, argPRECLUSTER.getValue());
 				}
 			}

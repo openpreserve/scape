@@ -9,7 +9,7 @@
 #include <sstream>
 #include <list>
 
-#include <cv.h>
+#include "opencv/cv.h"
 
 using namespace cv;
 using namespace std;

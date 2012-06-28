@@ -16,7 +16,7 @@ Feature* TaskFactory::createTask( FileNode node, int& level )
 
 	if ((feature != NULL) && (feature->getLevel() >= level))
 	{
-		feature->loadData();
+		feature->loadData(node);
 	}
 
 	return feature;

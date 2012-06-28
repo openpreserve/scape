@@ -4,7 +4,7 @@
 #include <sstream>
 #include <vector>
 
-#include <cv.h>
+#include "opencv/cv.h"
 
 using namespace std;
 using namespace cv;

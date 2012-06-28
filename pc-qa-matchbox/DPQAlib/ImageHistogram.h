@@ -6,7 +6,7 @@
 #include <string>
 #include <list>
 
-#include <cv.h>
+#include "opencv/cv.h"
 #include <tclap/CmdLine.h>
 
 #include "Level2Feature.h"

@@ -4,7 +4,7 @@
 
 #include "OutputParameter.h"
 #include "StringConverter.h"
-#include <cv.h>
+#include "opencv/cv.h"
 
 using namespace cv;
 

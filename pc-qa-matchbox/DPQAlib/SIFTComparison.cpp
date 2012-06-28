@@ -362,8 +362,6 @@ void SIFTComparison::writeOutput(FileStorage& fs)
 
 void SIFTComparison::readData(FileNode& fs)
 {
-	verbosePrintln(string("reading data"));
-
 	read(fs["keypoints"], keypoints);
 	if (keypoints.size() == 0)
 	{

@@ -1,7 +1,7 @@
 #include "ImageIO.h"
 #include <stdio.h>
 #include "opencv2/imgproc/imgproc_c.h"
-#include <highgui.h>
+#include "opencv/highgui.h"
 
 ImageIO::ImageIO(void)
 {

@@ -13,7 +13,7 @@
 //*****************************************************************************
 
 
-#include <cv.h>       // open cv general include file
+#include "opencv/cv.h"       // open cv general include file
 
 using namespace cv;
 

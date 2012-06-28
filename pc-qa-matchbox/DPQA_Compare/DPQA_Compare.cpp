@@ -25,9 +25,6 @@ int main(int argc, char* argv[])
 			TCLAP::ValueArg<int> argLevel("l","level","Comparison Level (1-4)",false,0,"int");
 			cmd.add( argLevel );
 
-			TCLAP::SwitchArg argAlign("a","align","Calculate affine transformations to correctly align the two images",false);
-			cmd.add( argAlign );
-
 			TCLAP::SwitchArg argVerbose("v","verbose","Provide additional debugging output",false);
 			cmd.add( argVerbose );
 
@@ -45,8 +42,6 @@ int main(int argc, char* argv[])
 			
 			string file1   = file1Arg.getValue();
 			string file2   = file2Arg.getValue();
-
-			bool   align   = argAlign.getValue();
 
 			comp->setLevel(argLevel.getValue());
 
