@@ -25,7 +25,6 @@ class Comparison
 {
 private:
 
-	bool verbose;
 	list<Feature*> tasks;
 	list<Feature*> tasksFromXML1;
 	list<Feature*> tasksFromXML2;
@@ -47,6 +46,5 @@ public:
 	void level3(string *filename1, string *filename2);
 
 	void writeOutput(void);
-	void setVerbose(bool v);
 	void setLevel( int& level );
 };

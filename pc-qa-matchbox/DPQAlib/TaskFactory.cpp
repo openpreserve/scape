@@ -9,15 +9,14 @@ TaskFactory::~TaskFactory(void)
 {
 }
 
-Feature* TaskFactory::createTask( FileNode node, int& level, bool& verbose )
+Feature* TaskFactory::createTask( FileNode node, int& level )
 {
 	string name = node.name();
 	Feature* feature = createFeature(name);
-	feature->setVerbose(verbose);
 
 	if ((feature != NULL) && (feature->getLevel() >= level))
 	{
-		feature->readData(node);
+		feature->loadData();
 	}
 
 	return feature;
@@ -47,30 +46,13 @@ Feature* TaskFactory::createFeature(string& name)
 	}
 }
 
-
-
-
-void TaskFactory::loadData( list<Feature*> tasks, FileStorage* fs )
+void TaskFactory::loadData( list<Feature*> tasks )
 {
-	FileNode features1 = fs->root();
-	for( FileNodeIterator it = features1.begin() ; it != features1.end(); ++it )
-	{	
-		FileNode node = *it;
-		string name = node.name();
+	list<Feature*>::iterator i;
 
-		list<Feature*>::iterator i;
-
-		for(i=tasks.begin(); i != tasks.end(); ++i)
-		{
-			Feature* task = *i;
-
-			if (name.compare(task->getName()) == 0)
-			{
-				task->readData(node);
-				task->setDataLoaded(true);
-			}
-		}
+	for(i=tasks.begin(); i != tasks.end(); ++i)
+	{
+		Feature* task = *i;
+		task->loadData();
 	}
 }
-
-

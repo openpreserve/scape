@@ -20,8 +20,6 @@
 using namespace cv;
 using namespace std;
 
-bool verbose = false;
-
 vector<string> getdir(string dir, string filter)
 {
     DIR *dp;
@@ -56,7 +54,7 @@ void writeVocabularyToFile( Mat vocab , string& outputFilename)
 	fs.release();
 }
 
-void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer& bow) 
+void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer& bow, int clusterCenters) 
 {
 	try
 	{		
@@ -70,7 +68,7 @@ void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer
 		{
 			FileNode features1 = fs1.root();
 
-			VerboseOutput::println(string("train"), string("processing file '" + filePath + "'"), verbose);
+			VerboseOutput::println(string("train"), string("processing file '" + filePath + "'"));
 
 			for( FileNodeIterator it = features1.begin() ; it != features1.end(); ++it )
 			{
@@ -78,10 +76,16 @@ void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer
 
 				if (node.name().compare(SIFTComparison::TASK_NAME) == 0)
 				{
-					VerboseOutput::println(string("train"), string("loading descriptors"), verbose);
-
 					SIFTComparison* sComp = new SIFTComparison();
 					sComp->readData(node);
+
+					VerboseOutput::println(string("train"), "%i descriptors loaded", sComp->getDescriptors().rows);
+
+					if (clusterCenters > 0)
+					{
+						VerboseOutput::println(string("train"), string("preclustering"));
+						sComp->precluster(clusterCenters);
+					}
 					bow.add(sComp->getDescriptors());
 					sComp->~SIFTComparison();
 				}
@@ -89,12 +93,12 @@ void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer
 		}
 		catch (exception& e)
 		{
-			VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "), verbose);
+			VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "));
 			cout << e.what();
 		}
 		catch (cv::Exception& e)
 		{
-			VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "), verbose);
+			VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "));
 			cout << e.what();
 		}
 
@@ -105,12 +109,12 @@ void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer
 	}
 	catch(exception& e)
 	{
-		VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "), verbose);
+		VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "));
 		cout << e.what();
 	}
 	catch (cv::Exception& e)
 	{
-		VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "), verbose);
+		VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "));
 		cout << e.what();
 	}
 }
@@ -128,8 +132,14 @@ int main(int argc, char* argv[])
 			TCLAP::ValueArg<std::string> argOutputFile("o","output","Output file",true,"","string");
 			cmd.add( argOutputFile );
 
-			TCLAP::ValueArg<std::string> argFilter("f","filter","Filter files according to pattern",false,".feat.xml","string");
+			TCLAP::ValueArg<std::string> argFilter("f","filter","Filter files according to pattern",false,".SIFTComparison.feat.xml.gz","string");
 			cmd.add( argFilter );
+
+			TCLAP::ValueArg<int> argPRECLUSTER("p","precluster", "Number of descriptors to select in precluster-preprocessing (0 = no preclustering)",false,0   ,"int");
+			cmd.add(argPRECLUSTER);
+
+			TCLAP::ValueArg<int> argBOWSIZE("b","bowsize", "Size of the BoW Dictionary",false,1000   ,"int");
+			cmd.add(argBOWSIZE);
 
 			TCLAP::SwitchArg argVerbose("v","verbose","Provide additional debugging output",false);
 			cmd.add( argVerbose );
@@ -140,19 +150,22 @@ int main(int argc, char* argv[])
 		// parse arguments
 			cmd.parse( argc, argv );
 
-			verbose = argVerbose.getValue();
+			// enable/disable verbose output
+			VerboseOutput::verbose = argVerbose.getValue();
+
 			outputFilename = argOutputFile.getValue();
 
 			Ptr<DescriptorExtractor> extractor = new SiftFeatureDetector();
 
 			vector<string>  dirNames = dirListArg.getValue();
 
-			BOWKMeansTrainer bowtrainer(1000); 
+			//VerboseOutput::println(string("train"), "Create BoW of size %d", verbose, argBOWSIZE.getValue());
+			BOWKMeansTrainer bowtrainer(argBOWSIZE.getValue()); 
 
 			for (vector<string>::iterator it = dirNames.begin(); it!=dirNames.end(); ++it)
 			{
 				string dirName = *it;
-				VerboseOutput::println(string("train"), string("reading features of directory '" + dirName + "'"), verbose);
+				VerboseOutput::println(string("train"), "reading features of directory '%s'", dirName.c_str());
 
 				vector<string> files = getdir(dirName, argFilter.getValue());
 
@@ -163,29 +176,29 @@ int main(int argc, char* argv[])
 				{
 					string filename = *it2;
 
-					if (verbose)
-					{
-						stringstream ss;
-						ss << "[" << i++ << " of " << numFiles << " in directory '" << dirName << "']";
-						VerboseOutput::println(string("train"), ss.str() , verbose);
-					}
-					
-					getDescriptorsFromFile(dirName, filename, bowtrainer);
+					VerboseOutput::println("train", "[%i of % in directory '%s']", i++, numFiles, dirName.c_str());
+					getDescriptorsFromFile(dirName, filename, bowtrainer, argPRECLUSTER.getValue());
 				}
 			}
 
 			// descriptors loaded ==> build BOW
-			VerboseOutput::println(string("train"), string("Calculating Visual Bag of Words"), verbose);
+			VerboseOutput::println(string("train"), string("Calculating Visual Bag of Words"));
 
 			// calculate vocabulary
-			VerboseOutput::println(string("train"), string("Creating Vocabulary"), verbose);
+			VerboseOutput::println(string("train"), string("Creating Vocabulary"));
+			
+			if (bowtrainer.descripotorsCount() <= argBOWSIZE.getValue())
+			{
+				throw runtime_error("BoW size higher than number of loaded descriptors!");
+			}
+			
 			Mat vocab = bowtrainer.cluster();
 
 			// output results to file
-			VerboseOutput::println(string("train"), string("Storing BoW to File"), verbose);
+			VerboseOutput::println(string("train"), string("Storing BoW to File"));
 			writeVocabularyToFile(vocab, outputFilename);
 
-			VerboseOutput::println(string("train"), string("Finished"), verbose);
+			VerboseOutput::println(string("train"), string("Finished"));
 	} 
 	catch (exception &e)  // catch any exceptions
 	{

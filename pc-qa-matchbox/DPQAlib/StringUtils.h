@@ -17,4 +17,5 @@ public:
 
 	static vector<string> split(string &s, char delim);
 	static string removeSourceFromExceptionMessage( string msg );
+	static string getFilename( string fullpath );
 };

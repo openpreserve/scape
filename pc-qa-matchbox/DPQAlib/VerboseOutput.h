@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include <time.h>
+#include <stdarg.h>
 
 #include <string>
 #include <sstream>
@@ -17,9 +18,10 @@ private:
 	static string getTimeStamp();
 
 public:
+	static bool verbose;
 
 	VerboseOutput(void);
 	~VerboseOutput(void);
-	static void println( string name, string msg, bool verbose );
 	
+	static void println( string name, string msg, ...);	
 };

@@ -1,5 +1,6 @@
 #include "VerboseOutput.h"
 
+bool VerboseOutput::verbose = false;
 
 VerboseOutput::VerboseOutput(void)
 {
@@ -9,11 +10,17 @@ VerboseOutput::~VerboseOutput(void)
 {
 }
 
-void VerboseOutput::println( string name, string msg, bool verbose )
+void VerboseOutput::println( string name, string msg, ... )
 {
-	if (verbose)
+	if (VerboseOutput::verbose)
 	{
-		cout << "[" << getTimeStamp() << " " << name << "] " << msg.c_str() << "\n";
+		stringstream ss;
+		ss << "[" << getTimeStamp() << " " << name << "] " << msg << "\n";
+
+		va_list argptr;
+		va_start(argptr, msg);
+		vfprintf(stdout, ss.str().c_str(), argptr);
+		va_end(argptr);
 	}
 }
 

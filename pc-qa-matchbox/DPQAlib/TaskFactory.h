@@ -20,7 +20,7 @@ public:
 	TaskFactory(void);
 	~TaskFactory(void);
 
-	static Feature* createTask(FileNode node, int& level, bool& verbose);
+	static Feature* createTask(FileNode node, int& level);
 	static void     copyCmdlineArgument(Feature* src, Feature* dest);
-	static void     loadData( list<Feature*> tasks, FileStorage* fs );
+	static void     loadData( list<Feature*> tasks );
 };

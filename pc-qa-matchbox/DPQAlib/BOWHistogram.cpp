@@ -29,8 +29,30 @@ void BOWHistogram::execute(Mat &img)
 {
 	try {
 
+		// loading data
+		verbosePrintln(string("load SIFT descriptors"));
+		sift->loadData();
+
+		Mat descriptors = sift->getDescriptors();
+
+		// check if there were any SIFT features extracted
+		if (descriptors.rows == 0)
+		{
+			// no keypoints/descriptors have been found for this image
+			// thus, no BOWHistogram can be calculated for it.
+			verbosePrintln(string("No descriptors found for this image!"));
+			return;
+		}
+
 		verbosePrintln(string("load vocabulary"));
-		vocabulary = loadVocabulary(vocabularyFilename);	
+		vocabulary = loadVocabulary(vocabularyFilename);
+
+		if (vocabulary.rows == 0)
+		{
+			stringstream msg;
+			msg << "Invalid BOW vocabulary!";
+			throw runtime_error(msg.str());
+		}
 
 		// ==================================================================
 		// this is a re-implementation of the original OpenCV implementation
@@ -44,9 +66,7 @@ void BOWHistogram::execute(Mat &img)
 		Ptr<DescriptorMatcher> dmatcher(new FlannBasedMatcher());
 
 		int clusterCount = vocabulary.rows;
-
-		// Compute descriptors for the image.
-		Mat descriptors = sift->getDescriptors();
+		
 
 		// Match keypoint descriptors to cluster center (to vocabulary)
 		vector<DMatch> matches;
@@ -69,9 +89,11 @@ void BOWHistogram::execute(Mat &img)
 		response_hist /= descriptors.rows;
 
 	}
-	catch (Exception e)
+	catch (Exception &ex)
 	{
-		// TODO: Handle exceptions!
+		stringstream msg;
+		msg << "Error while extracting BOWHistogram features: " << ex.msg;
+		throw runtime_error(msg.str());
 	}
 }
 
@@ -84,9 +106,6 @@ Mat BOWHistogram::loadVocabulary(string filename)
 	FileStorage fs(filename.c_str() , FileStorage::READ);
 	read(fs["vocabulary"], voc);
 	fs.release();
-
-	// TODO: check if vocabulary is valid
-	//       else => throw exception!
 
 	return voc;
 }
@@ -154,11 +173,17 @@ void BOWHistogram::setCmdlineArguments(list<string> *args)
 
 void BOWHistogram::writeOutput(cv::FileStorage &fs)
 {
-	verbosePrintln(string("writing data to filestorage"));
-
-	fs << TASK_NAME << "{";
-	write(fs, "response_hist", response_hist);
-	fs << "}";
+	if (response_hist.rows > 0)
+	{
+		verbosePrintln(string("writing data to filestorage"));
+		fs << TASK_NAME << "{";
+		write(fs, "response_hist", response_hist);
+		fs << "}";
+	}
+	else
+	{
+		verbosePrintln(string("no histogram data - skipping output writing"));
+	}
 }
 
 void BOWHistogram::readData(cv::FileNode &fs)

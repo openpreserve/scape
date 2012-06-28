@@ -11,7 +11,6 @@ Comparison::Comparison(void)
 	tasks.push_back(new BOWHistogram(sift));
 
 	level   = 0;
-	verbose = false;
 }
 
 Comparison::~Comparison(void)
@@ -22,7 +21,7 @@ void Comparison::read(string *filename1, string *filename2)
 {
 	try
 	{
-		VerboseOutput::println("Comparison", "reading data from file 1: '" + *filename1 + "'", verbose);
+		VerboseOutput::println("Comparison", "reading data from file 1: '" + *filename1 + "'");
 
 		FileStorage fs1(*filename1, FileStorage::READ);
 		FileNode features1 = fs1.root();
@@ -31,26 +30,26 @@ void Comparison::read(string *filename1, string *filename2)
 		{	
 			FileNode node = *it;
 
-			Feature* task = TaskFactory::createTask(node,level, verbose);
+			Feature* task = TaskFactory::createTask(node,level);
 			tasksFromXML1.push_back(task);
 		}
 
 		fs1.release();
 
-		VerboseOutput::println(string("Comparison"), "reading data from file 2: '" + *filename2 + "'", verbose);
+		VerboseOutput::println(string("Comparison"), "reading data from file 2: '" + *filename2 + "'");
 
 		FileStorage fs2(*filename2, FileStorage::READ);
 		FileNode features2 = fs2.root();
 
 		for( FileNodeIterator it = features2.begin() ; it != features2.end(); ++it )
 		{			
-			Feature* task = TaskFactory::createTask(*it, level, verbose);
+			Feature* task = TaskFactory::createTask(*it, level);
 			tasksFromXML2.push_back(task);
 		}
 
 		fs2.release();
 
-		VerboseOutput::println(string("Comparison"), string("reading data complete"), verbose);
+		VerboseOutput::println(string("Comparison"), string("reading data complete"));
 
 	}
 	catch (exception& e)
@@ -75,14 +74,7 @@ void Comparison::level3(string *filename1, string *filename2)
 
 void Comparison::execute()
 {
-	//TODO: many things:
-	//
-	// * assert that tasks are in the same order
-	// * assert if both files have the same number of tasks
-	// * are these tasks the same?
-	//    + what if tasks are not the same? etc...
-
-	VerboseOutput::println(string("Comparison"), string("start comparison"), verbose);
+	VerboseOutput::println(string("Comparison"), string("start comparison"));
 
 	double sumDistance = 0;
 
@@ -136,7 +128,7 @@ void Comparison::addCommandLineArgs(TCLAP::CmdLine *cmd)
 
 void Comparison::parseCommandLineArgs()
 {
-	VerboseOutput::println(string("Comparison"), string("parsing commandline arguments"), verbose);
+	VerboseOutput::println(string("Comparison"), string("parsing commandline arguments"));
 
 	list<Feature*>::iterator i;
 
@@ -184,18 +176,12 @@ void Comparison::writeOutput(void)
 		Feature* task = *i;
 
 			printf("<%s %s=\"%d\" %s=\"%s\">\n",Feature::TAG_NAME.c_str(), Feature::ATTR_LEVEL.c_str(), task->getLevel(), Feature::ATTR_NAME.c_str(), task->getName().c_str());
-			task->testOutput();
+			task->printXML();
 			printf("</%s>\n",Feature::TAG_NAME.c_str());
 
 	}
 
 	printf("</comparison>\n");
-}
-
-void Comparison::setVerbose(bool v)
-{
-	verbose = v;
-	VerboseOutput::println(string("Comparison"), string("verbose = true: providing more output"), verbose);
 }
 
 void Comparison::setLevel( int& _level )

@@ -5,6 +5,8 @@
 #include <list>
 #include <string>
 
+#include <fstream>
+
 #include <cv.h>
 
 #include <tclap/CmdLine.h>
@@ -13,6 +15,8 @@
 #include "OutputParameter.h"
 #include "OutputAttribute.h"
 #include "VerboseOutput.h"
+
+#include "StringUtils.h"
 
 using namespace std;
 using namespace cv;
@@ -27,16 +31,19 @@ private:
 	list<TCLAP::Arg*>     comparisonArguments;
 	list<FileNode>        fileNodes;
 
+	string                getFilepath(string featureFileOutputDirectory);
+
 protected:
 
 	string    name;
 	string    filename;
 	int       level;
-	bool      verbose;
-	bool      dataLoaded;
+
+	virtual void           writeOutput(FileStorage& fs)            = 0;
+	virtual void           readData(FileNode& fs)                  = 0;
 
 	// protected methods
-	void verbosePrintln(string msg);
+	void                   verbosePrintln(string msg);
 
 public:
 
@@ -54,13 +61,19 @@ public:
 	virtual void           parseCommandlineArguments()             = 0;
 	virtual list<string>*  getCmdlineArguments(void)               = 0;
 	virtual void           setCmdlineArguments(list<string>* args) = 0;
-	virtual void           writeOutput(FileStorage& fs)            = 0;
-	virtual void           readData(FileNode& fs)                  = 0;
+	
+	// persistence I/O
+	void                   persist(string featureFileOutputDirectory);
 
-	// output methods
+	
+
+	void                   loadData(void);
+	void                   addFilenode(FileNode node);
+
+	// result output methods
 	void                   addOutputParameter(OutputParameter param);
 	list<OutputParameter>* getOutputParameters();
-	void                   addFilenode(FileNode node);
+	void                   printXML(void);	
 
 	// commandline arguments
 	void                   addCharacterizationCommandlineArgument(TCLAP::Arg* arg);
@@ -71,11 +84,8 @@ public:
 	// getter/setter
 	string                 getName(void);
 	int                    getLevel(void);
-	bool                   hasDataLoaded(void);
-	void                   setVerbose(bool v);
 	void                   setFilename( string* filename );
 	string                 getFilename(void);
 
-	void                   testOutput(void);	
-	void                   setDataLoaded( bool param1 );
+	
 };

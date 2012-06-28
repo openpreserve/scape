@@ -39,14 +39,15 @@ int main(int argc, char* argv[])
 
 		// parse arguments
 			cmd.parse( argc, argv );
+
+			// enable/disable verbose output
+			VerboseOutput::verbose = argVerbose.getValue();
 			
 			string file1   = file1Arg.getValue();
 			string file2   = file2Arg.getValue();
 
 			bool   align   = argAlign.getValue();
-			bool   verbose = argVerbose.getValue();
 
-			comp->setVerbose(verbose);
 			comp->setLevel(argLevel.getValue());
 
 			// compare xml files

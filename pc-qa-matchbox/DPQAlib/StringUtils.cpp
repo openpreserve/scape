@@ -21,6 +21,35 @@ vector<string> StringUtils::split(string &s, char delim )
 	return elems;
 }
 
+cv::string StringUtils::getFilename( string fullpath )
+{
+	size_t pos;
+	string file;
+
+	// check path seperator
+	if (fullpath.find("\\") != -1)
+	{
+		// windows path seperator
+		pos = fullpath.find_last_of("\\");
+	}
+	else
+	{
+		// unix path seperator
+		pos = fullpath.find_last_of("/");
+	}
+
+	if(pos != string::npos)
+	{
+		file = fullpath.substr(pos + 1, fullpath.length());
+	}
+	else
+	{
+		file = fullpath;
+	}
+
+	return file;
+}
+
 string removeSourceFromExceptionMessage( string msg ) 
 {
 	stringstream result;

@@ -2,8 +2,9 @@
 
 const string SIFTComparison::TASK_NAME = "SIFTComparison";
 
-TCLAP::ValueArg<int> argSDK  ("","sdk"  , "[SIFTComparison] Number of Spatial Distinctive Keypoints"                   ,false,1000,"int");
-TCLAP::ValueArg<int> argCLAHE("","clahe", "[SIFTComparison] Value of adaptive contrast enhancement (1 = no enhancement)",false,1   ,"int");
+TCLAP::ValueArg<int> argSDK       ("","sdk"  ,      "[SIFTComparison] Number of Spatial Distinctive Keypoints (0 = no SDK)",                   false,0,"int");
+TCLAP::ValueArg<int> argCLAHE     ("","clahe",      "[SIFTComparison] Value of adaptive contrast enhancement (1 = no enhancement)",            false,1   ,"int");
+TCLAP::ValueArg<int> argPRECLUSTER("","precluster", "[SIFTComparison] Number of descriptors to select in preclustering (0 = no preclustering)",false,0   ,"int");
 
 SIFTComparison::SIFTComparison(void):Level3Feature()
 {
@@ -12,6 +13,7 @@ SIFTComparison::SIFTComparison(void):Level3Feature()
 
 	addCharacterizationCommandlineArgument(&argSDK);
 	addCharacterizationCommandlineArgument(&argCLAHE);
+	addCharacterizationCommandlineArgument(&argPRECLUSTER);
 }
 
 SIFTComparison::~SIFTComparison(void)
@@ -22,12 +24,6 @@ SIFTComparison::~SIFTComparison(void)
 
 vector<KeyPoint> SIFTComparison::findSpatiallyDistinctiveLocalKeypoints(Mat& image, vector<KeyPoint>& keypoints)
 {
-
-	if (sdk == 0)
-	{
-		return keypoints;
-	}
-	
 	vector<KeyPoint> results;
 
 	int vert_lines = int(sqrt(double((sdk*image.cols)/image.rows)));
@@ -148,12 +144,24 @@ void SIFTComparison::execute(Mat& img)
 		Feature::verbosePrintln(string("detecting keypoints"));
 		featureDetector->detect( image, kps );
 
-		keypoints = findSpatiallyDistinctiveLocalKeypoints(image, kps);
+		if (sdk != 0)
+		{
+			keypoints = findSpatiallyDistinctiveLocalKeypoints(image, kps);
+		}
+		else
+		{
+			keypoints = kps;
+		}
+		
 
 		// calculate descriptors
 		Ptr<DescriptorExtractor> descriptorExtractor = DescriptorExtractor::create("SIFT");
 		Feature::verbosePrintln(string("computing descriptors"));
 		descriptorExtractor->compute( image, keypoints, descriptors );
+	
+		precluster(numClusterCenters);
+
+		Feature::verbosePrintln(string("Feature extraction done!"));
 	}
 	catch (Exception& ex)
 	{
@@ -161,6 +169,22 @@ void SIFTComparison::execute(Mat& img)
 		msg << "Error while extracting SIFT features: " << ex.msg;
 		throw runtime_error(msg.str());
 	}
+}
+
+void SIFTComparison::precluster( int clusterCenters )
+{	
+	if ((clusterCenters > 0) && (descriptors.rows > clusterCenters))
+	{
+		Feature::verbosePrintln(string("preclustering"));
+		Mat          labels;
+		TermCriteria tcrit;
+		int          attempts = 3;
+		Mat          centers;
+
+		kmeans(descriptors,clusterCenters,labels,tcrit,3, KMEANS_PP_CENTERS, centers);
+		descriptors = centers;
+	}
+
 }
 
 void SIFTComparison::compare(Feature *task)
@@ -376,8 +400,9 @@ void SIFTComparison::setCmdlineArguments(list<string> *args)
 
 void SIFTComparison::parseCommandlineArguments()
 {
-	sdk   = argSDK.getValue();
-	clahe = argCLAHE.getValue();
+	sdk        = argSDK.getValue();
+	clahe      = argCLAHE.getValue();
+	numClusterCenters = argPRECLUSTER.getValue();
 }
 
 Mat& SIFTComparison::getImage(void)

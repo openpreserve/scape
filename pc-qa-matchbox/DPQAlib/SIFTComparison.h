@@ -32,7 +32,11 @@ private:
 	Mat              descriptors;
 	vector<KeyPoint> keypoints;
 	double           scale;
+
+	// commandline arguments
 	int              sdk;
+	int              clahe;
+	int              numClusterCenters;
 
 	vector<DMatch>   calcGoodMatches(vector<DMatch>& matches);
 	Mat              calcAffineTransform(vector<DMatch>& matches, vector<KeyPoint>& keypointsTrain, vector<KeyPoint>& keypointsQuery, double scale2);
@@ -44,14 +48,16 @@ protected:
 
 public:
 	static const string TASK_NAME;
-
 	static const int MAX_IMAGE_RESOLUTION = 1000000;
-	int clahe;
+
 	SIFTComparison(void);
 	~SIFTComparison(void);
 
 	// implement virtual methods
 	void             execute(Mat& image);
+
+	void             precluster(int centers);
+
 	void             compare(Feature *task);
 	void             parseCommandlineArguments();
 	list<string>*    getCmdlineArguments(void);

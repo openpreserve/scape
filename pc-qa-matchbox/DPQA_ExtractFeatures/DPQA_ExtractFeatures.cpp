@@ -23,11 +23,8 @@ int main(int argc, char* argv[])
 		// init command line parser
 			TCLAP::CmdLine cmd("Command description message", ' ', "0.9");
 
-			TCLAP::SwitchArg argAppend("a","append","Add new data to existing DPQA features file.",false);
-			cmd.add( argAppend );
-
-			TCLAP::SwitchArg argUpdate("u","update","Update existing DPQA features file.",false);
-			cmd.add( argUpdate );
+			TCLAP::ValueArg<string> argOutput("d","dir","Output directory for feature files.",false,"","string");
+			cmd.add( argOutput );
 
 			TCLAP::SwitchArg argVerbose("v","verbose","Provide additional debugging output",false);
 			cmd.add( argVerbose );
@@ -59,13 +56,14 @@ int main(int argc, char* argv[])
 
 		// parse arguments
 			cmd.parse( argc, argv );
-			c->setVerbose(argVerbose.getValue());
+
+			// enable/disable verbose output
+			VerboseOutput::verbose = argVerbose.getValue();
+
 			c->setFilename(&file1Arg.getValue());
+			c->setFeatureFileOutputDirectory(argOutput.getValue());
 
 			c->parseCommandLineArgs();
-
-			c->setAppendToFile(argAppend.getValue());
-			c->setUpdateFile(argUpdate.getValue());
 
 		// execute characterization
 			c->execute();

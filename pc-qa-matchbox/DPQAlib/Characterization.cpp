@@ -6,111 +6,110 @@ TCLAP::MultiArg<string> argOnly ("o","only" ,"extract only specified features", 
 
 Characterization::Characterization(void)
 {
-	verbose = false;
 }
 
 Characterization::~Characterization(void)
 {
 }
 
-FileStorage* Characterization::openFilestorage() 
-{
-	FileStorage* fs;
-
-	// create output filename
-	stringstream ssStream;
-	ssStream << filename->c_str() << ".feat.xml";
-
-	// load data from existing file
-	if (appendToFile || updateFile)
-	{
-		// check if this file exists
-		ifstream ifile(ssStream.str().c_str());
-
-		if (ifile)
-		{
-			VerboseOutput::println(string("Characterization"), "open filestorage to read data: '" + ssStream.str(), verbose);
-
-			// reading existing features
-			try
-			{
-				VerboseOutput::println(string("Characterization"), "Reading existing data from file", verbose);
-
-				fs = new FileStorage(ssStream.str().c_str() , FileStorage::READ);
-				loadFeatures(fs);
-				fs->release();
-			}
-			catch (Exception& e)
-			{
-				stringstream msg;
-				msg << "Error while reading Feature file " << ssStream.str() << ": ";
-
-				// TODO: use StringUtils::removeSourceFromExceptionMessage() instead
-				vector<string> items = StringUtils::split(e.msg, ':');
-				for (int i = 1; i < items.size(); i++)
-				{
-					msg << items.at(i);
-				}
-
-				throw runtime_error(msg.str());
-			}
-		}
-		else
-		{
-			stringstream msg;
-			msg << "Feature file '" << ssStream.str() << "' not found. Cannot append new data!";
-			throw runtime_error(msg.str());
-		}
-
-		ifile.close();
-	}
-
-	if (appendToFile)
-	{
-
-		try
-		{
-			VerboseOutput::println(string("Characterization"), "open filestorage to append data: '" + ssStream.str(), verbose);
-			fs = new FileStorage(ssStream.str().c_str() , FileStorage::APPEND);
-		}
-		catch (Exception& e)
-		{
-			stringstream msg;
-			msg << "Can not open feature file '" << ssStream.str() << "': ";
-
-			// TODO: use StringUtils::removeSourceFromExceptionMessage() instead
-			vector<string> items = StringUtils::split(e.msg, ':');
-			for (int i = 1; i < items.size(); i++)
-			{
-				msg << items.at(i);
-			}
-			throw runtime_error(msg.str());
-		}
-	}
-	else
-	{
-		try
-		{
-			VerboseOutput::println(string("Characterization"), string("open new filestorage"), verbose);
-			fs = new FileStorage(ssStream.str().c_str() , FileStorage::WRITE);
-		}
-		catch (Exception& e)
-		{
-			stringstream msg;
-			msg << "Can not open feature file '" << ssStream.str() << "': ";
-
-			// TODO: use StringUtils::removeSourceFromExceptionMessage() instead
-			vector<string> items = StringUtils::split(e.msg, ':');
-			for (int i = 1; i < items.size(); i++)
-			{
-				msg << items.at(i);
-			}
-			throw runtime_error(msg.str());
-		}
-	}		
-	
-	return fs;
-}
+//FileStorage* Characterization::openFilestorage() 
+//{
+//	FileStorage* fs;
+//
+//	// create output filename
+//	stringstream ssStreamFilename;
+//	ssStreamFilename << filename->c_str() << ".feat.xml";
+//
+//	// load data from existing file
+//	if (appendToFile || updateFile)
+//	{
+//		// check if this file exists
+//		ifstream ifile(ssStreamFilename.str().c_str());
+//
+//		if (ifile)
+//		{
+//			VerboseOutput::println(string("Characterization"), "open filestorage to read data: '" + ssStreamFilename.str(), verbose);
+//
+//			// reading existing features
+//			try
+//			{
+//				VerboseOutput::println(string("Characterization"), "Reading existing data from file", verbose);
+//
+//				//fs = new FileStorage(ssStreamFilename.str().c_str() , FileStorage::READ);
+//				loadFeatures();
+//				//fs->release();
+//			}
+//			catch (Exception& e)
+//			{
+//				stringstream msg;
+//				msg << "Error while reading Feature file " << ssStreamFilename.str() << ": ";
+//
+//				// TODO: use StringUtils::removeSourceFromExceptionMessage() instead
+//				vector<string> items = StringUtils::split(e.msg, ':');
+//				for (int i = 1; i < items.size(); i++)
+//				{
+//					msg << items.at(i);
+//				}
+//
+//				throw runtime_error(msg.str());
+//			}
+//		}
+//		else
+//		{
+//			stringstream msg;
+//			msg << "Feature file '" << ssStreamFilename.str() << "' not found. Cannot append new data!";
+//			throw runtime_error(msg.str());
+//		}
+//
+//		ifile.close();
+//	}
+//
+//	if (appendToFile)
+//	{
+//
+//		try
+//		{
+//			VerboseOutput::println(string("Characterization"), "open filestorage to append data: '" + ssStreamFilename.str(), verbose);
+//			fs = new FileStorage(ssStreamFilename.str().c_str() , FileStorage::APPEND);
+//		}
+//		catch (Exception& e)
+//		{
+//			stringstream msg;
+//			msg << "Can not open feature file '" << ssStreamFilename.str() << "': ";
+//
+//			// TODO: use StringUtils::removeSourceFromExceptionMessage() instead
+//			vector<string> items = StringUtils::split(e.msg, ':');
+//			for (int i = 1; i < items.size(); i++)
+//			{
+//				msg << items.at(i);
+//			}
+//			throw runtime_error(msg.str());
+//		}
+//	}
+//	else
+//	{
+//		try
+//		{
+//			VerboseOutput::println(string("Characterization"), string("open new filestorage"), verbose);
+//			fs = new FileStorage(ssStreamFilename.str().c_str() , FileStorage::WRITE);
+//		}
+//		catch (Exception& e)
+//		{
+//			stringstream msg;
+//			msg << "Can not open feature file '" << ssStreamFilename.str() << "': ";
+//
+//			// TODO: use StringUtils::removeSourceFromExceptionMessage() instead
+//			vector<string> items = StringUtils::split(e.msg, ':');
+//			for (int i = 1; i < items.size(); i++)
+//			{
+//				msg << items.at(i);
+//			}
+//			throw runtime_error(msg.str());
+//		}
+//	}		
+//	
+//	return fs;
+//}
 
 void Characterization::addTask(Feature* task)
 {
@@ -138,14 +137,12 @@ void Characterization::execute()
 		throw runtime_error("Corrupt Image");
 	}
 
-	// prepare output file
-	FileStorage* fs = openFilestorage();
-
-	// execture feature extraction
+	// execute feature extraction
 	try
 	{
 		list<Feature*>::iterator i;
 
+		// iterate through all tasks
 		for(i=tasks.begin(); i != tasks.end(); ++i)
 		{
 			Feature* task = *i;
@@ -153,16 +150,9 @@ void Characterization::execute()
 			if(canExecute(task))
 			{
 				task->execute(img);
-				task->writeOutput(*fs);
-			}
-			else if (task->hasDataLoaded() && updateFile)
-			{
-				task->writeOutput(*fs);
+				task->persist(featureFileOutputDirectory);
 			}
 		}
-
-		fs->release();
-
 	}
 	catch (Exception& ex)
 	{
@@ -190,7 +180,7 @@ bool Characterization::canExecute(Feature* task)
 
 			if (onlyFeat.compare(task->getName()) == 0)
 			{
-				VerboseOutput::println(string("Characterization"), "option --only: extract feature only '" + onlyFeat + "'", verbose);
+				VerboseOutput::println(string("Characterization"), "option --only: extract feature only '" + onlyFeat + "'");
 				return true;
 			}
 		}
@@ -257,7 +247,6 @@ void Characterization::parseCommandLineArgs()
 	for(i=tasks.begin(); i != tasks.end(); ++i)
 	{
 		Feature* task = *i;
-		task->setVerbose(verbose);
 		task->setFilename(filename);
 		task->parseCommandlineArguments();
 	}
@@ -268,23 +257,13 @@ void Characterization::setFilename(string* fname)
 	filename = fname;
 }
 
-void Characterization::setAppendToFile( bool append )
+void Characterization::loadFeatures()
 {
-	appendToFile = append;
+	TaskFactory::loadData(tasks);
 }
 
-void Characterization::setVerbose( bool _verbose )
+void Characterization::setFeatureFileOutputDirectory( string& dir )
 {
-	verbose = _verbose;
-}
-
-void Characterization::loadFeatures( FileStorage* fs )
-{
-	TaskFactory::loadData(tasks, fs);
-}
-
-void Characterization::setUpdateFile( bool param1 )
-{
-	updateFile = param1;
+	featureFileOutputDirectory = dir;
 }
 

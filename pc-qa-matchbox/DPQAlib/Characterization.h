@@ -24,12 +24,10 @@ class Characterization
 private:
 	list<Feature*> tasks;
 	string* filename;
-	bool appendToFile;
-	bool verbose;
-	bool updateFile;
-	bool canExecute(Feature* task);
+	string featureFileOutputDirectory;
 
-	FileStorage* openFilestorage();
+	bool         canExecute(Feature* task);
+	//FileStorage* openFilestorage();
 
 public:
 	Characterization(void);
@@ -42,7 +40,7 @@ public:
 	void parseCommandLineArgs();
 	void setFilename(string* fname);
 	void setAppendToFile( bool append );
-	void setVerbose( bool verbose );
-	void loadFeatures( FileStorage* fs );
+	void loadFeatures();
 	void setUpdateFile( bool param1 );
+	void setFeatureFileOutputDirectory( string& featureFileOutputDirectory );
 };
