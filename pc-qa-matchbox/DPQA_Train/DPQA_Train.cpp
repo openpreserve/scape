@@ -93,11 +93,15 @@ void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer
 		}
 		catch (exception& e)
 		{
-			VerboseOutput::println(string("train"), string("*** WARNING: failed to load descriptors: %s"), e.what());
+			stringstream ss;
+			ss << "*** WARNING: failed to load descriptors: " << e.what();
+			VerboseOutput::println(string("train"), ss.str() );
 		}
 		catch (cv::Exception& e)
 		{
-			VerboseOutput::println(string("train"), string("*** WARNING: failed to load descriptors: %s"), e.msg);
+			stringstream ss;
+			ss << "*** WARNING: failed to load descriptors: " << e.msg;
+			VerboseOutput::println(string("train"), ss.str() );
 		}
 
 		if (fs1.isOpened())
@@ -107,11 +111,15 @@ void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer
 	}
 	catch(exception& e)
 	{
-		VerboseOutput::println(string("train"), string("*** WARNING: failed to load descriptors: %s"), e.what());
+		stringstream ss;
+		ss << "*** WARNING: failed to load descriptors: " << e.what();
+		VerboseOutput::println(string("train"), ss.str() );
 	}
 	catch (cv::Exception& e)
 	{
-		VerboseOutput::println(string("train"), string("*** WARNING: failed to load descriptors: %s"), e.msg);
+		stringstream ss;
+		ss << "*** WARNING: failed to load descriptors: " << e.msg;
+		VerboseOutput::println(string("train"), ss.str() );
 	}
 }
 
