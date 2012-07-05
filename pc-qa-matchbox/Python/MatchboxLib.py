@@ -293,7 +293,12 @@ def getDuplicates(results, limit):
 
 def extractFilename(path):
     
-    tmp = path.split("\\")
+    sep = "\\"
+    
+    if os.name == "posix":
+        sep = "/"
+    
+    tmp = path.split(sep)
     return tmp[-1].replace(".feat.xml.gz", "")
 
 def findCorrespondingImageInDifferentCollections(dirA, typeA, dirB, typeB, numThreads = 1):
