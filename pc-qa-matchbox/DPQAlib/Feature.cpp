@@ -108,7 +108,7 @@ void Feature::persist(string featureFileOutputDirectory)
 {
 	try
 	{
-		string filepath = getFilepath(featureFileOutputDirectory);
+		string filepath = getFilepath();
 
 		// open filestorage for writing
 		FileStorage* fs = new FileStorage(filepath.c_str() , FileStorage::WRITE);
@@ -127,11 +127,11 @@ void Feature::persist(string featureFileOutputDirectory)
 	}
 }
 
-void Feature::loadData( void )
+void Feature::loadData()
 {
 	verbosePrintln("reading data");
 
-	string filepath = getFilepath("");
+	string filepath = getFilepath();
 
 	// open filestorage for reading
 	FileStorage* fs = new FileStorage(filepath.c_str() , FileStorage::READ);
@@ -156,15 +156,15 @@ void Feature::loadData( FileNode node )
 	readData(node);
 }
 
-string Feature::getFilepath(string featureFileOutputDirectory)
+string Feature::getFilepath()
 {
 	// create output filename
 	stringstream ssStreamFilename;
 
-	if (featureFileOutputDirectory.length() > 0)
+	if (directory.length() > 0)
 	{
 		string file = StringUtils::getFilename(filename);
-		ssStreamFilename << featureFileOutputDirectory.c_str() << "/" << file.c_str() << "." << name.c_str() <<  ".feat.xml.gz";
+		ssStreamFilename << directory.c_str() << "/" << file.c_str() << "." << name.c_str() <<  ".feat.xml.gz";
 	}
 	else
 	{
@@ -172,5 +172,10 @@ string Feature::getFilepath(string featureFileOutputDirectory)
 	}
 
 	return ssStreamFilename.str();
+}
+
+void Feature::setFeatureFilesDirectory( string dir )
+{
+	directory = dir;
 }
 

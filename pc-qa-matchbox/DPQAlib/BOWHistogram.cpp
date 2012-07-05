@@ -29,6 +29,11 @@ void BOWHistogram::execute(Mat &img)
 {
 	try {
 
+		if (vocabularyFilename.length() == 0)
+		{
+			throw runtime_error("No vocabulary file provided. Please supply a BoW file by using the --bow option!");
+		}
+
 		// loading data
 		verbosePrintln(string("load SIFT descriptors"));
 		sift->loadData();

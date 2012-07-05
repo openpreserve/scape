@@ -93,13 +93,11 @@ void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer
 		}
 		catch (exception& e)
 		{
-			VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "));
-			cout << e.what();
+			VerboseOutput::println(string("train"), string("*** WARNING: failed to load descriptors: %s"), e.what());
 		}
 		catch (cv::Exception& e)
 		{
-			VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "));
-			cout << e.what();
+			VerboseOutput::println(string("train"), string("*** WARNING: failed to load descriptors: %s"), e.msg);
 		}
 
 		if (fs1.isOpened())
@@ -109,13 +107,11 @@ void getDescriptorsFromFile( string& dirName, string& filename, BOWKMeansTrainer
 	}
 	catch(exception& e)
 	{
-		VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "));
-		cout << e.what();
+		VerboseOutput::println(string("train"), string("*** WARNING: failed to load descriptors: %s"), e.what());
 	}
 	catch (cv::Exception& e)
 	{
-		VerboseOutput::println(string("train"), string("*** ERROR loading descriptors: "));
-		cout << e.what();
+		VerboseOutput::println(string("train"), string("*** WARNING: failed to load descriptors: %s"), e.msg);
 	}
 }
 

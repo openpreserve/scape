@@ -46,7 +46,7 @@ Feature* TaskFactory::createFeature(string& name)
 	}
 }
 
-void TaskFactory::loadData( list<Feature*> tasks )
+void TaskFactory::loadData( list<Feature*> tasks)
 {
 	list<Feature*>::iterator i;
 

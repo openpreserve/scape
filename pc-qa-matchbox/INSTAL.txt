@@ -1,7 +1,9 @@
 
            -------------------------------------------------
-
-          DPQA - Digital Preservation Quality Assurance Tools
+           
+                              MATCHBOX
+                              
+             Digital Preservation Quality Assurance Tools
          
                Austrian Institute of Technology - 2011
            
@@ -22,7 +24,7 @@
 	> functions for real time computer vision. 
 	>
 	> WebPage         : http://opencv.willowgarage.com/wiki/
-	> Version Required: 3.2.1
+	> Version Required: 3.4
 	
 
 	Always use the most recent version of OpenCV. Many of the implemented
@@ -37,24 +39,9 @@
     It  is  recommendet  to  add OpenCV's library path to the system path 
     variable. It  is  also  possible to add the required libraries to the 
     directory that contains the DPQA binaries.
-    
-    
-1.2. Xerces-C++
 
 
-	> Xerces-C++ is a validating XML parser written in a portable  subset
-	> of C++.  Xerces-C++ makes it easy to give your  application the ab-
-	> ility to read and write XML data.
-	>
-	> WebPage         : http://xerces.apache.org/xerces-c/
-	> Version Required: 3
-
-
-	The  Library  can  be  downloaded from the Web page. It is sufficient
-	to  download  the binary distribution, but mind the correct version (
-	32bit 64bit).
-
-1.3. Dirent.h
+1.2. Dirent.h
 
 
 	> dirent API for Microsoft Visual Studio.

@@ -31,12 +31,11 @@ private:
 	list<TCLAP::Arg*>     comparisonArguments;
 	list<FileNode>        fileNodes;
 
-	string                getFilepath(string featureFileOutputDirectory);
-
 protected:
 
 	string    name;
 	string    filename;
+	string    directory;
 	int       level;
 
 	virtual void           writeOutput(FileStorage& fs)            = 0;
@@ -44,6 +43,7 @@ protected:
 
 	// protected methods
 	void                   verbosePrintln(string msg);
+	string                 getFilepath(void);
 
 public:
 
@@ -68,7 +68,7 @@ public:
 	
 
 	void                   loadData( FileNode node );
-	void                   loadData( void );
+	void                   loadData();
 	void                   addFilenode(FileNode node);
 
 	// result output methods
@@ -85,8 +85,9 @@ public:
 	// getter/setter
 	string                 getName(void);
 	int                    getLevel(void);
-	void                   setFilename( string* filename );
+	void                   setFilename(string* filename);
 	string                 getFilename(void);
-
+	void                   setFeatureFilesDirectory(string dir);
+	string                 getDirectory(void);
 	
 };

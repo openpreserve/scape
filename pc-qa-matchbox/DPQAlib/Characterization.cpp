@@ -264,6 +264,12 @@ void Characterization::loadFeatures()
 
 void Characterization::setFeatureFileOutputDirectory( string& dir )
 {
-	featureFileOutputDirectory = dir;
+	list<Feature*>::iterator i;
+
+	for(i=tasks.begin(); i != tasks.end(); ++i)
+	{
+		Feature* task = *i;
+		task->setFeatureFilesDirectory(dir);
+	}
 }
 
