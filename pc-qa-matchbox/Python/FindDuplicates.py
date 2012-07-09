@@ -34,9 +34,9 @@ configs["PC-Alex"]["BIN_COMPARE"]             = "D:/WORK/AIT_TFS/s3ms16.d03.arc.
 configs["PC-Alex"]["BIN_TRAIN"]               = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/train.exe"
 
 configs["Linux"]   = {}
-configs["Linux"]["BIN_EXTRACTFEATURES"]       = "/data/SCAPE/matchbox/src/DPQA_ExtractFeatures/extractfeatures"
-configs["Linux"]["BIN_COMPARE"]               = "/data/SCAPE/matchbox/src/DPQA_Compare/compare"
-configs["Linux"]["BIN_TRAIN"]                 = "/data/SCAPE/matchbox/src/DPQA_Train/train"
+configs["Linux"]["BIN_EXTRACTFEATURES"]       = "extractfeatures"
+configs["Linux"]["BIN_COMPARE"]               = "compare"
+configs["Linux"]["BIN_TRAIN"]                 = "train"
 
 configs["PC-Reinhold"] = {}
 configs["PC-Reinhold"]["BIN_EXTRACTFEATURES"] = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/extractfeatures.exe"
