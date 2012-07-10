@@ -1,6 +1,6 @@
 package eu.scape_project.pt.mapred;
 
-import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
+import eu.scape_project.pt.pit.invoke.ToolSpecNotFoundException;
 import java.io.IOException;
 
 import org.apache.commons.logging.Log;

@@ -20,16 +20,23 @@ public class ArgsParser {
 	static public final String TOOLSTRING = "TOOLSTRING";
 	static public final String ACTIONSTRING = "ACTIONSTRING";
 	static public final String PARAMETERLIST = "PARAMETERLIST";
-    public static final String REPO_LOCATION = "REPO_LOCATION";
+    static public final String REPO_LOCATION = "REPO_LOCATION";
+    
+    //nInputFormat
+    static public final String NUM_LINES_PER_SPLIT = "NUM_LINES_PER_SPLIT";
+    
 
+	/* seems to be unused
 	static public final String PROCSTRING = "PROC_STRING";
 	static public final String PROC_TOOLSPEC = "toolspec";
 	static public final String PROC_TAVERNA = "taverna";
+	*/
 	
 	// Taverna specific settigns
 	static public final String TAVERNA_HOME = "TAVERNA_HOME";
 	static public final String WORKFLOW_LOCATION = "WORKFLOW_LOCATION";
-
+    
+    
 	private OptionParser parser = null;
 	private OptionSet options = null;
 	

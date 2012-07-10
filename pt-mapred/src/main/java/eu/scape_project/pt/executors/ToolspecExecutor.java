@@ -14,9 +14,14 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.io.Text;
 
-import eu.scape_project.pit.invoke.CommandNotFoundException;
-import eu.scape_project.pit.invoke.Processor;
-import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
+//import eu.scape_project.pit.invoke.CommandNotFoundException;
+//import eu.scape_project.pit.invoke.Processor;
+//import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
+
+import eu.scape_project.pt.pit.invoke.CommandNotFoundException;
+import eu.scape_project.pt.pit.invoke.Processor;
+import eu.scape_project.pt.pit.invoke.ToolSpecNotFoundException;
+
 import eu.scape_project.pt.proc.FileProcessor;
 import eu.scape_project.pt.proc.PitProcessor;
 import eu.scape_project.pt.util.ArgsParser;

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import eu.scape_project.pit.tools.ToolSpec;
+import eu.scape_project.pt.pit.tools.ToolSpec;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;

@@ -1,10 +1,18 @@
 package eu.scape_project.pt.proc;
 
-import eu.scape_project.pit.invoke.CommandNotFoundException;
-import eu.scape_project.pit.invoke.Out;
-import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
-import eu.scape_project.pit.tools.Action;
-import eu.scape_project.pit.tools.ToolSpec;
+//import eu.scape_project.pit.invoke.CommandNotFoundException;
+//import eu.scape_project.pit.invoke.Out;
+//import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
+//import eu.scape_project.pit.tools.Action;
+//import eu.scape_project.pit.tools.ToolSpec;
+//import eu.scape_project.pt.pit.ToolSpecRepository;
+import eu.scape_project.pt.pit.invoke.CommandNotFoundException;
+import eu.scape_project.pt.pit.invoke.Out;
+import eu.scape_project.pt.pit.invoke.ToolSpecNotFoundException;
+import eu.scape_project.pt.pit.tools.Action;
+import eu.scape_project.pt.pit.tools.ToolSpec;
+import eu.scape_project.pt.pit.invoke.Processor;
+
 import eu.scape_project.pt.pit.ToolSpecRepository;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,14 +31,14 @@ import org.apache.hadoop.fs.Path;
  * 
  * @author Matthias Rella [myrho]
  */
-public class PitProcessor implements Processor {
+public class PitProcessor implements eu.scape_project.pt.proc.Processor {
 
 	private static Log LOG = LogFactory.getLog(PitProcessor.class);
 
     /**
      * Processor of PIT (used for command-line invocation).
      */
-    eu.scape_project.pit.invoke.Processor p;
+    Processor p;
 
     /**
      * Name of the Action of a Tool to use.
@@ -95,8 +103,8 @@ public class PitProcessor implements Processor {
             ToolSpecRepository repo = new ToolSpecRepository(fs, fRepo);
             ToolSpec toolSpec = repo.getToolSpec( this.strTool);
 
-            Action action = eu.scape_project.pit.invoke.Processor.findTool(toolSpec, strAction);
-            p = new eu.scape_project.pit.invoke.Processor( toolSpec, action);
+            Action action = Processor.findTool(toolSpec, strAction);
+            p = new Processor( toolSpec, action);
         } catch( FileNotFoundException ex ) {
             LOG.error(ex);
         } catch( IOException ex ) {
