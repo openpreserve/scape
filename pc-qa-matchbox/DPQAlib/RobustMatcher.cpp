@@ -155,30 +155,54 @@ Mat RobustMatcher::match(vector<KeyPoint>& keypoints1,
 							 // Construction of the matcher
 							 FlannBasedMatcher matcher;
 
-							 // from image 1 to image 2
-							 // based on k nearest neighbors (with k=2)
-							 vector<vector<DMatch> > matches1;
-
-							 // return 2 nearest neighbours
-							 matcher.knnMatch(descriptors1,descriptors2, matches1, 2);
-
-							 // from image 2 to image 1
-							 // based on k nearest neighbours (with k=2)
-							 vector<vector<DMatch> > matches2;
-
-							 // return 2 nearest neighbours
-							 matcher.knnMatch(descriptors2,descriptors1, matches2, 2);
-
-							 // 3. Remove matches for which NN ratio is > than threshold
-							 // clean image 1 -> image 2 matches
-							 int removed = ratioTest(matches1);
-
-							 // clean image 2 -> image 1 matches
-							 removed = ratioTest(matches2);
-
-							 // 4. Remove non-symmetrical matches
 							 vector<DMatch> symMatches;
-							 symmetryTest(matches1,matches2,symMatches);
+
+
+							 bool findMatches = true;
+
+							 while(findMatches)
+							 {
+								 symMatches.clear();
+
+								 // from image 1 to image 2
+								 // based on k nearest neighbors (with k=2)
+								 vector<vector<DMatch> > matches1;
+
+								 // return 2 nearest neighbours
+								 matcher.knnMatch(descriptors1,descriptors2, matches1, 2);
+
+								 // from image 2 to image 1
+								 // based on k nearest neighbours (with k=2)
+								 vector<vector<DMatch> > matches2;
+
+								 // return 2 nearest neighbours
+								 matcher.knnMatch(descriptors2,descriptors1, matches2, 2);
+
+								 
+								 // 3. Remove matches for which NN ratio is > than threshold
+								 // clean image 1 -> image 2 matches
+								 int removed = ratioTest(matches1);
+
+								 // clean image 2 -> image 1 matches
+								 removed = ratioTest(matches2);
+
+								 // 4. Remove non-symmetrical matches
+								 symmetryTest(matches1,matches2,symMatches);
+
+								 if (symMatches.size() > 6)
+								 {
+									 findMatches = false;
+								 }
+								 else
+								 {
+									 if (ratio > 1)
+									 {
+										 throw runtime_error("RobustMatcher cannot find enough matches to create fundamental matrix");
+									 }
+
+									 ratio += 0.01f;
+								 }
+							 }
 
 							 // 5. Validate matches using RANSAC
 							 Mat fundemental= ransacTest(symMatches,
