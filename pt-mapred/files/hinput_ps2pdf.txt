@@ -1,0 +1,5 @@
+# for use with toolspec "ghostscript" and action "ps-to-pdfa"
+--input hdfs:///path/to/input-file1.ps --output hdfs:///path/to/output-file1.pdf
+--input hdfs:///path/to/input-file2.ps --output hdfs:///path/to/output-file2.pdf
+
+# add more ...

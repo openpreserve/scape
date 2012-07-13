@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.scape_project.pit.invoke;
+package eu.scape_project.pt.pit.invoke;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,10 +15,10 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.commons.io.IOUtils;
 
-import eu.scape_project.pit.tools.Action;
-import eu.scape_project.pit.tools.Input;
-import eu.scape_project.pit.tools.Template;
-import eu.scape_project.pit.tools.ToolSpec;
+import eu.scape_project.pt.pit.tools.Action;
+import eu.scape_project.pt.pit.tools.Input;
+import eu.scape_project.pt.pit.tools.Template;
+import eu.scape_project.pt.pit.tools.ToolSpec;
 
 /**
  * @author Andrew Jackson <Andrew.Jackson@bl.uk>
@@ -51,6 +51,9 @@ public class Processor {
 	 * @throws ToolSpecNotFoundException 
 	 * @throws CommandNotFoundException 
 	 */
+	
+	//removed by rschmidt13
+	/*
 	public static Processor createProcessor( String toolspec_id, String action_id ) throws ToolSpecNotFoundException, CommandNotFoundException {
 		try {
 			ToolSpec ts = ToolSpec.fromInputStream( ToolSpec.class.getResourceAsStream("/toolspecs/"+toolspec_id+".ptspec.xml"));
@@ -71,6 +74,7 @@ public class Processor {
 		}
 		return null;
 	}
+	*/
 	
 	public static Action findTool( ToolSpec ts, String command_id ) throws CommandNotFoundException {
 		Action cmd = null;

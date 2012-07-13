@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <toolspec xmlns="http://www.scape-project.eu/schemas/2011/11/16/toolspec">
-  <!-- This toolspec derives from file.ptspec.xml as a quick hack. Only rudimentary stuff included. -->
   <!-- A unique ID for this tool spec. -->
-  <id>pit-ps2pdf</id>
+  <id>convert-toolspec</id>
   <!-- The version for this tool spec. -->
   <version>0.1</version>
   
   <!-- Tool Information -->
   <tool>
-    <name>Ghostscript</name>
+    <name>ImageMagick Convert</name>
     <homepage></homepage>
-    <version>0.00</version>
+    <version>X.XX</version>
+<!-- Future automatic version.
+  <version>
+    <action>
+      <command>file -v</command>
+      <match>file-(.*)</match>
+      <test>.\...</test>
+    </action>
+  </version>
+ -->  
     <installation>
   	  <os type="linux">
-		Available by default?
+          apt-get install imagemagick
       </os>
 	  <os type="windows">
 	  </os>
@@ -31,8 +39,8 @@
   </inputs>
  
   <!-- Actions -->
-  <action type="convert" id="ps-to-pdfa">
-    <command>gs -dPDFA -dBATCH -dNOPAUSE -sDEVICE=pdfwrite -sOutputFile=${output} ${input}</command>
-    <formats in="eps,pdf,ps" out="pdfa"/>
+  <action type="convert" id="convertTIFFtoTIFF">
+  	<command>convert ${input} +compress ${output}</command>
   </action>
+
 </toolspec>

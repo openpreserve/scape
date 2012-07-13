@@ -1,6 +1,7 @@
 package eu.scape_project.pt.util;
 
 import java.util.HashMap;
+import java.util.List;
 
 import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.OptionParser;
@@ -19,7 +20,23 @@ public class ArgsParser {
 	static public final String TOOLSTRING = "TOOLSTRING";
 	static public final String ACTIONSTRING = "ACTIONSTRING";
 	static public final String PARAMETERLIST = "PARAMETERLIST";
+    static public final String REPO_LOCATION = "REPO_LOCATION";
+    
+    //nInputFormat
+    static public final String NUM_LINES_PER_SPLIT = "NUM_LINES_PER_SPLIT";
+    
 
+	/* seems to be unused
+	static public final String PROCSTRING = "PROC_STRING";
+	static public final String PROC_TOOLSPEC = "toolspec";
+	static public final String PROC_TAVERNA = "taverna";
+	*/
+	
+	// Taverna specific settigns
+	static public final String TAVERNA_HOME = "TAVERNA_HOME";
+	static public final String WORKFLOW_LOCATION = "WORKFLOW_LOCATION";
+    
+    
 	private OptionParser parser = null;
 	private OptionSet options = null;
 	
@@ -30,6 +47,8 @@ public class ArgsParser {
 	public ArgsParser(String optionString, String[] args) {
 		this.parser = new OptionParser(optionString);
 		this.options = parser.parse(args);
+		
+		LOG.info("Options: " + options.toString());
 	}
 
     public void accepts( String strOption ) {
@@ -42,6 +61,11 @@ public class ArgsParser {
 		//System.out.println(opt+" has am argument: "+options.hasArgument(opt));
 		//System.out.println(opt+" has argument: "+options.valueOf(opt));
 		if (options.hasArgument(opt)) return options.valueOf(opt).toString();
+		return null;
+	}
+	
+	public List<?> getValues(String opt) {
+		if (options.hasArgument(opt)) return options.valuesOf(opt);
 		return null;
 	}
 	
@@ -62,20 +86,20 @@ public class ArgsParser {
      * Reads keys and values out of a string of parameters.
      * 
      * 0. Trim input string and remove first dash.
-     * 1. Split up at every " -" 
+     * 1. Split up at every " --" 
      * 2. For each component: first word is key, rest is value
      * 2a. If value is not set, key is not put into HashMap
      * 
-     * @param strParameters a string of multiples of "-{key} {value}"
+     * @param strParameters a string of multiples of "--{key} {value}"
      * @return a HashMap of keys and values
      */
 
     static public HashMap<String, String> readParameters( String strParameters ) {
         strParameters = strParameters.trim();
-        if(strParameters.startsWith("-")) 
-            strParameters = strParameters.substring(1);
+        if(strParameters.startsWith("--")) 
+            strParameters = strParameters.substring(2);
 
-        String[] astrParameters = strParameters.split("\\s+-");
+        String[] astrParameters = strParameters.split("\\s+--");
         HashMap<String, String> mapParameters = new HashMap<String, String>();
 
         for( String strParameter : astrParameters ) {
