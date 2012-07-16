@@ -86,7 +86,7 @@ if __name__ == '__main__':
         if len(args['featdir']) > 0:
             dir = args['featdir']
         
-        MatchboxLib.calculateBoW(config, dir, args['filter'], args['precluster'])
+        MatchboxLib.calculateBoW(config, dir, args['filter'], args['precluster'], args['bowsize'])
     
     if (args['action'] == 'bowhist') or (args['action'] == 'all'):
         print "\n=== extract BoW Histograms from directory {0} ===\n".format(args['dir'])
