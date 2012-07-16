@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,6 +25,8 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 	
 	private File[] inputFiles = null;
 	
+	// A map that maps from all input strings to their corresponding local temp file
+	private Map<String, String> retrievedFiles = new HashMap<String, String>();
 	
 	public FileProcessor(String[] inFiles) {
 		this.inRefs = inFiles;
@@ -36,6 +40,10 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 	
 	public void setInRefs(String[] inRefs) {
 		this.inRefs = inRefs;
+	}
+	
+	public String[] getInRefs() {
+		return inRefs;
 	}
 	
 	public void setOutRefs(String[] outRefs) {
@@ -61,6 +69,9 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 			if(filer == null) continue;
 	    	File inFile = filer.copyFile(file, getTempInputLocation( file ));
 	    	files.add(inFile);
+	    	
+	    	retrievedFiles.put(file, inFile.getAbsolutePath());
+	    	
 	    	LOG.info("retrieving file: "+inFile.getName());
 		}	
 		this.inputFiles = files.toArray(new File[0]);
@@ -112,7 +123,7 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 		}
 	}
 		
-	private Filer getFiler(String file) throws URISyntaxException {
+	public Filer getFiler(String file) throws URISyntaxException {
 		if(PtFileUtil.isHdfsUri(file)) {
 			if(hdfs == null) {
 				LOG.error("Cannot create HDFSFiler. Hadoop FileSystem not set!");
@@ -124,9 +135,13 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 			LOG.error("Cannot create FileFiler. Not implemented!");
 				return null;
 		} else {
-			LOG.error("Unknown Schema in file: "+file);
+			LOG.warn("Unknown Schema in file: "+file);
 			return null;
 		}
+	}
+
+	public Map<String, String> getRetrievedFiles() {
+		return retrievedFiles;
 	}
 	
 }

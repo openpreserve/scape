@@ -22,7 +22,7 @@ public class PitInvokerTest {
 	 */
 	@Test
 	public void testSimpleInvocations() throws ToolSpecNotFoundException, CommandNotFoundException, IOException {
-		Identify ib = (Identify) Processor.createProcessor( "file", "file-mime" );
+		Identify ib = (Identify) Processor.createProcessor( "file", "identify-mime" );
 		ib.identify( new File("src/test/resources/testfiles/images/cc.png") );
 				//, 
 				//new File("test.jp2") );

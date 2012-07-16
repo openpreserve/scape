@@ -55,29 +55,29 @@
   </inputs>
  
   <!-- Actions -->
-  <action type="identify" id="file-stdin">
+  <action type="identify" id="identify-stdin">
   	<command>file -</command>
   	<inputs useStdin="true"/>
   </action>
 
-  <action type="identify" id="file-mime-stdin">
+  <action type="identify" id="identify-mime-stdin">
   	<command>file -b --mime-type -</command>
   	<inputs useStdin="true"/>
   </action>
 
-  <action type="identify" id="file">
+  <action type="identify" id="identify">
   	<command>file ${input}</command>
   </action>
 
-  <action type="identify" id="file-exclude">
+  <action type="identify" id="identify-exclude">
   	<command>file -e ${exclude} ${input}</command>
   </action>
 
-  <action type="identify" id="file-mime">
+  <action type="identify" id="identify-mime">
   	<command>file -b --mime-type ${input}</command>
   </action>
 
-  <action type="identify" id="file-mime-exclude">
+  <action type="identify" id="identify-mime-exclude">
   	<command>file -b --mime-type -e ${exclude} ${input}</command>
   </action>
 

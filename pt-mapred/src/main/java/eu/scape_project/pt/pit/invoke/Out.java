@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.scape_project.pit.invoke;
+package eu.scape_project.pt.pit.invoke;
 
 import java.io.File;
 import java.io.OutputStream;
