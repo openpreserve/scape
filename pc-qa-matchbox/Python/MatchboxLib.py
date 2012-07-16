@@ -4,7 +4,6 @@ Created on 28.06.2012
 @author: SchindlerA
 '''
 
-
 # === imports ===================================
 
 import argparse
@@ -19,10 +18,12 @@ import threading, Queue
 import gzip
 import numpy as np
 import copy
+import shutil
 
 from multiprocessing import Pool
 from subprocess import call
 from xml.dom import minidom
+from nose.util import getfilename
 
 # === definitions ===============================
 
@@ -210,7 +211,7 @@ def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featd
     processExtractFeatures(queue, numThreads)
 
     
-def extractBoWHistograms(config, dir, numThreads = 1, featdir = ""):
+def extractBoWHistograms(config, dir, numThreads = 1, featdir = "", bowpath = ""):
 
     queue = Queue.Queue()
     
@@ -231,14 +232,17 @@ def extractBoWHistograms(config, dir, numThreads = 1, featdir = ""):
         
         job_desc = [config['BIN_EXTRACTFEATURES'], "-o", "BOWHistogram"]
         
+        if bowpath == "":
+            bowpath = "{0}/{1}".format(featdir,BOW_FILE_NAME)
+        
         if len(featdir) > 0:
             job_desc.append("-d")
             job_desc.append(featdir)
             job_desc.append("--bow")
-            job_desc.append("{0}/{1}".format(featdir,BOW_FILE_NAME))
+            job_desc.append(bowpath)
         else:
             job_desc.append("--bow")
-            job_desc.append("{0}/{1}".format(dir,BOW_FILE_NAME))
+            job_desc.append(bowpath)
 
         job_desc.append(infile)
         queue.put(job_desc)
@@ -347,9 +351,9 @@ def findDuplicates(config, filesA, filesB, limit = 0, numThreads = 1):
         
         print("")
         
-def calculateBoW(config, featdir, filter, clusterCenters = 0):
+def calculateBoW(config, featdir, filter, clusterCenters = 0, bowsize = 1000):
     
-    call([config['BIN_TRAIN'], "--precluster", '{0}'.format(clusterCenters), "--filter", filter, "-o", "{0}/{1}".format(featdir,BOW_FILE_NAME), featdir])
+    call([config['BIN_TRAIN'], "-b", bowsize, "--precluster", '{0}'.format(clusterCenters), "--filter", filter, "-o", "{0}/{1}".format(featdir,BOW_FILE_NAME), featdir])
 
 def clearDirectory(path):
     
@@ -703,4 +707,164 @@ def compare(config, f1, f2, feature, valueName):
         print errorStr
                             
     return resultValue
+
+def pyFindReferences(config, col1, col2):
+    
+    print "... loading features"
+    
+    col1_files = glob.glob( os.path.join(col1, "*.BOWHistogram.feat.xml.gz"))
+    col2_files = glob.glob( os.path.join(col2, "*.BOWHistogram.feat.xml.gz"))
+    
+    col1_histograms = []
+    col2_histograms = []
+    
+    dmatrix = []
+    
+    for f in col1_files:
+        data = loadBOWHistogram(f)
+        col1_histograms.append([f, data])
+
+    for f in col2_files:
+        data = loadBOWHistogram(f)
+        col2_histograms.append([f, data])
+
+    print "... calculating distances"
+    
+    for q1 in col1_histograms:
+        
+        neighbors = []
+        
+        for q2 in col2_histograms:
+            
+            dist = histIntersect(q1, q2)
+            neighbors.append([dist, q2])
+                
+        neighbors.sort(reverse=True)
+        
+        dmatrix.append([q1[0], neighbors])
+
+    print "... verfifying references"
+
+    idx = 0
+
+    for entry in dmatrix:
+        
+        idx += 1
+        
+        if idx == 1:
+            continue
+        
+        
+        f1 = entry[0].replace("BOWHistogram", "SIFTComparison")
+        f2 = entry[1][0][1][0].replace("BOWHistogram", "SIFTComparison")
+        
+        f1 = f1.replace("bowhist", "sift")
+        f2 = f2.replace("bowhist/references", "sift")
+        
+        ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
+        
+        if ssim > 0.9:
+            print "col1/{0} => col2/{1} [ {2}% ] ==> OK".format(extractFilename(f1).replace(".SIFTComparison", ""), extractFilename(f2).replace(".SIFTComparison", ""), (ssim * 100))
+        else:
+            
+            if entry[1][0][0] / entry[1][1][0] > 1.1:
+                print "col1/{0} => col2/{1} [ {2}% ] ==> Major Changes!".format(extractFilename(f1).replace(".SIFTComparison", ""), extractFilename(f2).replace(".SIFTComparison", ""), (ssim * 100))
+            else:
+                print "col1/{0} => col2/{1} [ {2}% ] ==> Problem!".format(extractFilename(f1).replace(".SIFTComparison", ""), extractFilename(f2).replace(".SIFTComparison", ""), (ssim * 100))
+            
+            #print entry[1][0][0], entry[1][1][0], (entry[1][0][0] / entry[1][1][0])
+            
+#            print "... Checking other neighbors"
+#            
+#            best_ssim = ssim
+#            curr_ssim = 0
+#            best_file = f2
+#            ssims = []
+#            
+#            for i in range(5):
+#                
+#                f2 = entry[1][i][1][0].replace("BOWHistogram", "SIFTComparison")
+#                f2 = f2.replace("bowhist/references", "sift")
+# 
+#                print extractFilename(f2).replace(".SIFTComparison", ""), entry[1][i][0]
+                
+#                curr_ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
+                
+    
+#                if curr_ssim > best_ssim:
+#                    
+#                    
+#                    rel_diff = curr_ssim / np.mean(ssims)
+#                    print "... col2/{1} [ {2}% ]".format(extractFilename(f1).replace(".SIFTComparison", ""), extractFilename(f2).replace(".SIFTComparison", ""), (curr_ssim * 100)), "rel_diff =", rel_diff
+#                    best_ssim = curr_ssim
+#                    best_file = f2
+#
+#                if curr_ssim > 0:
+#                    ssims.append(curr_ssim)
+#                    print curr_ssim, ",", (1 - (curr_ssim / np.mean(ssims))) * 100, "[", np.mean(ssims, axis=0), "]"
+
+
+def pyFindDuplicates(config, dirname, k, csv):
+    
+    k       = 0.02
+
+    distVals = []
+    results  = []
+    
+    dmatrix = getDistanceMatrix(dirname)
+    
+    print "...calculating Mean Absolute Deviation"
+    
+    for entry in dmatrix:
+        distVals.append(entry[1][0][0])
+        results.append([entry[0], entry[1][0][1][0], entry[1][0][0]])
+    
+    d = np.matrix(distVals,dtype=float)
+    r = np.array(results)
+    
+    medd = np.median(d,axis=1)
+    
+    mad = k * np.median(np.abs(d - medd),axis=1)
+
+    print "...selecting duplicate candidates"
+    idx = np.where(d > (medd+mad)) #duplicate candidates
+    
+    duplicates = r[idx[1].tolist()]
+    
+    dup_found = set()
+
+    print "...calculating structural similarity of candidates for spatial verification"
+    
+    print "\n=== List of detected duplicates ===\n"
+    
+    for dup in duplicates:
+        
+        if (dup[0] not in dup_found):
+            
+            f1 = dup[0].replace("BOWHistogram", "SIFTComparison")
+            f2 = dup[1].replace("BOWHistogram", "SIFTComparison")
+            
+            ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
+            
+            f1 = extractFilename(f1).replace(".SIFTComparison", "")
+            f2 = extractFilename(f2).replace(".SIFTComparison", "")
+            
+            if ssim > 0.9:
+                print "{0} => {1} [ {2}% ] ==> Duplicate".format(f1, f2, (ssim * 100))
+                dup_found.add([f1,f2,ssim])
+            else:
+                print "{0} => {1} [ {2}% ] ==> No Duplicate".format(f1, f2, (ssim * 100))
+
+    
+    return dup_found
+
+
+def moveFiles(srcDir, destDir, filter, createDestDir):
+    
+    if createDestDir and not os.path.exists(destDir):
+            os.makedirs(destDir)
+    
+    for f in glob.glob( os.path.join(srcDir, filter)):
+        shutil.move(f, destDir)
+        
     

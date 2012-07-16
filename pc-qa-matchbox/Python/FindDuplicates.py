@@ -6,18 +6,11 @@ import glob
 import os
 import sys
 import re
-import subprocess as sub
-import multiprocessing
 import time
-import threading, Queue
 import gzip
 import numpy as np
 import copy
 import MatchboxLib
-
-from multiprocessing import Pool
-from subprocess import call
-from xml.dom import minidom
 
 # === definitions ===============================
 
@@ -52,57 +45,6 @@ SUPPORTED_IMAGE_TYPES  = ".(png|tif|jpe?g|bmp|gif|jp2)$"
 # === Classes ===================================
 
 
-def pyCompare(config, dirname, k, csv):
-    
-    k       = 0.02
-
-    distVals = []
-    results  = []
-    
-    dmatrix = MatchboxLib.getDistanceMatrix(dirname)
-    
-    print "...calculating Mean Absolute Deviation"
-    
-    for entry in dmatrix:
-        distVals.append(entry[1][0][0])
-        results.append([entry[0], entry[1][0][1][0], entry[1][0][0]])
-    
-    d = np.matrix(distVals,dtype=float)
-    r = np.array(results)
-    
-    medd = np.median(d,axis=1)
-    
-    mad = k * np.median(np.abs(d - medd),axis=1)
-
-    print "...selecting duplicate candidates"
-    idx = np.where(d > (medd+mad)) #duplicate candidates
-    
-    duplicates = r[idx[1].tolist()]
-    
-    dup_found = set()
-
-    print "...calculating structural similarity of candidates for spatial verification"
-    
-    print "\n=== List of detected duplicates ===\n"
-    
-    for dup in duplicates:
-        
-        if (dup[0] not in dup_found):
-            
-            f1 = dup[0].replace("BOWHistogram", "SIFTComparison")
-            f2 = dup[1].replace("BOWHistogram", "SIFTComparison")
-            
-            ssim = MatchboxLib.compare(config, f1, f2, "SIFTComparison", "ssim")
-            
-            f1 = MatchboxLib.extractFilename(f1).replace(".SIFTComparison", "")
-            f2 = MatchboxLib.extractFilename(f2).replace(".SIFTComparison", "")
-            
-            print "{0} => {1} [ {2}% ]".format(f1, f2, (ssim * 100))
-
-            dup_found.add(dup[1])
-        
-
-
 
 if __name__ == '__main__':
 
@@ -119,6 +61,7 @@ if __name__ == '__main__':
     parser.add_argument('--config',     help='Configuration Parameter',                                     type=str, default="Linux")
     parser.add_argument('--featdir',    help='Alternative directory for storing feature files',             type=str, default="")
     parser.add_argument('--csv',        help='Update Feature',                                              action='store_true')
+    parser.add_argument('--bowsize',    help='Size of Bag of Words',                                        type=int, default=1000)
     parser.add_argument('-v',           help="Print verbose messages",                                      dest='verbose', action='store_true')
     
     args = vars(parser.parse_args())
@@ -162,7 +105,7 @@ if __name__ == '__main__':
             
         print "\n=== compare images from directory {0} ===\n".format(dir)
         
-        pyCompare(config, dir, args['nn'], args['csv'])
+        MatchboxLib.pyFindDuplicates(config, dir, args['nn'], args['csv'])
 
 #    if (args['action'] == 'pycomparemad'):
 #        print "=== compare images from directory {0} ===".format(args['dir'])
