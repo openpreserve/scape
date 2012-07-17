@@ -33,6 +33,9 @@ show_help(){
 }
 
 parse_arguments(){
+	if [ $# -eq 0 ]; then
+		show_help
+	fi
 	i=0
 	o=0
 	stdin=0
@@ -85,7 +88,7 @@ parse_arguments(){
 	if [ "$1" == "STDOUT" ]; then                
                      stdout=1
                   fi
-fi
+				fi
 				shift
 		esac
 	done
@@ -97,7 +100,7 @@ execute_command(){
 }
 
 verify_stdin(){
-   tmp_input="/tmp/input`date +%s`"
+   tmp_input="/tmp/input`date +%s%N`"
    if [ $stdin -eq 1 ]; then
       dd of=$tmp_input >/dev/null 2>/dev/null
       input_files1=()
@@ -106,7 +109,7 @@ verify_stdin(){
 }
 
 verify_stdout(){
-   tmp_output="/tmp/output`date +%s`"
+   tmp_output="/tmp/output`date +%s%N`"
    if [ $stdout -eq 1 ]; then
       output_files1=()
       output_files1+=("$tmp_output")
@@ -116,6 +119,15 @@ verify_stdout(){
 verify_stdout_2(){
    if [ $stdout -eq 1 ]; then
       dd if=${output_files1[0]} 2>/dev/null
+   fi
+}
+
+delete_tmp_files(){
+   if [ $stdin -eq 1 ]; then
+      rm $tmp_input
+   fi
+   if [ $stdout -eq 1 ]; then
+      rm $tmp_output
    fi
 }
 
@@ -134,4 +146,6 @@ command_execution_exit_code=$?
 
 verify_stdout_2
 
-exit 0
+delete_tmp_files
+
+exit $command_execution_exit_code
