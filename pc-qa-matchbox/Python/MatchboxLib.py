@@ -198,7 +198,7 @@ def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featd
         if re.search(SUPPORTED_IMAGE_TYPES, infile, re.IGNORECASE) == None:
             continue
         
-        job_desc = [config['BIN_EXTRACTFEATURES'], "-o", "SIFTComparison", '--sdk', '{0}'.format(sdk), '--clahe', '{0}'.format(clahe), '--precluster', '{0}'.format(precluster)]
+        job_desc = [config['BIN_EXTRACTFEATURES'], "-o", "SIFTComparison", '--sdk', str(sdk), '--clahe', str(clahe), '--precluster', str(precluster)]
         
         if len(featdir) > 0:
             job_desc.append("-d")
@@ -353,7 +353,7 @@ def findDuplicates(config, filesA, filesB, limit = 0, numThreads = 1):
         
 def calculateBoW(config, featdir, filter, clusterCenters = 0, bowsize = 1000):
     
-    call([config['BIN_TRAIN'], "-b", bowsize, "--precluster", '{0}'.format(clusterCenters), "--filter", filter, "-o", "{0}/{1}".format(featdir,BOW_FILE_NAME), featdir])
+    call([config['BIN_TRAIN'], "-b", str(bowsize), "--precluster", '{0}'.format(clusterCenters), "--filter", filter, "-o", "{0}/{1}".format(featdir,BOW_FILE_NAME), featdir])
 
 def clearDirectory(path):
     
