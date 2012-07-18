@@ -49,12 +49,6 @@ public class BashWrapperGenerator {
 		}
 	}
 
-	// FIXME add sdtin/stdout functionality
-	// algorithm: if stdin is not present, then add functionality through grabbing
-	// the input from stdin and copying it into a tmp file. then, on the execute
-	// command function verify if stdin was used and instead of using the variable that
-	// contains the value of the parameter "-i", use the tmp file location instead
-	// NOTE: the same is valid to STDOUT (dd if=OUT_FILE) to output the output file content
 	private void addCommandInformationToContext(VelocityContext context) {
 		String command = operation.getCommand();
 		VelocityContext context4command = new VelocityContext();
@@ -62,6 +56,11 @@ public class BashWrapperGenerator {
 		context.put("listOfInputs", operation.getInputs().getInput());
 		int i = 1;
 		for (Input input : operation.getInputs().getInput()) {
+			if (context4command.containsKey(input.getName())) {
+				System.err.println("Operation \"" + operation.getName()
+						+ "\" already contains an input called \""
+						+ input.getName() + "\"...");
+			}
 			context4command.put(input.getName(),
 					wrapWithDoubleQuotes("${input_files" + i + "[@]}"));
 			i++;
@@ -70,6 +69,11 @@ public class BashWrapperGenerator {
 		context.put("listOfOutputs", operation.getOutputs().getOutput());
 		i = 1;
 		for (Output output : operation.getOutputs().getOutput()) {
+			if (context4command.containsKey(output.getName())) {
+				System.err.println("Operation \"" + operation.getName()
+						+ "\" already contains an output called \""
+						+ output.getName() + "\"...");
+			}
 			context4command.put(output.getName(),
 					wrapWithDoubleQuotes("${output_files" + i + "[@]}"));
 			i++;
