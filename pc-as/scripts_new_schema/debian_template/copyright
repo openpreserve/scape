@@ -1,0 +1,7 @@
+Format: http://dep.debian.net/deps/dep5
+Upstream-Name: ##NAME## 
+Source: ##URL## 
+
+Files: *
+Copyright: 2012 SCAPE Project <http://www.scape-project.eu/>
+License: Apache-2.0 

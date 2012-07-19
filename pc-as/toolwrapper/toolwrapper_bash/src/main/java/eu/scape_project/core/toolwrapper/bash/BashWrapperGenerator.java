@@ -152,7 +152,11 @@ public class BashWrapperGenerator {
 	}
 
 	private void writeBashWrapper(String name, StringWriter w) {
-		File wrapper = new File(outputDirectory, name + ".sh");
+		// INFO next line of code was commented because naming wrapper <name +
+		// ".sh"> may overwrite some migrators .sh that are used to simplify the
+		// migration invocation in the toolspec
+		// File wrapper = new File(outputDirectory, name + ".sh");
+		File wrapper = new File(outputDirectory, name);
 		FileOutputStream fos = null;
 		if (wrapper != null) {
 			try {
