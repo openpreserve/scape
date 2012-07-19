@@ -68,34 +68,48 @@ if __name__ == '__main__':
     
     config = configs[args['config']]
     
+    # ===============================================================================
+    
     if (args['action'] == 'clean'):
+        
         MatchboxLib.clearDirectory(args['dir'])
         if len(args['featdir']) > 0:
             MatchboxLib.clearDirectory(args['featdir'])
         exit()
     
+    # ===============================================================================
+    
     if (args['action'] == 'extract') or (args['action'] == 'all'):
+        
         print "\n=== extracting features from directory {0} ===\n".format(args['dir'])
         MatchboxLib.extractFeatures(config, args['dir'], args['sdk'],args['threads'], args['clahe'], args['featdir'])
     
+    # ===============================================================================
+    
     if (args['action'] == 'train') or (args['action'] == 'all'):
-        print "\n=== calculating Visual Bag of Words ===\n"
         
         dir = args['dir']
         
         if len(args['featdir']) > 0:
             dir = args['featdir']
         
+        print "\n=== calculating Visual Bag of Words ===\n"
         MatchboxLib.calculateBoW(config, dir, args['filter'], args['precluster'], args['bowsize'])
     
-    if (args['action'] == 'bowhist') or (args['action'] == 'all'):
-        print "\n=== extract BoW Histograms from directory {0} ===\n".format(args['dir'])
-        MatchboxLib.extractBoWHistograms(config,args['dir'], args['threads'], args['featdir'])
+    # ===============================================================================
     
-#    if (args['action'] == 'compare') or (args['action'] == 'all'):
-#        print "=== compare images from directory {0} ===".format(args['dir'])
-#        MatchboxLib.findDuplicatesInSameCollection(config, args['dir'], "jp2",args['threads'])
+    if (args['action'] == 'bowhist') or (args['action'] == 'all'):
+        
+        dir = args['dir']
+        
+        if len(args['featdir']) > 0:
+            dir = args['featdir']
 
+        print "\n=== extract BoW Histograms from directory {0} ===\n".format(args['dir'])
+        MatchboxLib.extractBoWHistograms(config,args['dir'], args['threads'], dir)
+
+    # ===============================================================================
+    
     if (args['action'] == 'compare') or (args['action'] == 'all'):
         
         dir = args['dir']
@@ -104,9 +118,4 @@ if __name__ == '__main__':
             dir = args['featdir']
             
         print "\n=== compare images from directory {0} ===\n".format(dir)
-        
         MatchboxLib.pyFindDuplicates(config, dir, args['nn'], args['csv'])
-
-#    if (args['action'] == 'pycomparemad'):
-#        print "=== compare images from directory {0} ===".format(args['dir'])
-#        MatchboxLib.pyCompareMAD(args['dir'], args['nn'], args['csv'])

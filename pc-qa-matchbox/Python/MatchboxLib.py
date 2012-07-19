@@ -211,7 +211,9 @@ def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featd
     processExtractFeatures(queue, numThreads)
 
     
-def extractBoWHistograms(config, dir, numThreads = 1, featdir = "", bowpath = ""):
+def extractBoWHistograms(config, dir, numThreads = 1, featdir = "", verbose = False):
+
+    print "featdir", featdir
 
     queue = Queue.Queue()
     
@@ -232,8 +234,8 @@ def extractBoWHistograms(config, dir, numThreads = 1, featdir = "", bowpath = ""
         
         job_desc = [config['BIN_EXTRACTFEATURES'], "-o", "BOWHistogram"]
         
-        if bowpath == "":
-            bowpath = "{0}/{1}".format(featdir,BOW_FILE_NAME)
+        bowpath = "{0}/{1}".format(featdir,BOW_FILE_NAME)
+        
         
         if len(featdir) > 0:
             job_desc.append("-d")
@@ -353,7 +355,7 @@ def findDuplicates(config, filesA, filesB, limit = 0, numThreads = 1):
         
 def calculateBoW(config, featdir, filter, clusterCenters = 0, bowsize = 1000):
     
-    call([config['BIN_TRAIN'], "-b", str(bowsize), "--precluster", '{0}'.format(clusterCenters), "--filter", filter, "-o", "{0}/{1}".format(featdir,BOW_FILE_NAME), featdir])
+    call([config['BIN_TRAIN'], "--bowsize", str(bowsize), "--precluster", '{0}'.format(clusterCenters), "--filter", filter, "-o", "{0}/{1}".format(featdir,BOW_FILE_NAME), featdir])
 
 def clearDirectory(path):
     
@@ -832,6 +834,7 @@ def pyFindDuplicates(config, dirname, k, csv):
     duplicates = r[idx[1].tolist()]
     
     dup_found = set()
+    result    = []
 
     print "...calculating structural similarity of candidates for spatial verification"
     
@@ -851,12 +854,12 @@ def pyFindDuplicates(config, dirname, k, csv):
             
             if ssim > 0.9:
                 print "{0} => {1} [ {2}% ] ==> Duplicate".format(f1, f2, (ssim * 100))
-                dup_found.add([f1,f2,ssim])
+                result.append([f1,f2,ssim])
+                dup_found.add(dup[1])
             else:
                 print "{0} => {1} [ {2}% ] ==> No Duplicate".format(f1, f2, (ssim * 100))
 
-    
-    return dup_found
+    return result
 
 
 def moveFiles(srcDir, destDir, filter, createDestDir):
