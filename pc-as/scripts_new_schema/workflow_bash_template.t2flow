@@ -69,7 +69,7 @@
 								<useCaseDescription>
 									<usecaseid/>
 									<description/>
-									<command>##OPERATION_NAME## -i "%%in_file%% -o %%out_file%%"</command>
+									<command>##OPERATION_NAME## -i %%in_file%% -o %%out_file%%</command>
 									<preparingTimeoutInSeconds>1200</preparingTimeoutInSeconds>
 									<executionTimeoutInSeconds>1800</executionTimeoutInSeconds>
 									<tags>

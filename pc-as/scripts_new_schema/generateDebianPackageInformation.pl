@@ -16,7 +16,6 @@ my %info2xpath=(
 ## script parameters
 my $projectName = shift or die("Must provide project name!");
 die("Project name must not contain underscores!") if($projectName =~ m/.+_/);
-#my $warName = shift or die("Must provide .war name!");
 my $fileName = shift or die("Must provide .xml file containing the toolspec web service description!");
 
 ## read the needed information in the .xml file and return it as a hash reference

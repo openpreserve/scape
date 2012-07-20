@@ -44,7 +44,7 @@ if [ $# -eq 2 ]; then
 	debuild -us -uc -b
 	cd ..
 	mv $XML_NAME_WO_EXT*.deb $XML_NAME_WO_EXT*.build $XML_NAME_WO_EXT*.changes debs/
-	#rm -rf $TEMP_DIR
+	rm -rf $TEMP_DIR
 else
 	echo -e "[ERROR] Must provide: .xml location (toolspeec description, where the xml filename is also used to generate the debian package name)\n\tusage:\t $0 XML_FILE"
 fi
