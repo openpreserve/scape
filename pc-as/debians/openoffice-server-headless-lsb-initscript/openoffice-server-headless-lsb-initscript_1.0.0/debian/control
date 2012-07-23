@@ -1,0 +1,13 @@
+Source: openoffice-server-headless-lsb-initscript
+Section: misc
+Priority: extra
+Maintainer: Hélder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+
+Package: openoffice-server-headless-lsb-initscript
+Architecture: all
+Depends: ${misc:Depends}, openoffice.org
+Description: Init script fo openoffice server running headless. 
+ This package contains a LSB compliant init script fo
+ openoffice.org running in server mode headless.

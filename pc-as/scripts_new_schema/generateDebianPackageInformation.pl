@@ -37,6 +37,7 @@ $version = $hashResultReference->{'version'};
 my $date_rfc_2822 = `date -R`;
 chomp $date_rfc_2822;
 $hashResultReference->{'url'} =~ s/\//\\\//g;
+$hashResultReference->{'description'} =~ s/\//\\\//g;
 $sedString = "sed -i -e 's/##NAME##/$projectName/g' -e 's/##VERSION##/$version/g' -e 's/##DATE##/$date_rfc_2822/g' -e 's/##DEPENDENCIES##/".$hashResultReference->{'dependencies'}."/g' -e 's/##DESCRIPTION##/".$hashResultReference->{'description'}."/g' -e 's/##URL##/".$hashResultReference->{'url'}."/g' -e 's/##XML_NAME_WO_EXT##/$projectName/g' debian/*";
 system("$sedString");
 
