@@ -61,6 +61,10 @@ target
 *.sql
 *.sqlite
 
+# Vue Backup Files #
+######################
+.~*.vue
+
 # OS Generated files #
 ######################
 .DS_Store*
