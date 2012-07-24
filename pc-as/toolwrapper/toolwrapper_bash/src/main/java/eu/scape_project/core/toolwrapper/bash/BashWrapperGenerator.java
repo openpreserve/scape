@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.velocity.Template;
@@ -18,6 +20,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import eu.scape_project.core.toolspec_objects.from_schema.Input;
 import eu.scape_project.core.toolspec_objects.from_schema.Operation;
 import eu.scape_project.core.toolspec_objects.from_schema.Output;
+import eu.scape_project.core.toolspec_objects.from_schema.Parameter;
 import eu.scape_project.core.toolspec_objects.from_schema.Tool;
 
 public class BashWrapperGenerator {
@@ -55,14 +58,35 @@ public class BashWrapperGenerator {
 
 		context.put("listOfInputs", operation.getInputs().getInput());
 		int i = 1;
+		List<String> verify_required_arguments = new ArrayList<String>();
 		for (Input input : operation.getInputs().getInput()) {
 			if (context4command.containsKey(input.getName())) {
 				System.err.println("Operation \"" + operation.getName()
 						+ "\" already contains an input called \""
 						+ input.getName() + "\"...");
 			}
+			if (input.isRequired()) {
+				verify_required_arguments.add("${input_files" + i + "[@]}");
+			}
 			context4command.put(input.getName(),
 					wrapWithDoubleQuotes("${input_files" + i + "[@]}"));
+			i++;
+		}
+		i = 1;
+		context.put("listOfParams", operation.getInputs().getParameter());
+		for (Parameter parameter : operation.getInputs().getParameter()) {
+			if (context4command.containsKey(parameter.getName())) {
+				System.err.println("Operation \"" + operation.getName()
+						+ "\" already contains an parameter called \""
+						+ parameter.getName() + "\"...");
+			}
+			if (parameter.isRequired()) {
+				verify_required_arguments.add("${param_files" + i + "[@]}");
+			}
+			// context4command.put(parameter.getName(),
+			// wrapWithDoubleQuotes("${param_files" + i + "[@]}"));
+			context4command.put(parameter.getName(), "${param_files" + i
+					+ "[@]}");
 			i++;
 		}
 
@@ -74,10 +98,14 @@ public class BashWrapperGenerator {
 						+ "\" already contains an output called \""
 						+ output.getName() + "\"...");
 			}
+			if (output.isRequired()) {
+				verify_required_arguments.add("${output_files" + i + "[@]}");
+			}
 			context4command.put(output.getName(),
 					wrapWithDoubleQuotes("${output_files" + i + "[@]}"));
 			i++;
 		}
+		context.put("verify_required_arguments", verify_required_arguments);
 
 		StringWriter w = new StringWriter();
 		context4command.put("param", "");
@@ -88,6 +116,7 @@ public class BashWrapperGenerator {
 	private void addUsageInformationToContext(VelocityContext context) {
 		context.put("usageDescription", operation.getDescription());
 		addInputUsageInformationToContext(context);
+		addParamUsageInformationToContext(context);
 		addOutputUsageInformationToContext(context);
 	}
 
@@ -108,6 +137,19 @@ public class BashWrapperGenerator {
 			context.put("usageInputParameter", uip.toString());
 			context.put("usageInputParameterDescription", uipd.toString());
 		}
+	}
+
+	private void addParamUsageInformationToContext(VelocityContext context) {
+		StringBuilder uip = new StringBuilder("");
+		StringBuilder uipd = new StringBuilder("");
+		for (Parameter param : operation.getInputs().getParameter()) {
+			String value = "-p " + param.getName();
+			uip.append((uip.length() == 0 ? "" : " ") + value);
+			uipd.append((uipd.length() != 0 ? "\n\t" : "") + value + " > "
+					+ param.getDescription());
+		}
+		context.put("usageParamParameter", uip.toString());
+		context.put("usageParamParameterDescription", uipd.toString());
 	}
 
 	private void addOutputUsageInformationToContext(VelocityContext context) {

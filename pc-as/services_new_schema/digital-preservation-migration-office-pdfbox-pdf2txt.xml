@@ -10,7 +10,7 @@
   </otherProperties>
   <operations>
     <operation name="digital-preservation-migration-office-pdfbox-pdf2txt">
-      <description>Converts a PDF to a TXT (for more detailed info see: http://pdfbox.apache.org/commandlineutilities/ExtractText.html)</description>
+      <description>Converts a PDF to a TXT</description>
       <command>pdfbox-app-cli ExtractText ${input} ${output}</command>
       <inputs>
         <input name="input" required="true">

@@ -17,7 +17,7 @@
 ################################################################################
 
 #################
-#  HOT-TOPICS   #
+#   WARNINGS    #
 #################
 #1# piping to SDTOUT may cause problems when dealing with containers that have special characteristics (like initial or ending file markers)
 
@@ -27,8 +27,8 @@
 show_help(){
 	echo -e "$usageDescription\nFor more information about the tool \"$toolName\" see: $toolHomepage"
 	echo
-	echo "Usage: $0 $usageInputParameter $usageOutputParameter"
-	echo -e "Where:\n\t$usageInputParameterDescription\n\t$usageOutputParameterDescription"
+	echo "Usage: $0 $usageInputParameter $usageParamParameter $usageOutputParameter"
+	echo -e "Where:\n\t$usageInputParameterDescription\n\t$usageParamParameterDescription\n\t$usageOutputParameterDescription"
 	exit 1
 }
 
@@ -38,6 +38,7 @@ parse_arguments(){
 	fi
 	i=0
 	o=0
+	p=0
 	stdin=0
 	stdout=0
 	while [ "$1" != "" ];
@@ -50,44 +51,53 @@ parse_arguments(){
 				shift
 				input=1
 				output=0
+				param=0
 				i=$(($i+1))
 			;;
 	
 			-p)
 				shift
-				parameters=$1
-				shift
+				param=1
 				input=0
 				output=0
+				p=$(($p+1))
 			;;
 	
 			-o)
 				shift
 				output=1
 				input=0
+				param=0
 				o=$(($o+1))
 			;;
 		
 			*)
 				if [ "$input" == "1" ]; then
-					#foreach( $input in $listOfInputs )
-	if [ $i -eq $foreach.count ]; then
-							input_files$foreach.count+=("$1")
-						fi
-					#end
-	if [ "$1" == "STDIN" ]; then                
-                     stdin=1
-                  fi
+#foreach( $input in $listOfInputs )
+					if [ $i -eq $foreach.count ]; then
+						input_files$foreach.count+=("$1")
+					fi
+#end
+					if [ "$1" == "STDIN" ]; then                
+						stdin=1
+					fi
+				fi
+				if [ "$param" == "1" ]; then
+#foreach( $param in $listOfParams )
+					if [ $p -eq $foreach.count ]; then
+						param_files$foreach.count+=("$1")
+					fi
+#end
 				fi
 				if [ "$output" == "1" ]; then
-					#foreach( $output in $listOfOutputs )
-	if [ $o -eq $foreach.count ]; then
-							output_files$foreach.count+=("$1")
-						fi
-					#end
-	if [ "$1" == "STDOUT" ]; then                
-                     stdout=1
-                  fi
+#foreach( $output in $listOfOutputs )
+					if [ $o -eq $foreach.count ]; then
+						output_files$foreach.count+=("$1")
+					fi
+#end
+					if [ "$1" == "STDOUT" ]; then                
+						stdout=1
+					fi
 				fi
 				shift
 		esac
@@ -131,11 +141,21 @@ delete_tmp_files(){
    fi
 }
 
+verify_required_arguments(){
+#foreach( $entry in $verify_required_arguments )
+	if [ -z "$entry" ]; then
+		show_help
+	fi
+#end
+}
+
 #[[
 #################
 #   real deal   #
 #################]]#
 parse_arguments "$@"
+
+verify_required_arguments
 
 verify_stdin
 

@@ -25,7 +25,7 @@
 #   functions   #
 #################
 show_help(){
-	echo -e "Converts a PDF to a TXT (for more detailed info see: http://pdfbox.apache.org/commandlineutilities/ExtractText.html)\nFor more information about the tool \"PDFBox\" see: http://pdfbox.apache.org/"
+	echo -e "Converts a PDF to a TXT\nFor more information about the tool \"PDFBox\" see: http://pdfbox.apache.org/"
 	echo
 	echo "Usage: $0 -i input -o output"
 	echo -e "Where:\n\t-i input > Reference to input file\n\t-o output > Reference to output file"
