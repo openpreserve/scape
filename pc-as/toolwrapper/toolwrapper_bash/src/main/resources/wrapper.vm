@@ -3,6 +3,10 @@
 ################################################################################
 #                  Copyright 2012 The SCAPE Project Consortium
 #
+#   This software is copyrighted by the SCAPE Project Consortium. 
+#   The SCAPE project is co-funded by the European Union under
+#   FP7 ICT-2009.4.1 (Grant Agreement number 270137).
+#
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
@@ -25,6 +29,7 @@
 #   functions   #
 #################]]#
 show_help(){
+	echo -e "* This software is copyrighted by the SCAPE Project Consortium.\n* The SCAPE project is co-funded by the European Union under FP7 ICT-2009.4.1 (Grant Agreement number 270137)."
 	echo -e "$usageDescription\nFor more information about the tool \"$toolName\" see: $toolHomepage"
 	echo
 	echo "Usage: $0 $usageInputParameter $usageParamParameter $usageOutputParameter"
@@ -110,7 +115,7 @@ execute_command(){
 }
 
 verify_stdin(){
-   tmp_input="/tmp/input`date +%s%N`"
+   tmp_input=`mktemp`
    if [ $stdin -eq 1 ]; then
       dd of=$tmp_input >/dev/null 2>/dev/null
       input_files1=()
@@ -119,7 +124,7 @@ verify_stdin(){
 }
 
 verify_stdout(){
-   tmp_output="/tmp/output`date +%s%N`"
+   tmp_output=`mktemp`
    if [ $stdout -eq 1 ]; then
       output_files1=()
       output_files1+=("$tmp_output")

@@ -83,6 +83,8 @@ public class BashWrapperGenerator {
 			if (parameter.isRequired()) {
 				verify_required_arguments.add("${param_files" + i + "[@]}");
 			}
+			// INFO the next line was commented so bash won't process the stuff
+			// inside quotes (single/double)
 			// context4command.put(parameter.getName(),
 			// wrapWithDoubleQuotes("${param_files" + i + "[@]}"));
 			context4command.put(parameter.getName(), "${param_files" + i
