@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<toolspec model="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="src/main/resources/toolspec.xsd">
+    <id>findduplicates</id>
+    <name>findduplicates</name>
+    <homepage></homepage>
+    <version>1.0</version>
+    <installation>
+        <os type="linux">
+            Available by default.
+        </os>
+        <os type="windows">
+            Use ".bat" instead of ".sh" in the commands defined below.
+        </os>
+    </installation>
+    <services>
+        <service sid="1" name="Find Duplicates" type="findduplicates" servicepackage="eu.scape_project.pc.services" contextpathprefix="/scapeservices">
+            <description>Service for duplicates detection in collection of digitized documents</description>
+            <operations>
+                <operation oid="1" name="findDuplicates">
+                    <description>Extracts document features</description>
+                    <command>FindDuplicates.sh ${inputdir} ${extractiontype} ${outputfile}</command>
+                    <inputs>
+                        <input name="inputdir">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>inputdir</CliMapping>
+                            <Documentation>Input directory that contains documents</Documentation>
+                            <Default>/home/user/Samples/CollectionName/</Default>
+                        </input>
+                        <input name="extractiontype">
+                            <Datatype>xsd:string</Datatype>
+                            <Required>true</Required>
+                            <CliMapping>extractiontype</CliMapping>
+                            <Documentation>The type of the operation in the process of duplicates finding, one of all, extract, bowhist, compare.</Documentation>
+                            <Default>all</Default>
+                        </input>
+                    </inputs>
+                    <outputs>
+                        <output name="outputfile">
+                            <Datatype>xsd:anyURI</Datatype>
+                            <Required>false</Required>
+                            <CliMapping>outputfile</CliMapping>
+                            <Documentation>URL reference to output file that contains similarity indexies printed out to standard output</Documentation>
+                            <Extension>txt</Extension>
+                        </output>
+                    </outputs>
+                </operation>
+            </operations>
+            <deployto>
+                <deployref default="true" ref="local"/>
+            </deployto>
+        </service>
+    </services>
+    <deployments>
+        <deployment id="local">
+            <identifier>http://localhost:8080/scape/instances/tomcat1</identifier>
+            <host>localhost</host>
+            <ports>
+                <port type="http">8080</port>
+                <port type="https">8043</port>
+            </ports>
+            <manager>
+                <user>tomcat</user>
+                <password>password</password>
+				<path>manager</path>
+            </manager>
+            <toolsbasedir></toolsbasedir>
+            <dataexchange>
+                <accessdir>/home/sergiu/Install/apache-tomcat-6.0.35/webapps/ROOT/scape/tmp/</accessdir>
+                <accessurl>http://localhost:8080/scape/tmp/</accessurl>
+            </dataexchange>
+        </deployment>
+    </deployments>
+</toolspec>
