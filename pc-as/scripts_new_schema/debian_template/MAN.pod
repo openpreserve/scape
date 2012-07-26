@@ -12,7 +12,7 @@
 
 =head1 AUTHORS
 
-B<##NAME##> was written by KEEP SOLUTIONS, LDA. 
+B<##NAME##> was written by SCAPE project consortium.
 
 This manual page was written by Helder Silva <hsilva@keep.pt>.
 =cut

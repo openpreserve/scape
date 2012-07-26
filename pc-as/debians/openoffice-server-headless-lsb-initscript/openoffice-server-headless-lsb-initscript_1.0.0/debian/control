@@ -9,5 +9,8 @@ Package: openoffice-server-headless-lsb-initscript
 Architecture: all
 Depends: ${misc:Depends}, openoffice.org
 Description: Init script fo openoffice server running headless. 
+ This package was developed in the context of SCAPE project.
+ The SCAPE project is co-funded by the European Union under 
+ FP7 ICT-2009.4.1 (Grant Agreement number 270137).
  This package contains a LSB compliant init script fo
  openoffice.org running in server mode headless.
