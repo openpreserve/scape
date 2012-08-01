@@ -18,7 +18,7 @@
       <operations>
         <operation oid="1" name="convert">
           <description>Converts any ImageMagick supported image format to Text</description>
-          <command>/usr/bin/convert ${input}[0] ${output}</command>
+          <command>/usr/bin/convert ${input} ${output}</command>
           <inputs>
             <input name="input">
               <Datatype>xsd:anyURI</Datatype>

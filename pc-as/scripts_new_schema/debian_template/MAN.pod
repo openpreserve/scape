@@ -1,0 +1,18 @@
+=head1 NAME
+
+##NAME## - ##DESCRIPTION## 
+
+=head1 SYNOPSIS
+
+##NAME##
+
+=head1 DESCRIPTION
+
+##DESCRIPTION##
+
+=head1 AUTHORS
+
+B<##NAME##> was written by SCAPE project consortium.
+
+This manual page was written by Helder Silva <hsilva@keep.pt>.
+=cut

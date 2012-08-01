@@ -26,7 +26,7 @@ Conversion output file
 
 =head1 AUTHORS
 
-B<sanselan-wrapper> was written by Helder Silva <hsilva@keep.pt>.
+B<sanselan-wrapper> was written by SCAPE project consortium.
 
 This manual page was written by Helder Silva <hsilva@keep.pt>.
 =cut

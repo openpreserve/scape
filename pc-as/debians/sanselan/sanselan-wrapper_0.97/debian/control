@@ -10,4 +10,7 @@ Package: sanselan-wrapper
 Architecture: all
 Depends: ${misc:Depends}, ${java:Depends}, libsanselan-java (>= 0.97), libcommons-cli-java (>= 1.2), default-jre 
 Description: CLI wrapper for Apache Sanselan 
+ This package was developed in the context of SCAPE project.
+ The SCAPE project is co-funded by the European Union under 
+ FP7 ICT-2009.4.1 (Grant Agreement number 270137).
  This intends to be a CLI wrapper for Apache Sanselan. 
