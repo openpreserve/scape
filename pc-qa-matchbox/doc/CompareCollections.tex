@@ -1,0 +1,76 @@
+\subsection{Comparing Collections - CompareCollections.py}
+
+The purpose of {\ttfamily CompareCollections.py} is to detect differences 
+between two image collections that have been generated from the same source (book, newspaper, etc..).
+For every image in the first collection, the tool tries to find a corresponding image in the second collection
+in a similar manner as {\ttfamily FindDuplicates.py} does for images in a single collection.
+
+
+
+\begin{verbatim}
+usage: 
+CompareCollections.py [-h] [--threads THREADS] [--filter FILTER]
+                      [--sdk SDK] [--nn NN] [--precluster PRECLUSTER]
+                      [--clahe CLAHE] [--config CONFIG]
+                      [--featdir FEATDIR] [--csv] [--bowsize BOWSIZE]
+                      [-v]
+                      dir1 dir2
+                      {all,extract,duplicates,references,clean}
+\end{verbatim}
+
+\paragraph{\ttfamily -{}-threads THREADS}
+
+sets the number of threads to use to extract the features and to create the Bag
+of Words. A number of 4 to 8 threads is reasonable, depending on the computer in use.
+
+\paragraph{\ttfamily -{}-filter FILTER}
+
+The filter argument that is passed to {\ttfamily train}. This determines which files in
+FEATDIR are treated as feature files. The default is ``.SIFTComparison.feat.xml.gz''.
+
+\paragraph{\ttfamily -{}-sdk SDK}
+
+The number of spatially distinctive keypoints {\ttfamily extractfeatures} will extract from
+an image. By default a value of 2000 is used here.
+
+\paragraph{\ttfamily -{}-nn NN}
+
+This option sets the number of nearest neighbours that will be compared to the query
+image. 
+
+\paragraph{\ttfamily -{}-precluster PRECLUSTER}
+
+The precluster argument that is passed to {\ttfamily train}.
+Number of descriptors to select in precluster-preprocessing (0 = no preclustering).
+
+\paragraph{\ttfamily -{}-clahe CLAHE}
+
+This option enables the preprocessing of the images in a collection with CLAHE 
+(contrast limited adaptive histogram equalization) to improve the sharpness
+of the images. To be effective, a value greater than 1 (??) has to be supplied.
+
+%\paragraph{\ttfamily -{}-config CONFIG}
+
+\paragraph{\ttfamily -{}-featdir FEATDIR}
+
+With this option set, the tool looks for old feature files in FEATDIR and saves
+newly extracted feature files to this directory.
+
+\paragraph{\ttfamily -{}-csv}
+
+Not implemented yet.
+
+\paragraph{\ttfamily -{}-bowsize BOWSIZE}
+
+This option sets the number of ``visual words'' that will be
+calculated for the Bag of Words.
+
+The default value is 1000.
+
+\paragraph{\ttfamily -v}
+
+This enables more verbose output.
+
+\paragraph{\ttfamily dir1 dir2}
+
+The two directories that contain the collections to be compared.

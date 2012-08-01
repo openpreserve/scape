@@ -1,0 +1,81 @@
+\section{Installation}
+
+This section describes how to build Matchbox from the source distribution. There might be binary distributions provided...TODO
+
+
+\subsection{Requirements}
+
+\subsubsection{Open Computer Vision Library (OpenCV)}
+
+The Open Source Computer Vision (OpenCV) libarary \cite{opencv_library} is a library of programming functions for real time computer vision.
+It is released under a Berkeley Software Distribution (BSD)\footnote{http://opensource.org/licenses/bsd-license.php} license and thus is free for commercial or research use.
+The library provides a wide range of implemented algorithms on image analyses, image data and matrix manipulation, basic and advanced image processing, object recognition and image feature extraction.
+
+Most of Matchbox'es implementation is based on routines provided by OpenCV. 
+
+\paragraph{Installing OpenCV}
+
+
+\subsubsection{Python}
+
+Python is a popular dynamic programming language. 
+Python is used to model diverse use cases and workflows of document image quality assurance.
+
+Modules required by Matchbox:
+
+\begin{itemize}
+	\item Numpy - Numerical Python
+	\item args???
+\end{itemize}
+
+
+\paragraph{Installing Python}
+
+
+\subsubsection{CMake}
+
+
+The binaries can also be built manually using cmake, as long as the OpenCV development files can be found on the system.
+To build the binaries, the following commands have to be issued in the \verb+pc-qa-matchbox+directory:
+
+\paragraph{Installing CMake}
+
+
+
+\subsubsection{C++ Compiler}
+
+
+\paragraph{Linux}
+
+
+\paragraph{Windows}
+
+
+
+\subsection{Optional Packages}
+
+\subsubsection{Intel Threading Building Blocks Library (TBB)}
+
+
+
+\subsection{Installation on Linux}
+
+
+
+
+\subsubsection{Ubuntu}
+A debian package for the installation of Matchbox on various Linux distributions is available.
+Matchbox has been developed using OpenCV 2.4, thus this library has to be present to install Matchbox. 
+As of Ubuntu 12.04, there is no prebuilt package of the necessary OpenCV version in the Ubuntu repositories. 
+The library can either be built by hand or a PPA can be added to the package sources (for more information see \url{https://help.launchpad.net/Packaging/PPA}). 
+For example, while testing the debian package on a fresh Ubuntu installation, OpenCV was installed from \url{https://launchpad.net/~philip5/+archive/extra}, a PPA providing OpenCV 2.4. 
+
+\subsubsection{other Linux distributions}
+The debian package has not been tested yet for other debian-like distributions.
+However, it should work in theory, as long as the OpenCV 2.4 packages are present.
+
+\subsection{Installation on Windows}
+
+\subsubsection{Compiling Matchbox using MS Visual Studio}
+
+\subsubsection{Compiling Matchbox using MinGW}

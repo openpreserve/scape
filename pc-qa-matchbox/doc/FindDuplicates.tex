@@ -1,0 +1,122 @@
+\subsection{Duplicate Detection - \ttfamily FindDuplicates.py}
+
+FindDuplicates.py provides a way to search for duplicates in a collection of
+image files using the approach explained in \cite{ait1}. A ``Bag of visual Words'' 
+is calculated through clustering of image feature keypoints. For 
+every image, ``Bag of Words'' histograms (``fingerprints'') are calculated. Images are
+compared through histogram intersection and are ranked by a nearest neighbour algorithm. 
+Possible duplicates are spatially verified by
+calculation of structural similarity as described in \cite{ssim}.
+
+
+Issuing \verb+python FindDuplicates.py+ without arguments prints a usage message.
+\clearpage
+\begin{verbatim}
+usage: 
+
+FindDuplicates.py [-h] [--threads THREADS] [--filter FILTER]
+                  [--sdk SDK] [--nn NN] [--precluster PRECLUSTER]
+                  [--clahe CLAHE] [--config CONFIG] [--featdir FEATDIR]
+                  [--csv] [--bowsize BOWSIZE] [-v]
+                  dir {all,extract,compare,train,bowhist,clean}
+\end{verbatim}
+
+\paragraph{\ttfamily-{}-threads} 
+
+sets the number of threads to use to extract the features and to create the Bag
+of Words. A number of 4 to 8 threads is reasonable, depending on the computer in use.
+
+\paragraph{\ttfamily-{}-filter}
+
+The filter argument that is passed to {\ttfamily train}. This determines which files in
+FEATDIR are treated as feature files. The default is ``.SIFTComparison.feat.xml.gz''.
+
+\paragraph{\ttfamily-{}-sdk}
+
+The number of spatially distinctive keypoints {\ttfamily extractfeatures} will extract from
+an image. By default a value of 2000 is used here.
+
+\paragraph{\ttfamily-{}-nn NN}
+
+This option sets the number of nearest neighbours that will be compared to the query
+image. 
+
+\paragraph{\ttfamily-{}-precluster}
+The precluster argument that is passed to {\ttfamily train}.
+Number of descriptors to select in precluster-preprocessing (0 = no preclustering).
+
+\paragraph{\ttfamily-{}-clahe CLAHE}
+
+This option enables the preprocessing of the images in a collection with CLAHE 
+(contrast limited adaptive histogram equalization) to improve the sharpness
+of the images. To be effective, a value greater than 1 (??) has to be supplied.
+
+%\paragraph{\ttfamily-{}-config}
+
+\paragraph{\ttfamily-{}-featdir FEATDIR}
+
+With this option set, the tool looks for old feature files in FEATDIR and saves
+newly extracted feature files to this directory.
+
+
+\paragraph{\ttfamily-{}-csv}
+
+Not implemented yet.
+
+\paragraph{\ttfamily-{}-bowsize}
+
+This option sets the number of ``visual words'' that will be
+calculated for the Bag of Words.
+
+The default value is 1000.
+
+\paragraph{\ttfamily-v}
+
+This enables more verbose output.
+
+\paragraph{\ttfamily dir}
+
+This option sets the folder where the collection is located.
+
+\subsubsection*{Possible workflow steps}
+
+\paragraph{\ttfamily all}
+
+All workflow steps will be carried out. This includes extracting features,
+calculating the Bag of Words, creating the Bag of Words histograms, calculating 
+the histogram intersections of the images and calculating the SSIM for spatial verfication.
+
+\paragraph{\ttfamily extract}
+
+This extracts keypoints and feature descriptors from the images in the collection.
+If a feature file already exists in the directory passed with the {\ttfamily -{}-featdir} option,
+features are not extracted a second time.
+
+\paragraph{\ttfamily train}
+
+This step calculates the Bag of Words.
+
+\paragraph{\ttfamily bowhist}
+
+In this step, the Bag of Words histograms from the images in the collection are extracted.
+If a Bag of Words histogram file already exists in the directory passed with the {\ttfamily -{}-featdir} option,
+histograms are not extracted a second time.
+
+\paragraph{\ttfamily compare}
+
+In this step, the histogram intersection and spatial verification is done for every image.
+
+\paragraph{\ttfamily clean}
+
+This removes any feature files from the feature directory or the collections directory
+depending on wether the {\ttfamily -{}-featdir} option was set or not.
+
+
+\subsubsection*{Adding files to an existing collection}
+
+After adding files to an existing collection, it is sufficient to execute
+FindDuplicates.py with the right --featdir option twice, once with the option
+extract and once with the option bowhist. The existing feature files will be
+found and features/histograms will be extracted only for the newly added files.
+This way, the computationally expensive step of creating the bag of words is
+omitted. 

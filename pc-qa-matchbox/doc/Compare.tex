@@ -1,0 +1,44 @@
+\subsubsection{compare}
+
+\texttt{compare} carries out the actual comparison of the ``Bag of Words''
+histograms and is also capable of calculating the structural similarity index
+for spatial verification of possible duplicates.
+
+\begin{verbatim}
+USAGE: 
+
+compare  [--bowmetric <str>] [--metric <str>] [-v] [-l <int>] [--]
+         [--version] [-h] <file1> <file2>
+
+
+Where: 
+
+   --bowmetric <str>
+     [BOWHistogram] Metric for histogram comparison (CV_COMP_CHISQR
+     ,CV_COMP_CORREL,CV_COMP_INTERSECT,CV_COMP_BHATTACHARYYA)
+
+   --metric <str>
+     [ImageHistogram] Metric for histogram comparison (CV_COMP_CHISQR
+     ,CV_COMP_CORREL,CV_COMP_INTERSECT,CV_COMP_BHATTACHARYYA)
+
+   -v,  --verbose
+     Provide additional debugging output
+
+   -l <int>,  --level <int>
+     Comparison Level (1-4)
+
+   --,  --ignore_rest
+     Ignores the rest of the labeled arguments following this flag.
+
+   --version
+     Displays version information and exits.
+
+   -h,  --help
+     Displays usage information and exits.
+
+   <file1>
+     (required)  file 1 that should be compared
+
+   <file2>
+     (required)  file 2 that should be compared
+\end{verbatim}

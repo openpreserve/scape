@@ -1,0 +1,447 @@
+\documentclass{hitec}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Matchbox Usermanual (WIP)}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Matchbox}
+
+Matchbox consists of simple commandline tools and some Python scripts.
+The commandline tools have been deliberately kept simple so that they 
+can be used in a variety of ways by connecting their inputs and outputs.
+
+\subsection{extractfeatures}
+
+{\ttfamily extractfeatures} gets various data from an image in a collection
+and saves it to feature files.
+It uses a SIFT feature detector to determine keypoints in an image, which are 
+later used to compare the image with other images in the collection. Details
+for the SIFT method can be found in~\cite{lowe}.
+
+\begin{verbatim}
+USAGE: 
+
+extractfeatures  [--bow <filename>] [--precluster <int>] [--clahe <int>]
+                 [--sdk <int>] [--numbins <int>] [-o <string>] ...  [-n
+                 <string>] ...  [-l <int>] [-v] [-d <string>] [--]
+                 [--version] [-h] <file>
+
+
+Where: 
+
+   --bow <filename>
+     [BOWHistogram] Bag of Words file
+
+   --precluster <int>
+     [SIFTComparison] Number of descriptors to select in preclustering 
+	 (0 = no preclustering)
+
+   --clahe <int>
+     [SIFTComparison] Value of adaptive contrast enhancement 
+	 (1 = no enhancement)
+
+   --sdk <int>
+     [SIFTComparison] Number of Spatial Distinctive Keypoints 
+	 (0 = no SDK)
+
+   --numbins <int>
+     [ImageHistogram] Number of histogram bins
+
+   -o <string>,  --only <string>  (accepted multiple times)
+     extract only specified features
+
+   -n <string>,  --no <string>  (accepted multiple times)
+     exclude feature from extraction
+
+   -l <int>,  --level <int>
+     Characterization Level (1-3)
+
+   -v,  --verbose
+     Provide additional debugging output
+
+   -d <string>,  --dir <string>
+     Output directory for feature files.
+
+   --,  --ignore_rest
+     Ignores the rest of the labeled arguments following this flag.
+
+   --version
+     Displays version information and exits.
+
+   -h,  --help
+     Displays usage information and exits.
+
+   <file>
+     (required)  image file to extract features from
+\end{verbatim}
+
+\subsection{train}
+
+\texttt{train} goes through all the image descriptors found an creates the
+actual ``Bag of Words''. 
+
+\begin{verbatim}
+USAGE: 
+
+train  [-v] [-b <int>] [-p <int>] [-f <string>] -o <string> [--]
+       [--version] [-h] <directories> ...
+
+
+Where: 
+
+   -v,  --verbose
+     Provide additional debugging output
+
+   -b <int>,  --bowsize <int>
+     Size of the BoW Dictionary
+
+   -p <int>,  --precluster <int>
+     Number of descriptors to select in precluster-preprocessing 
+	 (0 = no preclustering)
+
+   -f <string>,  --filter <string>
+     Filter files according to pattern
+
+   -o <string>,  --output <string>
+     (required)  Output file
+
+   --,  --ignore_rest
+     Ignores the rest of the labeled arguments following this flag.
+
+   --version
+     Displays version information and exits.
+
+   -h,  --help
+     Displays usage information and exits.
+
+   <directories>  (accepted multiple times)
+     (required)  Directory containing files with extracted features
+\end{verbatim}
+
+\subsection{compare}
+
+\texttt{compare} carries out the actual comparison of the ``Bag of Words''
+histograms and is also capable of calculating the structural similarity index
+for spatial verification of possible duplicates.
+
+\begin{verbatim}
+USAGE: 
+
+compare  [--bowmetric <str>] [--metric <str>] [-v] [-l <int>] [--]
+         [--version] [-h] <file1> <file2>
+
+
+Where: 
+
+   --bowmetric <str>
+     [BOWHistogram] Metric for histogram comparison (CV_COMP_CHISQR
+     ,CV_COMP_CORREL,CV_COMP_INTERSECT,CV_COMP_BHATTACHARYYA)
+
+   --metric <str>
+     [ImageHistogram] Metric for histogram comparison (CV_COMP_CHISQR
+     ,CV_COMP_CORREL,CV_COMP_INTERSECT,CV_COMP_BHATTACHARYYA)
+
+   -v,  --verbose
+     Provide additional debugging output
+
+   -l <int>,  --level <int>
+     Comparison Level (1-4)
+
+   --,  --ignore_rest
+     Ignores the rest of the labeled arguments following this flag.
+
+   --version
+     Displays version information and exits.
+
+   -h,  --help
+     Displays usage information and exits.
+
+   <file1>
+     (required)  file 1 that should be compared
+
+   <file2>
+     (required)  file 2 that should be compared
+\end{verbatim}
+
+\section{Workflows}
+
+\subsection{Duplicate Detection - \ttfamily FindDuplicates.py}
+
+FindDuplicates.py provides a way to search for duplicates in a collection of
+image files using the approach explained in \cite{ait1}. A ``Bag of visual Words'' 
+is calculated through clustering of image feature keypoints. For 
+every image, ``Bag of Words'' histograms (``fingerprints'') are calculated. Images are
+compared through histogram intersection and are ranked by a nearest neighbour algorithm. 
+Possible duplicates are spatially verified by
+calculation of structural similarity as described in \cite{ssim}.
+
+
+Issuing \verb+python FindDuplicates.py+ without arguments prints a usage message.
+\clearpage
+\begin{verbatim}
+usage: 
+
+FindDuplicates.py [-h] [--threads THREADS] [--filter FILTER]
+                  [--sdk SDK] [--nn NN] [--precluster PRECLUSTER]
+                  [--clahe CLAHE] [--config CONFIG] [--featdir FEATDIR]
+                  [--csv] [--bowsize BOWSIZE] [-v]
+                  dir {all,extract,compare,train,bowhist,clean}
+\end{verbatim}
+
+\paragraph{\ttfamily-{}-threads} 
+
+sets the number of threads to use to extract the features and to create the Bag
+of Words. A number of 4 to 8 threads is reasonable, depending on the computer in use.
+
+\paragraph{\ttfamily-{}-filter}
+
+The filter argument that is passed to {\ttfamily train}. This determines which files in
+FEATDIR are treated as feature files. The default is ``.SIFTComparison.feat.xml.gz''.
+
+\paragraph{\ttfamily-{}-sdk}
+
+The number of spatially distinctive keypoints {\ttfamily extractfeatures} will extract from
+an image. By default a value of 2000 is used here.
+
+\paragraph{\ttfamily-{}-nn NN}
+
+This option sets the number of nearest neighbours that will be compared to the query
+image. 
+
+\paragraph{\ttfamily-{}-precluster}
+The precluster argument that is passed to {\ttfamily train}.
+Number of descriptors to select in precluster-preprocessing (0 = no preclustering).
+
+\paragraph{\ttfamily-{}-clahe CLAHE}
+
+This option enables the preprocessing of the images in a collection with CLAHE 
+(contrast limited adaptive histogram equalization) to improve the sharpness
+of the images. To be effective, a value greater than 1 (??) has to be supplied.
+
+%\paragraph{\ttfamily-{}-config}
+
+\paragraph{\ttfamily-{}-featdir FEATDIR}
+
+With this option set, the tool looks for old feature files in FEATDIR and saves
+newly extracted feature files to this directory.
+
+
+\paragraph{\ttfamily-{}-csv}
+
+Not implemented yet.
+
+\paragraph{\ttfamily-{}-bowsize}
+
+This option sets the number of ``visual words'' that will be
+calculated for the Bag of Words.
+
+The default value is 1000.
+
+\paragraph{\ttfamily-v}
+
+This enables more verbose output.
+
+\paragraph{\ttfamily dir}
+
+This option sets the folder where the collection is located.
+
+\subsubsection*{Possible workflow steps}
+
+\paragraph{\ttfamily all}
+
+All workflow steps will be carried out. This includes extracting features,
+calculating the Bag of Words, creating the Bag of Words histograms, calculating 
+the histogram intersections of the images and calculating the SSIM for spatial verfication.
+
+\paragraph{\ttfamily extract}
+
+This extracts keypoints and feature descriptors from the images in the collection.
+If a feature file already exists in the directory passed with the {\ttfamily -{}-featdir} option,
+features are not extracted a second time.
+
+\paragraph{\ttfamily train}
+
+This step calculates the Bag of Words.
+
+\paragraph{\ttfamily bowhist}
+
+In this step, the Bag of Words histograms from the images in the collection are extracted.
+If a Bag of Words histogram file already exists in the directory passed with the {\ttfamily -{}-featdir} option,
+histograms are not extracted a second time.
+
+\paragraph{\ttfamily compare}
+
+In this step, the histogram intersection and spatial verification is done for every image.
+
+\paragraph{\ttfamily clean}
+
+This removes any feature files from the feature directory or the collections directory
+depending on wether the {\ttfamily -{}-featdir} option was set or not.
+
+
+\subsubsection*{Adding files to an existing collection}
+
+After adding files to an existing collection, it is sufficient to execute
+FindDuplicates.py with the right --featdir option twice, once with the option
+extract and once with the option bowhist. The existing feature files will be
+found and features/histograms will be extracted only for the newly added files.
+This way, the computationally expensive step of creating the bag of words is
+omitted. 
+
+\subsection{Comparing Collections - CompareCollections.py}
+
+The purpose of {\ttfamily CompareCollections.py} is to detect differences 
+between two image collections that have been generated from the same source (book, newspaper, etc..).
+For every image in the first collection, the tool tries to find a corresponding image in the second collection
+in a similar manner as {\ttfamily FindDuplicates.py} does for images in a single collection.
+
+
+
+\begin{verbatim}
+usage: 
+CompareCollections.py [-h] [--threads THREADS] [--filter FILTER]
+                      [--sdk SDK] [--nn NN] [--precluster PRECLUSTER]
+                      [--clahe CLAHE] [--config CONFIG]
+                      [--featdir FEATDIR] [--csv] [--bowsize BOWSIZE]
+                      [-v]
+                      dir1 dir2
+                      {all,extract,duplicates,references,clean}
+\end{verbatim}
+
+\paragraph{\ttfamily -{}-threads THREADS}
+
+sets the number of threads to use to extract the features and to create the Bag
+of Words. A number of 4 to 8 threads is reasonable, depending on the computer in use.
+
+\paragraph{\ttfamily -{}-filter FILTER}
+
+The filter argument that is passed to {\ttfamily train}. This determines which files in
+FEATDIR are treated as feature files. The default is ``.SIFTComparison.feat.xml.gz''.
+
+\paragraph{\ttfamily -{}-sdk SDK}
+
+The number of spatially distinctive keypoints {\ttfamily extractfeatures} will extract from
+an image. By default a value of 2000 is used here.
+
+\paragraph{\ttfamily -{}-nn NN}
+
+This option sets the number of nearest neighbours that will be compared to the query
+image. 
+
+\paragraph{\ttfamily -{}-precluster PRECLUSTER}
+
+The precluster argument that is passed to {\ttfamily train}.
+Number of descriptors to select in precluster-preprocessing (0 = no preclustering).
+
+\paragraph{\ttfamily -{}-clahe CLAHE}
+
+This option enables the preprocessing of the images in a collection with CLAHE 
+(contrast limited adaptive histogram equalization) to improve the sharpness
+of the images. To be effective, a value greater than 1 (??) has to be supplied.
+
+%\paragraph{\ttfamily -{}-config CONFIG}
+
+\paragraph{\ttfamily -{}-featdir FEATDIR}
+
+With this option set, the tool looks for old feature files in FEATDIR and saves
+newly extracted feature files to this directory.
+
+\paragraph{\ttfamily -{}-csv}
+
+Not implemented yet.
+
+\paragraph{\ttfamily -{}-bowsize BOWSIZE}
+
+This option sets the number of ``visual words'' that will be
+calculated for the Bag of Words.
+
+The default value is 1000.
+
+\paragraph{\ttfamily -v}
+
+This enables more verbose output.
+
+\paragraph{\ttfamily dir1 dir2}
+
+The two directories that contain the collections to be compared.
+
+\subsubsection*{Possible workflow steps}
+
+
+\appendix
+
+\section{Troubleshooting}
+
+\subsection{Old versions of Python - missing libraries}
+
+The utility scripts in Matchbox were developed in Python 2.7. In older Python
+versions some of the libraries that come with 2.7 are not installed out of the box. 
+To use the utility scripts, these libraries have to be installed in one of Python's
+library paths. They can be downloaded from \url{http://pypi.pyhton.org/}.
+
+\subsection{New versions of Python - wrong syntax}
+
+Attempts to use the utility scripts with Python 3.x will fail because
+significant parts of the language have been changed from version 2.x to version
+3.x. However, it is possible to install both versions in parallel on most
+systems.
+
+\subsection{Installation on Linux}
+
+\subsubsection*{CMake}
+The binaries can also be 
+built manually using cmake, as long as the OpenCV development files can be found on the system.
+To build the binaries, the following commands have to be issued in the \verb+pc-qa-matchbox+
+directory:
+\begin{verbatim}
+cmake .
+make
+sudo make install
+\end{verbatim}
+If the compilation suceeds, the commands should be available at the commandline.
+
+%TODO: describe prerequisites for compilation (gcc version? etc..)
+
+
+\subsubsection*{Ubuntu}
+A debian package for the installation of Matchbox on various Linux distributions
+is available. Matchbox has been developed using OpenCV 2.4, thus this
+library has to be present to install Matchbox. 
+As of Ubuntu 12.04, there is no prebuilt package of the necessary OpenCV version
+in the Ubuntu repositories. The library can either be built by hand or a PPA can be
+added to the package sources (for more information see \url{https://help.launchpad.net/Packaging/PPA}). 
+For example, while testing the debian package on a fresh Ubuntu installation, OpenCV was installed
+from \url{https://launchpad.net/~philip5/+archive/extra}, a PPA providing OpenCV 2.4. 
+
+\subsubsection*{other Linux distributions}
+The debian package has not been tested yet for other debian-like distributions.
+However, it should work in theory, as long as the OpenCV 2.4 packages are present.
+
+\subsection{Compile Matchbox in Windows with CMake and MinGW or VisualStudio}
+
+%TODO
+
+
+\begin{thebibliography}{9}
+\bibitem{ait1}
+  Reinhold Huber-M\"ork, Alexander Schindler, Sven Schlarb, 
+  \emph{Duplicate Detection for Quality Assurance of Document Image Collections}, 
+  2012.
+\bibitem{ssim}
+	Z. Wang, A. C. Bovik, H. R. Sheikh and E. P. Simoncelli, 
+	\emph{Image quality assessment: From error visibility to structural similarity}, 
+	IEEE Transactions on Image Processing, vol. 13, no. 4, pp. 600-612, Apr. 2004.
+\bibitem{lowe}
+	Lowe, David G. (1999), 
+	\emph{Object recognition from local scale-invariant features}, 
+	Proceedings of the International Conference on Computer Vision. 2. pp. 1150-1157. 
+\end{thebibliography}
+\end{document}

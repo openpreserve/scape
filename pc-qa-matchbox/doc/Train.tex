@@ -1,0 +1,42 @@
+\subsubsection{train}
+
+\texttt{train} goes through all the image descriptors found an creates the
+actual ``Bag of Words''. 
+
+\begin{verbatim}
+USAGE: 
+
+train  [-v] [-b <int>] [-p <int>] [-f <string>] -o <string> [--]
+       [--version] [-h] <directories> ...
+
+
+Where: 
+
+   -v,  --verbose
+     Provide additional debugging output
+
+   -b <int>,  --bowsize <int>
+     Size of the BoW Dictionary
+
+   -p <int>,  --precluster <int>
+     Number of descriptors to select in precluster-preprocessing 
+	 (0 = no preclustering)
+
+   -f <string>,  --filter <string>
+     Filter files according to pattern
+
+   -o <string>,  --output <string>
+     (required)  Output file
+
+   --,  --ignore_rest
+     Ignores the rest of the labeled arguments following this flag.
+
+   --version
+     Displays version information and exits.
+
+   -h,  --help
+     Displays usage information and exits.
+
+   <directories>  (accepted multiple times)
+     (required)  Directory containing files with extracted features
+\end{verbatim}
