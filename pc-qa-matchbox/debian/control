@@ -1,0 +1,11 @@
+Source: matchbox
+Section: misc
+Priority: optional
+Maintainer: Rainer Bachleitner <rbachleitner@gmail.com>
+Build-Depends: debhelper (>= 7), cmake
+Standards-Version: 3.8.3
+
+Package: matchboxtools
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python, python-numpy, python-nose,python-argparse
+Description: Matchbox finds duplicates 
