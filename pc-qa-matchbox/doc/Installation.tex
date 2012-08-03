@@ -5,6 +5,21 @@ This section describes how to build Matchbox from the source distribution. There
 
 \subsection{Requirements}
 
+\subsubsection{CMake}
+
+To build OpenCV and the Matchbox commandline tools Visual Studio solutions or Makefiles for MinGW or gcc
+have to be generated using CMake.
+
+\paragraph{Installing CMake}
+
+For Windows, download cMake from the cMake website\footnote{\url{http://www.cmake.org/}} and install
+it.
+
+For Linux, cMake usually can be installed via the distribution package manager. 
+E.g. for Ubuntu \verb+sudo aptitude install cmake+. 
+
+
+
 \subsubsection{Open Computer Vision Library (OpenCV)}
 
 The Open Source Computer Vision (OpenCV) libarary \cite{opencv_library} is a library of programming functions for real time computer vision.
@@ -14,6 +29,14 @@ The library provides a wide range of implemented algorithms on image analyses, i
 Most of Matchbox'es implementation is based on routines provided by OpenCV. 
 
 \paragraph{Installing OpenCV}
+
+The OpenCV source code can be downloaded from the OpenCV website~\footnote{\url{http://opencv.willowgarage.com/wiki/}} for all platforms.
+It is necessary to generate either Visual Studio solutions or Makefiles with cMake to build it.
+
+To do this, start CMake, browse to the directory where the downloaded OpenCV source code resides, choose a directory where OpenCV will be built, click ``Configure''
+to choose which compiler you want to use, click ``Finish'' and then click ``Generate''.
+
+The Visual Studio solution or the Makefile can then be found in the build directory.
 
 
 \subsubsection{Python}
@@ -37,20 +60,6 @@ The additional libraries can also be found on the website or in the package repo
 of the Linux distribution of your choice.
 
 
-\subsubsection{CMake}
-
-
-The binaries can also be built manually using cmake, as long as the OpenCV development files can be found on the system.
-To build the binaries, the following commands have to be issued in the \verb+pc-qa-matchbox+directory:
-
-\paragraph{Installing CMake}
-
-For Windows, download cMake from the cMake website\footnote{\url{http://www.cmake.org/}} and install
-it.
-
-For Linux, cMake usually can be installed via the distribution package manager. 
-E.g. for Ubuntu \verb+sudo aptitude install cmake+. 
-
 
 \subsubsection{C++ Compiler}
 
@@ -63,7 +72,8 @@ that is shipped with most Linux distributions.
 \paragraph{Windows}
 
 On Windows, either Visual Studio or 
-MinGW can be used to build.
+MinGW (MinGW is open source software and can be downloaded from their website~\footnote{\url{http://www.mingw.org/}} for free) can be used to build
+the code.
 
 \subsection{Optional Packages}
 
