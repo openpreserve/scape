@@ -35,7 +35,10 @@ import org.apache.hadoop.util.ToolRunner;
  * -d,--dir <arg>     Local directory (or directories - commaseparated)
  *                    containing files to be added. Note that in hadoop map
  *                    mode (parameter -m) each tasktracker must be able to
- *                    access the files at the same path. (Required)
+ *                    access the files at the same path. (Optional, but either
+ *                    -d or -p is required)
+ * -p,-- paths        HDFS Input path where the text files containing file
+ *                    path is available (but either -d or -p is required)
  * -e,--ext <arg>     Extension filter(s) - commaseparated (Optional).
  * -h,--help          print this message.
  * -m,--mapmode       Hadoop map mode: A text file containing all absolute
@@ -62,10 +65,11 @@ public class SequenceFileUtility {
      */
     public static void main(String args[]) throws Exception {
         
+        int res = 1;
         Configuration conf = new Configuration();
         conf.setBoolean("mapreduce.client.genericoptionsparser.used", false);
         GenericOptionsParser gop = new GenericOptionsParser(conf, args);
-        ProcessConfiguration pc = new ProcessConfiguration();
+        ProcessParameters pc = new ProcessParameters();
         CommandLineParser cmdParser = new PosixParser();
         CommandLine cmd = cmdParser.parse(Options.OPTIONS, gop.getRemainingArgs() );
         if ((args.length == 0) || (cmd.hasOption(Options.HELP_OPT))) {
@@ -76,12 +80,15 @@ public class SequenceFileUtility {
             if (!pc.isHadoopmapmode()) {
                 j = new BatchJob(pc);
                 j.run();
+                res = 0;
             } else {
                 HadoopJob hj =  new HadoopJob();
                 hj.setPc(pc);
-                int res = ToolRunner.run(conf,hj, args);
-                System.exit(res);
+                res = ToolRunner.run(conf,hj, args);
+                if(res == 0) System.out.print(pc.getOutputDirectory());
+                
             }
         }
+        System.exit(res);
     }
 }

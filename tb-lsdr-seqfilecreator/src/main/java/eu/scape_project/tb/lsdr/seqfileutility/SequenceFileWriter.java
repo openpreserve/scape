@@ -42,7 +42,7 @@ public final class SequenceFileWriter implements Runnable, Serializable {
     private Path path;
     private SequenceFile.Writer writer;
     private Configuration conf;
-    ProcessConfiguration pc;
+    ProcessParameters pc;
     // Logger instance
     private static Logger logger = LoggerFactory.getLogger(SequenceFileWriter.class.getName());
     //int lineCounter;
@@ -70,7 +70,7 @@ public final class SequenceFileWriter implements Runnable, Serializable {
      *
      * @param sequenceFileName Sequence file name
      */
-    public SequenceFileWriter(ProcessConfiguration pc) {
+    public SequenceFileWriter(ProcessParameters pc) {
         this();
         this.pc = pc;
         initialise();

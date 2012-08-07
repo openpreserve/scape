@@ -17,7 +17,7 @@
 package eu.scape_project.tb.lsdr.seqfileutility.hadoop;
 
 import eu.scape_project.tb.lsdr.seqfileutility.CompressionType;
-import eu.scape_project.tb.lsdr.seqfileutility.ProcessConfiguration;
+import eu.scape_project.tb.lsdr.seqfileutility.ProcessParameters;
 import eu.scape_project.tb.lsdr.seqfileutility.SequenceFileUtility;
 import eu.scape_project.tb.lsdr.seqfileutility.util.StringUtils;
 import java.io.File;
@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
  */
 public class HadoopJob implements Tool {
 
-    ProcessConfiguration pc;
+    ProcessParameters pc;
     Configuration conf;
     private static Logger logger = LoggerFactory.getLogger(HadoopJob.class.getName());
 
@@ -64,7 +64,7 @@ public class HadoopJob implements Tool {
      *
      * @param pc Process configuration
      */
-    public void setPc(ProcessConfiguration pc) {
+    public void setPc(ProcessParameters pc) {
         this.pc = pc;
     }
 
@@ -83,10 +83,11 @@ public class HadoopJob implements Tool {
 
     private void writeFilePaths(File directory, FSDataOutputStream outputStream) throws IOException {
         String regex = "";
-        if(pc.getExtStr() != null && !pc.getExtStr().equals(""))
-            regex = " -regex .*."+pc.getExtStr();
-        String command = "find -L "+directory.getAbsolutePath() + regex + " -type f -print";
-        logger.info("Get input paths: "+command);
+        if (pc.getExtStr() != null && !pc.getExtStr().equals("")) {
+            regex = " -regex .*." + pc.getExtStr();
+        }
+        String command = "find -L " + directory.getAbsolutePath() + regex + " -type f -print";
+        logger.info("Get input paths: " + command);
         Process p = Runtime.getRuntime().exec(command);
         InputStream inStream = p.getInputStream();
         long bytecount = 0;
@@ -96,17 +97,17 @@ public class HadoopJob implements Tool {
             outputStream.write(buf, 0, len);
             bytecount += len;
             // Status message at each 10MB block
-            if(bytecount > 4096 && bytecount % 10485760 <= 4096) {
+            if (bytecount > 4096 && bytecount % 10485760 <= 4096) {
                 String mb = StringUtils.humanReadableByteCount(bytecount, true);
-                logger.info("Current size of input paths: "+mb);
+                logger.info("Current size of input paths: " + mb);
             }
         }
         String mb = StringUtils.humanReadableByteCount(bytecount, true);
-        logger.info("Final size of input paths: "+mb);
+        logger.info("Final size of input paths: " + mb);
         outputStream.close();
         inStream.close();
     }
-    
+
     /**
      * Run hadoop job
      *
@@ -117,49 +118,60 @@ public class HadoopJob implements Tool {
     @Override
     public int run(String[] strings) throws Exception {
         try {
-            String[] extensions = null;
-            if (pc.getExtStr() != null) {
-                StringTokenizer st = new StringTokenizer(pc.getExtStr(), ",");
-                extensions = new String[st.countTokens()];
-                int i = 0;
-                while (st.hasMoreTokens()) {
-                    extensions[i] = st.nextToken();
-                    i++;
-                }
-            }
+            String hdfsInputDir = null;
             FileSystem hdfs = FileSystem.get(conf);
-            String hdfsInputDir = "input/sfu" + System.currentTimeMillis() + "/";
-            hdfs.mkdirs(new Path(hdfsInputDir));
+            
+            // hdfs input path is given as command parameter
+            if (pc.getHdfsInputPath() != null) {
+                hdfsInputDir = pc.getHdfsInputPath();
+            // hdfs input file is created
+            } else {
+                hdfsInputDir = "input/" + System.currentTimeMillis() + "sfu/";
 
-            String hdfsIinputPath = hdfsInputDir + "inputpaths.txt";
-            Path path = new Path(hdfsIinputPath);
+                String[] extensions = null;
+                if (pc.getExtStr() != null) {
+                    StringTokenizer st = new StringTokenizer(pc.getExtStr(), ",");
+                    extensions = new String[st.countTokens()];
+                    int i = 0;
+                    while (st.hasMoreTokens()) {
+                        extensions[i] = st.nextToken();
+                        i++;
+                    }
+                }
 
-            FSDataOutputStream outputStream = hdfs.create(path);
+                hdfs.mkdirs(new Path(hdfsInputDir));
 
-            List<String> dirs = StringUtils.getStringListFromString(pc.getDirsStr(), ",");
-            for (String dir : dirs) {
-                File directory = new File(dir);
-                if (directory.isDirectory()) {
-                    // Alternatively, the java traverse method can be used
-                    // for creating the file paths, but this is by far less
-                    // performant:
-                    //traverse(directory, outputStream);
-                    writeFilePaths(directory, outputStream);
+                String hdfsIinputPath = hdfsInputDir + "inputpaths.txt";
+                Path path = new Path(hdfsIinputPath);
+
+                FSDataOutputStream outputStream = hdfs.create(path);
+
+                List<String> dirs = StringUtils.getStringListFromString(pc.getDirsStr(), ",");
+                for (String dir : dirs) {
+                    File directory = new File(dir);
+                    if (directory.isDirectory()) {
+                        // Alternatively, the java traverse method can be used
+                        // for creating the file paths:
+                        //traverse(directory, outputStream);
+                        writeFilePaths(directory, outputStream);
+                    } else {
+                        logger.warn("Parameter \"" + dir + "\" is not a directory "
+                                + "(skipped)");
+                    }
+                }
+                outputStream.close();
+                if (hdfs.exists(path)) {
+                    logger.info("Input paths created in \"" + hdfs.getHomeDirectory()
+                            + "/" + path.toString() + "\"");
                 } else {
-                    logger.warn("Parameter \"" + dir + "\" is not a directory "
-                            + "(skipped)");
+                    logger.error("Input paths have not been created in hdfs.");
+                    return 1;
                 }
             }
-            outputStream.close();
-            if (hdfs.exists(path)) {
-                logger.info("Input paths created in \"" + hdfs.getHomeDirectory()
-                        + "/" + path.toString() + "\"");
-            } else {
-                logger.error("Input paths have not been created in hdfs.");
-                return 1;
-            }
-
-            Job job = new Job(conf, "small_files_to_sequence_file");
+            String hadoopJobName = "Hadoop_sequence_file_creation";
+            if(pc.getHadoopJobName() != null && !pc.getHadoopJobName().equals(""))
+                hadoopJobName = pc.getHadoopJobName();
+            Job job = new Job(conf, hadoopJobName);
 
             job.setJarByClass(SequenceFileUtility.class);
             job.setMapperClass(SmallFilesSequenceFileMapper.class);
@@ -169,8 +181,8 @@ public class HadoopJob implements Tool {
             job.setOutputFormatClass(SequenceFileOutputFormat.class);
             TextInputFormat.addInputPath(job, new Path(hdfsInputDir));
 
-            String hdfsOutputDir = "output/sfu" + System.currentTimeMillis() + "/";
-
+            String hdfsOutputDir = "output/" + System.currentTimeMillis() + "sfu/";
+            
             SequenceFileOutputFormat.setOutputPath(job, new Path(hdfsOutputDir));
             SequenceFileOutputFormat.setOutputCompressionType(job,
                     CompressionType.get(pc.getCompressionType()));
@@ -182,6 +194,7 @@ public class HadoopJob implements Tool {
                 logger.info("Sequence file created: \""
                         + hdfs.getHomeDirectory() + "/"
                         + hdfsOutputDir + "part-r-00000" + "\"");
+                pc.setOutputDirectory(hdfsOutputDir);
                 return 0;
             } else {
                 logger.error("Sequence file not created in hdfs");
@@ -213,5 +226,4 @@ public class HadoopJob implements Tool {
     public Configuration getConf() {
         return conf;
     }
-
 }

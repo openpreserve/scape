@@ -17,7 +17,7 @@
 package eu.scape_project.tb.lsdr.seqfileutility.batch;
 
 import eu.scape_project.tb.lsdr.seqfileutility.Job;
-import eu.scape_project.tb.lsdr.seqfileutility.ProcessConfiguration;
+import eu.scape_project.tb.lsdr.seqfileutility.ProcessParameters;
 import eu.scape_project.tb.lsdr.seqfileutility.SequenceFileWriter;
 import eu.scape_project.tb.lsdr.seqfileutility.util.StringUtils;
 import java.io.File;
@@ -41,7 +41,7 @@ public class BatchJob implements Job {
 
     private static Logger logger = LoggerFactory.getLogger(BatchJob.class.getName());
     private static ExecutorService executor;
-    ProcessConfiguration pc;
+    ProcessParameters pc;
 
     /**
      * Empty constructor
@@ -53,7 +53,7 @@ public class BatchJob implements Job {
      * Constructor initialising the process configuration
      * @param pc Process configuration
      */
-    public BatchJob(ProcessConfiguration pc) {
+    public BatchJob(ProcessParameters pc) {
         this.pc = pc;
     }
 
@@ -71,7 +71,7 @@ public class BatchJob implements Job {
         long startMillis = System.currentTimeMillis();
         for (String dir : dirs) {
             String threadId = i.toString();
-            ProcessConfiguration pcThread = pc.clone();
+            ProcessParameters pcThread = pc.clone();
             pcThread.setThreadId(threadId);
             pcThread.setThreadSeqFile(startMillis + "_" + threadId + ".seq");
             pcThread.setThreadDir(dir);

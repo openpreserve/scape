@@ -24,9 +24,11 @@ import org.slf4j.LoggerFactory;
  * @author Sven Schlarb https://github.com/shsdev
  * @version 0.1
  */
-public class ProcessConfiguration implements Cloneable {
+public class ProcessParameters implements Cloneable {
 
     String dirsStr;
+    private String hdfsInputPath;
+    private String hadoopJobName;
     String extStr;
     String compressionType;
     boolean textlinemode;
@@ -36,15 +38,44 @@ public class ProcessConfiguration implements Cloneable {
     String threadSeqFile;
     String threadDir;
     private boolean hadoopmapmode;
+    
+    // result parameters
+    private String outputDirectory;
 
     /**
      * Empty constructor
      */
-    public ProcessConfiguration() {
+    public ProcessParameters() {
         
     }
 
-    private static Logger logger = LoggerFactory.getLogger(ProcessConfiguration.class.getName());
+    public String getOutputDirectory() {
+        return outputDirectory;
+    }
+
+    public void setOutputDirectory(String outputDirectory) {
+        this.outputDirectory = outputDirectory;
+    }
+    
+    
+
+    public String getHadoopJobName() {
+        return hadoopJobName;
+    }
+
+    public void setHadoopJobName(String hadoopJobName) {
+        this.hadoopJobName = hadoopJobName;
+    }
+
+    private static Logger logger = LoggerFactory.getLogger(ProcessParameters.class.getName());
+
+    public String getHdfsInputPath() {
+        return hdfsInputPath;
+    }
+
+    public void setHdfsInputPath(String hdfsInputPath) {
+        this.hdfsInputPath = hdfsInputPath;
+    }
 
     /**
      * Getter for the compression type
@@ -164,9 +195,9 @@ public class ProcessConfiguration implements Cloneable {
      * Clone object
      * @return cloned object
      */
-    @Override public ProcessConfiguration clone() {
+    @Override public ProcessParameters clone() {
         try {
-            return (ProcessConfiguration) super.clone();
+            return (ProcessParameters) super.clone();
         } catch (CloneNotSupportedException ex) {
             logger.error("CloneNotSupportedException:",ex);
             throw new AssertionError();

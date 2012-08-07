@@ -43,6 +43,16 @@ public class Options {
             + "If this parameter is omitted, the sequence file creation runs "
             + "as a batch process, adding all files of a directory to a "
             + "sequence file (one per directory) in a separate thread. (Optional)";
+    public static final String HDFSINPUTPATH_FLG = "p";
+    public static final String HDFSINPUTPATH_OPT = "path";
+    public static final String HDFSINPUTPATH_OPT_DESC = "Hadoop map mode: "
+            + "HDFS input path where the text files containing input paths is "
+            + "available. If this parameter is provided, the -d parameter is "
+            + "not required (Optional)";
+    public static final String HADOOPJOBNAME_FLG = "n";
+    public static final String HADOOPJOBNAME_OPT = "name";
+    public static final String HADOOPJOBNAME_OPT_DESC = "Hadoop map mode: "
+            + "Hadoop job name (Optional)";
     public static final String DIR_FLG = "d";
     public static final String DIR_OPT = "dir";
     public static final String DIR_OPT_DESC = "Local directory (or directories - "
@@ -70,15 +80,19 @@ public class Options {
     static {
         OPTIONS.addOption(HELP_FLG, HELP_OPT, false, HELP_OPT_DESC);
         OPTIONS.addOption(HADOOPMAPMODE_FLG, HADOOPMAPMODE_OPT, false, HADOOPMAPMODE_OPT_DESC);
+        OPTIONS.addOption(HDFSINPUTPATH_FLG, HDFSINPUTPATH_OPT, true, HDFSINPUTPATH_OPT_DESC);
+        OPTIONS.addOption(HADOOPJOBNAME_FLG, HADOOPJOBNAME_OPT, true, HADOOPJOBNAME_OPT_DESC);
         OPTIONS.addOption(DIR_FLG, DIR_OPT, true, DIR_OPT_DESC);
         OPTIONS.addOption(EXT_FLG_FLG, EXT_FLG_OPT, true, EXT_FLG_OPT_DESC);
         OPTIONS.addOption(COMPR_FLG, COMPR_OPT, true, COMPR_OPT_DESC);
         OPTIONS.addOption(TEXTLINE_FLG, TEXTLINE_OPT, false, TEXTLINE_OPT_DESC);
     }
 
-    public static void initOptions(CommandLine cmd, ProcessConfiguration pc) {
+    public static void initOptions(CommandLine cmd, ProcessParameters pc) {
 
         String dirStr;
+        String pathStr;
+        String jobName;
         String seqFileStr;
         String extStr;
         String compressionType;
@@ -95,14 +109,40 @@ public class Options {
             logger.info("Batch mode, one sequence file per input directory (comma-separated, parameter -d) in separate threads for each input directory.");
         }
         pc.setHadoopmapmode(mapmode);
+        
+        
+        if ( !(cmd.hasOption(DIR_OPT)) && !(cmd.hasOption(HDFSINPUTPATH_OPT)) ) {
+             exit("Either input directory (-d) or hdfs input paths (-p) must be given.", 1);
+        }
+        if ( cmd.hasOption(DIR_OPT) && cmd.hasOption(HDFSINPUTPATH_OPT) ) {
+             exit("Set either input directory (-d) or hdfs input paths (-p), not both!", 1);
+        }
+        
+        // hdfs input path
+        if (!(cmd.hasOption(HDFSINPUTPATH_OPT) && cmd.getOptionValue(HDFSINPUTPATH_OPT) != null)) {
+           
+        } else {
+            pathStr = cmd.getOptionValue(HDFSINPUTPATH_OPT);
+            pc.setHdfsInputPath(pathStr);
+            logger.info("HDFS input path: " + pathStr);
+        }
 
         // dirs
         if (!(cmd.hasOption(DIR_OPT) && cmd.getOptionValue(DIR_OPT) != null)) {
-            exit("No directory given.", 1);
+           
         } else {
             dirStr = cmd.getOptionValue(DIR_OPT);
             pc.setDirsStr(dirStr);
             logger.info("Directory: " + dirStr);
+        }
+
+        // dirs
+        if (!(cmd.hasOption(HADOOPJOBNAME_OPT) && cmd.getOptionValue(HADOOPJOBNAME_OPT) != null)) {
+            logger.info("No job name given.", 1);
+        } else {
+            jobName = cmd.getOptionValue(HADOOPJOBNAME_OPT);
+            pc.setHadoopJobName(jobName);
+            logger.info("Hadoop job name: " + jobName);
         }
 
         // compression
@@ -118,7 +158,7 @@ public class Options {
         // extension filter
         if (!(cmd.hasOption(EXT_FLG_OPT) && cmd.getOptionValue(EXT_FLG_OPT) != null)) {
             extStr = "";
-            logger.info("No extension filter given. All files will be included.");
+            logger.info("No extension filter given.");
         } else {
             extStr = cmd.getOptionValue(EXT_FLG_OPT);
             pc.setExtStr(extStr);
