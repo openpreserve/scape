@@ -6,6 +6,8 @@
 #include <string>
 #include <list>
 
+#include <math.h>
+
 #include "opencv/cv.h"
 #include <tclap/CmdLine.h>
 
@@ -23,6 +25,8 @@ class ImageHistogram :
 private:
 	int    binSize;
 	string metric;
+	double entropy;
+	double variance;
 
 	vector<Mat> bins;
 	void normalizeHist(Mat hist, int size);

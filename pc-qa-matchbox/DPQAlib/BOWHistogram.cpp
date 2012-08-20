@@ -5,10 +5,13 @@ const string BOWHistogram::TASK_NAME = "BOWHistogram";
 TCLAP::ValueArg<string> argBOW("","bow","[BOWHistogram] Bag of Words file",false,"","filename");
 TCLAP::ValueArg<string> argBOWMetric("","bowmetric","[BOWHistogram] Metric for histogram comparison (CV_COMP_CHISQR,CV_COMP_CORREL,CV_COMP_INTERSECT,CV_COMP_BHATTACHARYYA)",false,"CV_COMP_INTERSECT","str");
 
+TCLAP::ValueArg<int> argBOWIndex("","bowidx","[BOWHistogram] Bag of Words Word Index (Eval Param)",false,-1,"int");
+
 BOWHistogram::BOWHistogram(SIFTComparison* siftcomp):Level4Feature()
 {
 	name = TASK_NAME;
 	addCharacterizationCommandlineArgument(&argBOW);
+	addCharacterizationCommandlineArgument(&argBOWIndex);
 	addComparisonCommandlineArgument(&argBOWMetric);
 
 	sift = siftcomp;
@@ -17,7 +20,7 @@ BOWHistogram::BOWHistogram(SIFTComparison* siftcomp):Level4Feature()
 BOWHistogram::BOWHistogram(void):Level4Feature()
 {
 	name = TASK_NAME;
-	addCharacterizationCommandlineArgument(&argBOW);
+	addCharacterizationCommandlineArgument(&argBOW);	
 	addComparisonCommandlineArgument(&argBOWMetric);
 }
 
@@ -79,6 +82,21 @@ void BOWHistogram::execute(Mat &img)
 		dmatcher->add( vector<Mat>(1, vocabulary) );
 		dmatcher->match( descriptors, matches );
 
+		Mat outputImage;
+		Scalar green(0,255,0);
+		Scalar red(0,0,255);
+		Scalar color;
+
+		if (eval_BowIdx != -1)
+		{
+			cout << "eval " << eval_BowIdx << endl;
+
+			cout << "E:/test/" << StringUtils::getFilename(sift->getFilename()) << ".png" << endl;
+			outputImage = imread("E:/test/" + StringUtils::getFilename(sift->getFilename()) + ".png");
+
+			cout << outputImage.rows << "x" << outputImage.cols << endl;
+		}
+
 		// Compute image descriptor
 		response_hist = Mat( 1, clusterCount, CV_32FC1, Scalar::all(0.0) );
 		float *dptr = (float*)response_hist.data;
@@ -88,6 +106,28 @@ void BOWHistogram::execute(Mat &img)
 			int trainIdx = matches[i].trainIdx; // cluster index
 			CV_Assert( queryIdx == (int)i );
 			dptr[trainIdx] = dptr[trainIdx] + 1.f;
+
+			if (eval_BowIdx != -1)
+			{
+				if (trainIdx == eval_BowIdx)
+				{
+					color = red;
+					circle(outputImage,sift->getKeypoints().at(queryIdx).pt,2, color, 2);
+				}
+				else
+				{
+					color = green;
+				}
+
+				
+			}
+		}
+
+		if (eval_BowIdx != -1)
+		{
+			namedWindow("Show Keypoints", CV_GUI_EXPANDED );
+			imshow("Show Keypoints", outputImage);
+			waitKey();
 		}
 
 		// Normalize image descriptor.
@@ -161,6 +201,7 @@ void BOWHistogram::parseCommandlineArguments()
 {
 	vocabularyFilename = argBOW.getValue();
 	metric             = argBOWMetric.getValue();
+	eval_BowIdx        = argBOWIndex.getValue();
 }
 
 list<string>* BOWHistogram::getCmdlineArguments()

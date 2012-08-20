@@ -11,6 +11,7 @@
 
 #include <string>
 #include "opencv/cv.h"
+#include "opencv/highgui.h"
 
 using namespace cv;
 using namespace std;
@@ -30,14 +31,19 @@ private:
 	Mat               descriptors;
 	vector<KeyPoint>  keypoints;
 
+	int eval_BowIdx;
+
 	// private members
 	Mat loadVocabulary(string filename);
 
 protected:
+	
 	using Feature::name;
 
 public:
+
 	static const string TASK_NAME;		
+	
 	BOWHistogram(SIFTComparison* sift);
 	BOWHistogram(void);
 	~BOWHistogram(void);
