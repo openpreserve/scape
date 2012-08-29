@@ -468,6 +468,37 @@ double SIFTComparison::getScale(void)
 	return scale;
 }
 
+int factorial(int n)
+{
+	  return (n == 1 || n == 0) ? 1 : factorial(n - 1) * n;
+}
+
+double binom(int n, int k)
+{
+	return (factorial(n)/(factorial(n-k)*factorial(k)))*std::pow(0.5,k)*std::pow(0.5,n-k);
+}
+
+std::vector<double> borderWeight(int scale)
+{
+	std::vector<double> result(scale,1.);
+	int halfscale = scale/2;
+	for (int i = 0; i != halfscale; i ++)
+	{
+		for (int j = 0; j != halfscale; j ++)
+		{
+			double tmp;
+			double diff;
+			tmp = result[halfscale + j];
+			result[halfscale + j] = 0.2*result[halfscale + j];
+			result[halfscale - 1 - j] = 0.2*result[halfscale - 1 - j];
+			diff = tmp - result[halfscale + j];
+			result[halfscale + i] += diff;
+			result[halfscale - 1 - i] += diff;
+		}
+	}
+	return result;
+}
+
 double SIFTComparison::calcDispersion( vector<KeyPoint>& keypoints, Mat& image )
 {
 	// initialize variables
@@ -488,20 +519,31 @@ double SIFTComparison::calcDispersion( vector<KeyPoint>& keypoints, Mat& image )
 		double h_s        = 0;
 		double m_expected = keypoints.size() / (scale * scale);
 
-		int    partWidth  = floor(((float)image.cols / (float)scale) + 0.5);
-		int    partHeight = floor(((float)image.rows / (float)scale) + 0.5);
+		int partWidth;
+		int partHeight;
+
+		int    partWidthFloor  = floor(((float)image.cols / (float)scale));
+		int    partHeightFloor = floor(((float)image.rows / (float)scale));
+		int    partWidthCeil = partWidthFloor + 1;
+		int    partHeightCeil = partHeightFloor + 1;
+		int    errorWidth = image.cols - partWidthFloor*scale;
+		int    errorHeight = image.rows - partHeightFloor*scale;
 
 		int    y_start    = 0;
+
 		
+		std::vector<double> borderWeights = borderWeight(scale);
+
 		// for each row
 		for (int i = 0; i < scale; i++)
 		{
 			int x_start = 0;
 
-			// the last row might have a different hight due to rounding errors
-			if (i >= (scale - 1))
+			// Distribute the error in Height across errorHeight subMatrices
+			partHeight = partHeightCeil;
+			if (i > (errorHeight - 1))
 			{
-				partHeight = (image.rows - y_start);
+				partHeight = partHeightFloor;	
 			}
 
 			// for each line
@@ -509,26 +551,26 @@ double SIFTComparison::calcDispersion( vector<KeyPoint>& keypoints, Mat& image )
 			{
 				Rect subMatrix;
 				
-				if (j < scale - 1)
+				// Distribute the error in Width accross errorWidth subMatrices
+				partWidth = partWidthCeil;	
+				if (j > (errorWidth - 1))
 				{
-					subMatrix = Rect(x_start,y_start,partWidth,partHeight);
+					partWidth = partWidthFloor;
 				}
-				else
-				{
-					// the last column might have a different width due to rounding errors
-					subMatrix = Rect(x_start,y_start,(image.cols - x_start),partHeight);
-				}
-				
+
+				subMatrix = Rect(x_start,y_start,partWidth,partHeight);
+
 				// retrieve the number of keypoints for this segment
 				Scalar m_observed = sum(kp_map(subMatrix));
 
 				// calculate h_s for this segment
-				h_s += fabs(m_observed.val[0] - m_expected) / (2 * keypoints.size());
+					h_s += borderWeights[i]*borderWeights[j]*fabs(m_observed.val[0] - m_expected) / (2 * keypoints.size());
 				
 				// update start-coordinate
 				x_start += partWidth;
 			}
 
+	
 			// update start-coordinate
 			y_start += partHeight;
 		}

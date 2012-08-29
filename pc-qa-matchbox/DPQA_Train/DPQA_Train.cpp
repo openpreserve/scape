@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <stdint.h>
 #include <string>
 #include <sstream>
 #include <map>
@@ -180,8 +181,8 @@ void drawBowDescriptors( vector<string> dirNames, Mat vocab )
 	Mat response_hist = Mat( 1, vocab.rows, CV_32FC1, Scalar::all(0.0) );
 	int descCount = 0;
 
-	vector<list<KeyPoint>> bowDist(vocab.rows);
-	vector<map<string,int>> bowExamples(vocab.rows);
+	vector< list<KeyPoint> > bowDist(vocab.rows);
+	vector< map<string,int> > bowExamples(vocab.rows);
 	int maxWidth = 0;
 	int maxHeight = 0;
 
@@ -259,7 +260,7 @@ void drawBowDescriptors( vector<string> dirNames, Mat vocab )
 						dptr[bowIdx] = dptr[bowIdx] + 1.f;
 						bowDist[bowIdx].push_back(sComp->getKeypoints().at(trainIdx));
 
-						sumMat.at<UINT16>(fileID,bowIdx)++;
+						sumMat.at<uint16_t>(fileID,bowIdx)++;
 
 						map<string,int>::iterator m_it = bowExamples[bowIdx].find(filename);
 						if (m_it != bowExamples[bowIdx].end())
