@@ -5,6 +5,7 @@ if [ $# -eq 2 ]; then
 	# inputs
 	XML=`readlink -m $1`
 	WRAPPER=`readlink -m $2`
+	WRAPPER_NAME=`basename $WRAPPER`
 
 	# info needed
 	XML_NAME_WO_EXT=`basename $XML | sed 's/\.xml$//'`
@@ -21,7 +22,7 @@ if [ $# -eq 2 ]; then
 	fi
 
 	cp $WRAPPER $TEMP_DIR
-	chmod 755 "$TEMP_DIR/$XML_NAME_WO_EXT"
+	chmod 755 "$TEMP_DIR/$WRAPPER_NAME"
 
 	cp -r debian_template $TEMP_DIR/debian/
 	cd $TEMP_DIR
@@ -46,5 +47,5 @@ if [ $# -eq 2 ]; then
 	mv $XML_NAME_WO_EXT*.deb $XML_NAME_WO_EXT*.build $XML_NAME_WO_EXT*.changes debs/
 	rm -rf $TEMP_DIR
 else
-	echo -e "[ERROR] Must provide: .xml location (toolspeec description, where the xml filename is also used to generate the debian package name)\n\tusage:\t $0 XML_FILE"
+	echo -e "[ERROR] Must provide: .xml location (toolspeec description, where the xml filename is also used to generate the debian package name) and the wrapped bash script location\n\tusage:\t $0 XML_FILE WRAPPED_BASH"
 fi
