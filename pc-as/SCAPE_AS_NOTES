@@ -22,7 +22,7 @@ done so far (cd $PC_AS/services/ ; for i in $(ls * | sed 's/^scape-pc-as-\([^\-]
 	# And add the following line
 	# deb http://www.debian-multimedia.org squeeze main non-free
 	# * the above instructions can be simplified by doing the following:
-	# > echo "deb http://www.debian-multimedia.org squeeze main non-free" | sudo tee /etc/apt/sources.list.d/debian-multimedia.list
+	# > echo "deb http://www.deb-multimedia.org squeeze main non-free" | sudo tee /etc/apt/sources.list.d/debian-multimedia.list
 	#
 	# > sudo apt-get update && sudo apt-get install debian-multimedia-keyring && sudo apt-get update
 	# > sudo apt-get install handbrake-cli

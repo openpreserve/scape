@@ -4,18 +4,23 @@ This part of the SCAPE project is related to the WP10 - PC.WP.2 Action Services 
 
 Here can be found several files and information related to the Action Services description and deployment.
 
-## Action Services deployed
-Please feel free to try them at http://scape.keep.pt
+## Try it out locally (tested on Debian 6.0.5)
 
-## Try it out locally (tested on Ubuntu 11.10)
-Add our debian repository and gpg key
+Add KEEPS debian package repository (final version of the tools will be added also to the OPF debian repository):
 
-* sudo -E wget --output-document=/etc/apt/sources.list.d/scape.keep.pt.list http://scape.keep.pt/apt/stable.list && wget -q http://scape.keep.pt/apt/rep.key -O- | sudo apt-key add - && sudo apt-get --quiet update
+* sudo -E wget --output-document=/etc/apt/sources.list.d/scape.keep.pt.list http://scape.keep.pt/apt/stable.list && wget -q http://scape.keep.pt/apt/rep.key -O- | sudo apt-key add - 
 
-Install our TIFF to JP2K meta-package
+Add debian-multimedia repository (needed to install handbrake-cli):
 
-* sudo apt-get install scape-pc-as-tiff2jp2-demo
+* echo "deb http://www.deb-multimedia.org squeeze main non-free" | sudo tee /etc/apt/sources.list.d/deb-multimedia.list
 
-Read the manual
+Update the list of packages known by apt (to add the packages from the recently added repositories):
 
-* man scape-pc-as-tiff2jp2-demo
+* sudo apt-get --quiet 2 update
+
+Install all migration tools (using a metapackage):
+
+* sudo apt-get install digital-preservation-tools-migration
+
+
+For more information visit: http://wiki.opf-labs.org/display/SP/MS48+-+Prototype+of+tools+adapted+for+large-scale+application+and+integrated+into+SCAPE+platform

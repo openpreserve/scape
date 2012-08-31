@@ -22,8 +22,10 @@ set -e
 case "$1" in
     purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
 #		if [ "$1" = purge ]; then
+			if [ -f /etc/init.d/openoffice-server-headless-lsb-initscript ]; then
+				rm /etc/init.d/openoffice-server-headless-lsb-initscript
+			fi
 			update-rc.d openoffice-server-headless-lsb-initscript remove
-			rm /etc/init.d/openoffice-server-headless-lsb-initscript
 #     	fi
     ;;
 
