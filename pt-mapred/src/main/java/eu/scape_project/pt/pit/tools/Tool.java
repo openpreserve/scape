@@ -6,7 +6,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 /**
  *  
  * @author Andrew Jackson <Andrew.Jackson@bl.uk>
- *
+ * 
+ * @deprecated use bindings from eu.scape_project.pt.tool instead
  */
 @XmlAccessorType( XmlAccessType.FIELD )
 public class Tool {

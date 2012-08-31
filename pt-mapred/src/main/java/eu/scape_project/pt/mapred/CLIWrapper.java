@@ -20,7 +20,7 @@ import org.apache.hadoop.util.ToolRunner;
 import eu.scape_project.pt.executors.Executor;
 import eu.scape_project.pt.executors.TavernaCLExecutor;
 import eu.scape_project.pt.executors.ToolspecExecutor;
-import eu.scape_project.pt.pit.ToolSpecRepository;
+import eu.scape_project.pt.pit.ToolRepository;
 import eu.scape_project.pt.util.ArgsParser;
 import java.io.File;
 import org.apache.hadoop.fs.FileSystem;
@@ -195,9 +195,9 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
             // TODO validate input parameters (eg. look for toolspec, action, ...)
             Path fRepo = new Path( conf.get(ArgsParser.REPO_LOCATION) );
-            ToolSpecRepository repo = new ToolSpecRepository(FileSystem.get( conf ),fRepo );
+            ToolRepository repo = new ToolRepository(FileSystem.get( conf ),fRepo );
 
-            String[] astrToolspecs = repo.getToolSpecList();
+            String[] astrToolspecs = repo.getToolList();
             LOG.info( "Available ToolSpecs: ");
             for( String strToolspec: astrToolspecs ) 
                 LOG.info( strToolspec );

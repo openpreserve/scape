@@ -3,6 +3,7 @@ package eu.scape_project.pt.util;
 import java.util.HashMap;
 import java.util.List;
 
+import java.util.Map.Entry;
 import joptsimple.ArgumentAcceptingOptionSpec;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -113,37 +114,43 @@ public class ArgsParser {
     /**
      * Takes a string of command-line input arguments and turns it into a args[] like String array.
      * 
-     * Only rudimentary implementation. Maybe there is some tool out there that can do that.
+     * Adapts readParameters(): It turns the output HashMap of readParameters() back to the
+     * --{key} {value} template.
      * 
      * @param strParameters
-     * @return 
+     * @return OptionParser-parsable String[]
      */
     public static String[] makeCLArguments(String strParameters) {
-        return strParameters.split(" ");
-
+        HashMap<String, String> args = readParameters(strParameters);
+        String[] astrArgs = new String[ args.size()*2 ];
+        int i = 0;
+        for( Entry<String, String> entry : args.entrySet() ) {
+            astrArgs[i++] = "--" + entry.getKey();
+            astrArgs[i++] = entry.getValue();
+        }
+        return astrArgs;
     }
 
     /**
      * Maps a parameter and its specification to an OptionParser.accepts() call.
-     * TODO refactor to be a Specification object not a HashMap
      * 
      * @param strName name of the option
      * @param mapSpecs specification of the option (eg. required, datatype)
      */
-    public void setOption(String strName, HashMap<String, Object> mapSpecs ) {
+    public void setOption(String strName, ParamSpec param ) {
             LOG.debug( "accepts( " + strName + ")");
             // sets the name of the option
             OptionSpecBuilder builder = parser.accepts( strName );
             ArgumentAcceptingOptionSpec aaoc; 
 
             // sets whether the option is required or not
-            if( (Boolean)(mapSpecs.get("required")).equals(true) )
+            if( param.isRequired() )
                 aaoc = builder.withRequiredArg();
             else
                 aaoc = builder.withOptionalArg();
 
             // sets the accepted datatype to the specified class
-            aaoc.ofType((Class)(mapSpecs.get("datatype")));
+            //aaoc.ofType((Class)(mapSpecs.get("datatype")));
     }
 	
 

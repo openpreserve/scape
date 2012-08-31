@@ -14,17 +14,12 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.io.Text;
 
-//import eu.scape_project.pit.invoke.CommandNotFoundException;
-//import eu.scape_project.pit.invoke.Processor;
-//import eu.scape_project.pit.invoke.ToolSpecNotFoundException;
-
-import eu.scape_project.pt.pit.invoke.CommandNotFoundException;
-import eu.scape_project.pt.pit.invoke.Processor;
-import eu.scape_project.pt.pit.invoke.ToolSpecNotFoundException;
-
 import eu.scape_project.pt.proc.FileProcessor;
 import eu.scape_project.pt.proc.PitProcessor;
+import eu.scape_project.pt.proc.ToolProcessor;
+import eu.scape_project.pt.proc.Processor;
 import eu.scape_project.pt.util.ArgsParser;
+import eu.scape_project.pt.util.ParamSpec;
 import java.io.ByteArrayOutputStream;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 
@@ -42,11 +37,11 @@ public class ToolspecExecutor implements Executor {
      * The Command-Line Processor. 
      * The same for all maps.
      */
-    static PitProcessor p = null;
+    static Processor p = null;
     /**
      * Workaround data structure to represent Toolspec Input Specifications
      */
-    static HashMap<String, HashMap> mapInputs = null;
+    static HashMap<String, ParamSpec> mapInputs = null;
     private ArgsParser parser;
     private String tstr, astr;
     private final String strRepo;
@@ -59,19 +54,19 @@ public class ToolspecExecutor implements Executor {
 
     @Override
     public void setup() {
-        p = new PitProcessor(tstr, astr, strRepo);
+        p = new ToolProcessor(tstr, astr, strRepo);
         p.initialize();
 
         // get parameters accepted by the processor.
         // this could be needed to validate input parameters 
-        // mapInputs = p.getInputs();
+        mapInputs = p.getParameters();
 
         // get the parameters (the vars in the toolspec action command)
         // if mapInputs can be retrieved and parsing of the record 
         // as a command line would work:
-        // parser = new ArgsParser();
-        // for (Entry<String, HashMap> entry : mapInputs.entrySet()) {
-        //    parser.setOption(entry.getKey(), entry.getValue());
+        parser = new ArgsParser();
+        for (Entry<String, ParamSpec> entry : mapInputs.entrySet())
+            parser.setOption(entry.getKey(), entry.getValue());
     }
 
     /**
@@ -97,61 +92,38 @@ public class ToolspecExecutor implements Executor {
 
         LOG.info("MyMapper.map key:" + key.toString() + " value:" + value.toString());
 
-        // Unix-style parsing (if mapInputs would be known in advance):
-        /*
-            String[] args = ArgsParser.makeCLArguments(value.toString());
-            parser.parse(args);
+        HashMap<String, String> inFiles = new HashMap<String, String>();
+        HashMap<String, String> outFiles = new HashMap<String, String>();
+
+        // Unix-style parsing 
+
+        HashMap<String, String> pContext = new HashMap<String, String>();
+        String[] args = ArgsParser.makeCLArguments(value.toString());
+        parser.parse(args);
             
-            for (String strKey : mapInputs.keySet()) {
-            if (parser.hasOption(strKey)) {
-            mapParams.put(strKey, parser.getValue(strKey));
+        for (Entry<String, ParamSpec> entry : mapInputs.entrySet()) {
+            if (parser.hasOption(entry.getKey())) { // says true if option was set AND is contained in args
+                // context map for the Processor
+                String strValue = parser.getValue(entry.getKey());
+                pContext.put(entry.getKey(), strValue);
+                // contexts for FileProcessor
+                if( entry.getValue().getDirection() == ParamSpec.Direction.IN ) 
+                    inFiles.put(entry.getKey(), strValue);
+                else if( entry.getValue().getDirection() == ParamSpec.Direction.OUT ) 
+                    outFiles.put(entry.getKey(), strValue);
             }
-            }
-         */
+        }
 
         // if mapInputs are not known, the paramters could be parsed that way:
-        HashMap<String, String> mapParams = ArgsParser.readParameters(
-                value.toString());
-
-        // parse parameter values for input- and output-files
-        // FIXME that part should be done within the FilePreprocessor
-        // and it should not rely on "input" and "output" conventions
-        // maybe: a separate Preconditions-Specification where
-        // input- and output-files are marked up
-        ArrayList<String> inFiles = new ArrayList<String>();
-        ArrayList<String> outFiles = new ArrayList<String>();
-
-        String strInputFile = mapParams.get("input");
-        String strOutputFile = mapParams.get("output");
-
-        if (strInputFile != null) {
-            inFiles.add(strInputFile);
-            // replace the input parameter with the tmp local location
-            mapParams.put("input",
-                    FileProcessor.getTempInputLocation(strInputFile));
-        }
-        if (strOutputFile != null) {
-            outFiles.add(strOutputFile);
-            // replace the output parameter with the tmpt local location
-            mapParams.put("output",
-                    FileProcessor.getTempOutputLocation(strOutputFile));
-        }
+        //HashMap<String, String> pContext = ArgsParser.readParameters(
+                //value.toString());
 
         // bring hdfs files to the exec-dir and use a hash 
-        // FIXME maybe they are not hdfs-files ...
         // of the file's full path as identifier
         // prepares input files for local processing through cmd line tool
+        // FIXME maybe they are not hdfs-files ...
 
-        FileSystem hdfs = null;
-        try {
-            hdfs = FileSystem.get(new Configuration());
-        } catch (IOException ex) {
-            LOG.error(ex);
-        }
-        FileProcessor fileProcessor = new FileProcessor(
-                inFiles.toArray(new String[0]),
-                outFiles.toArray(new String[0]),
-                hdfs);
+        FileProcessor fileProcessor = new FileProcessor( inFiles, outFiles);
 
         try {
             fileProcessor.resolvePrecondition();
@@ -161,14 +133,19 @@ public class ToolspecExecutor implements Executor {
             e_pre.printStackTrace();
         }
 
+        // replace remote refs in pContext by local refs of filePREprocessing
+        pContext.putAll(fileProcessor.getLocalInRefs());
+        pContext.putAll(fileProcessor.getLocalOutRefs());
+
+        for( Entry<String, String> entry: pContext.entrySet())
+            LOG.debug("pContext.key = " + entry.getKey() + "; value = " + entry.getValue());
         // run processor
-        // TODO use sthg. like contextObject to manage type safety (?)
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         try {
             p.setStdout(bos);
-            p.setContext(mapParams);
+            p.setContext(pContext);
             p.execute();
         } catch (Exception e_exec) {
             LOG.error("Exception in execution phase: "
@@ -187,9 +164,9 @@ public class ToolspecExecutor implements Executor {
         }
         try {
             // write processor output to map context
-            // use the first input file as key (workaround)
-            // TODO fix that workaround
-            context.write(new Text(inFiles.get(0)), new Text(bos.toByteArray()));
+            context.write(
+                new Text(context.getTaskAttemptID().getId() + "." 
+                    + System.currentTimeMillis()), new Text(bos.toByteArray()));
 
         } catch (IOException ex) {
             LOG.error(ex);

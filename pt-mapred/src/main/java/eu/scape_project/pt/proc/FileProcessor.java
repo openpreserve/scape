@@ -14,40 +14,84 @@ import org.apache.hadoop.fs.FileSystem;
 import eu.scape_project.pt.fs.util.Filer;
 import eu.scape_project.pt.fs.util.HDFSFiler;
 import eu.scape_project.pt.fs.util.PtFileUtil;
+import java.util.Map.Entry;
+import org.apache.hadoop.conf.Configuration;
 
 public class FileProcessor implements PreProcessor, PostProcessor {
 	
 	private static Log LOG = LogFactory.getLog(FileProcessor.class);
 	
-	protected String[] inRefs = null;
-	protected String[] outRefs = null;
+	protected HashMap<String, String> inRefs = null;
+	protected HashMap<String, String> outRefs = null;
 	protected FileSystem hdfs = null;
 	
 	private File[] inputFiles = null;
 	
 	// A map that maps from all input strings to their corresponding local temp file
-	private Map<String, String> retrievedFiles = new HashMap<String, String>();
+	private HashMap<String, String> retrievedFiles = new HashMap<String, String>();
+    private HDFSFiler hdfs_filer = null;
 	
+    public FileProcessor() {
+        createHDFS();
+    }
+
+    /**
+     * 
+     * @param inFiles 
+     * @deprecated
+     */
 	public FileProcessor(String[] inFiles) {
-		this.inRefs = inFiles;
+        throw new UnsupportedOperationException();
 	}
 	
-	public FileProcessor(String[] inRefs, String[] outRefs, FileSystem hdfs) {
+    /**
+     * @deprecated  
+     */
+	public FileProcessor(String[] inRefs, String[] outRefs, FileSystem fs ) {
+        throw new UnsupportedOperationException();
+	}
+
+	public FileProcessor(HashMap<String, String> inRefs, HashMap<String, String> outRefs ) {
 		this.inRefs = inRefs;
 		this.outRefs = outRefs;
-		this.hdfs = hdfs;
+        createHDFS();
 	}
+
+
+    private void createHDFS() {
+        try {
+            this.hdfs = FileSystem.get(new Configuration());
+        } catch (IOException ex) {
+            LOG.error(ex);
+        }
+    }
 	
-	public void setInRefs(String[] inRefs) {
+	public void setInRefs(HashMap<String, String> inRefs) {
 		this.inRefs = inRefs;
 	}
 	
-	public String[] getInRefs() {
-		return inRefs;
+	public HashMap<String, String> getLocalInRefs() {
+        HashMap<String, String> localInRefs = new HashMap<String, String>();
+		for(Entry<String, String> entry : inRefs.entrySet()) {			
+            localInRefs.put(entry.getKey(), getTempInputLocation( entry.getValue() ));
+        }
+		return localInRefs;
 	}
 	
-	public void setOutRefs(String[] outRefs) {
+	public void setOutRefs(HashMap<String, String> outRefs) {
 		this.outRefs = outRefs;
+	}
+
+    /**
+     * Returns local file references of output files.
+     * @return 
+     */
+	public HashMap<String, String> getLocalOutRefs() {
+        HashMap<String, String> localOutRefs = new HashMap<String, String>();
+		for(Entry<String, String> entry : outRefs.entrySet()) {			
+            localOutRefs.put(entry.getKey(), getTempInputLocation( entry.getValue() ));
+        }
+		return localOutRefs;
 	}
 
 	public void setHadoopFS(FileSystem hdfs) {
@@ -55,6 +99,9 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 	}
 	
 	@Override
+    /**
+     * Copies remote input references to local filesystem.
+     */
 	public void resolvePrecondition() throws IOException, URISyntaxException {
 		// Any inRefs?
 		if(inRefs == null) {
@@ -63,10 +110,15 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 		}
 		
 		ArrayList<File> files = new ArrayList<File>();
-		for(String file : inRefs) {			
+		for(Entry<String, String> entry : inRefs.entrySet()) {			
+            String file = entry.getValue();
+            if( retrievedFiles != null && retrievedFiles.containsKey(file))
+                continue;
+
 			LOG.info("trying to retrieve file: "+file);
 			Filer filer = getFiler(file);
 			if(filer == null) continue;
+
 	    	File inFile = filer.copyFile(file, getTempInputLocation( file ));
 	    	files.add(inFile);
 	    	
@@ -75,6 +127,7 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 	    	LOG.info("retrieving file: "+inFile.getName());
 		}	
 		this.inputFiles = files.toArray(new File[0]);
+
 	}
     
     /**
@@ -115,11 +168,14 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 			return;
 		}
 		
-		for(String file : outRefs) {			
+		for(Entry<String, String> entry : outRefs.entrySet()) {			
+            String file = entry.getValue();
 			LOG.info("trying to deposit file: "+file);			
 			Filer filer = getFiler(file);
 			if(filer == null) continue;
-			filer.depositDirectoryOrFile(getTempOutputLocation( file ), file);
+            String outFile = getTempOutputLocation(file);
+			filer.depositDirectoryOrFile(outFile, file);
+            outRefs.put(entry.getKey(), outFile );
 		}
 	}
 		
@@ -129,8 +185,10 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 				LOG.error("Cannot create HDFSFiler. Hadoop FileSystem not set!");
 				return null;
 			}
-			//TODO don't do this for each file
-			return new HDFSFiler(hdfs);
+            if( hdfs_filer == null )
+                return hdfs_filer = new HDFSFiler(hdfs);
+            else
+                return hdfs_filer;
 		} else if(PtFileUtil.isFileUri(file)) {
 			LOG.error("Cannot create FileFiler. Not implemented!");
 				return null;
@@ -143,5 +201,5 @@ public class FileProcessor implements PreProcessor, PostProcessor {
 	public Map<String, String> getRetrievedFiles() {
 		return retrievedFiles;
 	}
-	
+
 }

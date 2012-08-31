@@ -157,6 +157,7 @@ public class Processor {
 		return vars;
 	}
 
+    // moved to ToolInvoker
 	protected void replaceAll(String[] cmd_template, HashMap<String,String> vars) {
 		for( int i = 0; i < cmd_template.length; i++ ) {
 			for( String key : vars.keySet() ) {

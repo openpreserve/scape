@@ -20,6 +20,8 @@ import javax.xml.transform.stream.StreamSource;
 
 /**
  * @author  <a href="mailto:andrew.jackson@bl.uk">Andrew Jackson</a>
+ * 
+ * @deprecated use bindings from eu.scape_project.pt.tool instead
  */
 @XmlRootElement( name="toolspec" )
 @XmlType( namespace=ToolSpec.NS )

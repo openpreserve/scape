@@ -15,7 +15,8 @@ import javax.xml.bind.annotation.XmlType;
  *  - A Java class from a particular Maven POM/package.
  *  
  * @author Andrew Jackson <Andrew.Jackson@bl.uk>
- *
+ * 
+ * @deprecated use bindings from eu.scape_project.pt.tool instead
  */
 @XmlType( namespace=ToolSpec.NS )
 @XmlAccessorType( XmlAccessType.FIELD )

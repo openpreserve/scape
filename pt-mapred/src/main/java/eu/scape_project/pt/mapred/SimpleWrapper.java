@@ -37,8 +37,7 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	public static class MyMapper extends Mapper<Object, Text, Text, IntWritable> {
 	    //Mapper<Text, Buffer, Text, IntWritable> {
 		
-		//TODO
-		//use logger for writing to std. out
+		//TODO use logger for writing to std. out
 			
 		public void setup( Context context ) {
 		}
@@ -64,7 +63,6 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	String[] outFiles = rparser.getOutFiles();
 	    	String[] cmdArgs = rparser.getCmdArguments();
 	    	
-	    	//TODO
 	    	//prepare execution (download files, attach pipes)
 	    	//start execution 
 	    	//finish execution (write output files)
@@ -103,7 +101,6 @@ public class SimpleWrapper extends Configured implements org.apache.hadoop.util.
 	    	//	LOG.info("in tmp dir: "+ f.getName()+ " " +f.getTotalSpace());
 	    	//}
 	    	
-	    	//TODO resolvePostcondtion()
 	    	try {
 	    		fileProcessor.resolvePostcondition();
 	    	} catch(Exception e_post) {

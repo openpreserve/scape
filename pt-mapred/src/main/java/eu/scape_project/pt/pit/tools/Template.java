@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * @author  <a href="mailto:andrew.jackson@bl.uk">Andrew Jackson</a>
+ * 
+ * @deprecated use bindings from eu.scape_project.pt.tool instead
  */
 @XmlType( namespace=ToolSpec.NS )
 @XmlAccessorType( XmlAccessType.FIELD )

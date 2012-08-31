@@ -1,6 +1,5 @@
 package eu.scape_project.pt.pit.invoke;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -9,8 +8,9 @@ import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import eu.scape_project.pt.fs.util.PtFileUtil;
-import eu.scape_project.pt.pit.ToolSpec;
+import java.io.OutputStream;
+import java.util.HashMap;
+import org.apache.commons.io.IOUtils;
 
 /*
  * Class to invoke tools as native processes. Supports IO via files and streams.
@@ -19,16 +19,12 @@ import eu.scape_project.pt.pit.ToolSpec;
  * 
  * @author Rainer Schmidt [rschmidt13]
  */ 
-@Deprecated
 public class ToolInvoker {
 	
 	private static Log LOG = LogFactory.getLog(ToolInvoker.class);
 	
+    /*
 	private ToolSpec toolSpec = null;
-	
-	public ToolInvoker(ToolSpec tool) {
-		this.toolSpec = tool;
-	}
 	
 	public int execute() throws IOException, InterruptedException {
 		
@@ -120,12 +116,94 @@ public class ToolInvoker {
 	    return t;
 	}
 
-	public ToolSpec getToolSpec() {
-		return toolSpec;
+    /**
+     * Replaces input parameters in the given command and executes it locally. 
+     * 
+     * @param cmd String of command path with variables like ${"key"}
+     * @param inputs HashMap of input parameters (keys and values)
+     * @throws IOException 
+     */
+    public int runCommand( String cmd, HashMap<String, String> inputs ) throws IOException {
+        return runCommand( cmd, inputs, null, null );
+    }
+
+    /**
+     * Replaces input parameters in the given command and executes it locally. 
+     * Passes in Inputstream stdin and writes command's standard output to stdout.
+     * 
+     * @param cmd String of command path with variables like ${"key"}
+     * @param inputs HashMap of input parameters (keys and values)
+     * @param stdin InputStream to read command's standard input from
+     * @param stdout OutputStream to write command's standard output to
+     * @throws IOException 
+     */
+	public int runCommand( String cmd, HashMap<String, String> inputs, InputStream stdin, OutputStream stdout ) throws IOException {
+
+		// Build the command:
+        String[] cmd_template = cmd.split(" ");
+        replaceAll(cmd_template, inputs );
+
+		ProcessBuilder pb = new ProcessBuilder(cmd_template);
+		LOG.debug("Executing: "+pb.command());
+		/*
+		for( String command : pb.command() ) {
+			System.out.println("Command : "+command);			
+		}
+		*/
+		
+		pb.redirectErrorStream(true);
+		Process start = pb.start();
+		try {
+			//copy input stream to output stream
+			if( stdin != null ) {
+				IOUtils.copyLarge(stdin,  start.getOutputStream() );
+				start.getOutputStream().close();
+				System.out.println("Data in...");
+			}
+			
+            InputStream procStdout = start.getInputStream();
+			// Copy the OutputStream:
+            if( stdout != null ) {
+                IOUtils.copy( procStdout, stdout );
+            }
+            else {
+                //StringWriter sw = new StringWriter();
+                IOUtils.copy( procStdout , System.out );
+                //System.out.println(sw.toString());
+            }
+
+			
+			// Wait for completion:
+			// FIXME Needs time-out. 			
+			start.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+            start.destroy();
+        }
+        return start.exitValue();
+	}
+	
+    /**
+     * Replaces ${key}s in given space-devided command-array by values.
+     * 
+     * @param cmd_template
+     * @param inputs 
+     */
+	protected void replaceAll(String[] cmd_template, HashMap<String,String> inputs) {
+		for( int i = 0; i < cmd_template.length; i++ ) {
+			for( String key : inputs.keySet() ) {
+				// Something is inserting a null,null pair into the map - ignoring it here:
+				if( key != null && inputs.get(key) != null ) {
+					String matchTo = Pattern.quote("${"+key+"}");
+					LOG.debug("GOT "+key+" "+inputs.get(key));
+					cmd_template[i] = cmd_template[i].replaceAll(
+                            matchTo, inputs.get(key).replace("\\", "\\\\") );
+				}
+			}
+		}
 	}
 
-	public void setTool(ToolSpec tool) {
-		this.toolSpec = tool;
-	}
 
 }

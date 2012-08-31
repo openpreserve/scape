@@ -8,7 +8,7 @@ import java.util.Properties;
 /**
  * Maps tools to commands.
  * 
- * @author ait
+ * @author Matthias Rella [my_rho]
  * @deprecated Using the cmd specification in Toolspec files
  */
 @Deprecated

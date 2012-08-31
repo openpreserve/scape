@@ -14,6 +14,7 @@ import eu.scape_project.pt.pit.tools.ToolSpec;
 import eu.scape_project.pt.pit.invoke.Processor;
 
 import eu.scape_project.pt.pit.ToolSpecRepository;
+import eu.scape_project.pt.util.ParamSpec;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -122,7 +123,9 @@ public class PitProcessor implements eu.scape_project.pt.proc.Processor {
      * 
      * @return inputs in a HashMap
      */
-    public HashMap<String, HashMap> getInputs( ) {
+    public HashMap<String, ParamSpec> getParameters( ) {
+        throw new UnsupportedOperationException();
+        /*
         HashMap<String, HashMap> mapInputz = new HashMap<String,HashMap>();
         if( strTool.equals("ghostscript") && strAction.equals("gs-to-pdfa") ||
             strTool.equals("convert") && strAction.equals("convertTIFFtoTIFF")) {
@@ -145,6 +148,7 @@ public class PitProcessor implements eu.scape_project.pt.proc.Processor {
             mapInputz.put("input", mapInputParam);
         }
         return mapInputz;
+         */
     }
     
 }

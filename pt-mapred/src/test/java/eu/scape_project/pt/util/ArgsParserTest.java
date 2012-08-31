@@ -34,21 +34,22 @@ public class ArgsParserTest {
     @Test
     public void testSetArguments() {
         System.out.println("setArguments");
-        HashMap<String, HashMap> mapInputs = new HashMap<String,HashMap>();
-        HashMap<String, Object> mapInputParam = new HashMap<String, Object>();
-        mapInputParam.put( "required", true );
-        mapInputParam.put( "datatype", URI.class );
-        mapInputParam.put( "direction", "input");
+        HashMap<String, ParamSpec> mapInputs = new HashMap<String,ParamSpec>();
+        ParamSpec mapInputParam = new ParamSpec();
+        mapInputParam.setRequired(true);
+        mapInputParam.setType(URI.class);
+        mapInputParam.setDirection(ParamSpec.Direction.IN);
         mapInputs.put("input", mapInputParam);
 
-        HashMap<String, Object> mapOutputParam = new HashMap<String, Object>();
-        mapOutputParam.put( "required", true );
-        mapOutputParam.put( "datatype", URI.class );
-        mapOutputParam.put( "direction", "input");
+        HashMap<String, ParamSpec> mapOutputs = new HashMap<String,ParamSpec>();
+        ParamSpec mapOutputParam = new ParamSpec();
+        mapOutputParam.setRequired(true);
+        mapOutputParam.setType(URI.class);
+        mapOutputParam.setDirection(ParamSpec.Direction.OUT);
         mapInputs.put("output", mapOutputParam);
 
         ArgsParser parser = new ArgsParser();
-        for( Entry<String, HashMap> entry: mapInputs.entrySet() )
+        for( Entry<String, ParamSpec> entry: mapInputs.entrySet() )
             parser.setOption(entry.getKey(), entry.getValue());
 
         String value = "--input bla --output bla2";

@@ -1,5 +1,6 @@
 package eu.scape_project.pt.proc;
 
+import eu.scape_project.pt.util.ParamSpec;
 import java.io.OutputStream;
 import java.util.HashMap;
 
@@ -20,6 +21,6 @@ public interface Processor {
      * TODO use a Inputs Object instead of HashMap
      * @return 
      */
-    public HashMap<String, HashMap> getInputs();
+    public HashMap<String, ParamSpec> getParameters();
 	
 }

@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 import eu.scape_project.pt.pit.ToolSpec;
 import eu.scape_project.pt.pit.invoke.ToolInvoker;
+import eu.scape_project.pt.util.ParamSpec;
 
 @Deprecated
 public class TaskProcessor implements Processor {
@@ -25,14 +26,13 @@ public class TaskProcessor implements Processor {
 	@Override
 	public void initialize() {
 		if(executable.getExecutableType() == Executable.NATIVE_EXEC) {
-			invoker = new ToolInvoker((ToolSpec)executable);
+			//invoker = new ToolInvoker((ToolSpec)executable);
 		}
 	}
 
 	@Override
 	public int execute() throws Exception {
-		int code = invoker.execute();
-		return code;
+        throw new UnsupportedOperationException("Not supported yet.");
 	}
 
     @Override
@@ -41,7 +41,7 @@ public class TaskProcessor implements Processor {
     }
 
     @Override
-    public HashMap<String, HashMap> getInputs() {
+    public HashMap<String, ParamSpec> getParameters() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
