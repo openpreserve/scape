@@ -19,6 +19,9 @@
 
 #include "CLAHE.h"
 
+#define _USE_MATH_DEFINES
+
+
 using namespace cv;
 using namespace std;
 
@@ -32,6 +35,7 @@ private:
 	Mat              descriptors;
 	vector<KeyPoint> keypoints;
 	double           scale;
+	double           dispersion;
 
 	// commandline arguments
 	int              sdk;
@@ -42,6 +46,7 @@ private:
 	Mat              calcAffineTransform(vector<DMatch>& matches, vector<KeyPoint>& keypointsTrain, vector<KeyPoint>& keypointsQuery, double scale2);
 	Mat              downsample(Mat& matImg);
 	vector<KeyPoint> findSpatiallyDistinctiveLocalKeypoints(Mat& image, vector<KeyPoint>& keypoints);
+	double           calcDispersion(vector<KeyPoint>& keypoints, Mat& image);
 
 protected:
 	using Feature::name;

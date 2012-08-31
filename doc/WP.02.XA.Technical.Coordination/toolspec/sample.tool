@@ -25,11 +25,11 @@
                     <description>URL reference to input file</description>
                     <defaultValue>http://scape.keep.pt/scape/testdata/video/big_buck_bunny_480p_stereo.ogg</defaultValue>
                 </input>
-                <input name="params" required="true">
+                <parameter name="params" required="true">
                     <format registryName="mimetype">text/plain</format>
                     <description>Additional encoding parameters</description>
                     <defaultValue>-ar 48000</defaultValue>
-                </input>
+                </parameter>
             </inputs>
 
             <outputs>
@@ -49,11 +49,11 @@
                     <format registryName="mimetype">video/*</format>
                     <description>Contents of video stream</description>
                 </stdin>
-                <input name="params" required="true">
+                <parameter name="params" required="true">
                     <format registryName="mimetype">text/plain</format>
                     <description>Additional encoding parameters</description>
                     <defaultValue>-ar 48000</defaultValue>
-                </input>
+                </parameter>
             </inputs>
             
             <outputs>
@@ -72,9 +72,9 @@
                     <format registryName="mimetype">video/*</format>
                     <description>URL reference to input file</description>
                 </input>
-                <input name="params" required="false">
+                <parameter name="params" required="false">
                     <description>Additional encoding parameters</description>
-                </input>
+                </parameter>
             </inputs>
 
             <outputs>

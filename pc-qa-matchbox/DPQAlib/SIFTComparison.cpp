@@ -111,7 +111,7 @@ void SIFTComparison::execute(Mat& img)
 		image = downsample(image);
 
 	} 
-	
+
 	if (clahe != 1)
 	{
 		Feature::verbosePrintln(string("CLAHE"));
@@ -144,6 +144,49 @@ void SIFTComparison::execute(Mat& img)
 		Feature::verbosePrintln(string("detecting keypoints"));
 		featureDetector->detect( image, kps );
 
+		// **************************************************
+		// draw keypoints
+		// **************************************************
+
+		//Mat outputImage = image.clone();
+
+
+
+		//for (vector<KeyPoint>::iterator it = kps.begin(); it != kps.end(); it++)
+		//{
+		//	KeyPoint kp = *it;
+		//	
+
+		//	Scalar color;
+
+		//	if (1) //((kp.size > 10))// && (kp.size < 15))
+		//	{
+		//		color = Scalar(255,0,0);
+		//	//else
+		//	//	color = Scalar(0,255,0);
+
+		//		circle(outputImage,kp.pt,int(kp.size),color, 1);
+
+		//		Point pt2(((cos(kp.angle / (2 * 3.14)) * kp.size) + kp.pt.x) , ((sin(kp.angle / (2 * 3.14)) * kp.size) + kp.pt.y));
+		//		line(outputImage, kp.pt, pt2, Scalar(0,0,255), 1);
+		//	}
+
+		//	//cout << "angle = " << kp.angle << ", response = " << kp.response << ", octave = " << kp.octave << ", size = " << kp.size << endl;
+		//}
+
+		//imshow("test",outputImage );
+		//waitKey();
+
+		//vector<int> compression_params;
+		//compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+		//compression_params.push_back(9);
+
+		//string f_name = StringUtils::getFilename(filename);
+
+		//imwrite("E:/test/" + f_name + ".png", outputImage, compression_params);
+	
+		// **************************************************
+
 		if (sdk != 0)
 		{
 			keypoints = findSpatiallyDistinctiveLocalKeypoints(image, kps);
@@ -153,6 +196,7 @@ void SIFTComparison::execute(Mat& img)
 			keypoints = kps;
 		}
 		
+		dispersion = calcDispersion( keypoints, image );
 
 		// calculate descriptors
 		Ptr<DescriptorExtractor> descriptorExtractor = DescriptorExtractor::create("SIFT");
@@ -349,6 +393,7 @@ void SIFTComparison::writeOutput(FileStorage& fs)
 		write(fs, "descriptors", descriptors);
 		fs << "scale" << scale;
 		fs << "filename" << filename;
+		fs << "dispersion" << dispersion;
 
 		fs << "}";
 	}
@@ -421,4 +466,76 @@ vector<KeyPoint> SIFTComparison::getKeypoints(void)
 double SIFTComparison::getScale(void)
 {
 	return scale;
+}
+
+double SIFTComparison::calcDispersion( vector<KeyPoint>& keypoints, Mat& image )
+{
+	// initialize variables
+	double h        = 0;
+	double weight   = 4.79129;
+
+	// calculate 2D-Histogram of Keypoint-Coordinates
+	Mat kp_map = Mat::zeros(image.rows, image.cols, CV_16U);
+
+	for(vector<KeyPoint>::iterator it = keypoints.begin(); it != keypoints.end(); it++)
+	{
+		kp_map.at<int>((*it).pt)++;
+	}
+
+	// calculate dispersion
+	for (int scale = 2; scale <= 64; scale *= 2)
+	{
+		double h_s        = 0;
+		double m_expected = keypoints.size() / (scale * scale);
+
+		int    partWidth  = floor(((float)image.cols / (float)scale) + 0.5);
+		int    partHeight = floor(((float)image.rows / (float)scale) + 0.5);
+
+		int    y_start    = 0;
+		
+		// for each row
+		for (int i = 0; i < scale; i++)
+		{
+			int x_start = 0;
+
+			// the last row might have a different hight due to rounding errors
+			if (i >= (scale - 1))
+			{
+				partHeight = (image.rows - y_start);
+			}
+
+			// for each line
+			for (int j = 0; j < scale; j++)
+			{
+				Rect subMatrix;
+				
+				if (j < scale - 1)
+				{
+					subMatrix = Rect(x_start,y_start,partWidth,partHeight);
+				}
+				else
+				{
+					// the last column might have a different width due to rounding errors
+					subMatrix = Rect(x_start,y_start,(image.cols - x_start),partHeight);
+				}
+				
+				// retrieve the number of keypoints for this segment
+				Scalar m_observed = sum(kp_map(subMatrix));
+
+				// calculate h_s for this segment
+				h_s += fabs(m_observed.val[0] - m_expected) / (2 * keypoints.size());
+				
+				// update start-coordinate
+				x_start += partWidth;
+			}
+
+			// update start-coordinate
+			y_start += partHeight;
+		}
+
+		// calculate h_s for this scale
+		h += std::pow(weight,(1-(log10((double)scale)/log10((double)2)))) * h_s;
+	}
+
+	return h;
 }

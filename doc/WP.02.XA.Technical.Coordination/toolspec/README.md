@@ -1,3 +1,7 @@
+2012-08-27 - hsilva
+
+Added element /tool/operations/operation/inputs/parameter
+
 2012-05-07 - rcastro
 
 Removed element /tool/otherProperties/mdRef
