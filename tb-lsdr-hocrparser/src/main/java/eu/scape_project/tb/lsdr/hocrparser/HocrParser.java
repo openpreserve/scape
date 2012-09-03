@@ -91,7 +91,7 @@ public class HocrParser {
                 } catch (java.lang.ArithmeticException _) {
                     // averageBlockWidth is 0
                 }
-                
+
                 context.write(key, new LongWritable(avbw));
             }
         }
@@ -107,8 +107,18 @@ public class HocrParser {
         public void map(Text key, BytesWritable value, Mapper.Context context)
                 throws IOException, InterruptedException {
 
-            byte[] hocrBytes = value.getBytes();
-            InputStream hocrInputStream = new ByteArrayInputStream(hocrBytes);
+            // Attention: Hadoop versions < 0.22.0 return a padded byte array
+            // with arbitrary data chunks and zero bytes using BytesWritable.getBytes.
+            // BytesWritable.getBytes.getLength() returns the real size of the
+            // BytesWritable content. The name of BytesWritable.getBytes is
+            // misleading, which has been fixed in Hadoop version 0.22.0.
+            // See https://issues.apache.org/jira/browse/HADOOP-6298
+            byte[] bytes = value.getBytes();
+            int bytesLen = value.getLength();
+            byte[] slicedBytes = new byte[bytesLen];
+            System.arraycopy(bytes, 0, slicedBytes, 0, bytesLen);
+
+            InputStream hocrInputStream = new ByteArrayInputStream(slicedBytes);
 
             Document doc = Jsoup.parse(hocrInputStream, "UTF-8", "http://books.google.com");
             String tag = "div";
@@ -147,7 +157,15 @@ public class HocrParser {
                             h = y2 - y1;
                             String format = "x1: %d; y1: %d; x2: %d; y2: %d; w: %d; h: %d";
                             String line = String.format(format, x1, y1, x2, y2, w, h);
-                            Text outkey = new Text(key.toString() + "|" + tag + "|" + type);
+                            Pattern pattern = Pattern.compile("[0-9]{3,15}");
+                            Matcher matcher = pattern.matcher(key.toString());
+                            String outKeyStr = "Z";
+                            while (matcher.find()) {
+                                outKeyStr += matcher.group(0);
+                                outKeyStr += ('/');
+                            }
+                            outKeyStr = outKeyStr.substring(0, outKeyStr.length() - 1);
+                            Text outkey = new Text(outKeyStr);
                             Text outvalue = new Text(line);
                             context.write(outkey, outvalue);
                         }
@@ -163,7 +181,7 @@ public class HocrParser {
     public static void main(String[] args) throws ParseException {
         Configuration conf = new Configuration();
 
-        conf.setBoolean("mapreduce.client.genericoptionsparser.used", true);
+        //conf.setBoolean("mapreduce.client.genericoptionsparser.used", true);
         GenericOptionsParser gop = new GenericOptionsParser(conf, args);
         HocrParserCliConfig pc = new HocrParserCliConfig();
         CommandLineParser cmdParser = new PosixParser();
@@ -174,10 +192,11 @@ public class HocrParser {
             HocrParserOptions.initOptions(cmd, pc);
         }
         String dir = pc.getDirStr();
-        
+
         String name = pc.getHadoopJobName();
-        if(name == null || name.equals(""))
+        if (name == null || name.equals("")) {
             name = "hocr_parser";
+        }
 
         try {
             Job job = new Job(conf, name);
@@ -202,7 +221,7 @@ public class HocrParser {
             job.setOutputValueClass(LongWritable.class);
 
             SequenceFileInputFormat.addInputPath(job, new Path(dir));
-            String outpath = "output/" + System.currentTimeMillis()+"hop";
+            String outpath = "output/" + System.currentTimeMillis() + "hop";
             FileOutputFormat.setOutputPath(job, new Path(outpath));
             job.waitForCompletion(true);
             System.out.print(outpath);

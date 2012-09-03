@@ -67,7 +67,9 @@ public class SequenceFileUtility {
         
         int res = 1;
         Configuration conf = new Configuration();
-        conf.setBoolean("mapreduce.client.genericoptionsparser.used", false);
+        //conf.set("mapred.max.split.size", "16777216");
+        
+        //conf.setBoolean("mapreduce.client.genericoptionsparser.used", false);
         GenericOptionsParser gop = new GenericOptionsParser(conf, args);
         ProcessParameters pc = new ProcessParameters();
         CommandLineParser cmdParser = new PosixParser();
