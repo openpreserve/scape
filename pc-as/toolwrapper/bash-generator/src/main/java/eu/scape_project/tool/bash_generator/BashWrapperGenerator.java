@@ -54,12 +54,13 @@ import eu.scape_project.tool.data.Operation;
 import eu.scape_project.tool.data.Output;
 import eu.scape_project.tool.data.Parameter;
 import eu.scape_project.tool.data.Tool;
+import eu.scape_project.tool.toolwrapper.ToolWrapperCommandline;
 import eu.scape_project.tool.toolwrapper.ToolWrapperGenerator;
 
-public class BashWrapperGenerator extends ToolWrapperGenerator {
+public class BashWrapperGenerator extends ToolWrapperCommandline implements
+		ToolWrapperGenerator {
 	private Tool tool;
 	private Operation operation;
-	private String outputDirectory;
 	private String wrapperName;
 	private String maintainerEmail;
 	private Template bashWrapperTemplate;
@@ -72,20 +73,8 @@ public class BashWrapperGenerator extends ToolWrapperGenerator {
 	public BashWrapperGenerator() {
 		tool = null;
 		operation = null;
-		outputDirectory = null;
 		wrapperName = null;
 		maintainerEmail = null;
-		bashWrapperTemplate = null;
-		debianDir = null;
-		debianTemplates = null;
-	}
-
-	public BashWrapperGenerator(Tool tool, Operation operation,
-			String outputDirectory, String maintainerEmail) {
-		this.tool = tool;
-		this.operation = operation;
-		this.outputDirectory = outputDirectory;
-		this.maintainerEmail = maintainerEmail;
 		bashWrapperTemplate = null;
 		debianDir = null;
 		debianTemplates = null;
@@ -102,11 +91,6 @@ public class BashWrapperGenerator extends ToolWrapperGenerator {
 
 	public BashWrapperGenerator setOperation(Operation operation) {
 		this.operation = operation;
-		return this;
-	}
-
-	public BashWrapperGenerator setOutputDirectory(String outputDirectory) {
-		this.outputDirectory = outputDirectory;
 		return this;
 	}
 
@@ -128,7 +112,14 @@ public class BashWrapperGenerator extends ToolWrapperGenerator {
 	 * create wrapper and Debian package logic ************
 	 * ****************************************************
 	 */
-	public boolean generateWrapper(boolean generateDebianPackage) {
+	@Override
+	public boolean generateWrapper(Tool tool, Operation operation,
+			String outputDirectory, boolean generateDebianPackage,
+			String maintainerEmail) {
+		this.tool = tool;
+		this.operation = operation;
+		this.maintainerEmail = maintainerEmail;
+
 		boolean res = true;
 		initVelocity();
 		if (loadBashWrapperTemplate()) {
@@ -346,6 +337,9 @@ public class BashWrapperGenerator extends ToolWrapperGenerator {
 		Template workflowTemplate = loadVelocityTemplateFromResources("bash_workflow_template.t2flow");
 		UUID randomUUID = UUID.randomUUID();
 		context.put("uniqID", randomUUID);
+		context.put("listOfInputs", operation.getInputs().getInput());
+		context.put("listOfOutputs", operation.getOutputs().getOutput());
+		context.put("listOfParams", operation.getInputs().getParameter());
 		StringWriter sw = new StringWriter();
 		workflowTemplate.merge(context, sw);
 		writeTemplateContent(tempDir2.getAbsolutePath(), operation.getName()
@@ -566,22 +560,16 @@ public class BashWrapperGenerator extends ToolWrapperGenerator {
 			cmd = pair.getLeft();
 			tool = pair.getRight();
 
-			// set bwg variables
-			bwg.setTool(tool).setOutputDirectory(cmd.getOptionValue("o"))
-					.setMaintainerEmail(cmd.getOptionValue("e"));
-
 			for (Operation operation : tool.getOperations().getOperation()) {
-				// set operation and wrapper name
-				bwg.setOperation(operation).setWrapperName(operation.getName());
 
 				// generate the wrapper and if chosen the Debian package
-				bwg.generateWrapper(cmd.hasOption("d"));
+				bwg.generateWrapper(tool, operation, cmd.getOptionValue("o"),
+						cmd.hasOption("d"), cmd.getOptionValue("e"));
 			}
 		} else {
 
 			// error processing cmd arguments or creating tool instance
-			bwg.printUsage();
-			System.exit(1);
+			bwg.printUsage(true, 1);
 		}
 
 	}

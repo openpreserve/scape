@@ -3,6 +3,14 @@
 	<dataflow id="$uniqID" role="top">
 		<name>Workflow_$operationName$toolVersion</name>
 		<inputPorts>
+## #foreach( $input in $listOfInputs )
+##			<port>
+##				<name>$input.getName()</name>
+##				<depth>0</depth>
+##				<granularDepth>0</granularDepth>
+##				<annotations/>
+##			</port>
+## #end
 			<port>
 				<name>input_file</name>
 				<depth>0</depth>
