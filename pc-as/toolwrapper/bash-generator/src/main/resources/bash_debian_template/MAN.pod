@@ -1,0 +1,18 @@
+=head1 NAME
+
+$operationName - $toolDescription 
+
+=head1 SYNOPSIS
+
+$operationName
+
+=head1 DESCRIPTION
+
+$toolDescription
+
+=head1 AUTHORS
+
+B<$operationName> was written by SCAPE project consortium.
+
+This manual page was written by SCAPE project <$maintainerEmail>.
+=cut
