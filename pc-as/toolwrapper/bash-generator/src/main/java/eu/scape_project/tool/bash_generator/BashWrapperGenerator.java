@@ -122,7 +122,11 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		this.tool = tool;
 		this.operation = operation;
 		this.maintainerEmail = maintainerEmail;
-		this.script = new File(script);
+		if (script != null) {
+			this.script = new File(script);
+		} else {
+			this.script = null;
+		}
 
 		boolean res = true;
 		initVelocity();
@@ -199,9 +203,7 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		SimpleDateFormat sdf = new SimpleDateFormat(RFC_822_DATE_PATTERN,
 				Locale.ENGLISH);
 		context.put("dateOfGeneration", sdf.format(new Date()));
-
 		context.put("maintainerEmail", maintainerEmail);
-		// context.put("operationName", operation.getName());
 
 		List<OperatingSystemDependency> dependencyList = tool.getInstallation()
 				.getDependency();
@@ -295,18 +297,20 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		tempDir = createTemporaryDirectory(operation.getName());
 		tempDir2 = new File(tempDir, operation.getName());
 		success = success && tempDir2.mkdir();
-		if (script.getName().equals(wrapperName)) {
+		if (script != null && script.getName().equals(wrapperName)) {
 			System.err
 					.println("The script name cannot be equal to the wrapper name ("
 							+ wrapperName + ")...");
 			success = false;
 		} else {
 			try {
-				File tempScript = new File(tempDir2, script.getName());
-				IOUtils.copy(new FileInputStream(script), new FileOutputStream(
-						tempScript));
-				tempScript.setExecutable(true);
-				context.put("scriptName", script.getName());
+				if (script != null) {
+					File tempScript = new File(tempDir2, script.getName());
+					IOUtils.copy(new FileInputStream(script),
+							new FileOutputStream(tempScript));
+					tempScript.setExecutable(true);
+					context.put("scriptName", script.getName());
+				}
 				debianDir = new File(tempDir2, "debian");
 				success = success && debianDir.mkdir();
 				if (debianDir != null) {

@@ -2,7 +2,7 @@
 <?meta name="GENERATOR" content="XML::Smart/1.6.9 Perl/5.014002 [linux]" ?>
 <tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd" xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" schemaVersion="1.0" name="HandBrake" version="1.0" homepage="http://handbrake.fr/">
   <installation>
-    <dependency operatingSystemName="Debian">debian-multimedia-keyring,handbrake-cli</dependency>
+    <dependency operatingSystemName="Debian">deb-multimedia-keyring,handbrake-cli</dependency>
     <license type="Apache Licence 2.0">Apache License, Version 2.0</license>
   </installation>
   <otherProperties>
@@ -10,7 +10,7 @@
   </otherProperties>
   <operations>
     <operation name="digital-preservation-migration-video-handbrake-video2mpeg4">
-      <description>Converts any HandBrake (libavformat and libavcodec supported formats) supported video format to MPEG4</description>
+      <description>Converts any HandBrake supported video format to MPEG4</description>
       <command>HandBrakeCLI -i ${input} -o ${output} --preset="Normal"</command>
       <inputs>
         <input name="input" required="true">

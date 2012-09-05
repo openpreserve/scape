@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <workflow xmlns="http://taverna.sf.net/2008/xml/t2flow" version="1" producedBy="taverna-2.4.0">
 	<dataflow id="$uniqID" role="top">
-		<name>Workflow_$operationName$toolVersion</name>
+		<name>Workflow_$wrapperName$toolVersion</name>
 		<inputPorts>
 #foreach( $input in $listOfInputs )
 			<port>
