@@ -11,7 +11,7 @@
   <operations>
     <operation name="digital-preservation-migration-office-pdfbox-txt2pdf">
       <description>Converts Text to PDF</description>
-      <command>pdfbox-app-cli TextToPDF ${output} ${input}</command>
+      <command>pdfbox-app-cli TextToPDF ${params} ${output} ${input}</command>
       <inputs>
         <input name="input" required="true">
           <description>Reference to input file</description>

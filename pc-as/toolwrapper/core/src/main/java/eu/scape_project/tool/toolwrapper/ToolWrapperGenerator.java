@@ -28,5 +28,5 @@ import eu.scape_project.tool.data.Tool;
 
 public interface ToolWrapperGenerator {
 	public boolean generateWrapper(Tool tool, Operation operation,
-			String outputDirectory, boolean generateDebianPackage, String maintainerEmail);
+			String outputDirectory, String script, boolean generateDebianPackage, String maintainerEmail);
 }

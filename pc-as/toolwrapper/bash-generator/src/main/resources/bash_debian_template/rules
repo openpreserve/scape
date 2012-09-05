@@ -14,13 +14,13 @@
 
 override_dh_clean:
 	dh_clean
-	rm -f debian/${operationName}.1
+	rm -f debian/${wrapperName}.1
 #override_dh_install:
 #	dh_install --sourcedir=$folder
 #	echo "BEFORE (`pwd`)"
 #	dh_install
-#	dh_install $folder$operationName usr/bin
+#	dh_install $folder$wrapperName usr/bin
 #	echo "DONE (`pwd`)"
 override_dh_auto_build:
 	dh_auto_build
-	pod2man --section=1 --release=$(VERSION) --center "" debian/${operationName}.pod > debian/${operationName}.1
+	pod2man --section=1 --release=$(VERSION) --center "" debian/${wrapperName}.pod > debian/${wrapperName}.1

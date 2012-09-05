@@ -3,26 +3,30 @@
 	<dataflow id="$uniqID" role="top">
 		<name>Workflow_$operationName$toolVersion</name>
 		<inputPorts>
-## #foreach( $input in $listOfInputs )
-##			<port>
-##				<name>$input.getName()</name>
-##				<depth>0</depth>
-##				<granularDepth>0</granularDepth>
-##				<annotations/>
-##			</port>
-## #end
+#foreach( $input in $listOfInputs )
 			<port>
-				<name>input_file</name>
+				<name>$input.getName()</name>
 				<depth>0</depth>
 				<granularDepth>0</granularDepth>
 				<annotations/>
 			</port>
+#end
+#foreach( $param in $listOfParams )
 			<port>
-				<name>output_file</name>
+				<name>$param.getName()</name>
 				<depth>0</depth>
 				<granularDepth>0</granularDepth>
 				<annotations/>
 			</port>
+#end
+#foreach( $output in $listOfOutputs )
+			<port>
+				<name>$output.getName()</name>
+				<depth>0</depth>
+				<granularDepth>0</granularDepth>
+				<annotations/>
+			</port>
+#end
 		</inputPorts>
 		<outputPorts>
 			<port>
@@ -34,14 +38,24 @@
 			<processor>
 				<name>commandline_tool_invocation</name>
 				<inputPorts>
+#foreach( $input in $listOfInputs )
 					<port>
-						<name>in_file</name>
+						<name>$input.getName()_inner</name>
 						<depth>0</depth>
 					</port>
+#end
+#foreach( $param in $listOfParams )
 					<port>
-						<name>out_file</name>
+						<name>$param.getName()_inner</name>
 						<depth>0</depth>
 					</port>
+#end
+#foreach( $output in $listOfOutputs )
+					<port>
+						<name>$output.getName()_inner</name>
+						<depth>0</depth>
+					</port>
+#end
 				</inputPorts>
 				<outputPorts>
 					<port>
@@ -60,8 +74,15 @@
 						</raven>
 						<class>net.sf.taverna.t2.activities.externaltool.ExternalToolActivity</class>
 						<inputMap>
-							<map from="out_file" to="out_file"/>
-							<map from="in_file" to="in_file"/>
+#foreach( $input in $listOfInputs )
+							<map from="$input.getName()_inner" to="$input.getName()_inner"/>
+#end
+#foreach( $param in $listOfParams )
+							<map from="$param.getName()_inner" to="$param.getName()_inner"/>
+#end
+#foreach( $output in $listOfOutputs )
+							<map from="$output.getName()_inner" to="$output.getName()_inner"/>
+#end
 						</inputMap>
 						<outputMap>
 							<map from="STDOUT" to="STDOUT"/>
@@ -77,22 +98,30 @@
 								<useCaseDescription>
 									<usecaseid/>
 									<description/>
-									<command>$operationName -i %%in_file%% -o %%out_file%%</command>
+									<command>$wrapperName $wrapperParameters</command>
 									<preparingTimeoutInSeconds>1200</preparingTimeoutInSeconds>
 									<executionTimeoutInSeconds>1800</executionTimeoutInSeconds>
 									<tags>
-										<string>in_file</string>
-										<string>out_file</string>
+#foreach( $input in $listOfInputs )
+										<string>$input.getName()_inner</string>
+#end
+#foreach( $param in $listOfParams )
+										<string>$param.getName()_inner</string>
+#end
+#foreach( $output in $listOfOutputs )
+										<string>$output.getName()_inner</string>
+#end
 									</tags>
 									<REs/>
 									<queue__preferred/>
 									<queue__deny/>
 									<static__inputs/>
 									<inputs>
+#foreach( $input in $listOfInputs )
 										<entry>
-											<string>out_file</string>
+											<string>$input.getName()_inner</string>
 											<de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
-												<tag>out_file</tag>
+												<tag>$input.getName()_inner</tag>
 												<file>false</file>
 												<tempFile>false</tempFile>
 												<binary>false</binary>
@@ -103,10 +132,12 @@
 												<mime/>
 											</de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
 										</entry>
+#end
+#foreach( $param in $listOfParams )
 										<entry>
-											<string>in_file</string>
+											<string>$param.getName()_inner</string>
 											<de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
-												<tag>in_file</tag>
+												<tag>$param.getName()_inner</tag>
 												<file>false</file>
 												<tempFile>false</tempFile>
 												<binary>false</binary>
@@ -117,6 +148,23 @@
 												<mime/>
 											</de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
 										</entry>
+#end
+#foreach( $output in $listOfOutputs )
+										<entry>
+											<string>$output.getName()_inner</string>
+											<de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
+												<tag>$output.getName()_inner</tag>
+												<file>false</file>
+												<tempFile>false</tempFile>
+												<binary>false</binary>
+												<charsetName>UTF-8</charsetName>
+												<forceCopy>false</forceCopy>
+												<list>false</list>
+												<concatenate>false</concatenate>
+												<mime/>
+											</de.uni__luebeck.inb.knowarc.usecases.ScriptInputUser>
+										</entry>
+#end
 									</inputs>
 									<outputs/>
 									<includeStdIn>false</includeStdIn>
@@ -200,8 +248,15 @@
 					<iteration>
 						<strategy>
 							<cross>
-								<port name="in_file" depth="0"/>
-								<port name="out_file" depth="0"/>
+#foreach( $input in $listOfInputs )
+								<port name="$input.getName()_inner" depth="0"/>
+#end
+#foreach( $param in $listOfParams )
+								<port name="$param.getName()_inner" depth="0"/>
+#end
+#foreach( $output in $listOfOutputs )
+								<port name="$output.getName()_inner" depth="0"/>
+#end
 							</cross>
 						</strategy>
 					</iteration>
@@ -210,24 +265,39 @@
 		</processors>
 		<conditions/>
 		<datalinks>
+#foreach( $input in $listOfInputs )
 			<datalink>
 				<sink type="processor">
 					<processor>commandline_tool_invocation</processor>
-					<port>in_file</port>
+					<port>$input.getName()_inner</port>
 				</sink>
 				<source type="dataflow">
-					<port>input_file</port>
+					<port>$input.getName()</port>
 				</source>
 			</datalink>
+#end
+#foreach( $param in $listOfParams )
 			<datalink>
 				<sink type="processor">
 					<processor>commandline_tool_invocation</processor>
-					<port>out_file</port>
+					<port>$param.getName()_inner</port>
 				</sink>
 				<source type="dataflow">
-					<port>output_file</port>
+					<port>$param.getName()</port>
 				</source>
 			</datalink>
+#end
+#foreach( $output in $listOfOutputs )
+			<datalink>
+				<sink type="processor">
+					<processor>commandline_tool_invocation</processor>
+					<port>$output.getName()_inner</port>
+				</sink>
+				<source type="dataflow">
+					<port>$output.getName()</port>
+				</source>
+			</datalink>
+#end
 			<datalink>
 				<sink type="dataflow">
 					<port>stdout</port>

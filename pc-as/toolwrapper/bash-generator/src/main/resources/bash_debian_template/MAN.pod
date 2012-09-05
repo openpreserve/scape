@@ -1,14 +1,22 @@
 =head1 NAME
 
-$operationName - $toolDescription 
+$wrapperName - $toolDescription 
 
 =head1 SYNOPSIS
 
-$operationName
+$wrapperName $usageInputParameter $usageParamParameter $usageOutputParameter
 
 =head1 DESCRIPTION
 
 $toolDescription
+
+=head1 OPTIONS
+
+$usageInputParameterDescriptionForMan
+
+$usageParamParameterDescriptionForMan
+
+$usageOutputParameterDescriptionForMan
 
 =head1 AUTHORS
 

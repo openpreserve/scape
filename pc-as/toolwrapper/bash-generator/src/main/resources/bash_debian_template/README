@@ -1,4 +1,4 @@
 ===============================
-$operationName ($toolVersion)
+$wrapperName ($toolVersion)
 ===============================
-This is the dummy README for SCAPE $operationName
+This is the dummy README for SCAPE $wrapperName

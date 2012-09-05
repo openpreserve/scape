@@ -11,7 +11,7 @@
   <operations>
     <operation name="digital-preservation-migration-office-pdfbox-pdf2txt">
       <description>Converts a PDF to a TXT</description>
-      <command>pdfbox-app-cli ExtractText ${input} ${output}</command>
+      <command>pdfbox-app-cli ExtractText ${params} ${input} ${output}</command>
       <inputs>
         <input name="input" required="true">
           <description>Reference to input file</description>

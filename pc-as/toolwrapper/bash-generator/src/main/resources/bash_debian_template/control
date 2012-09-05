@@ -1,4 +1,4 @@
-Source: $operationName
+Source: $wrapperName
 Section: misc
 Priority: extra
 Maintainer: SCAPE project <$maintainerEmail>
@@ -6,7 +6,7 @@ Build-Depends: debhelper (>= 8.0.0), perl
 Standards-Version: 3.9.2
 Homepage: http://scape-project.eu/
 
-Package: $operationName
+Package: $wrapperName
 Architecture: all
 Depends: #[[${misc:Depends}]]#, $toolDependencies 
 Description: $toolDescription

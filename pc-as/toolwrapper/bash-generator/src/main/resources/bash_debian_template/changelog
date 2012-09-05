@@ -1,4 +1,4 @@
-$operationName ($toolVersion) unstable; urgency=low
+$wrapperName ($toolVersion) unstable; urgency=low
 
   * Initial Release.
 

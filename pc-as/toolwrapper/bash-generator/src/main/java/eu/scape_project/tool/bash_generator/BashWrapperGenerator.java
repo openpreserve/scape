@@ -23,6 +23,7 @@ package eu.scape_project.tool.bash_generator;
  */
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,6 +40,7 @@ import java.util.Properties;
 import java.util.UUID;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -61,6 +63,7 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		ToolWrapperGenerator {
 	private Tool tool;
 	private Operation operation;
+	private File script;
 	private String wrapperName;
 	private String maintainerEmail;
 	private Template bashWrapperTemplate;
@@ -114,16 +117,20 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 	 */
 	@Override
 	public boolean generateWrapper(Tool tool, Operation operation,
-			String outputDirectory, boolean generateDebianPackage,
-			String maintainerEmail) {
+			String outputDirectory, String script,
+			boolean generateDebianPackage, String maintainerEmail) {
 		this.tool = tool;
 		this.operation = operation;
 		this.maintainerEmail = maintainerEmail;
+		this.script = new File(script);
 
 		boolean res = true;
 		initVelocity();
 		if (loadBashWrapperTemplate()) {
 			VelocityContext wrapperContext = new VelocityContext();
+
+			// add general information to context
+			wrapperContext.put("wrapperName", wrapperName);
 
 			addGeneralInformationToContext(wrapperContext);
 			addUsageInformationToContext(wrapperContext);
@@ -183,7 +190,8 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 
 	private boolean generateDebianPackageDirectoryAndInfo(
 			VelocityContext context) {
-		return createDebianPackageDirectorySkeleton() && loadDebianTemplates()
+		return createDebianPackageDirectorySkeleton(context)
+				&& loadDebianTemplates()
 				&& addInformationToDebianTemplates(context);
 	}
 
@@ -193,7 +201,7 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		context.put("dateOfGeneration", sdf.format(new Date()));
 
 		context.put("maintainerEmail", maintainerEmail);
-		context.put("operationName", operation.getName());
+		// context.put("operationName", operation.getName());
 
 		List<OperatingSystemDependency> dependencyList = tool.getInstallation()
 				.getDependency();
@@ -282,16 +290,35 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		return success;
 	}
 
-	private boolean createDebianPackageDirectorySkeleton() {
+	private boolean createDebianPackageDirectorySkeleton(VelocityContext context) {
 		boolean success = true;
 		tempDir = createTemporaryDirectory(operation.getName());
 		tempDir2 = new File(tempDir, operation.getName());
 		success = success && tempDir2.mkdir();
-		debianDir = new File(tempDir2, "debian");
-		success = success && debianDir.mkdir();
-		if (debianDir != null) {
-			File sourceDir = new File(debianDir, "source");
-			success = success && sourceDir.mkdir();
+		if (script.getName().equals(wrapperName)) {
+			System.err
+					.println("The script name cannot be equal to the wrapper name ("
+							+ wrapperName + ")...");
+			success = false;
+		} else {
+			try {
+				File tempScript = new File(tempDir2, script.getName());
+				IOUtils.copy(new FileInputStream(script), new FileOutputStream(
+						tempScript));
+				tempScript.setExecutable(true);
+				context.put("scriptName", script.getName());
+				debianDir = new File(tempDir2, "debian");
+				success = success && debianDir.mkdir();
+				if (debianDir != null) {
+					File sourceDir = new File(debianDir, "source");
+					success = success && sourceDir.mkdir();
+				}
+			} catch (IOException e) {
+				System.err
+						.println("Error copying the script file to the temporary location!\n"
+								+ e.getMessage());
+				success = false;
+			}
 		}
 		return success;
 	}
@@ -337,9 +364,6 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		Template workflowTemplate = loadVelocityTemplateFromResources("bash_workflow_template.t2flow");
 		UUID randomUUID = UUID.randomUUID();
 		context.put("uniqID", randomUUID);
-		context.put("listOfInputs", operation.getInputs().getInput());
-		context.put("listOfOutputs", operation.getOutputs().getOutput());
-		context.put("listOfParams", operation.getInputs().getParameter());
 		StringWriter sw = new StringWriter();
 		workflowTemplate.merge(context, sw);
 		writeTemplateContent(tempDir2.getAbsolutePath(), operation.getName()
@@ -350,7 +374,7 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 	private void addCommandInformationToContext(VelocityContext wrapperContext) {
 		String command = operation.getCommand();
 		VelocityContext contextForCommand = new VelocityContext();
-
+		StringBuilder wrapperParameters = new StringBuilder();
 		wrapperContext.put("listOfInputs", operation.getInputs().getInput());
 		int i = 1;
 		List<String> verify_required_arguments = new ArrayList<String>();
@@ -365,6 +389,7 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 			}
 			contextForCommand.put(input.getName(),
 					wrapWithDoubleQuotes("${input_files" + i + "[@]}"));
+			wrapperParameters.append("-i %%" + input.getName() + "_inner%% ");
 			i++;
 		}
 		i = 1;
@@ -385,6 +410,8 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 			// wrapWithDoubleQuotes("${param_files" + i + "[@]}"));
 			contextForCommand.put(parameter.getName(), "${param_files" + i
 					+ "[@]}");
+			wrapperParameters.append("-p %%" + parameter.getName()
+					+ "_inner%% ");
 			i++;
 		}
 
@@ -401,10 +428,12 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 			}
 			contextForCommand.put(output.getName(),
 					wrapWithDoubleQuotes("${output_files" + i + "[@]}"));
+			wrapperParameters.append("-o %%" + output.getName() + "_inner%% ");
 			i++;
 		}
 		wrapperContext.put("verify_required_arguments",
 				verify_required_arguments);
+		wrapperContext.put("wrapperParameters", wrapperParameters.toString());
 
 		StringWriter w = new StringWriter();
 		contextForCommand.put("param", "");
@@ -426,32 +455,61 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 			wrapperContext.put("usageInputParameterDescription",
 					"-i STDIN > Read input from the STDIN");
 		} else {
+			// user input parameters
 			StringBuilder uip = new StringBuilder("");
+			// user input parameters description to print on the bash usage
+			// function
 			StringBuilder uipd = new StringBuilder("");
+			// user input parameters description for man page
+			StringBuilder uipdman = new StringBuilder("");
+			int i = 0;
 			for (Input input : operation.getInputs().getInput()) {
-				String value = "-i " + input.getName();
-				uip.append((uip.length() == 0 ? "" : " ") + value);
-				uipd.append((uipd.length() != 0 ? "\n\t" : "") + value + " > "
-						+ input.getDescription());
+				String value = "-i " + input.getName()
+						+ (i == 0 ? "|STDIN" : "");
+				uip.append((uip.length() == 0 ? "" : " "));
+				if (input.isRequired()) {
+					uip.append(value);
+				} else {
+					uip.append("[" + value + "]");
+				}
+				String description = value + " > " + input.getDescription()
+						+ (i == 0 ? " OR Read input from the STDIN" : "");
+				uipd.append((uipd.length() != 0 ? "\n\t" : "") + description);
+				uipdman.append(description + "\n\n");
+				i++;
 			}
 			wrapperContext.put("usageInputParameter", uip.toString());
 			wrapperContext.put("usageInputParameterDescription",
 					uipd.toString());
+			wrapperContext.put("usageInputParameterDescriptionForMan",
+					uipdman.toString());
 		}
 	}
 
 	private void addParamUsageInformationToContext(
 			VelocityContext wrapperContext) {
+		// user input parameters
 		StringBuilder uip = new StringBuilder("");
+		// user input parameters description to print on the bash usage function
 		StringBuilder uipd = new StringBuilder("");
+		// user input parameters description for man page
+		StringBuilder uipdman = new StringBuilder("");
 		for (Parameter param : operation.getInputs().getParameter()) {
 			String value = "-p " + param.getName();
-			uip.append((uip.length() == 0 ? "" : " ") + value);
-			uipd.append((uipd.length() != 0 ? "\n\t" : "") + value + " > "
-					+ param.getDescription());
+			uip.append((uip.length() == 0 ? "" : " "));
+			if (param.isRequired()) {
+				uip.append(value);
+			} else {
+				uip.append("[" + value + "]");
+			}
+			String description = value + " > " + param.getDescription();
+			uipd.append((uipd.length() != 0 ? "\n\t" : "") + description);
+			uipdman.append(description + "\n\n");
 		}
 		wrapperContext.put("usageParamParameter", uip.toString());
 		wrapperContext.put("usageParamParameterDescription", uipd.toString());
+		wrapperContext.put("usageParamParameterDescriptionForMan",
+				uipdman.toString());
 	}
 
 	private void addOutputUsageInformationToContext(
@@ -461,17 +519,34 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 			wrapperContext.put("usageOutputParameterDescription",
 					"-o STDOUT > Write output to the STDOUT");
 		} else {
+			// user input parameters
 			StringBuilder uip = new StringBuilder("");
+			// user input parameters description to print on the bash usage
+			// function
 			StringBuilder uipd = new StringBuilder("");
+			// user input parameters description for man page
+			StringBuilder uipdman = new StringBuilder("");
+			int i = 0;
 			for (Output output : operation.getOutputs().getOutput()) {
-				String value = "-o " + output.getName();
-				uip.append((uip.length() == 0 ? "" : " ") + value);
-				uipd.append((uipd.length() != 0 ? "\n\t" : "") + value + " > "
-						+ output.getDescription());
+				String value = "-o " + output.getName()
+						+ (i == 0 ? "|STDOUT" : "");
+				uip.append((uip.length() == 0 ? "" : " "));
+				if (output.isRequired()) {
+					uip.append(value);
+				} else {
+					uip.append("[" + value + "]");
+				}
+				String description = value + " > " + output.getDescription()
+						+ (i == 0 ? " OR Write output to the STDOUT" : "");
+				uipd.append((uipd.length() != 0 ? "\n\t" : "") + description);
+				uipdman.append(description + "\n\n");
+				i++;
 			}
 			wrapperContext.put("usageOutputParameter", uip.toString());
 			wrapperContext.put("usageOutputParameterDescription",
 					uipd.toString());
+			wrapperContext.put("usageOutputParameterDescriptionForMan",
+					uipdman.toString());
 		}
 	}
 
@@ -562,9 +637,18 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 
 			for (Operation operation : tool.getOperations().getOperation()) {
 
+				// define wrapper name as operation name
+				bwg.setWrapperName(operation.getName());
+
 				// generate the wrapper and if chosen the Debian package
-				bwg.generateWrapper(tool, operation, cmd.getOptionValue("o"),
+				boolean generationOK = bwg.generateWrapper(tool, operation,
+						cmd.getOptionValue("o"), cmd.getOptionValue("sh"),
 						cmd.hasOption("d"), cmd.getOptionValue("e"));
+				if (generationOK) {
+					System.exit(0);
+				} else {
+					System.exit(1);
+				}
 			}
 		} else {
 
