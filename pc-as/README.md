@@ -18,13 +18,17 @@ Here can be found several files and information related to the Action Services d
 4) Now compile the toolwrapper. From the root of the SCAPE repository, do:
 * cd pc-as/toolwrapper/ && mvn package
 
-5) Execute the toolwrapper. Do:
-* java -jar bash-generator/target/bash-generator-0.0.1-SNAPSHOT-jar-with-dependencies.jar -d -e MAINTAINER-EMAIL -o OUTPUT-DIR -t PATH-TO-THE-TOOLSPEC
+5) Execute the toolwrapper and generate the Debian package. Do:
+
+* ./generateDebianPackages4AllToolspecs.sh TOOLSPECS_DIR|TOOLSPEC TOOLWRAPPER_JAR_WITH_DEPENDENCIES DEBIAN_OUTPUT_DIRECTORY MAINTAINER_EMAIL
 
 Example:
-* java -jar bash-generator/target/bash-generator-0.0.1-SNAPSHOT-jar-with-dependencies.jar -d -e hsilva@keep.pt -o outdir -t ../../doc/WP.02.XA.Technical.Coordination/toolspec/sample.tool
 
-6) Generate the Debian packages (this step will not be needed in the future as it will be automatically done by the toolwrapper) doing what is stated in the output messege of the toolwrapper execution.
+* ./generateDebianPackages4AllToolspecs.sh /home/hsilva/Git/scape/pc-as/toolspecs/digital-preservation-migration-office-pdfbox-pdf2txt.xml /home/hsilva/Git/scape/pc-as/toolwrapper/bash-generator/target/bash-generator-0.0.1-SNAPSHOT-jar-with-dependencies.jar /home/hsilva/Git/scape/pc-as/toolwrapper/outdir/ hsilva@keep.pt
+
+or
+
+* ./generateDebianPackages4AllToolspecs.sh /home/hsilva/Git/scape/pc-as/toolspecs/ /home/hsilva/Git/scape/pc-as/toolwrapper/bash-generator/target/bash-generator-0.0.1-SNAPSHOT-jar-with-dependencies.jar /home/hsilva/Git/scape/pc-as/toolwrapper/outdir/ hsilva@keep.pt
 
 ## Try it out locally (tested on Debian 6.0.5)
 

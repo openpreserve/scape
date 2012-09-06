@@ -3,13 +3,13 @@
 cd `dirname $0`
 
 usage(){
-	echo -e "Usage: $0 TOOLSPECS_DIR|TOOLSPEC TOOLWRAPPER_JAR DEBIAN_OUTPUT_DIRECTORY MAINTAINER_EMAIL
+	echo -e "Usage: $0 TOOLSPECS_DIR|TOOLSPEC TOOLWRAPPER_JAR_WITH_DEPENDENCIES DEBIAN_OUTPUT_DIRECTORY MAINTAINER_EMAIL
 \twhere:
-\t  TOOLSPECS_DIR|TOOLSPEC  > absolute path to the directory where the toolspecs are
-\t                            or absolute path to a specific toolspec
-\t  TOOLWRAPPER_JAR         > absolute path to the toolwrapper jar
-\t  DEBIAN_OUTPUT_DIRECTORY > absolute path to the directory where the Debian packages are going to be copied
-\t  MAINTAINER_EMAIL        > e-mail of the Debian package maintainer"
+\t  TOOLSPECS_DIR|TOOLSPEC            > absolute path to the directory where the toolspecs are
+\t                                      or absolute path to a specific toolspec
+\t  TOOLWRAPPER_JAR_WITH_DEPENDENCIES > absolute path to the toolwrapper jar
+\t  DEBIAN_OUTPUT_DIRECTORY           > absolute path to the directory where the Debian packages are going to be copied
+\t  MAINTAINER_EMAIL                  > e-mail of the Debian package maintainer"
 }
 
 if [ $# -ne 4 ]; then
