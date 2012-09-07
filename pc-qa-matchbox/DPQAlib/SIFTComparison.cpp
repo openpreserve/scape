@@ -11,6 +11,10 @@ SIFTComparison::SIFTComparison(void):Level3Feature()
 	name  = TASK_NAME;
 	scale = 1;
 
+	dispersion    = -1;
+	uniformity    = -1;
+	sizeVariation = -1;
+
 	addCharacterizationCommandlineArgument(&argSDK);
 	addCharacterizationCommandlineArgument(&argCLAHE);
 	addCharacterizationCommandlineArgument(&argPRECLUSTER);
@@ -104,13 +108,13 @@ void SIFTComparison::execute(Mat& img)
 	image = img.clone();
 
 	// too big images may fail to be processed due to resource limitations (e.g. internal memory)
-	if ((img.rows * img.cols) > MAX_IMAGE_RESOLUTION)
+	/*if ((img.rows * img.cols) > MAX_IMAGE_RESOLUTION)
 	{
 		// downsample image to approx. MAX_IMAGE_RESOLUTION
 		Feature::verbosePrintln(string("downsampling image"));
 		image = downsample(image);
-
-	} 
+		
+	}*/ 
 
 	if (clahe != 1)
 	{
@@ -142,7 +146,9 @@ void SIFTComparison::execute(Mat& img)
 		// extract features
 		Ptr<FeatureDetector> featureDetector = new SiftFeatureDetector();
 		Feature::verbosePrintln(string("detecting keypoints"));
+		
 		featureDetector->detect( image, kps );
+		
 
 		// **************************************************
 		// draw keypoints
@@ -195,8 +201,13 @@ void SIFTComparison::execute(Mat& img)
 		{
 			keypoints = kps;
 		}
-		
-		dispersion = calcDispersion( keypoints, image );
+
+		if (keypoints.size() > 0)
+		{
+			dispersion    = calcDispersion( keypoints, image );
+			uniformity    = calcUniformity( keypoints );
+			sizeVariation = calcSizeVariation( keypoints );
+		}
 
 		// calculate descriptors
 		Ptr<DescriptorExtractor> descriptorExtractor = DescriptorExtractor::create("SIFT");
@@ -209,6 +220,7 @@ void SIFTComparison::execute(Mat& img)
 	}
 	catch (Exception& ex)
 	{
+
 		stringstream msg;
 		msg << "Error while extracting SIFT features: " << ex.msg;
 		throw runtime_error(msg.str());
@@ -391,10 +403,17 @@ void SIFTComparison::writeOutput(FileStorage& fs)
 		
 		write(fs, "keypoints", keypoints);
 		write(fs, "descriptors", descriptors);
+		
 		fs << "scale" << scale;
 		fs << "filename" << filename;
-		fs << "dispersion" << dispersion;
 
+		if (dispersion > 0)
+		{
+			fs << "dispersion" << dispersion;
+			fs << "uniformity" << uniformity;
+			fs << "sizeVariation" << sizeVariation;
+		}
+		
 		fs << "}";
 	}
 	catch (Exception& e)
@@ -470,16 +489,18 @@ double SIFTComparison::getScale(void)
 
 double SIFTComparison::calcDispersion( vector<KeyPoint>& keypoints, Mat& image )
 {
+
+	Feature::verbosePrintln(string("calculate dispersion"));
 	// initialize variables
 	double h        = 0;
 	double weight   = 4.79129;
 
 	// calculate 2D-Histogram of Keypoint-Coordinates
-	Mat kp_map = Mat::zeros(image.rows, image.cols, CV_16U);
+	Mat kp_map = Mat::zeros(image.rows, image.cols, CV_32F);
 
 	for(vector<KeyPoint>::iterator it = keypoints.begin(); it != keypoints.end(); it++)
 	{
-		kp_map.at<int>((*it).pt)++;
+		kp_map.at<float>((*it).pt) += 1;		
 	}
 
 	// calculate dispersion
@@ -488,46 +509,54 @@ double SIFTComparison::calcDispersion( vector<KeyPoint>& keypoints, Mat& image )
 		double h_s        = 0;
 		double m_expected = keypoints.size() / (scale * scale);
 
-		int    partWidth  = floor(((float)image.cols / (float)scale) + 0.5);
-		int    partHeight = floor(((float)image.rows / (float)scale) + 0.5);
+		int partWidth;
+		int partHeight;
+
+		int    partWidthFloor  = floor(((float)image.cols / (float)scale));
+		int    partHeightFloor = floor(((float)image.rows / (float)scale));
+		int    partWidthCeil = partWidthFloor + 1;
+		int    partHeightCeil = partHeightFloor + 1;
+		int    errorWidth = image.cols - partWidthFloor*scale;
+		int    errorHeight = image.rows - partHeightFloor*scale;
 
 		int    y_start    = 0;
-		
+
 		// for each row
 		for (int i = 0; i < scale; i++)
 		{
 			int x_start = 0;
 
-			// the last row might have a different hight due to rounding errors
-			if (i >= (scale - 1))
+			// Distribute the error in Height across errorHeight subMatrices
+			partHeight = partHeightCeil;
+			if (i > (errorHeight - 1))
 			{
-				partHeight = (image.rows - y_start);
+				partHeight = partHeightFloor; 
 			}
 
 			// for each line
 			for (int j = 0; j < scale; j++)
 			{
 				Rect subMatrix;
-				
-				if (j < scale - 1)
+
+				// Distribute the error in Width across errorWidth subMatrices
+				partWidth = partWidthCeil;   
+				if (j > (errorWidth - 1))
 				{
-					subMatrix = Rect(x_start,y_start,partWidth,partHeight);
+					partWidth = partWidthFloor;
 				}
-				else
-				{
-					// the last column might have a different width due to rounding errors
-					subMatrix = Rect(x_start,y_start,(image.cols - x_start),partHeight);
-				}
-				
+
+				subMatrix = Rect(x_start,y_start,partWidth,partHeight);
+
 				// retrieve the number of keypoints for this segment
 				Scalar m_observed = sum(kp_map(subMatrix));
 
 				// calculate h_s for this segment
 				h_s += fabs(m_observed.val[0] - m_expected) / (2 * keypoints.size());
-				
+
 				// update start-coordinate
 				x_start += partWidth;
 			}
+
 
 			// update start-coordinate
 			y_start += partHeight;
@@ -538,4 +567,75 @@ double SIFTComparison::calcDispersion( vector<KeyPoint>& keypoints, Mat& image )
 	}
 
 	return h;
+}
+
+bool compare_angle(KeyPoint first, KeyPoint second)
+{
+	if (first.angle < second.angle)
+		return true;
+	else 
+		return false;
+}
+
+double SIFTComparison::calcUniformity( vector<KeyPoint>& keypoints )
+{
+	Feature::verbosePrintln(string("calculate uniformity"));
+
+	// angle uniformity as used in Rao test for circular uniformity. 
+	// Rao, J.S. (1969). Some contributions to the analysis of circular data. Ph.D. thesis, Indian Statistical Institute, Calcutta.
+	// http://www.pstat.ucsb.edu/faculty/jammalam/html/favorite/test.htm
+
+	// initialize variables
+	double u        = 0;
+	double lambda	= 360.0/(double)keypoints.size();
+	double ti	= 0;
+	//double rad2angle = 180/3.14159265;
+	
+	vector<KeyPoint>::iterator it;
+
+	sort( keypoints.begin(), keypoints.end(), compare_angle );
+
+    double prevAngle = keypoints[ keypoints.size()-1 ].angle - 360.0;
+
+	for(vector<KeyPoint>::iterator it = keypoints.begin()+1; it != keypoints.end(); it++)
+	{
+		KeyPoint kp = *it;
+		ti = ( kp.angle  - prevAngle ); // * rad2angle;
+		prevAngle = kp.angle;
+		u += fabs( ti - lambda);
+	}
+
+	//ti = ( keypoints[0].angle - keypoints[ keypoints.size()-1].angle ); // * rad2angle;
+	//u += fabs ( ti - lambda );
+
+	u = u/2;
+
+	return u;
+}
+
+double SIFTComparison::calcSizeVariation( vector<KeyPoint>& keypoints )
+{
+	Feature::verbosePrintln(string("calculate size variation"));
+
+	// scale/size variance 
+
+	// initialize variables
+	double var      = 0;
+	double mean		= 0;
+
+	for(vector<KeyPoint>::iterator it = keypoints.begin(); it != keypoints.end()-1; it++)
+	{
+		KeyPoint kp = *it;
+		mean += kp.size;
+	}
+	mean = mean / (double)keypoints.size();
+
+	for(vector<KeyPoint>::iterator it = keypoints.begin(); it != keypoints.end()-1; it++)
+	{
+		KeyPoint kp = *it;
+		var += powf( kp.size - mean, 2.0 ) ;
+	}
+	var = var / (double)keypoints.size();
+
+	return var;
 }

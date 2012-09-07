@@ -1,115 +1,95 @@
 '''
-Created on 28.06.2012
-
-@author: SchindlerA
+# ======================================================== #
+# Module  : MatchboxLib                                    #
+#                                                          #
+# @author : Alexander Schindler                            #
+# @contact: Alexander.Schindler@ait.ac.at                  #
+#                                                          #
+# @version:                                                # 
+#                                                          #
+# -------------------------------------------------------- #
+#                                                          #
+# @summary:                                                # 
+#                                                          #
+# -------------------------------------------------------- #
+#                                                          #
+# @license:                                                #
+#                                                          #
+# ======================================================== #
 '''
+# === imports =====================================================================================
 
-# === imports ===================================
-
-import argparse
-import glob
+import re
 import os
 import sys
-import re
-import subprocess as sub
-import multiprocessing
-import time
-import threading, Queue
+import glob
 import gzip
+import math
+import Queue
+import threading
+
 import numpy as np
-import copy
-import shutil
+import subprocess as sub
+import xml.etree.ElementTree as et
 
-from multiprocessing import Pool
-from subprocess import call
 from xml.dom import minidom
-from nose.util import getfilename
+from subprocess import call
+from scipy.cluster.vq import kmeans2
 
-# === definitions ===============================
+# === definitions =================================================================================
 
 BOW_FILE_NAME          = "bow.xml"
-KNN_THRESHOLD          = 0
-
 SUPPORTED_IMAGE_TYPES  = ".(png|tif|jpe?g|bmp|gif|jp2)$"
 
-# === Classes ===================================
+# === Classes =====================================================================================
 
-class KnnWorker(threading.Thread):
-
-    incrementLock = threading.RLock()
-    
-    def __init__(self, config, queue, results):
-        threading.Thread.__init__(self)
-        self.queue = queue
-        self.results = results
-        self.kill_received = False
-        self.config = config
-
-    def run(self):
-        
-        try:
-            while(not self.kill_received):
-                
-                task = self.queue.get_nowait()
-                
-                process = sub.Popen([self.config['BIN_COMPARE'], "-l", "4", "--bowmetric", "CV_COMP_INTERSECT", task[0], task[1]], stdout=sub.PIPE,stderr=sub.PIPE)
-                output, errors = process.communicate()
-        
-                outputStr = output.decode("utf-8")
-                errorStr  = errors.decode("utf-8")
-                
-                if (len(errorStr) == 0):
-                    xmldoc = minidom.parseString(outputStr)
-                    xmltasks = xmldoc.getElementsByTagName('task')
-                    
-                    if len(xmltasks) > 0:
-                        for xmltask in xmltasks:
-                            if xmltask.hasAttribute('name'):
-                                if xmltask.getAttribute('name') == 'BOWHistogram':
-                                    
-                                    if len(xmltask.getElementsByTagName('result')) > 0:
-                                        result  = float(xmltask.getElementsByTagName('result')[0].childNodes[0].nodeValue)
-                                    else:
-                                        result = -1
-                                    #print xmltask.getAttribute('name'), result, task[1]
-        
-                                    ExtractFeaturesWorker.incrementLock.acquire() 
-                                    self.results.append([result, task[1]])
-                                    ExtractFeaturesWorker.incrementLock.release()
-                    
-                else:
-                    print("    compare.exe -l 4 {0} {1}".format(task[0], task[1]))
-                    print(errorStr)
-                    ExtractFeaturesWorker.incrementLock.acquire() 
-                    self.results.append([-1, task[1]])
-                    ExtractFeaturesWorker.incrementLock.release()
-                
-        except (Queue.Empty):
-            pass
-        
-            
-            
-            
-
+'''
+# ======================================================== #
+# Class  : ExtractFeaturesWorker                           #
+#                                                          #
+# @author: Alexander Schindler                             #
+# -------------------------------------------------------- #
+#                                                          #
+# @summary:                                                #
+#                                                          #
+# ======================================================== #
+'''
 class ExtractFeaturesWorker(threading.Thread):
 
     idx           = 1
     numFiles      = 0
     incrementLock = threading.RLock()
 
+    '''
+    # ============================================
+    # Constructor
+    # ============================================
+    #
+    #   @summary: 
+    #
+    #   @param queue:   receive tasks from this queue
+    '''
     def __init__(self, queue):
-        threading.Thread.__init__(self)
-        self.queue = queue
-        self.active = True
-        self.kill_received = False
-        self.__class__.numFiles = queue.qsize()
         
+        threading.Thread.__init__(self)
+        
+        self.queue              = queue
+        self.active             = True
+        self.kill_received      = False
+        self.__class__.numFiles = queue.qsize()
+
+    '''
+    # ============================================
+    # Method: run
+    # ============================================
+    '''
     def run(self):
         
         try:
+            
             while(not self.kill_received):
                 
-                task = self.queue.get_nowait()
+                task     = self.queue.get_nowait()
                 
                 filename = "{0}.{1}.feat.xml.gz".format(task[-1], task[2])
                 
@@ -142,30 +122,39 @@ class ExtractFeaturesWorker(threading.Thread):
     def stop(self):
         self.active = False
 
-# === functions =================================
+# === functions ===================================================================================
 
-def getKnn(config, fa, files, numThreads = 1):
-
-
-    kill_received = False
-
-    results = []
-    jobs    = Queue.Queue()
-
-    for fb in files:
-
-        if (fa == fb):
-            continue
-
-        jobs.put([fa,fb])
-
-    pool = []
+'''
+# ============================================
+# Function: processExtractFeatures
+# ============================================
+#
+# @summary: 
+#
+# @param queue: 
+# @param numThreads:
+#   
+'''
+def processExtractFeatures(queue, numThreads):
     
+    pool = []
+
+    if numThreads > 1:
+        print "... parallel processing enabled: using {0} threads".format(numThreads)
+
+    print "... {0} files to process\n".format(queue.qsize())
+
+    # start worker threads
     for i in range(numThreads):
-        worker = KnnWorker(config, jobs, results)
+        
+        # create thread and provide queues
+        worker = ExtractFeaturesWorker(queue)
         pool.append(worker)
+        
+        # start thread
         worker.start()
     
+    # wait for all threads to finish
     while len(pool) > 0:
         try:
             # Join all threads using a timeout so it doesn't block
@@ -176,127 +165,128 @@ def getKnn(config, fa, files, numThreads = 1):
                     pool.remove(thread)
             
         except KeyboardInterrupt:
-            print "Ctrl-c received! Sending kill to threads..."
-            kill_received = True
+            
+            # control-c detected - shut down threads and terminate
+            print "Ctrl-c received! Sending kill to all threads..."
+            
             for t in pool:
-                t.kill_received = kill_received    
-    
-    results.sort(reverse=True)
-    
-    return results, kill_received
+                t.kill_received = True
 
-def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featdir = "", precluster = 0):
+'''
+# ============================================
+# Function: extractFeatures
+# ============================================
+#
+# @summary: 
+#
+# @param config: 
+# @param collectiondir:
+# @param sdk:
+# @param numThreads:
+# @param clahe:
+# @param featdir:
+# @param only:   
+#   
+'''
+def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featdir = "", only = ""):
 
     queue = Queue.Queue()
     
     print "... extracting features of dir {0}".format(collectiondir)
 
-    dirContents = glob.glob( os.path.join(collectiondir, "*"))
-
-    for infile in dirContents:
+    # process all entries of the supllied directory
+    for currentFile in glob.glob( os.path.join(collectiondir, "*")):
         
-        if re.search(SUPPORTED_IMAGE_TYPES, infile, re.IGNORECASE) == None:
+        # check if the current file type is supported by this script
+        if re.search(SUPPORTED_IMAGE_TYPES, currentFile, re.IGNORECASE) == None:
             continue
         
-        job_desc = [config['BIN_EXTRACTFEATURES'], "-o", "SIFTComparison", '--sdk', str(sdk), '--clahe', str(clahe), '--precluster', str(precluster)]
+        # create job description
+        job_desc = [config['BIN_EXTRACTFEATURES'], '--sdk', str(sdk), '--clahe', str(clahe)]
         
+        # an "only" filter has been supplied
+        if len(only) > 0:
+            job_desc.append("-o")
+            job_desc.append(only)
+        
+        # a certain directory has been supplied to store feature files
         if len(featdir) > 0:
             job_desc.append("-d")
             job_desc.append(featdir)
         
-        job_desc.append(infile)
+        job_desc.append(currentFile)
         
+        # add this job description to the queue
         queue.put(job_desc)
 
+    # execute the queue
     processExtractFeatures(queue, numThreads)
 
-    
-def extractBoWHistograms(config, dir, numThreads = 1, featdir = "", verbose = False):
-
-    print "featdir", featdir
+'''
+# ============================================
+# Function: extractBoWHistograms
+# ============================================
+#
+# @summary: 
+#
+# @param config: 
+# @param collectiondir:
+# @param numThreads:
+# @param featdir:
+# @param only:
+# @param bowpath: 
+#   
+'''    
+def extractBoWHistograms(config, collectiondir, numThreads = 1, featdir = "", bowpath = ""):
 
     queue = Queue.Queue()
     
-    print "... extracting features of dir {0}".format(dir)
+    print "... extracting features of dir {0}".format(collectiondir)
 
-    dirContents = glob.glob( os.path.join(dir, "*"))
-    
-
-    for infile in dirContents:
+    for currentFile in glob.glob( os.path.join(collectiondir, "*")):
         
-        path = "{0}.SIFTComparison.feat.xml.gz".format(infile)
+        path = ""
         
         if len(featdir) > 0:
-            path = "{0}/{1}.SIFTComparison.feat.xml.gz".format(featdir, extractFilename(infile))
+            path = "{0}/{1}.SIFTComparison.feat.xml.gz".format(featdir, extractFilename(currentFile))
+        else:
+            path = "{0}.SIFTComparison.feat.xml.gz".format(currentFile)
 
-        if re.search(SUPPORTED_IMAGE_TYPES, infile, re.IGNORECASE) == None or not os.path.exists(path):
+        if (re.search(SUPPORTED_IMAGE_TYPES, currentFile, re.IGNORECASE) == None) or (not os.path.exists(path)):
             continue
         
+        # create job description
         job_desc = [config['BIN_EXTRACTFEATURES'], "-o", "BOWHistogram"]
         
-        bowpath = "{0}/{1}".format(featdir,BOW_FILE_NAME)
-        
+        # if no bowpath is supplied, the bow-file is expected 
+        # to be in the supplied feature directory
+        if len(bowpath) == 0:
+            bowpath = "{0}/{1}".format(featdir,BOW_FILE_NAME)
         
         if len(featdir) > 0:
             job_desc.append("-d")
             job_desc.append(featdir)
-            job_desc.append("--bow")
-            job_desc.append(bowpath)
-        else:
-            job_desc.append("--bow")
-            job_desc.append(bowpath)
+            
+        job_desc.append("--bow")
+        job_desc.append(bowpath)
 
-        job_desc.append(infile)
+        job_desc.append(currentFile)
         queue.put(job_desc)
         
     processExtractFeatures(queue, numThreads)
 
-def processExtractFeatures(queue, numThreads):
-    
-    print "... {0} files to be processed".format(queue.qsize())
 
-    if numThreads > 1:
-        print "... parallel processing enabled: using {0} threads".format(numThreads)
-
-    pool = []
-    
-    for i in range(numThreads):
-        worker = ExtractFeaturesWorker(queue)
-        pool.append(worker)
-        worker.start()
-    
-    while len(pool) > 0:
-        try:
-            # Join all threads using a timeout so it doesn't block
-            # Filter out threads which have been joined or are None
-            for thread in pool:
-                thread.join(10)
-                if not thread.isAlive():
-                    pool.remove(thread)
-            
-        except KeyboardInterrupt:
-            print "Ctrl-c received! Sending kill to all threads..."
-            for t in pool:
-                t.kill_received = True
-
-def getDuplicates(results, limit):
-
-    duplicates = []
-    i = 0
-
-    if (limit == 0):
-        limit = len(results)
-    
-    for res in results:
-        
-        if (res[0] > KNN_THRESHOLD) and (i < limit):
-            duplicates.append(res)
-            i += 1
-
-    return duplicates
-
-
-
+'''
+# ============================================
+# Function: extractFilename
+# ============================================
+#
+# @summary: 
+#
+# @param path: 
+#
+# @return: filename   
+'''   
 def extractFilename(path):
     
     sep = "\\"
@@ -307,384 +297,179 @@ def extractFilename(path):
     tmp = path.split(sep)
     return tmp[-1].replace(".feat.xml.gz", "")
 
-def findCorrespondingImageInDifferentCollections(dirA, typeA, dirB, typeB, numThreads = 1):
-    findDuplicatesInDifferentCollections(dirA, typeA, dirB, typeB, 1, numThreads)
+'''
+# ============================================
+# Function: calculateBoW
+# ============================================
+#
+# @summary:
+#
+# @param config:
+# @param featdir:
+# @param filenameFilter:
+# @param clusterCenters:
+# @param bowsize:   
+#
+'''      
+def calculateBoW(config, featdir, filenameFilter, clusterCenters = 0, bowsize = 1000):
+    
+    call([config['BIN_TRAIN'], 
+          "--bowsize",    str(bowsize), 
+          "--precluster", '{0}'.format(clusterCenters), 
+          "--filter",     filenameFilter, 
+          "-o",           "{0}/{1}".format(featdir,BOW_FILE_NAME), 
+          featdir])
 
-def findDuplicatesInDifferentCollections(dirA, typeA, dirB, typeB, limit = 0, numThreads = 1):
-    
-    filesA = glob.glob( os.path.join(dirA, '{0}.BOWHistogram.feat.xml.gz'.format(typeA)))
-    filesB = glob.glob( os.path.join(dirA, '{0}.BOWHistogram.feat.xml.gz'.format(typeB)))
-    
-    print("... {0} files found in Collection A\n".format(len(filesA)))
-    print("... {0} files found in Collection B\n".format(len(filesB)))
-    
-    numIterations = (len(filesA) * (len(filesB) - 1)) / 2
-    print("... {0} compare operations\n".format(numIterations))
-
-    findDuplicates(filesA, filesB, limit, numThreads)
-    
-def findDuplicatesInSameCollection(config, dirA, typeA, numthreads):
-    
-    filesA = glob.glob( os.path.join(dirA, '*.{0}.BOWHistogram.feat.xml.gz'.format(typeA)))
-    
-    print("... {0} files found in Collection A\n".format(len(filesA)))
-    
-    numIterations = (len(filesA) * (len(filesA) - 1)) / 2
-    print("... {0} compare operations\n".format(numIterations))
-    
-    findDuplicates(config, filesA, filesA, 1, numthreads)
-    
-def findDuplicates(config, filesA, filesB, limit = 0, numThreads = 1):
-    
-    for fa in filesA:
-        
-        print("\nQ> {0}".format(extractFilename(fa)))
-        
-        results, kill_received = getKnn(config, fa, filesB, numThreads)
-        
-        if kill_received:
-            break
-        
-        duplicates = getDuplicates(results, limit)
-
-        for dup in duplicates:
-            
-            print("R> {0} [{1}]".format(extractFilename(dup[1]), dup[0]))
-        
-        print("")
-        
-def calculateBoW(config, featdir, filter, clusterCenters = 0, bowsize = 1000):
-    
-    call([config['BIN_TRAIN'], "--bowsize", str(bowsize), "--precluster", '{0}'.format(clusterCenters), "--filter", filter, "-o", "{0}/{1}".format(featdir,BOW_FILE_NAME), featdir])
-
+'''
+# ============================================
+# Function: clearDirectory
+# ============================================
+#
+# @summary:
+#
+# Deletes all automatically created files
+# from the supplied directory
+#
+# @param path: the path that should be cleaned
+#
+'''   
 def clearDirectory(path):
     
-    for f in glob.glob( os.path.join(path, '*.feat.xml.gz')):
-        print "... deleting {0}".format(f)
-        os.remove(f)
+    for currentFile in glob.glob( os.path.join(path, '*.feat.xml.gz')):
+        print "... deleting {0}".format(currentFile)
+        os.remove(currentFile)
         
-    for f in glob.glob( os.path.join(path, BOW_FILE_NAME)):
-        print "... deleting {0}".format(f)
-        os.remove(f)
+    for currentFile in glob.glob( os.path.join(path, BOW_FILE_NAME)):
+        print "... deleting {0}".format(currentFile)
+        os.remove(currentFile)
             
-# === MAIN ======================================
+'''
+# ============================================
+# Function: loadBOWHistogram
+# ============================================
+#
+# @summary:
+#
+# loads feature data from zipped xml files
+#
+# @param featureFile: the path of the feature file
+#
+# @return: loaded data
+#
+''' 
+def loadBOWHistogram(featureFile):
 
-
-def evaluation(dirA, typeA, dirB, typeB, numThreads, classfilepath, outputFilename = None):
-    
-    classfile = open(classfilepath, 'r')
-    
-    classes           = {}
-    classmember_count = {}
-    evalresult        = {}
-    
-    for line in classfile:
-        tmp = line.split(';')
-        classes[tmp[0]] = tmp[1].replace("\n","")
-        
-    
-    filesA = glob.glob( os.path.join(dirA, '{0}.feat.xml'.format(typeA)))
-    filesB = glob.glob( os.path.join(dirA, '{0}.feat.xml'.format(typeB)))
-    
-    print("... {0} files found in Collection A".format(len(filesA)))
-    print("... {0} files found in Collection B".format(len(filesB)))
-    
-    numIterations = (len(filesA) * (len(filesB) - 1)) / 2
-    print("... {0} compare operations\n".format(numIterations))
-
-    for fa in filesA:
-
-        queryFile = extractFilename(fa)
-        print("\nQ> {0} ({1})".format(queryFile, classes[queryFile]))
-        
-        results, kill_received = getKnn(fa, filesB, numThreads)
-        
-        if kill_received:
-            break
-
-        if len(results) == 0:
-            print "*** No Results!!!"
-            continue
-        
-        classnameQuery = classes[queryFile]
-        
-        if classmember_count.has_key(classnameQuery):
-            classmember_count[classnameQuery] += 1
-        else:
-            classmember_count[classnameQuery] = 1
-            evalresult[classnameQuery]        = 0
-        
-        
-        dup = results[0]
-
-        resultFile = extractFilename(dup[1])
-        classnameResult = classes[resultFile]
-        
-        print("R> {0} ({2}) [{1}]".format(resultFile, dup[0], classnameResult))
-        
-        if resultFile[:-5] == queryFile[:-5]:
-            print "> SUCCESS"
-            evalresult[classnameQuery] += 1
-        else:
-            print "> FAILED"
-        #filesB.remove(dup[1])
-        percentage = float(evalresult[classnameQuery])/float(classmember_count[classnameQuery])
-        print "! Precission for %s : %02f" % (classnameQuery, percentage)
-        
-        print("")
-    
-    print "=== Summary: ===\n"
-    
-    file = None
-    
-    if outputFilename != None:
-        file = open(outputFilename, 'w')
-        
-    
-    for key in classmember_count.keys():
-        
-        percentage = float(evalresult[key])/float(classmember_count[key])
-        print " * {0} \t: {1}".format(key, percentage)
-        
-        if outputFilename != None:
-            file.write("{0};{1}\n".format(key,percentage))
-            
-            
-    
-    if outputFilename != None:
-        file.close()
-    print"\n"
-    
-def loadBOWHistogram(filename):
-
-    data = []
-
-    f = gzip.open(filename, 'rb')
-
-    xmldoc = minidom.parseString(f.read())
-    
+    # read xml-data
+    f = gzip.open(featureFile, 'rb')
+    xmldoc = et.fromstring(f.read())
     f.close()
     
-    xmlBowhistNode = xmldoc.getElementsByTagName('BOWHistogram')
+    # parse xml-data
+    data = []    
+    for t in xmldoc[0][0][3].text.replace("\n"," ").split(" "):
+        if len(t) > 0:
+            data.append(float(t))
     
-    if len(xmlBowhistNode) > 0: # ==> data found
-        dataNode = xmlBowhistNode[0].getElementsByTagName('data')
-        
-        if len(dataNode) > 0: # ==> data found
-            rawdata = dataNode[0].childNodes[0].nodeValue
-            rawdata = rawdata.replace("      ", "").replace("\n", " ").split(" ")
-            
-            for rd in rawdata:
-                
-                if rd == '':
-                    continue
-                
-                data.append(float(rd))
+    # free memory
+    xmldoc.clear()
 
     return data
 
-def histIntersect(A,B):
-    
-    sumMin = 0
-    
-    for i in range(len(A[1])):
-        sumMin += min(A[1][i], B[1][i])
+'''
+# ============================================
+# Function: loadFeatureData2
+# ============================================
+#
+# @summary:
+#
+# loads feature data from zipped xml files
+#
+# @param featureFile: the path of the feature file
+# @param dataItemIDs: array of indexes that correspond to xml entries
+#
+# @return: loaded data
+#
+''' 
+def loadFeatureData2(featureFile, dataItemIDs):
 
-    return sumMin
+    data = []
 
-def getDistanceMatrix(dirname):
+    f = gzip.open(featureFile, 'rb')
+    xmldoc = et.fromstring(f.read())
+    f.close()
     
-    histograms = []
-    dmatrix = []
+    for idx in dataItemIDs:
+        data.append(float(xmldoc[0][idx].text))
+        
+    xmldoc.clear()
+        
+    return data
+
+'''
+# ============================================
+# Function: getDistanceMatrix
+# ============================================
+#
+# @summary:
+#
+# @param featureDirectory: 
+#
+# @return: 
+#
+''' 
+def getDistanceMatrix(featureDirectory):
+    
+    histograms     = []
+    distanceMatrix = []
     
     print "...loading features"
     
-    dirContents = glob.glob( os.path.join(dirname, "*.BOWHistogram.feat.xml.gz"))
-    
-    for featFile in dirContents:
-        data = loadBOWHistogram(featFile)
-        histograms.append([featFile, data])
+    # load bow histograms
+    for featureFilename in glob.glob( os.path.join(featureDirectory, "*.BOWHistogram.feat.xml.gz")):
         
-    print "...calculating distances"
-    
-    for q1 in histograms:
+        # load histogram
+        data = loadBOWHistogram(featureFilename)
         
-        neighbors = []
+        # store data to list with filename
+        histograms.append([featureFilename, data])
         
-        for q2 in histograms:
-            
-            if (q1 == q2):
-                continue
-            
-            dist = histIntersect(q1, q2)
-            neighbors.append([dist, q2])
-                
-        neighbors.sort(reverse=True)
-        
-        dmatrix.append([q1[0], neighbors])
-
-    return dmatrix
-            
-def pyCompareMAD(dirname):
-    
-    histograms = []
-    
-    print "...loading features"
-    
-    dirContents = glob.glob( os.path.join(dirname, "*.BOWHistogram.feat.xml.gz"))
-    
-    i = 0
-    for featFile in dirContents:
-    
-        if i % 10 == 0:
-            print i, "of", len(dirContents)
-        
-        i += 1
-    
-        data = loadBOWHistogram(featFile)
-        
-        histograms.append([featFile, data])
-        
-#        if i > 100:
-#            break
-        
-    
-    query = histograms[0]
-    
-    print "...calculating distances"
-    
-    
-    results = []
-    distVals = []
-    
-    idx = 0
-    
-    histograms2 = copy.copy(histograms)
-    
-    for q1 in histograms:
+    print "...calculating distance matrix"
+    for query in histograms:
         
         neighbors = []
         
-        for q2 in histograms2:
+        for collectionEntry in histograms:
             
-            if (q1 == q2):
+            if (collectionEntry == query):
                 continue
             
-            dist = histIntersect(q1, q2)
-            neighbors.append([dist, q2])
-                
+            # calculate histogram intersections
+            dist = np.sum(np.minimum(query[1],collectionEntry[1]))
+            neighbors.append([dist, collectionEntry])
+        
+        # sort list in descending order
         neighbors.sort(reverse=True)
         
-        
-        results.append([q1[0], neighbors[0][1][0], neighbors[0][0]])
-        distVals.append(neighbors[0][0])
-        
-        #histograms.remove(neighbors[0][1])
-        #histograms2.remove(q1)
-        #histograms2.remove(neighbors[0][1])
-        
-        print len(histograms),len(histograms2)
-        
-        
-        idx += 1
+        distanceMatrix.append([query[0], neighbors])
 
+    return distanceMatrix
 
-    print "...", idx, "distances calculated"
-    
-    k       = 3
-    srange  = 10
-    sthresh = 3
-   
-    d = np.matrix(distVals,dtype=float)
-    r = np.array(results)
-    
-    medd = np.median(d,axis=1)
-    
-    mad = k * np.median(np.abs(d - medd),axis=1)
-
-    idx = np.where(d > (medd+mad)) #duplicate candidates
-    
-    print r[idx[1].tolist()]
-    
-    print "...local aggregation of duplicate candidates"
-    
-    dlist = []
-    run = []
-    
-    
-    for j in range(len(distVals)):
-        didx = np.abs(j-idx[1])
-        dlist.append(np.count_nonzero(np.where(didx<srange)))
-        
-    print dlist
-
-    print "...duplicate run detection"     
-    nruns = 0;
-    inrun = 0;
-    j=0;
-    
-    while (j < len(distVals)):       
-        if (inrun == 0) and (dlist[j] > sthresh):
-            inrun = 1;
-            run.append([{'start': j}])
-           
-        if inrun > 0 and (dlist[j] < sthresh):
-            inrun = 0;
-            run[nruns].append({'end':j})                      
-            nruns += 1;
-                
-        j += 1;
-
-
-    print run
-
-#def eval():
-#    
-#    global BIN_EXTRACTFEATURES, BIN_COMPARE, BIN_TRAIN, configuration
-#    
-#    configuration = "PC-Alex"
-#    
-#    BIN_EXTRACTFEATURES = configs[configuration]["BIN_EXTRACTFEATURES"]
-#    BIN_COMPARE         = configs[configuration]["BIN_COMPARE"]
-#    BIN_TRAIN           = configs[configuration]["BIN_TRAIN"]
+'''
+# ============================================
+# Function: compare
+# ============================================
 #
-#    sdk = 250
-#    
-#    while (sdk <= 2500):
-#        
-#        clahe = 0
-#        
-#        while (clahe < 10):
-#            
-#            clahe += 1
+# @summary:
 #
-#            print "================================================================================"
-#            print " SDK   : ", sdk
-#            print " CLAHE : ", clahe
-#            print "================================================================================"
-#            
-#            outputFileName = "E:/_DATA/scape/EvalResult_SDK_{0}_CLAHE_{1}.txt".format(sdk,clahe)
-#            
-#            if os.path.exists(outputFileName):
-#                continue
-#            
-#            clearDirectory("E:/_DATA/scape/chinese_testsample/")
-#        
-#            print "=== extracting features from directory {0} ===".format("E:/_DATA/scape/chinese_testsample/")
-#            extractFeatures("E:/_DATA/scape/chinese_testsample/", sdk,4, clahe)
-#        
-#            print "=== calculate BoW ==="
-#            calculateBoW("E:/_DATA/scape/chinese_testsample/", ".feat.xml")
-#        
-#            print "=== extract BoW Histograms from directory {0} ===".format("E:/_DATA/scape/chinese_testsample/")
-#            extractBoWHistograms("E:/_DATA/scape/chinese_testsample/", 4)
-#        
-#            print "=== compare images from directory {0} ===".format("E:/_DATA/scape/chinese_testsample/")
-#            evaluation("E:/_DATA/scape/chinese_testsample/", "*R.tif", "E:/_DATA/scape/chinese_testsample/", "*L.tif",4, "E:/_DATA/scape/IDP_Image_classes.csv", outputFileName)
-#            
-#        sdk += 250
-        
-
+# @param config: 
+# @param f1: 
+# @param f2: 
+# @param feature: 
+# @param valueName: 
+#
+# @return: 
+#
+''' 
 def compare(config, f1, f2, feature, valueName):
     
     resultValue = -1
@@ -709,129 +494,95 @@ def compare(config, f1, f2, feature, valueName):
         print errorStr
                             
     return resultValue
-
-def pyFindReferences(config, col1, col2):
-    
-    print "... loading features"
-    
-    col1_files = glob.glob( os.path.join(col1, "*.BOWHistogram.feat.xml.gz"))
-    col2_files = glob.glob( os.path.join(col2, "*.BOWHistogram.feat.xml.gz"))
-    
-    col1_histograms = []
-    col2_histograms = []
-    
-    dmatrix = []
-    
-    for f in col1_files:
-        data = loadBOWHistogram(f)
-        col1_histograms.append([f, data])
-
-    for f in col2_files:
-        data = loadBOWHistogram(f)
-        col2_histograms.append([f, data])
-
-    print "... calculating distances"
-    
-    for q1 in col1_histograms:
-        
-        neighbors = []
-        
-        for q2 in col2_histograms:
             
-            dist = histIntersect(q1, q2)
-            neighbors.append([dist, q2])
-                
-        neighbors.sort(reverse=True)
-        
-        dmatrix.append([q1[0], neighbors])
-
-    print "... verfifying references"
-
-    idx = 0
-
-    for entry in dmatrix:
-        
-        idx += 1
-        
-        if idx == 1:
-            continue
-        
-        
-        f1 = entry[0].replace("BOWHistogram", "SIFTComparison")
-        f2 = entry[1][0][1][0].replace("BOWHistogram", "SIFTComparison")
-        
-        f1 = f1.replace("bowhist", "sift")
-        f2 = f2.replace("bowhist/references", "sift")
-        
-        ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
-        
-        if ssim > 0.9:
-            print "col1/{0} => col2/{1} [ {2}% ] ==> OK".format(extractFilename(f1).replace(".SIFTComparison", ""), extractFilename(f2).replace(".SIFTComparison", ""), (ssim * 100))
-        else:
-            
-            if entry[1][0][0] / entry[1][1][0] > 1.1:
-                print "col1/{0} => col2/{1} [ {2}% ] ==> Major Changes!".format(extractFilename(f1).replace(".SIFTComparison", ""), extractFilename(f2).replace(".SIFTComparison", ""), (ssim * 100))
-            else:
-                print "col1/{0} => col2/{1} [ {2}% ] ==> Problem!".format(extractFilename(f1).replace(".SIFTComparison", ""), extractFilename(f2).replace(".SIFTComparison", ""), (ssim * 100))
-            
-            #print entry[1][0][0], entry[1][1][0], (entry[1][0][0] / entry[1][1][0])
-            
-#            print "... Checking other neighbors"
-#            
-#            best_ssim = ssim
-#            curr_ssim = 0
-#            best_file = f2
-#            ssims = []
-#            
-#            for i in range(5):
-#                
-#                f2 = entry[1][i][1][0].replace("BOWHistogram", "SIFTComparison")
-#                f2 = f2.replace("bowhist/references", "sift")
-# 
-#                print extractFilename(f2).replace(".SIFTComparison", ""), entry[1][i][0]
-                
-#                curr_ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
-                
-    
-#                if curr_ssim > best_ssim:
-#                    
-#                    
-#                    rel_diff = curr_ssim / np.mean(ssims)
-#                    print "... col2/{1} [ {2}% ]".format(extractFilename(f1).replace(".SIFTComparison", ""), extractFilename(f2).replace(".SIFTComparison", ""), (curr_ssim * 100)), "rel_diff =", rel_diff
-#                    best_ssim = curr_ssim
-#                    best_file = f2
+'''
+# ============================================
+# Function: getDistanceMatrix
+# ============================================
 #
-#                if curr_ssim > 0:
-#                    ssims.append(curr_ssim)
-#                    print curr_ssim, ",", (1 - (curr_ssim / np.mean(ssims))) * 100, "[", np.mean(ssims, axis=0), "]"
-
-
-def pyFindDuplicates(config, dirname, k, csv):
+# @summary:
+#
+# @param config: 
+# @param featureDirectory: 
+# @param k: 
+# @param csv: 
+#
+# @return: loaded data
+#
+''' 
+def pyFindDuplicates(config, featureDirectory, k, csv):
     
-    k       = 0.02
-
-    distVals = []
-    results  = []
+    # initialize hardcoded values
+    k       = 3
+    seclen  = 200
     
-    dmatrix = getDistanceMatrix(dirname)
+    # declare variables
+    distVals     = []
+    results      = []
+    cluster_data = []
     
-    print "...calculating Mean Absolute Deviation"
+    # load distance matrix
+    dmatrix = getDistanceMatrix(featureDirectory)
     
+    # calculate number of cluster centers
+    num_cluster_center = math.ceil(len(dmatrix) / float(seclen))
+    
+    # exception: there should be at least three clusters
+    if num_cluster_center < 3:
+        num_cluster_center = 3
+    
+    print "...loading dispersion from feature files"
+    
+    i = 0    
     for entry in dmatrix:
+
+        # building the feature vector:
+        # ============================
+        # i... control variable
+        # 4... dispersion    => dat[0]
+        # 5... uniformity    => dat[1]
+        # 6... sizeVariation => dat[2]
+        dat = loadFeatureData2(entry[0].replace("BOWHistogram", "SIFTComparison"), [4,5,6])
+        cluster_data.append([ i, dat[0], dat[1], dat[2] ])
+        
         distVals.append(entry[1][0][0])
         results.append([entry[0], entry[1][0][1][0], entry[1][0][0]])
-    
-    d = np.matrix(distVals,dtype=float)
-    r = np.array(results)
-    
-    medd = np.median(d,axis=1)
-    
-    mad = k * np.median(np.abs(d - medd),axis=1)
 
-    print "...selecting duplicate candidates"
-    idx = np.where(d > (medd+mad)) #duplicate candidates
+        i += 1
     
-    duplicates = r[idx[1].tolist()]
+    [centers, labels] = kmeans2(np.array(cluster_data), num_cluster_center, 10, 1e-5, "points")
+    
+    print labels
+    print centers
+    
+    # convert lists to numpy matrix
+    d          = np.matrix(distVals,dtype=float)
+    r          = np.array(results)
+    thresholds = np.zeros((1,len(labels)),dtype=float)
+    
+    print "...calculating Mean Absolute Deviations"
+    
+    # for each cluster center
+    for center_number in range(0,int(num_cluster_center - 1)):
+        
+        # which images are from this cluster?
+        indeces_of_images_of_this_cluster = (labels == center_number)
+        
+        # get distvals for this cluster
+        distvals_of_this_cluster = np.extract(indeces_of_images_of_this_cluster, d)
+    
+        # calc median and MAD for these values
+        medd = np.median(distvals_of_this_cluster)
+        mad  = k * np.median(np.abs(distvals_of_this_cluster - medd))
+    
+        # set threshold values for images of this cluster
+        thresholds = indeces_of_images_of_this_cluster.choose(thresholds,(medd+mad))
+        
+        
+    print "...selecting duplicate candidates"
+    indeces_of_images_exceeding_threshold = (d > thresholds) #duplicate candidates
+    
+    duplicates = r[np.where(indeces_of_images_exceeding_threshold)[1]]
     
     dup_found = set()
     result    = []
@@ -842,10 +593,10 @@ def pyFindDuplicates(config, dirname, k, csv):
     
     for dup in duplicates:
         
-        if (dup[0] not in dup_found):
+        if (dup[0,0] not in dup_found):
             
-            f1 = dup[0].replace("BOWHistogram", "SIFTComparison")
-            f2 = dup[1].replace("BOWHistogram", "SIFTComparison")
+            f1 = str(dup[0,0]).replace("BOWHistogram", "SIFTComparison")
+            f2 = str(dup[0,1]).replace("BOWHistogram", "SIFTComparison")
             
             ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
             
@@ -855,19 +606,8 @@ def pyFindDuplicates(config, dirname, k, csv):
             if ssim > 0.9:
                 print "{0} => {1} [ {2}% ] ==> Duplicate".format(f1, f2, (ssim * 100))
                 result.append([f1,f2,ssim])
-                dup_found.add(dup[1])
+                dup_found.add(dup[0,1])
             else:
                 print "{0} => {1} [ {2}% ] ==> No Duplicate".format(f1, f2, (ssim * 100))
 
     return result
-
-
-def moveFiles(srcDir, destDir, filter, createDestDir):
-    
-    if createDestDir and not os.path.exists(destDir):
-            os.makedirs(destDir)
-    
-    for f in glob.glob( os.path.join(srcDir, filter)):
-        shutil.move(f, destDir)
-        
-    

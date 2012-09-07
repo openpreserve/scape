@@ -19,6 +19,8 @@
 
 #include "CLAHE.h"
 
+#include <algorithm>
+
 #define _USE_MATH_DEFINES
 
 
@@ -36,6 +38,8 @@ private:
 	vector<KeyPoint> keypoints;
 	double           scale;
 	double           dispersion;
+	double           uniformity;
+	double           sizeVariation;
 
 	// commandline arguments
 	int              sdk;
@@ -47,6 +51,8 @@ private:
 	Mat              downsample(Mat& matImg);
 	vector<KeyPoint> findSpatiallyDistinctiveLocalKeypoints(Mat& image, vector<KeyPoint>& keypoints);
 	double           calcDispersion(vector<KeyPoint>& keypoints, Mat& image);
+	double			 calcUniformity(vector<KeyPoint>& keypoints);
+	double           calcSizeVariation(vector<KeyPoint>& keypoints);
 
 protected:
 	using Feature::name;

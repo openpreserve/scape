@@ -1,57 +1,70 @@
-#!/usr/bin/env python
+'''
+# ======================================================== #
+# Module  : FindDuplicates                                 #
+#                                                          #
+# @author : Alexander Schindler                            #
+# @contact: Alexander.Schindler@ait.ac.at                  #
+#                                                          #
+# @version:                                                # 
+#                                                          #
+# -------------------------------------------------------- #
+#                                                          #
+# @summary:                                                # 
+#                                                          #
+# -------------------------------------------------------- #
+#                                                          #
+# @license:                                                #
+#                                                          #
+# ======================================================== #
+'''
+
 # === imports ===================================
 
 import argparse
-import glob
-import os
-import sys
-import re
-import time
-import gzip
-import numpy as np
-import copy
 import MatchboxLib
 
 # === definitions ===============================
-
-BOW_FILE_NAME          = "bow.xml"
-KNN_THRESHOLD          = 0
 
 configuration          = "Linux"
 
 configs = {}
 
-configs["PC-Alex"] = {}
-configs["PC-Alex"]["BIN_EXTRACTFEATURES"]     = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/extractfeatures.exe"
-configs["PC-Alex"]["BIN_COMPARE"]             = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/compare.exe"
-configs["PC-Alex"]["BIN_TRAIN"]               = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/train.exe"
-
+# Linux is the standard configuration
+# all binaries should be installed on the target machine through "make install"
 configs["Linux"]   = {}
 configs["Linux"]["BIN_EXTRACTFEATURES"]       = "extractfeatures"
 configs["Linux"]["BIN_COMPARE"]               = "compare"
 configs["Linux"]["BIN_TRAIN"]                 = "train"
+
+# === Development configurations ===
+# this configs should be deleted after development
+configs["PC-Alex"] = {}
+configs["PC-Alex"]["BIN_EXTRACTFEATURES"]     = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/extractfeatures.exe"
+configs["PC-Alex"]["BIN_COMPARE"]             = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/compare.exe"
+configs["PC-Alex"]["BIN_TRAIN"]               = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/train.exe"
 
 configs["PC-Reinhold"] = {}
 configs["PC-Reinhold"]["BIN_EXTRACTFEATURES"] = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/extractfeatures.exe"
 configs["PC-Reinhold"]["BIN_COMPARE"]         = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/compare.exe"
 configs["PC-Reinhold"]["BIN_TRAIN"]           = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/train.exe"
 
-BIN_EXTRACTFEATURES = configs[configuration]["BIN_EXTRACTFEATURES"]
-BIN_COMPARE         = configs[configuration]["BIN_COMPARE"]
-BIN_TRAIN           = configs[configuration]["BIN_TRAIN"]
-
-SUPPORTED_IMAGE_TYPES  = ".(png|tif|jpe?g|bmp|gif|jp2)$"
-
 # === Classes ===================================
-
 
 
 if __name__ == '__main__':
 
+    # ===============================================================================
+    # Command line argument parsing
+    # ===============================================================================
     parser = argparse.ArgumentParser()
-    
+    #
+    # mandatory arguments
+    #
     parser.add_argument('dir',          help='directory containing image files')
     parser.add_argument('action',       help='define which step of the workflow shouold be executed',       choices=['all', 'extract', 'compare', 'train', 'bowhist', 'clean'])
+    #
+    # optional arguments
+    #
     parser.add_argument('--threads',    help='number of concurrent threads',                                type=int, default=1)
     parser.add_argument('--filter',     help='Filter for BOW creation',                                     type=str, default=".SIFTComparison.feat.xml.gz")
     parser.add_argument('--sdk',        help='Number of Spatial Distincitve Keypoints',                     type=int, default=0)
@@ -60,17 +73,28 @@ if __name__ == '__main__':
     parser.add_argument('--clahe',      help='Value of adaptive contrast enhancement (1 = no enhancement)', type=int, default=1)
     parser.add_argument('--config',     help='Configuration Parameter',                                     type=str, default="Linux")
     parser.add_argument('--featdir',    help='Alternative directory for storing feature files',             type=str, default="")
-    parser.add_argument('--csv',        help='Update Feature',                                              action='store_true')
     parser.add_argument('--bowsize',    help='Size of Bag of Words',                                        type=int, default=1000)
+    parser.add_argument('--csv',        help='Update Feature',                                              action='store_true')
+    #
     parser.add_argument('-v',           help="Print verbose messages",                                      dest='verbose', action='store_true')
     
+    # parse arguments
     args = vars(parser.parse_args())
     
+    # assign configuration
     config = configs[args['config']]
     
-    # ===============================================================================
     
+    
+    # ===============================================================================
+    # action: clean
+    # ===============================================================================
+    # 
+    # clean all automatically generated files.
+    #
     if (args['action'] == 'clean'):
+        
+        print "\n=== deleting generated files from directory {0} ===\n".format(args['dir'])
         
         MatchboxLib.clearDirectory(args['dir'])
         if len(args['featdir']) > 0:
@@ -78,44 +102,64 @@ if __name__ == '__main__':
         exit()
     
     # ===============================================================================
-    
+    # action: extract
+    # ===============================================================================
+    #
+    # extract all relevant features for the duplicate detection task
+    #
     if (args['action'] == 'extract') or (args['action'] == 'all'):
         
         print "\n=== extracting features from directory {0} ===\n".format(args['dir'])
-        MatchboxLib.extractFeatures(config, args['dir'], args['sdk'],args['threads'], args['clahe'], args['featdir'])
+        
+        MatchboxLib.extractFeatures(config, args['dir'], args['sdk'],args['threads'], args['clahe'], args['featdir'], "SIFTComparison")
     
     # ===============================================================================
-    
+    # action: train
+    # ===============================================================================
+    #
+    # calculate the bag of words based on the extracted features
+    #
     if (args['action'] == 'train') or (args['action'] == 'all'):
         
+        print "\n=== calculating Visual Bag of Words ===\n"
+
         dir = args['dir']
         
         if len(args['featdir']) > 0:
             dir = args['featdir']
         
-        print "\n=== calculating Visual Bag of Words ===\n"
         MatchboxLib.calculateBoW(config, dir, args['filter'], args['precluster'], args['bowsize'])
     
     # ===============================================================================
-    
+    # action: bowhist
+    # ===============================================================================
+    #
+    # extract bow histograms
+    #
     if (args['action'] == 'bowhist') or (args['action'] == 'all'):
         
+        print "\n=== extract BoW Histograms from directory {0} ===\n".format(args['dir'])
+
         dir = args['dir']
         
         if len(args['featdir']) > 0:
             dir = args['featdir']
 
-        print "\n=== extract BoW Histograms from directory {0} ===\n".format(args['dir'])
         MatchboxLib.extractBoWHistograms(config,args['dir'], args['threads'], dir)
 
     # ===============================================================================
-    
+    # action: compare
+    # ===============================================================================
+    #
+    # compare bow histograms and display duplicates
+    #
     if (args['action'] == 'compare') or (args['action'] == 'all'):
         
+        print "\n=== compare images from directory {0} ===\n".format(dir)
+
         dir = args['dir']
         
         if len(args['featdir']) > 0:
             dir = args['featdir']
             
-        print "\n=== compare images from directory {0} ===\n".format(dir)
         MatchboxLib.pyFindDuplicates(config, dir, args['nn'], args['csv'])
