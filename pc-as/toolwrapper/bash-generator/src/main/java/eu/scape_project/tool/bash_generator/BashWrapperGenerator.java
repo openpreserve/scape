@@ -361,8 +361,6 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		return tempDir;
 	}
 
-	// TODO improve workflow generation (as it is, it only accepts one input and
-	// has one output
 	private boolean generateWorkflowFileAndInfo(VelocityContext context) {
 		boolean success = true;
 		Template workflowTemplate = loadVelocityTemplateFromResources("bash_workflow_template.t2flow");
