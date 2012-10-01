@@ -1,0 +1,17 @@
+There is an external dependency on the combinatoricslib:
+
+<dependency>
+    <groupId>org.paukov.combinatorics</groupId>
+    <artifactId>combinatoricslib</artifactId>
+    <version>0.2</version>
+</dependency>
+
+Download the combinatoricslib jar from:
+
+http://combinatoricslib.googlecode.com/files/combinatoricslib-0.2.jar
+
+and install it in your local repository:
+
+mvn install:install-file -Dfile=combinatoricslib-0.2.jar \
+  -DgroupId=org.paukov.combinatorics -DartifactId=combinatoricslib \
+  -Dversion=0.2 -Dpackaging=jar
