@@ -30,10 +30,23 @@ import java.util.regex.Pattern;
  * Matchbox evaluation against ground truth. The evaluation process first
  * creates the matchbox output and ground truth lists. It then counts each page
  * tuple from the matchbox output that is in the ground truth as correctly
- * identified tuple (true positives). Those that are not in the ground truth are
+ * identified tuple (true positive). Those that are not in the ground truth are
  * counted as incorrectly identified tuples (false positives), and finally,
- * those that are in the ground truth but not in the matchbox output as missed
- * tuples (false negatives).
+ * those that are in the ground truth but not in the matchbox output are counted
+ * as missed tuples (false negatives).
+ * The precision is then calculated as the number of true positives (i.e. the 
+ * number of items correctly labeled as duplicate page pairs) divided by the 
+ * total number of elements assumed to be duplicate page pairs (i.e. the sum of 
+ * true positives and false positives, which are items incorrectly labeled as 
+ * being duplicate page pairs ). Recall is then defined as the number of 
+ * true positives divided by the total number of elements of duplicate page 
+ * pairs (i.e. the sum of true positives and false negatives, which are items 
+ * have not been labeled as being duplicate page pairs but actually should have 
+ * been).
+ * The ground truth contains single page instances without duplicates and 
+ * n-tuples (duplicates, triples, quadruples, etc.). n-tuples with n>2 are 
+ * expanded, the result is a list of 2-tuples which is used to determine the
+ * number of missed duplicates (false negatives).
  *
  * @author Sven Schlarb https://github.com/shsdev
  * @version 0.1
@@ -48,6 +61,7 @@ public class MatchboxEval {
     private int fmeasure = 0; // f-measure
     private String matchboxOutput; // matchbox output
     private String groundTruth; // groundtruth
+    private String log;
 
     /**
      * Ground truth content
@@ -68,8 +82,9 @@ public class MatchboxEval {
     }
 
     /**
-     * Getter for correctly identified duplicates (true positives)
-     *
+     * Getter for correctly identified duplicates (true positives).
+     * Number of "true positives", which is the number of page pairs correctly 
+     * identified as being duplicates.
      * @return correctly identified duplicates (true positives)
      */
     public int getTruePositives() {
@@ -77,26 +92,28 @@ public class MatchboxEval {
     }
 
     /**
-     * Getter incorrectly identified duplicates (false negatives)
-     *
-     * @return incorrectly identified duplicates (false negatives)
+     * Getter incorrectly identified duplicates (false positives).
+     * Number of "false positives", which are page pairs that are incorrectly 
+     * labeled as being page pairs but in fact the are not.
+     * @return incorrectly identified duplicates (false positives)
      */
     public int getFalsePositives() {
         return falsePositives;
     }
 
     /**
-     * Getter for missed duplicates (false positives)
-     *
-     * @return missed duplicates (false positives)
+     * Getter for missed duplicates (false negatives).
+     * Number of "false negatives", which are items that were not labeled as 
+     * being page pairs but actually they should have been.
+     * @return missed duplicates (false negatives)
      */
     public int getFalseNegatives() {
         return falseNegatives;
     }
 
     /**
-     * Getter for Precision. Precision prec = true positives / ( true positives
-     * / false positives )
+     * Getter for Precision. 
+     * Precision prec = true positives / ( true positives / false positives )
      *
      * @return Precision
      */
@@ -124,6 +141,15 @@ public class MatchboxEval {
     }
 
     /**
+     * Getter for evaluation log
+     * 
+     * @return evaluation log
+     */
+    public String getLog() {
+        return log;
+    }
+
+    /**
      * Constructor for evaluation class.
      *
      * @param mb Matchbox output
@@ -132,6 +158,7 @@ public class MatchboxEval {
     public MatchboxEval(String mb, String gt) {
         this.matchboxOutput = mb;
         this.groundTruth = gt;
+        log = "";
     }
 
     /**
@@ -154,13 +181,13 @@ public class MatchboxEval {
             boolean hasGtTuple = false;
             for (ArrayList<Integer> gtNTuple : gtTupleList) {
                 if (gtNTuple.contains(first) && gtNTuple.contains(second)) {
-                    System.out.println("Correct: " + first + " " + second);
+                    log += ("Correct: " + first + " " + second)+"\n";
                     truePositives++;
                     hasGtTuple = true;
                 }
             }
             if (!hasGtTuple) {
-                System.out.println("Incorrect: " + first + " " + second);
+                log += ("Incorrect: " + first + " " + second)+"\n";
                 falsePositives++;
             }
         }
@@ -175,16 +202,16 @@ public class MatchboxEval {
                 }
             }
             if (noGtTuple) {
-                System.out.println("Missed: " + first + " " + second);
+                log += ("Missed: " + first + " " + second)+"\n";
                 falseNegatives++;
             }
         }
 
         // Precision prec = true positives / ( true positives / false positives )
-        double precD = ((double) truePositives / ((double) truePositives + (double) falseNegatives));
+        double precD = ((double) truePositives / ((double) truePositives + (double) falsePositives));
         precision = (int) (precD * 100);
         // Recall rec = true positives / ( true positives / false negatives )
-        double recD = ((double) truePositives / ((double) truePositives + (double) falsePositives));
+        double recD = ((double) truePositives / ((double) truePositives + (double) falseNegatives));
         recall = (int) (recD * 100);
         // F-measure fm = 2 * (prec * rec) / (prec + rec)
         double fmD = 2 * (precD * recD) / (precD + recD);

@@ -189,13 +189,13 @@ public class MatchboxEvalTest {
     @Test
     public void testGetPrecision() {
         System.out.println("test getPrecision");
-        assertEquals(70, mbeval.getPrecision());
+        assertEquals(87, mbeval.getPrecision());
     }
 
     @Test
     public void testGetRecall() {
         System.out.println("test getRecall");
-        assertEquals(87, mbeval.getRecall());
+        assertEquals(70, mbeval.getRecall());
     }
 
     @Test
