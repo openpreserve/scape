@@ -27,11 +27,11 @@
 			<email>Andrew.Jackson@bl.uk</email>
 		</developer>
 		<developer>
-			<id>carlwilson-bl</id>
+			<id>carlwilson</id>
 			<name>Carl Wilson</name>
-			<email>carl.wilson.bl@gmail.com</email>
-			<organization>The British Library</organization>
-			<organizationUrl>http://www.bl.uk</organizationUrl>
+			<email>carl@openplanetsfoundation.org</email>
+			<organization>The Open Planets Foundation</organization>
+			<organizationUrl>http://www.openplanetsfoundation.org/</organizationUrl>
 		</developer>
 	</developers>
 	<issueManagement>
@@ -56,7 +56,8 @@
 	</modules>
 	<!-- Global build options. -->
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <github.global.server>github</github.global.server>
+       	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.6</jdk.version>
 		<org.apache.axis2.version>1.5.4</org.apache.axis2.version>
 		<ch.qos.logback.version>0.9.28</ch.qos.logback.version>
@@ -187,16 +188,32 @@
 				<artifactId>maven-site-plugin</artifactId>
 				<version>3.0</version>
 			</plugin>
-		</plugins>
+      <plugin>
+         <groupId>com.github.github</groupId>
+         <artifactId>site-maven-plugin</artifactId>
+         <version>0.6</version>
+         <configuration>
+            <message>Creating site for ${project.version}</message>
+         </configuration>
+         <executions>
+            <execution>
+               <goals>
+                  <goal>site</goal>
+               </goals>
+               <phase>site</phase>
+            </execution>
+         </executions>
+      </plugin>
+         		</plugins>
 	</build>
 	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>2.4</version>
-			</plugin>
-		</plugins>
+	  <plugins>
+	  <plugin>
+		 <groupId>org.apache.maven.plugins</groupId>
+	     <artifactId>maven-project-info-reports-plugin</artifactId>
+	     <version>2.4</version>
+	  </plugin>
+    </plugins>
 	</reporting>
 	<profiles>
 		<profile>
