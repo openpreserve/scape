@@ -2,7 +2,7 @@ Source: $wrapperName
 Section: misc
 Priority: extra
 Maintainer: SCAPE project <$maintainerEmail>
-Build-Depends: debhelper (>= 8.0.0), perl
+Build-Depends: debhelper, perl
 Standards-Version: 3.9.2
 Homepage: http://scape-project.eu/
 
