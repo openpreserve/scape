@@ -87,13 +87,17 @@ parse_arguments(){
 						stdin=1
 					fi
 				fi
+#if( $listOfParams.size )
 				if [ "$param" == "1" ]; then
+#end
 #foreach( $param in $listOfParams )
 					if [ $p -eq $foreach.count ]; then
 						param_files$foreach.count+=("$1")
 					fi
 #end
+#if( $listOfParams.size )
 				fi
+#end
 				if [ "$output" == "1" ]; then
 #foreach( $output in $listOfOutputs )
 					if [ $o -eq $foreach.count ]; then
