@@ -8,7 +8,7 @@ Homepage: http://scape-project.eu/
 
 Package: $wrapperName
 Architecture: all
-Depends: #[[${misc:Depends}]]#, $toolDependencies 
+Depends: #[[${misc:Depends}]]#$toolDependencies
 Description: $toolDescription
  This package was developed in the context of SCAPE project.
  The SCAPE project is co-funded by the European Union under

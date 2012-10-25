@@ -51,6 +51,7 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import eu.scape_project.tool.data.Input;
+import eu.scape_project.tool.data.Installation;
 import eu.scape_project.tool.data.OperatingSystemDependency;
 import eu.scape_project.tool.data.Operation;
 import eu.scape_project.tool.data.Output;
@@ -205,14 +206,18 @@ public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		context.put("dateOfGeneration", sdf.format(new Date()));
 		context.put("maintainerEmail", maintainerEmail);
 
-		List<OperatingSystemDependency> dependencyList = tool.getInstallation()
-				.getDependency();
+		Installation installation = tool.getInstallation();
 		String dependencies = "";
-		for (OperatingSystemDependency osd : dependencyList) {
-			if ("Debian".equalsIgnoreCase(osd.getOperatingSystemName()
-					.toString())) {
-				dependencies = osd.getValue();
-				break;
+		if (installation != null) {
+			List<OperatingSystemDependency> dependencyList = installation
+					.getDependency();
+
+			for (OperatingSystemDependency osd : dependencyList) {
+				if ("Debian".equalsIgnoreCase(osd.getOperatingSystemName()
+						.toString())) {
+					dependencies = ", " + osd.getValue();
+					break;
+				}
 			}
 		}
 		context.put("toolDependencies", dependencies);
