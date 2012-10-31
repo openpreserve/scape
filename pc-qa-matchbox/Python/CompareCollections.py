@@ -73,45 +73,54 @@ if __name__ == '__main__':
         
         print "\n=== creating directories ===\n"
         
+        # create feature directories
         print "... feature directory: {0}".format(args['featdir'])
         
-        print "... feature directory: {0}/col1/sift".format(args['featdir'])
-        if not os.path.exists("{0}/col1/sift".format(args['featdir'])):
-            os.makedirs("{0}/col1/sift".format(args['featdir']))
+        # create dirs for collection 1
+        print "... feature directory: {0}/col1".format(args['featdir'])
+        if not os.path.exists("{0}/col1".format(args['featdir'])):
+            os.makedirs("{0}/col1".format(args['featdir']))
         
-        print "... feature directory: {0}/col2/sift".format(args['featdir'])
-        if not os.path.exists("{0}/col2/sift".format(args['featdir'])):
-            os.makedirs("{0}/col2/sift".format(args['featdir']))
-                
+        # create dirs for collection 2
+        print "... feature directory: {0}/col2".format(args['featdir'])
+        if not os.path.exists("{0}/col2".format(args['featdir'])):
+            os.makedirs("{0}/col2".format(args['featdir']))
+        
+        # extract features
+        
+        # extract features for collection 1
         print "\n=== extracting features from directory {0} ===\n".format(args['dir1'])
-        MatchboxLib.extractFeatures(config, args['dir1'], args['sdk'],args['threads'], args['clahe'], "{0}/col1/sift".format(args['featdir']))
+        MatchboxLib.extractFeatures(config, args['dir1'], args['sdk'],args['threads'], args['clahe'], "{0}/col1".format(args['featdir']))
         
+        # extract features for collection 2
         print "\n=== extracting features from directory {0} ===\n".format(args['dir2'])
-        MatchboxLib.extractFeatures(config, args['dir2'], args['sdk'],args['threads'], args['clahe'], "{0}/col2/sift".format(args['featdir']))
+        MatchboxLib.extractFeatures(config, args['dir2'], args['sdk'],args['threads'], args['clahe'], "{0}/col2".format(args['featdir']))
     
     
     
     if (args['action'] == 'duplicates') or (args['action'] == 'all'):
         
-        print "\n=== Searching for duplicates ===\n"
+#        print "\n=== Searching for duplicates ===\n"
         
-        # ===== COLLECTION 1 =====
         
-        print "\n=== Processing Collection 1: {0} ===\n".format(args['dir1'])
+        # calculating Bag of Words
+        print "\n=== Bag of Words Processing ===\n"
         
-        print "... calculating Visual Bag of Words"
-        if not os.path.exists("{0}/col1/sift/bow.xml".format(args['featdir'])):
-            MatchboxLib.calculateBoW(config, "{0}/col1/sift".format(args['featdir']), args['filter'], args['precluster'])
+        if not os.path.exists("{0}/col1/bow.xml".format(args['featdir'])):
+            MatchboxLib.calculateBoW(config, "{0}/col1".format(args['featdir']), args['filter'], args['precluster'])
+
+        print "... extract BoW Histograms from collection 1"
+        MatchboxLib.extractBoWHistograms(config,args['dir1'], args['threads'], "{0}/col1".format(args['featdir']), "{0}/col1/bow.xml".format(args['featdir']))
+
+        print "... extract BoW Histograms from collection 2"
+        MatchboxLib.extractBoWHistograms(config,args['dir2'], args['threads'], "{0}/col2".format(args['featdir']), "{0}/col1/bow.xml".format(args['featdir']))
         
-        print "... creating feature directory: {0}/col1/bowhist".format(args['featdir'])
-        if not os.path.exists("{0}/col1/bowhist".format(args['featdir'])):
-            os.makedirs("{0}/col1/bowhist".format(args['featdir']))
-    
-        print "... extract BoW Histograms"
-        MatchboxLib.extractBoWHistograms(config,args['dir1'], args['threads'], "{0}/col1/sift".format(args['featdir']))
+        print "\n=== Detect Duplicates ===\n"
         
-        print "... moving BoW Histograms feature files"
-        MatchboxLib.moveFiles("{0}/col1/sift".format(args['featdir']), "{0}/col1/bowhist".format(args['featdir']), "*.BOWHistogram.feat.xml.gz", True)
+        # TODO - hier weitermachen
+        # * duplikate suchen
+        # * Kollektionen matchen
+
         
         print "... searching for duplicates"
         duplicates = MatchboxLib.pyFindDuplicates(config, "{0}/col1/sift".format(args['featdir']), args['nn'], args['csv'])
@@ -124,8 +133,8 @@ if __name__ == '__main__':
         print "\n=== Processing Collection 2: {0} ===\n".format(args['dir2'])
         
         print "... calculating Visual Bag of Words"
-        if not os.path.exists("{0}/col2/sift/bow.xml".format(args['featdir'])):
-            MatchboxLib.calculateBoW(config, "{0}/col2/sift".format(args['featdir']), args['filter'], args['precluster'])
+#        if not os.path.exists("{0}/col2/sift/bow.xml".format(args['featdir'])):
+#            MatchboxLib.calculateBoW(config, "{0}/col2/sift".format(args['featdir']), args['filter'], args['precluster'])
         
         print "... creating feature directory: {0}/col2/bowhist".format(args['featdir'])
         if not os.path.exists("{0}/col2/bowhist".format(args['featdir'])):

@@ -164,6 +164,14 @@ string Feature::getFilepath()
 	if (directory.length() > 0)
 	{
 		string file = StringUtils::getFilename(filename);
+
+		stringstream msg;
+		msg << "Reading data from feature file directory: " << file;
+		
+		
+		verbosePrintln(msg.str());
+
+
 		ssStreamFilename << directory.c_str() << "/" << file.c_str() << "." << name.c_str() <<  ".feat.xml.gz";
 	}
 	else

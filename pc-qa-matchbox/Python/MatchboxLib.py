@@ -36,6 +36,8 @@ from xml.dom import minidom
 from subprocess import call
 from scipy.cluster.vq import kmeans2
 
+import pylab
+
 # === definitions =================================================================================
 
 BOW_FILE_NAME          = "bow.xml"
@@ -121,6 +123,173 @@ class ExtractFeaturesWorker(threading.Thread):
     
     def stop(self):
         self.active = False
+
+
+
+
+
+
+
+
+
+
+
+
+
+class KnnWorker(threading.Thread):
+
+    # defining locks
+    incrementLock = threading.RLock()
+    
+    '''
+    # ============================================
+    # Constructor
+    # ============================================
+    #
+    #   @summary: 
+    #
+    #   @param config:  configuration containing path information to matchbox binaries
+    #   @param queue:   receive tasks from this queue
+    #   @param results: store results to this queue
+    '''
+    def __init__(self, config, queue, results):
+        
+        threading.Thread.__init__(self)
+        
+        self.queue         = queue    
+        self.results       = results  
+        self.config        = config   
+        self.kill_received = False
+    
+    '''
+    # ============================================
+    # Method: run
+    # ============================================
+    '''
+    def run(self):
+        
+        try:
+            
+            # receive tasks from queue as long as no kill signal was received
+            while(not self.kill_received):
+                
+                # get the next task from the queue
+                (image1,image2,distance) = self.queue.get_nowait()
+                
+                # execute compare.exe
+                # ===========================================================================
+                # self.config['BIN_COMPARE']    ... path to compare binary
+                # --bowmetric CV_COMP_INTERSECT ... use histogram intersection for comparison
+                # image[0]                      ... path to image1
+                # image[1]                      ... path to image2
+                process        = sub.Popen([self.config['BIN_COMPARE'], 
+                                        "--metric", "CV_COMP_INTERSECT", 
+                                        image1, 
+                                        image2], 
+                                        stdout=sub.PIPE,stderr=sub.PIPE)
+                # store cmd-line output 
+                output, errors = process.communicate()
+                # convert output to utf-8
+                outputStr      = output.decode("utf-8")
+                errorStr       = errors.decode("utf-8")
+    
+                if len(errorStr) == 0:
+                
+                    xml_response = et.fromstring(outputStr)
+                    
+                    ssim         = float(xml_response[0][0].text)
+                    sv           = distance * ssim
+                    
+                    ExtractFeaturesWorker.incrementLock.acquire() 
+                    self.results.append([sv,image2])
+                    ExtractFeaturesWorker.incrementLock.release()
+                
+                else:
+                    
+                    print("    compare.exe -l 4 {0} {1}".format(image1, image2))
+                    print(errorStr)
+                    ExtractFeaturesWorker.incrementLock.acquire() 
+                    self.results.append([-1, image2])
+                    ExtractFeaturesWorker.incrementLock.release()
+                
+        except (Queue.Empty):
+            pass
+        
+
+
+'''
+# ============================================
+# Function: getKnn
+# ============================================
+#
+# @summary: 
+#
+# @param config: 
+# @param queryFile:
+# @param collection:
+# @param numThreads:
+#   
+# @return: results:
+#          kill_received:
+'''
+def runSpatialVerification(config, queryFile, collection, numThreads = 1):
+
+    # initialize variables
+    results       = []
+    pool          = []
+    jobs          = Queue.Queue()
+
+    kill_received = False
+    
+    # compare query file against each file of collection
+    for (neighbor, distance) in collection:
+        
+        # do not compare query file with itself
+        if (neighbor == queryFile):
+            continue
+
+        # put jobs into the working queue
+        jobs.put([queryFile.replace("BOWHistogram", "SIFTComparison"),neighbor.replace("BOWHistogram", "SIFTComparison"), distance])
+
+    # start worker threads
+    for i in range(numThreads):
+        
+        # create thread and provide config and queues
+        worker = KnnWorker(config, jobs, results)
+        pool.append(worker)
+        
+        # start thread
+        worker.start()
+    
+    # wait for all threads to finish
+    while len(pool) > 0:
+        try:
+            # Join all threads using a timeout so it doesn't block
+            # Filter out threads which have been joined or are None
+            for thread in pool:
+                thread.join(10)
+                if not thread.isAlive():
+                    pool.remove(thread)
+            
+        except KeyboardInterrupt:
+            
+            # control-c detected - shut down threads and terminate
+            print "Ctrl-c received! Sending kill to threads..."
+            
+            kill_received = True
+            for t in pool:
+                t.kill_received = True    
+    
+    # sort results in descending order
+    results.sort(reverse=True)
+    
+    return results, kill_received
+
+
+
+
+
+
 
 # === functions ===================================================================================
 
@@ -373,7 +542,7 @@ def loadBOWHistogram(featureFile):
     # free memory
     xmldoc.clear()
 
-    return data
+    return np.array(data)
 
 '''
 # ============================================
@@ -445,12 +614,77 @@ def getDistanceMatrix(featureDirectory):
             
             # calculate histogram intersections
             dist = np.sum(np.minimum(query[1],collectionEntry[1]))
-            neighbors.append([dist, collectionEntry])
+            neighbors.append([dist, collectionEntry[0], collectionEntry[1]])
+        
         
         # sort list in descending order
         neighbors.sort(reverse=True)
         
-        distanceMatrix.append([query[0], neighbors])
+        # add to distance matrix
+        # 1. query filename
+        # 2. nearest neighbor
+        # 3. distance value
+        distanceMatrix.append([query[0], neighbors[0][1], neighbors[0][0]])
+
+    return distanceMatrix
+
+'''
+# ============================================
+# Function: getShortLists
+# ============================================
+#
+# @summary:
+#
+# @param featureDirectory: 
+#
+# @return: 
+#
+''' 
+def getShortLists(featureDirectory, length):
+    
+    histograms     = []
+    distanceMatrix = []
+    
+    print "...loading features"
+    
+    # load bow histograms
+    for featureFilename in glob.glob( os.path.join(featureDirectory, "*.BOWHistogram.feat.xml.gz")):
+        
+        # load histogram
+        data = loadBOWHistogram(featureFilename)
+        
+        # store data to list with filename
+        histograms.append([featureFilename, data])
+        
+    print "...calculating distance matrix"
+    for query in histograms:
+        
+        neighbors = []
+        
+        for collectionEntry in histograms:
+            
+            if (collectionEntry == query):
+                continue
+            
+            # calculate histogram intersections
+            dist = np.sum(np.minimum(query[1],collectionEntry[1]))
+            neighbors.append([dist, collectionEntry[0], collectionEntry[1]])
+        
+        
+        # sort list in descending order
+        neighbors.sort(reverse=True)
+        
+        shortlist = []
+        
+        for i in range(0,length):
+            shortlist.append([neighbors[i][1], neighbors[i][0]])
+        
+        # add to distance matrix
+        # 1. query filename
+        # 2. Shortlist
+        #   2.1 filename
+        #   2.2 distance
+        distanceMatrix.append([query[0], shortlist])
 
     return distanceMatrix
 
@@ -497,32 +731,29 @@ def compare(config, f1, f2, feature, valueName):
             
 '''
 # ============================================
-# Function: getDistanceMatrix
+# Function: pyFindDuplicates
 # ============================================
 #
 # @summary:
 #
 # @param config: 
 # @param featureDirectory: 
-# @param k: 
 # @param csv: 
 #
 # @return: loaded data
 #
 ''' 
-def pyFindDuplicates(config, featureDirectory, k, csv):
+def pyFindDuplicates(config, featureDirectory, csv):
     
     # initialize hardcoded values
-    k       = 3
-    seclen  = 200
+    seclen       = 200
     
     # declare variables
     distVals     = []
-    results      = []
     cluster_data = []
     
     # load distance matrix
-    dmatrix = getDistanceMatrix(featureDirectory)
+    dmatrix      = getDistanceMatrix(featureDirectory)
     
     # calculate number of cluster centers
     num_cluster_center = math.ceil(len(dmatrix) / float(seclen))
@@ -541,23 +772,31 @@ def pyFindDuplicates(config, featureDirectory, k, csv):
         # i... control variable
         # 4... dispersion    => dat[0]
         # 5... uniformity    => dat[1]
-        # 6... sizeVariation => dat[2]
-        dat = loadFeatureData2(entry[0].replace("BOWHistogram", "SIFTComparison"), [4,5,6])
-        cluster_data.append([ i, dat[0], dat[1], dat[2] ])
+        dat = loadFeatureData2(entry[0].replace("BOWHistogram", "SIFTComparison"), [4,5])
+        cluster_data.append([ i, dat[0], dat[1] ])
         
-        distVals.append(entry[1][0][0])
-        results.append([entry[0], entry[1][0][1][0], entry[1][0][0]])
-
+        distVals.append(entry[2])
+        
         i += 1
     
     [centers, labels] = kmeans2(np.array(cluster_data), num_cluster_center, 10, 1e-5, "points")
     
-    print labels
-    print centers
+#    print labels
+#    print centers
+    
     
     # convert lists to numpy matrix
+    k          = 3
     d          = np.matrix(distVals,dtype=float)
-    r          = np.array(results)
+    
+    ind = np.arange(len(distVals))[np.newaxis,:]
+    ind += 1
+    
+#    pylab.plot(ind.transpose(), d.transpose())
+#    pylab.show()
+    
+    
+    r          = np.array(dmatrix)
     thresholds = np.zeros((1,len(labels)),dtype=float)
     
     print "...calculating Mean Absolute Deviations"
@@ -577,6 +816,8 @@ def pyFindDuplicates(config, featureDirectory, k, csv):
     
         # set threshold values for images of this cluster
         thresholds = indeces_of_images_of_this_cluster.choose(thresholds,(medd+mad))
+        
+    
         
         
     print "...selecting duplicate candidates"
@@ -611,3 +852,49 @@ def pyFindDuplicates(config, featureDirectory, k, csv):
                 print "{0} => {1} [ {2}% ] ==> No Duplicate".format(f1, f2, (ssim * 100))
 
     return result
+
+
+'''
+# ============================================
+# Function: pyFindDuplicates_SpatialVerification
+# ============================================
+#
+# @summary:
+#
+# @param config: 
+# @param featureDirectory: 
+# @param csv: 
+#
+# @return: loaded data
+#
+''' 
+def pyFindDuplicates_SpatialVerification(config, featureDirectory, csv):
+    
+    # initialize hardcoded values
+    
+    # declare variables
+    
+    # load distance matrix
+    shortlist = getShortLists(featureDirectory, 4)
+    
+    idx = 1
+    
+    for (query,neighbors) in shortlist:
+        
+        result, kill = runSpatialVerification(config, query, neighbors, 4)
+        
+        duplicates = []
+        
+        for r in result:
+            
+            if r[0] >= 0.7:
+                duplicates.append(int(r[1].split("\\")[-1].split(".")[0]))
+        
+        duplicates.sort()
+        
+        if len(duplicates) > 0:
+            print "[{0} of {1}] {2} => {3}".format(idx, len(shortlist), int(query.split("\\")[-1].split(".")[0]), duplicates)
+        else:
+            print "[{0} of {1}] {2}".format(idx, len(shortlist), int(query.split("\\")[-1].split(".")[0]))
+            
+        idx += 1

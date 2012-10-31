@@ -66,9 +66,8 @@ if __name__ == '__main__':
     # optional arguments
     #
     parser.add_argument('--threads',    help='number of concurrent threads',                                type=int, default=1)
-    parser.add_argument('--filter',     help='Filter for BOW creation',                                     type=str, default=".SIFTComparison.feat.xml.gz")
+    #parser.add_argument('--filter',     help='Filter for BOW creation',                                     type=str, default=".SIFTComparison.feat.xml.gz")
     parser.add_argument('--sdk',        help='Number of Spatial Distincitve Keypoints',                     type=int, default=0)
-    parser.add_argument('--nn',         help='Number of Nearest Neighbors to display',                      type=int, default=1)
     parser.add_argument('--precluster', help='Number of Preclustering centers',                             type=int, default=100)
     parser.add_argument('--clahe',      help='Value of adaptive contrast enhancement (1 = no enhancement)', type=int, default=1)
     parser.add_argument('--config',     help='Configuration Parameter',                                     type=str, default="Linux")
@@ -128,7 +127,7 @@ if __name__ == '__main__':
         if len(args['featdir']) > 0:
             dir = args['featdir']
         
-        MatchboxLib.calculateBoW(config, dir, args['filter'], args['precluster'], args['bowsize'])
+        MatchboxLib.calculateBoW(config, dir, ".SIFTComparison.feat.xml.gz", args['precluster'], args['bowsize'])
     
     # ===============================================================================
     # action: bowhist
@@ -162,4 +161,5 @@ if __name__ == '__main__':
         if len(args['featdir']) > 0:
             dir = args['featdir']
             
-        MatchboxLib.pyFindDuplicates(config, dir, args['nn'], args['csv'])
+        #MatchboxLib.pyFindDuplicates(config, dir, args['csv'])
+        MatchboxLib.pyFindDuplicates_SpatialVerification(config, dir, args['csv'])
