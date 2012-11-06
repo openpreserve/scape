@@ -7,18 +7,15 @@ Here can be found several files and information related to the Action Services d
 ## How to create a Debian package from a toolspec
 
 1) Install all the tools needed. Do:
-* sudo apt-get install build-essential dh-make devscripts debhelper lintian 
+* sudo apt-get install build-essential dh-make devscripts debhelper lintian maven 
 
 2) Clone SCAPE github so you are able to compile the toolwrapper. Do: 
 * git clone https://github.com/openplanets/scape.git
 
-3) Compile the toolwrapper. For that, you'll need to install Apache Maven. Do:
-* sudo apt-get install maven
-
-4) Now compile the toolwrapper. From the root of the SCAPE repository, do:
+3) Now compile the toolwrapper. From the root of the SCAPE repository, do:
 * cd pc-as/toolwrapper/ && mvn package
 
-5) Execute the toolwrapper and generate the Debian package. Do:
+4) Execute the toolwrapper and generate the Debian package. Do:
 
 * ./generateDebianPackages4AllToolspecs.sh TOOLSPECS_DIR|TOOLSPEC TOOLWRAPPER_JAR_WITH_DEPENDENCIES DEBIAN_OUTPUT_DIRECTORY MAINTAINER_EMAIL
 
