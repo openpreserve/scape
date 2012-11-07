@@ -24,7 +24,7 @@ import os
 import sys
 import glob
 import gzip
-import math
+#import math
 import Queue
 import threading
 
@@ -34,9 +34,9 @@ import xml.etree.ElementTree as et
 
 from xml.dom import minidom
 from subprocess import call
-from scipy.cluster.vq import kmeans2
+#from scipy.cluster.vq import kmeans2
 
-import pylab
+#import pylab
 
 # === definitions =================================================================================
 
@@ -729,129 +729,129 @@ def compare(config, f1, f2, feature, valueName):
                             
     return resultValue
             
-'''
-# ============================================
-# Function: pyFindDuplicates
-# ============================================
+#'''
+## ============================================
+## Function: pyFindDuplicates
+## ============================================
+##
+## @summary:
+##
+## @param config: 
+## @param featureDirectory: 
+## @param csv: 
+##
+## @return: loaded data
+##
+#''' 
+#def pyFindDuplicates(config, featureDirectory, csv):
+#    
+#    # initialize hardcoded values
+#    seclen       = 200
+#    
+#    # declare variables
+#    distVals     = []
+#    cluster_data = []
+#    
+#    # load distance matrix
+#    dmatrix      = getDistanceMatrix(featureDirectory)
+#    
+#    # calculate number of cluster centers
+#    num_cluster_center = math.ceil(len(dmatrix) / float(seclen))
+#    
+#    # exception: there should be at least three clusters
+#    if num_cluster_center < 3:
+#        num_cluster_center = 3
+#    
+#    print "...loading dispersion from feature files"
+#    
+#    i = 0    
+#    for entry in dmatrix:
 #
-# @summary:
+#        # building the feature vector:
+#        # ============================
+#        # i... control variable
+#        # 4... dispersion    => dat[0]
+#        # 5... uniformity    => dat[1]
+#        dat = loadFeatureData2(entry[0].replace("BOWHistogram", "SIFTComparison"), [4,5])
+#        cluster_data.append([ i, dat[0], dat[1] ])
+#        
+#        distVals.append(entry[2])
+#        
+#        i += 1
+#    
+#    [centers, labels] = kmeans2(np.array(cluster_data), num_cluster_center, 10, 1e-5, "points")
+#    
+##    print labels
+##    print centers
+#    
+#    
+#    # convert lists to numpy matrix
+#    k          = 3
+#    d          = np.matrix(distVals,dtype=float)
+#    
+#    ind = np.arange(len(distVals))[np.newaxis,:]
+#    ind += 1
+#    
+##    pylab.plot(ind.transpose(), d.transpose())
+##    pylab.show()
+#    
+#    
+#    r          = np.array(dmatrix)
+#    thresholds = np.zeros((1,len(labels)),dtype=float)
+#    
+#    print "...calculating Mean Absolute Deviations"
+#    
+#    # for each cluster center
+#    for center_number in range(0,int(num_cluster_center - 1)):
+#        
+#        # which images are from this cluster?
+#        indeces_of_images_of_this_cluster = (labels == center_number)
+#        
+#        # get distvals for this cluster
+#        distvals_of_this_cluster = np.extract(indeces_of_images_of_this_cluster, d)
+#    
+#        # calc median and MAD for these values
+#        medd = np.median(distvals_of_this_cluster)
+#        mad  = k * np.median(np.abs(distvals_of_this_cluster - medd))
+#    
+#        # set threshold values for images of this cluster
+#        thresholds = indeces_of_images_of_this_cluster.choose(thresholds,(medd+mad))
+#        
+#    
+#        
+#        
+#    print "...selecting duplicate candidates"
+#    indeces_of_images_exceeding_threshold = (d > thresholds) #duplicate candidates
+#    
+#    duplicates = r[np.where(indeces_of_images_exceeding_threshold)[1]]
+#    
+#    dup_found = set()
+#    result    = []
 #
-# @param config: 
-# @param featureDirectory: 
-# @param csv: 
+#    print "...calculating structural similarity of candidates for spatial verification"
+#    
+#    print "\n=== List of detected duplicates ===\n"
+#    
+#    for dup in duplicates:
+#        
+#        if (dup[0,0] not in dup_found):
+#            
+#            f1 = str(dup[0,0]).replace("BOWHistogram", "SIFTComparison")
+#            f2 = str(dup[0,1]).replace("BOWHistogram", "SIFTComparison")
+#            
+#            ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
+#            
+#            f1 = extractFilename(f1).replace(".SIFTComparison", "")
+#            f2 = extractFilename(f2).replace(".SIFTComparison", "")
+#            
+#            if ssim > 0.9:
+#                print "{0} => {1} [ {2}% ] ==> Duplicate".format(f1, f2, (ssim * 100))
+#                result.append([f1,f2,ssim])
+#                dup_found.add(dup[0,1])
+#            else:
+#                print "{0} => {1} [ {2}% ] ==> No Duplicate".format(f1, f2, (ssim * 100))
 #
-# @return: loaded data
-#
-''' 
-def pyFindDuplicates(config, featureDirectory, csv):
-    
-    # initialize hardcoded values
-    seclen       = 200
-    
-    # declare variables
-    distVals     = []
-    cluster_data = []
-    
-    # load distance matrix
-    dmatrix      = getDistanceMatrix(featureDirectory)
-    
-    # calculate number of cluster centers
-    num_cluster_center = math.ceil(len(dmatrix) / float(seclen))
-    
-    # exception: there should be at least three clusters
-    if num_cluster_center < 3:
-        num_cluster_center = 3
-    
-    print "...loading dispersion from feature files"
-    
-    i = 0    
-    for entry in dmatrix:
-
-        # building the feature vector:
-        # ============================
-        # i... control variable
-        # 4... dispersion    => dat[0]
-        # 5... uniformity    => dat[1]
-        dat = loadFeatureData2(entry[0].replace("BOWHistogram", "SIFTComparison"), [4,5])
-        cluster_data.append([ i, dat[0], dat[1] ])
-        
-        distVals.append(entry[2])
-        
-        i += 1
-    
-    [centers, labels] = kmeans2(np.array(cluster_data), num_cluster_center, 10, 1e-5, "points")
-    
-#    print labels
-#    print centers
-    
-    
-    # convert lists to numpy matrix
-    k          = 3
-    d          = np.matrix(distVals,dtype=float)
-    
-    ind = np.arange(len(distVals))[np.newaxis,:]
-    ind += 1
-    
-#    pylab.plot(ind.transpose(), d.transpose())
-#    pylab.show()
-    
-    
-    r          = np.array(dmatrix)
-    thresholds = np.zeros((1,len(labels)),dtype=float)
-    
-    print "...calculating Mean Absolute Deviations"
-    
-    # for each cluster center
-    for center_number in range(0,int(num_cluster_center - 1)):
-        
-        # which images are from this cluster?
-        indeces_of_images_of_this_cluster = (labels == center_number)
-        
-        # get distvals for this cluster
-        distvals_of_this_cluster = np.extract(indeces_of_images_of_this_cluster, d)
-    
-        # calc median and MAD for these values
-        medd = np.median(distvals_of_this_cluster)
-        mad  = k * np.median(np.abs(distvals_of_this_cluster - medd))
-    
-        # set threshold values for images of this cluster
-        thresholds = indeces_of_images_of_this_cluster.choose(thresholds,(medd+mad))
-        
-    
-        
-        
-    print "...selecting duplicate candidates"
-    indeces_of_images_exceeding_threshold = (d > thresholds) #duplicate candidates
-    
-    duplicates = r[np.where(indeces_of_images_exceeding_threshold)[1]]
-    
-    dup_found = set()
-    result    = []
-
-    print "...calculating structural similarity of candidates for spatial verification"
-    
-    print "\n=== List of detected duplicates ===\n"
-    
-    for dup in duplicates:
-        
-        if (dup[0,0] not in dup_found):
-            
-            f1 = str(dup[0,0]).replace("BOWHistogram", "SIFTComparison")
-            f2 = str(dup[0,1]).replace("BOWHistogram", "SIFTComparison")
-            
-            ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
-            
-            f1 = extractFilename(f1).replace(".SIFTComparison", "")
-            f2 = extractFilename(f2).replace(".SIFTComparison", "")
-            
-            if ssim > 0.9:
-                print "{0} => {1} [ {2}% ] ==> Duplicate".format(f1, f2, (ssim * 100))
-                result.append([f1,f2,ssim])
-                dup_found.add(dup[0,1])
-            else:
-                print "{0} => {1} [ {2}% ] ==> No Duplicate".format(f1, f2, (ssim * 100))
-
-    return result
+#    return result
 
 
 '''
