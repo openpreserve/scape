@@ -200,7 +200,7 @@ void drawBowDescriptors( vector<string> dirNames, Mat vocab )
 		int numFiles = files.size();
 		int i = 1;
 
-		sumMat = Mat::zeros(files.size(), vocab.rows, CV_16U);
+		sumMat = Mat::zeros(files.size(), vocab.rows, CV_32S);
 		int fileID = 0;
 
 		
@@ -259,7 +259,7 @@ void drawBowDescriptors( vector<string> dirNames, Mat vocab )
 						dptr[bowIdx] = dptr[bowIdx] + 1.f;
 						bowDist[bowIdx].push_back(sComp->getKeypoints().at(trainIdx));
 
-						sumMat.at<UINT16>(fileID,bowIdx)++;
+						sumMat.at<int>(fileID,bowIdx)++;
 
 						map<string,int>::iterator m_it = bowExamples[bowIdx].find(filename);
 						if (m_it != bowExamples[bowIdx].end())
