@@ -9,7 +9,7 @@
     <property name="cost">0</property>
   </otherProperties>
   <operations>
-    <operation name="digital-preservation-migration-video-ffmpeg-txt2tiff">
+    <operation name="digital-preservation-migration-office-ffmpeg-txt2tiff">
       <description>Converts Text to TIFF</description>
       <command>ffmpeg -y -i ${input} ${output}</command>
       <inputs>
