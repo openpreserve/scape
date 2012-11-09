@@ -9,9 +9,9 @@
     <property name="cost">0</property>
   </otherProperties>
   <operations>
-    <operation name="digital-preservation-migration-video-ffmpeg-audio2mp3">
-      <description>Converts any FFmpeg supported audio format to MP3</description>
-      <command>ffmpeg -y -i ${input} -ab 320k ${output}</command>
+    <operation name="digital-preservation-migration-image-ffmpeg-image2tiff">
+      <description>Converts any FFmpeg supported image format to TIFF</description>
+      <command>ffmpeg -y -i ${input} ${output}</command>
       <inputs>
         <input name="input" required="true">
           <description>Reference to input file</description>
@@ -23,7 +23,7 @@
       <outputs>
         <output name="output" required="true">
           <description>Reference to output file</description>
-          <extension>mp3</extension>
+          <extension>tiff</extension>
         </output>
       </outputs>
     </operation>
