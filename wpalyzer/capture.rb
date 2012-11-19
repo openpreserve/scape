@@ -70,24 +70,26 @@ exit
 end
 
 url = ""
-browser = ""
+browser = "firefox"
 output_folder = "out"
 js_files_url = ""
 remote = false
 thumb = false
 
 ARGV.each do |op|
-	url = op.strip.split("=")[1] if op[0..5] == "--url="
-	browser = op.strip.split("=")[1] if op[0..9] == "--browser="
-	output_folder = op.strip.split("=")[1] if op[0..15] == "--output-folder="
-	js_files_url = op.strip.split("=")[1] if op[0..14] == "--js-files-url="
-	thumb = true if op[0..12] == "--thumbnail="
+	switch = op.strip.split("=")[0]
+	value = op.strip.split("=")[1]
+	url = value if switch == "--url"
+	browser = value if switch == "--browser"
+	output_folder = value if switch == "--output-folder"
+	js_files_url = value if switch == "--js-files-url"
+	thumb = true if switch == "--thumbnail"
 	
-	if op[0..6] == "--help"
+	if switch == "--help" or (url=='' and js_files_url=='')
 		help
 		exit
 	end
-	if op[0..9] == "--version"
+	if switch == "--version"
 		puts "SCAPE WebPage Capture. Version 0.9"
 		puts "UPMC - LIP6"
 		exit
