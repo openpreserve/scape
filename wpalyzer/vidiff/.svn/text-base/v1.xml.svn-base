@@ -1,0 +1,2516 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<XML>
+<Document url="http://shopping.yahoo.com/" Title="Yahoo! Shopping - Online Shopping with great products, prices and reviews" Version="" Pos="WindowWidth||PageRectLeft:1009.0 WindowHeight||PageRectTop:1345.0 ObjectRectWith:0 ObjectRectHeight:0">
+<Block Ref="Block1" internal_id='0' ID="ac03d8376b6caa5886c2127f3bdbace2" Pos="WindowWidth||PageRectLeft:0.0 WindowHeight||PageRectTop:-7.0 ObjectRectWidth:1009.0 ObjectRectHeight:1345.0" Doc="4">
+<Block Ref="Block1-1" internal_id='1' ID="4283169992ba9931357a0371c5332b16" Pos="WindowWidth||PageRectLeft:0.0 WindowHeight||PageRectTop:0.0 ObjectRectWidth:1009.0 ObjectRectHeight:117.0" Doc="6">
+<Links ID="20e4a996b9279c57d293c98e4011b043" IDList="6ab5a48f79753ffc25b03d29c818ea7d,dbffc487d5d3c42ee24ab6654951a69e,be9a1f2e583d109ac6b2b8df011eea38,c3dc34c5199bf3651d9669a54a6f3dcd,3e3eb6507ee00b95b173a9a9132a1b13,7f16d1766b2106e48e8c778176ec06d5,08fdea048f5d52e78aeaaa412885c20f,84708c59a18ed9acc8f738461927368d,aae75636b54f55c5de756b1c183b9e14,9cb2795578e26d5de8ec06a93d7a6c3d,197523b594f257c7f16f38a992a07d6c,dc818d163076c5f87725760b81cd663e,40851a423c5f45ce3c1d053f9d137b69,2c5175a0cdc4010621d8e664832d440e,afad29993ab7739ba337958f54394597,81a4b01de29ba25c0643b981530276f9,673edd7c497925ec222386a156e79eaf,077da16d2481e2e10672672d3a545f8e,f911558cd04df62e9eb0df80bb8756b8,71ed7ddea4dabd502f4ed0f5cd3fbf65,2293d3613526e16e2584c90996a1f25f,5aa6e3faace62d026037fb4da2571a0c,1a4a44c38e43523227ee63b5e0cb51ec">
+<link ID="6ab5a48f79753ffc25b03d29c818ea7d" Name="Skip to search." Adr="http://shopping.yahoo.com/#yuhead-search"/><link ID="dbffc487d5d3c42ee24ab6654951a69e" Name="New User?
+          
+            Register" Adr="https://us.lrd.yahoo.com/_ylt=Alz2nVFZmXAPPDSffbKQuV4EgFoB/SIG=148tlshrn/EXP=1354213908/**https%3A//edit.yahoo.com/config/eval_register%3F.src=shp%26.intl=us%26.lang=en-US%26.done=http%3A//shopping.yahoo.com/"/><link ID="be9a1f2e583d109ac6b2b8df011eea38" Name="Sign In" Adr="https://us.lrd.yahoo.com/_ylt=AqFJ5BJwm8xAHmYIP3sF5JwEgFoB/SIG=1419c6vbf/EXP=1354213908/**https%3A//login.yahoo.com/config/login%3F.src=shp%26.intl=us%26.lang=en-US%26.done=http%3A//shopping.yahoo.com/"/><link ID="c3dc34c5199bf3651d9669a54a6f3dcd" Name="Help" Adr="http://us.lrd.yahoo.com/_ylt=AobOZDtQa5fdUI7OVOFXL_YEgFoB/SIG=11uav8jsd/EXP=1354213908/**http%3A//help.yahoo.com/l/us/yahoo/shopping/"/><link ID="3e3eb6507ee00b95b173a9a9132a1b13" Name="Make Y! My Homepage" Adr="http://us.lrd.yahoo.com/_ylt=AhO9BFkBSJaGrM3ET9paR4UEgFoB/SIG=11qtqueua/EXP=1354213908/**http%3A//www.yahoo.com/bin/set/%3Filc=37"/><link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/><link ID="08fdea048f5d52e78aeaaa412885c20f" Name="Help" Adr="http://us.lrd.yahoo.com/_ylt=AiYEXjS62GEyyg6g7K7cahcEgFoB/SIG=12b7qqnhq/EXP=1354213908/**http%3A//help.yahoo.com/l/us/yahoo/comments/notifications"/><link ID="84708c59a18ed9acc8f738461927368d" Name="Mail" Adr="http://us.lrd.yahoo.com/_ylt=AvcERcXtXgd7QRWgbkiOyBsEgFoB/SIG=123ag0kmo/EXP=1354213908/**http%3A//mail.yahoo.com/%3F.intl=us%26.lang=en-US"/><link ID="aae75636b54f55c5de756b1c183b9e14" Name="My Y!" Adr="http://my.yahoo.com/;_ylt=AupR7Y0_cv4PdDZSgHonHJsEgFoB"/><link ID="9cb2795578e26d5de8ec06a93d7a6c3d" Name="Yahoo!" Adr="http://us.lrd.yahoo.com/_ylt=ArAjDzNzYYaxDSFl0Nw3T7AEgFoB/SIG=119ggofmu/EXP=1354213908/**http%3A//www.yahoo.com/"/><link ID="197523b594f257c7f16f38a992a07d6c" Name="Yahoo! Shopping" Adr="http://shopping.yahoo.com/;_ylt=AnXAZ3N1e2o65T2ghqZc4j0EgFoB"/><link ID="dc818d163076c5f87725760b81cd663e" Name="Visit Yahoo! News for the latest." Adr="http://news.yahoo.com/"/><link ID="40851a423c5f45ce3c1d053f9d137b69" Name="Home" Adr="http://shopping.yahoo.com/;_ylt=AkQqHJKRzOdll0i8bt_f3qYEgFoB"/><link ID="2c5175a0cdc4010621d8e664832d440e" Name="Clothing" Adr="http://shopping.yahoo.com/browse/clothing-accessories-shoes/;_ylt=Ar4kTyw6QVXBbZGDl8nBf.EEgFoB"/><link ID="afad29993ab7739ba337958f54394597" Name="Electronics" Adr="http://shopping.yahoo.com/browse/electronics/;_ylt=AhcbuNh4oup8vkaTUEYxpDYEgFoB"/><link ID="81a4b01de29ba25c0643b981530276f9" Name="Computers" Adr="http://shopping.yahoo.com/browse/computers/;_ylt=AoFZrwnT6e3joTn.fRBuSE0EgFoB"/><link ID="673edd7c497925ec222386a156e79eaf" Name="Home &amp; Garden" Adr="http://shopping.yahoo.com/browse/home-garden/;_ylt=AlJ276na5dI6yOyv2BDFLq0EgFoB"/><link ID="077da16d2481e2e10672672d3a545f8e" Name="More" Adr="http://shopping.yahoo.com/browse/;_ylt=AtAIFaG7gUFjOX_wR3TcfXwEgFoB"/><link ID="f911558cd04df62e9eb0df80bb8756b8" Name="Shopping Insider" Adr="http://shopping.yahoo.com/insider/;_ylt=AjFh.6IJrwwb.Gu1qlwne7YEgFoB"/><link ID="71ed7ddea4dabd502f4ed0f5cd3fbf65" Name="Shopping Articles" Adr="http://shopping.yahoo.com/insider/;_ylt=AjRl5YNdn_6BDv.AAVTIBOMEgFoB"/><link ID="2293d3613526e16e2584c90996a1f25f" Name="Blogs" Adr="http://shopping.yahoo.com/blogs/digital-crave/;_ylt=AmCczlpiyAQ5nxy9oIusPnsEgFoB"/><link ID="5aa6e3faace62d026037fb4da2571a0c" Name="Holiday" Adr="http://shopping.yahoo.com/seasonal/holiday/;_ylt=ArbZprDNihubV4pHA81jkUcEgFoB"/><link ID="1a4a44c38e43523227ee63b5e0cb51ec" Name="Financially Fit" Adr="http://us.lrd.yahoo.com/_ylt=AoiSe9QKbeiOsowD0mGugqkEgFoB/SIG=11t9ipu5g/EXP=1354213908/**http%3A//financiallyfit.yahoo.com/shopping/"/></Links>
+<Imgs ID="d41d8cd98f00b204e9800998ecf8427e" IDList="">
+</Imgs>
+<Txts ID="c55196bb4eeef3413269a0f0518bf7c4" Txt="
+        Skip to search.
+     
+             New User?
+          
+            Register
+         
+             Sign In
+          
+            Help
+         
+          Make Y! My Homepage
+        
+              Notifications
+           
+              Help
+           
+            Mail
+         
+            My Y!
+         
+            Yahoo!
+         
+           Yahoo! Shopping
+        
+                 Search
+              
+                 Search Web
+              
+           Breaking News
+        
+           Visit Yahoo! News for the latest.
+        
+          ×
+        
+           Close this window
+        
+              Home
+           
+              Clothing
+           
+              Electronics
+           
+              Computers
+           
+              Home &amp;amp; Garden
+           
+              More
+           
+              Shopping Insider
+           
+                   Shopping Articles
+                
+                   Blogs
+                
+              Holiday
+           
+              Financially Fit
+           ,
+        Skip to search.
+     
+             New User?
+          
+            Register
+         
+             Sign In
+          
+            Help
+         
+          Make Y! My Homepage
+        
+              Notifications
+           
+              Help
+           
+            Mail
+         
+            My Y!
+         
+            Yahoo!
+         
+           Yahoo! Shopping
+        
+                 Search
+              
+                 Search Web
+              
+           Breaking News
+        
+           Visit Yahoo! News for the latest.
+        
+          ×
+        
+           Close this window
+        ,
+        Skip to search.
+     ,
+             New User?
+          
+            Register
+         
+             Sign In
+          
+            Help
+         
+          Make Y! My Homepage
+        
+              Notifications
+           
+              Help
+           
+            Mail
+         
+            My Y!
+         
+            Yahoo!
+         ,
+             New User?
+          
+            Register
+         
+             Sign In
+          
+            Help
+         ,
+             New User?
+          
+            Register
+         ,
+             New User?
+          ,
+            Register
+         ,
+             Sign In
+          ,
+            Help
+         ,
+          Make Y! My Homepage
+        ,
+              Notifications
+           
+              Help
+           
+            Mail
+         
+            My Y!
+         
+            Yahoo!
+         ,
+              Notifications
+           
+              Help
+           ,
+              Notifications
+           ,
+              Help
+           ,
+            Mail
+         ,
+            My Y!
+         ,
+            Yahoo!
+         ,
+           Yahoo! Shopping
+        
+                 Search
+              
+                 Search Web
+              
+           Breaking News
+        
+           Visit Yahoo! News for the latest.
+        
+          ×
+        
+           Close this window
+        ,
+           Yahoo! Shopping
+        ,
+                 Search
+              
+                 Search Web
+              ,
+                 Search
+              ,
+                 Search Web
+              ,
+           Breaking News
+        
+           Visit Yahoo! News for the latest.
+        
+          ×
+        
+           Close this window
+        ,
+           Breaking News
+        
+           Visit Yahoo! News for the latest.
+        ,
+           Breaking News
+        ,
+           Visit Yahoo! News for the latest.
+        ,
+          ×
+        
+           Close this window
+        ,
+          ×
+        ,
+           Close this window
+        ,
+              Home
+           
+              Clothing
+           
+              Electronics
+           
+              Computers
+           
+              Home &amp;amp; Garden
+           
+              More
+           
+              Shopping Insider
+           
+                   Shopping Articles
+                
+                   Blogs
+                
+              Holiday
+           
+              Financially Fit
+           ,
+              Home
+           ,
+              Clothing
+           ,
+              Electronics
+           ,
+              Computers
+           ,
+              Home &amp;amp; Garden
+           ,
+              More
+           ,
+              Shopping Insider
+           
+                   Shopping Articles
+                
+                   Blogs
+                ,
+              Shopping Insider
+           ,
+                   Shopping Articles
+                
+                   Blogs
+                ,
+                   Shopping Articles
+                ,
+                   Blogs
+                ,
+              Holiday
+           ,
+              Financially Fit
+           "/>
+</Block>
+<Block Ref="Block1-2" internal_id='2' ID="2a33fc5ad70e4c4aa82c1291f74f5de0" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:117.0 ObjectRectWidth:970.0 ObjectRectHeight:1221.0" Doc="4">
+<Block Ref="Block1-2-1" internal_id='3' ID="378ce1155b1947b0ae71273ba2c795ed" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:117.0 ObjectRectWidth:970.0 ObjectRectHeight:141.0" Doc="8">
+<Links ID="58eb0625371e1c090211574198997002" IDList="d41d8cd98f00b204e9800998ecf8427e,7f16d1766b2106e48e8c778176ec06d5,7f16d1766b2106e48e8c778176ec06d5,60f2d94aed17a1c4456d70391f5c6c68,23d7d0bbc04bed70772b580b89b7c1e4,692dcdba25c59603095efe0b67b7e34d,7f16d1766b2106e48e8c778176ec06d5">
+<link ID="d41d8cd98f00b204e9800998ecf8427e" Name="" Adr=""/><link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/><link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/><link ID="60f2d94aed17a1c4456d70391f5c6c68" Name="On" Adr="http://shopping.yahoo.com/#"/><link ID="23d7d0bbc04bed70772b580b89b7c1e4" Name="Off" Adr="http://shopping.yahoo.com/#"/><link ID="692dcdba25c59603095efe0b67b7e34d" Name="Feedback" Adr="http://suggestions.yahoo.com/?prop=shopping"/><link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/></Links>
+<Imgs ID="d41d8cd98f00b204e9800998ecf8427e" IDList="">
+</Imgs>
+<Txts ID="84509e92daad5677ed7a5db20a0b9b36" Txt="
+                All departments
+             
+                Appliances
+             
+                Auto Parts
+             
+                Babies &amp;amp; Kids
+             
+                Books
+             
+                Cameras
+             
+                Clothing
+             
+                Computers
+             
+                Electronics
+             
+                Flowers &amp;amp; Gifts
+             
+                Furniture
+             
+                Grocery &amp;amp; Gourmet
+             
+                Health &amp;amp; Beauty
+             
+                Indoor Living
+             
+                Industrial Supply
+             
+                Jewelry &amp;amp; Watches
+             
+                Magazines
+             
+                Movies
+             
+                Music
+             
+                Musical Instruments
+             
+                Office
+             
+                Outdoor Living
+             
+                Software
+             
+                Sporting Goods
+             
+                Toys
+             
+                Video Games
+             
+             No suggestions. Please begin typing your search query.
+          
+              Search Assist:
+            
+               On
+            
+              |
+            
+               Off
+            
+               Feedback
+            ,
+                All departments
+             
+                Appliances
+             
+                Auto Parts
+             
+                Babies &amp;amp; Kids
+             
+                Books
+             
+                Cameras
+             
+                Clothing
+             
+                Computers
+             
+                Electronics
+             
+                Flowers &amp;amp; Gifts
+             
+                Furniture
+             
+                Grocery &amp;amp; Gourmet
+             
+                Health &amp;amp; Beauty
+             
+                Indoor Living
+             
+                Industrial Supply
+             
+                Jewelry &amp;amp; Watches
+             
+                Magazines
+             
+                Movies
+             
+                Music
+             
+                Musical Instruments
+             
+                Office
+             
+                Outdoor Living
+             
+                Software
+             
+                Sporting Goods
+             
+                Toys
+             
+                Video Games
+             ,
+                All departments
+             ,
+                Appliances
+             ,
+                Auto Parts
+             ,
+                Babies &amp;amp; Kids
+             ,
+                Books
+             ,
+                Cameras
+             ,
+                Clothing
+             ,
+                Computers
+             ,
+                Electronics
+             ,
+                Flowers &amp;amp; Gifts
+             ,
+                Furniture
+             ,
+                Grocery &amp;amp; Gourmet
+             ,
+                Health &amp;amp; Beauty
+             ,
+                Indoor Living
+             ,
+                Industrial Supply
+             ,
+                Jewelry &amp;amp; Watches
+             ,
+                Magazines
+             ,
+                Movies
+             ,
+                Music
+             ,
+                Musical Instruments
+             ,
+                Office
+             ,
+                Outdoor Living
+             ,
+                Software
+             ,
+                Sporting Goods
+             ,
+                Toys
+             ,
+                Video Games
+             ,
+             No suggestions. Please begin typing your search query.
+          
+              Search Assist:
+            
+               On
+            
+              |
+            
+               Off
+            
+               Feedback
+            ,
+             No suggestions. Please begin typing your search query.
+          ,
+              Search Assist:
+            
+               On
+            
+              |
+            
+               Off
+            
+               Feedback
+            ,
+              Search Assist:
+            
+               On
+            
+              |
+            
+               Off
+            ,
+              Search Assist:
+            ,
+               On
+            ,
+              |
+            ,
+               Off
+            ,
+               Feedback
+            "/>
+</Block>
+<Block Ref="Block1-2-2" internal_id='4' ID="124e3e94583a1d3695184328fd2b726a" Pos="WindowWidth||PageRectLeft:29.0 WindowHeight||PageRectTop:185.0 ObjectRectWidth:950.0 ObjectRectHeight:813.0" Doc="4">
+<Block Ref="Block1-2-2-1" internal_id='5' ID="69fc31ac12c975cfca96df4a03539c35" Pos="WindowWidth||PageRectLeft:29.0 WindowHeight||PageRectTop:185.0 ObjectRectWidth:630.0 ObjectRectHeight:800.0" Doc="6">
+<Links ID="592f64f074456dc3f4fb34352a011fbf" IDList="7f16d1766b2106e48e8c778176ec06d5,7f16d1766b2106e48e8c778176ec06d5,7f16d1766b2106e48e8c778176ec06d5,7f16d1766b2106e48e8c778176ec06d5,7f16d1766b2106e48e8c778176ec06d5,2697c917c3cd9029291142f022cf3279,df4261db7ddebc5edc38b9af509f3bd7,ff795984e3eba3ee665c50c8b1df2883,ce075e025a03cfa2de962e34f4f3f5e5,c0d44fc2f6e1e3a167e7c6e03a99c111,ce29504a9757b2af18595e6eed2cc841,1107c5567eb09da06282ce242a7af17e,a47e398d4b335700a938a4bb3af5cc07,3da8af2bdd93547f473bed52cc477f5b,6818120e7c98cbb03b0db60e7b11f9c2,0cb156b3c7bead6632e3b7dbcfdbb265,5bc16c46f79c411bc7fce1ac5fcf2560,b8c583d18a32bad1338e03228743a1bb,9a39f897f1ef981252f2e78d223c7d9b,aabcb4d12b9201474749f46ead8babc9,403000176a127cd8ea8013934d8d5476,485da0e58b709972de82cae883bb8dc2,08697ce996934efd07c22a7158e4e632,72aa42307a45eab64ac2ba3be21df1b3,2391caf4b133fbb26a70df5a82e93ad7,b46b33f5ce89702ec2bf88523552ed15,59bdbd0d3ec09c6024a7ad33e8e4f319,f016a13562b3a1d0c79fec06d098a7e8,a0327eca84583e3a3ec859f09e35fdd5,be3143a77fc755f0e5cb3d0d3bbce9a8,da6748111c38f6c4d1e00ea670c9e00f,2eb53343a9fbe6296e36d250bcc4a244,12bcababfd2f6ab5f117904a128f5533,b6a64c0cc2a283cbfe7d4f590607b459,1a0db679713991875e34f446744a6ff1,72251bacfcb70b069988f32c801f5e49,3d148722fcab0e05f7cbbc378223f68a,cd0194edc8794c53f822f2d87f006878,0e1996ec79fcf3937fcb98fed05fe518,9a0ae3ae1eebbc7fbe218f6bbb10dc0f,0a570c9d7ba3d0391c6556d2077560a7,b442c82ed7e29101d91ec23cf188d7a9,21dc9045f5f027301fe9c0779fb63715,9ee60aee34b1b1c746b36847d5637e81,d29817bbf28f50da0456eb3d612944f2,e3b87f1b7a9a34d8ca3971f6058ed925,750162d43a6cd9a3022db41e5b6ce3cc,e228689ed4e6443e26b56c41491b673b,820f79c40cf9ddd8ba9fb560fb1c6282,3f5752f48fd1f19bb60567069b57f78a,7f4d7f52e5a19d68dd3dbd45248f057d,b9d23f6d17b83e677b4059c8b0b6509c,ce467c286fb931278da3b65c4323decc,1c55eddd00f2bfd4fedb248ef920a4f4,c8a39f167804978d488e93e574fe3efd,cda06afcd73cf31e5f696deaeb080221,46045fc66f50f740b442471e8d5ef96e,4c23831eb001fbeaf5a7100d31a2f4a0,87cf62dc6ce862f72fe1f5290479c3f1,b49a78fef3d7b65d116e2517fe284b31,550ac8c4fa38d098f1c1f170613ba500,e4e25614f152f97e9c84e3a14b20441a,58dcbcfd62d6b9dddca9125405acff82,fb86602e9feaef2aa958cdd63070afde,04d60ac5790e79475bdafbd32372e31d,18bf470dde6db185d3e17bc2c208b7a4,0392d062a82e493473dbc32093c049b7,ebb75346094adbf887348330eb25991e,cde02bfb979dee3ea5c177662832b273,a9b1b388b7cad88769934f62bc0acf21,22a88663576983ae6735ce113486f486,12917dbd30b60b2e515b521856f1d5cc,ea81bc4053fa2d2baae6f20a7f33d92a,9710c367b87330a5703d729d12f909d6,4a40af9b550a87c5adff6ce5b0fd03e9,c7920e937f2f9de679d75c8cdf458590,463400722318bb69bf340778c1889d45,e11ecaf7bd9313e16efd88bc2dec6957,462c0a44bd85e146d60d04fbfe394890,06b444f3b86b7377fb73583e50ce137d,c710d0d8877d9d9bee653446feb96b9c,72e7898b15daf346293136d8fc5be613,3adcb8dd7b5a4666d5920a72ec44f9ac,ac1fae37eb18d9a36670c42938e2d359,532de948b8862aae71494a3a22b4d95c,e72d2e5fdb94b65beb53275985f56bc3,bb68fd0b8d8a808369503db83e28121d,8587271ea0689f73102cc4636dbd30b3,3bc3d066e75e0265ab6974e5a460c52d,3bc3d066e75e0265ab6974e5a460c52d,242a11898554fb65765b29721d6e6479,fc6348b77028def1b3df393299cc3e00,b5a00a716a517c9ff33fde5df586339b,f0efaec874091f81779dd0451af7f365,691876c7d35e163f469e6eb7f9008d84,1ae02acf72c0fd879ccd2610e980d6b6,f19b85215907c5403a6ca424dc450763,f5082e4052a1e59c89c8b6e0009f8205,924824acb66f2c1101680c68f408f4aa,823dbee1f5c9615df20b889b086b9a0c,3b59ac30ee12697de92fbf47c0bf2ff1,d883393f81a322cf1da0d1c57258947d,1bfbd20c3b4bc8366b53f5461d98c600,b885cda2de99ea49379d66abe2feb86c,55c508c54814bea6ef2e367b05ecd6a3,4fb043a2d5acb5066e63036109a192cd">
+<link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/><link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/><link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/><link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/><link ID="7f16d1766b2106e48e8c778176ec06d5" Name="" Adr="http://shopping.yahoo.com/#"/><link ID="2697c917c3cd9029291142f022cf3279" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/top-10-cell-phones/;_ylt=ArnYq6fUIJ5Abl2hH7LYdDgEgFoB"/><link ID="df4261db7ddebc5edc38b9af509f3bd7" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/top-10-digital-cameras/;_ylt=AvnYpD45XB9TeqbZQz62K0cEgFoB"/><link ID="ff795984e3eba3ee665c50c8b1df2883" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/;_ylt=Atp7aBkPJT1VBpKmiAXZpUoEgFoB"/><link ID="ce075e025a03cfa2de962e34f4f3f5e5" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/top-10-jewelry-gifts-for-women/;_ylt=AloffDOd9jHj6bBLGSh.o8QEgFoB"/><link ID="c0d44fc2f6e1e3a167e7c6e03a99c111" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/top-10-laptops-and-tablets/;_ylt=AuX9xeCMwWkdq4gch8ZycIMEgFoB"/><link ID="ce29504a9757b2af18595e6eed2cc841" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/;_ylt=AsFI2gnOk3WzWVYzbxsVESoEgFoB"/><link ID="1107c5567eb09da06282ce242a7af17e" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/top-10-tvs-video/;_ylt=AreraxrQaMa9wC.B5DJ8deMEgFoB"/><link ID="a47e398d4b335700a938a4bb3af5cc07" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/top-10-fashion-gifts-for-teens/;_ylt=AiKaFyG0ohdsKHIMrSF6DoEEgFoB"/><link ID="3da8af2bdd93547f473bed52cc477f5b" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/;_ylt=AkGhuyQAl0yFRZqu.jwhyXIEgFoB"/><link ID="6818120e7c98cbb03b0db60e7b11f9c2" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/top-10-toys/;_ylt=AhLwFKZmN3qUeWzMjkUagw8EgFoB"/><link ID="0cb156b3c7bead6632e3b7dbcfdbb265" Name="" Adr="http://shopping.yahoo.com/seasonal/holiday/top-10-watches-for-men/;_ylt=AgJELuEe1Rwfl3xf8DRuOW4EgFoB"/><link ID="5bc16c46f79c411bc7fce1ac5fcf2560" Name="" Adr="http://shopping.yahoo.com/handbags/;_ylt=Ap3.fFgbWSI7nbYMKhwI40EEgFoB"/><link ID="b8c583d18a32bad1338e03228743a1bb" Name="" Adr="http://shopping.yahoo.com/browse/clothing-accessories-shoes/;_ylt=Avt8Pdii2zxnuMUJj5OwdBIEgFoB"/><link ID="9a39f897f1ef981252f2e78d223c7d9b" Name="" Adr="http://shopping.yahoo.com/browse/clothing-accessories-shoes/;_ylt=AgHOZGe2QXcoNFGLzsMvzTgEgFoB"/><link ID="aabcb4d12b9201474749f46ead8babc9" Name="" Adr="http://shopping.yahoo.com/browse/mens-clothing/;_ylt=AhJ1x2lobwv8hxxYLMU0Jx4EgFoB"/><link ID="403000176a127cd8ea8013934d8d5476" Name="" Adr="http://shopping.yahoo.com/browse/clothing-accessories-shoes/;_ylt=Aje9GF5NaTV4FaLPXix0p9sEgFoB"/><link ID="485da0e58b709972de82cae883bb8dc2" Name="" Adr="http://shopping.yahoo.com/browse/shoes/;_ylt=AtlUdaVBu.YoeJR.MUd9eSYEgFoB"/><link ID="08697ce996934efd07c22a7158e4e632" Name="" Adr="http://shopping.yahoo.com/browse/womens-clothing/;_ylt=AroCD3HSLvsyAWiwJvf746kEgFoB"/><link ID="72aa42307a45eab64ac2ba3be21df1b3" Name="" Adr="http://shopping.yahoo.com/browse/electronics/;_ylt=ArjGDeAGXY5423fY9PPBWAsEgFoB"/><link ID="2391caf4b133fbb26a70df5a82e93ad7" Name="" Adr="http://shopping.yahoo.com/browse/cell-phones/;_ylt=ApbFak6Pw3K5BviYCjkF0OMEgFoB"/><link ID="b46b33f5ce89702ec2bf88523552ed15" Name="" Adr="http://shopping.yahoo.com/browse/cell-phones/;_ylt=AtH3eQcwhyWmyJkVafje1G8EgFoB"/><link ID="59bdbd0d3ec09c6024a7ad33e8e4f319" Name="" Adr="http://shopping.yahoo.com/browse/computers/;_ylt=ApjiHYYLhEjhqZQ8qLBrpxsEgFoB"/><link ID="f016a13562b3a1d0c79fec06d098a7e8" Name="" Adr="http://shopping.yahoo.com/browse/computers/;_ylt=Ats7txUFhd9cggn1vebTDakEgFoB"/><link ID="a0327eca84583e3a3ec859f09e35fdd5" Name="" Adr="http://shopping.yahoo.com/browse/cameras-accessories/;_ylt=AtdJ9hZv4TDxpJqk5Q1Cv60EgFoB"/><link ID="be3143a77fc755f0e5cb3d0d3bbce9a8" Name="" Adr="http://shopping.yahoo.com/browse/cameras-accessories/;_ylt=AhfdSYmVyhY8uNRGsld_aIgEgFoB"/><link ID="da6748111c38f6c4d1e00ea670c9e00f" Name="" Adr="http://shopping.yahoo.com/browse/electronics/;_ylt=AsorQw0poOOSIqH3UIl6otcEgFoB"/><link ID="2eb53343a9fbe6296e36d250bcc4a244" Name="" Adr="http://shopping.yahoo.com/browse/electronics/;_ylt=AowmLObguMdMvjJ2BQR2ELEEgFoB"/><link ID="12bcababfd2f6ab5f117904a128f5533" Name="" Adr="http://shopping.yahoo.com/browse/televisions-accessories/;_ylt=Ag5bvzCPHIY.sPb1DygiokEEgFoB"/><link ID="b6a64c0cc2a283cbfe7d4f590607b459" Name="" Adr="http://shopping.yahoo.com/browse/televisions-accessories/;_ylt=AknlFKz72bMvgwho_MsjKgAEgFoB"/><link ID="1a0db679713991875e34f446744a6ff1" Name="" Adr="http://us.lrd.yahoo.com/_ylt=Ail9xVOuJkHILKHRUk940MEEgFoB/SIG=17oeechhb/EXP=1354213908/**http%3A//ad.doubleclick.net/click;h=v2%7C3FC4%7C0%7C0%7C%252a%7Cr;262153054;0-0;0;86302678;31-1%7C1;50245210%7C50232408%7C1;;;pc=%5BTPAS_ID%5D%253fhttp%3A//blackberry.yahoo.com/%3FCPID=STBANNAUSFY13Q3000000187900001400098001BAN122"/><link ID="72251bacfcb70b069988f32c801f5e49" Name="" Adr="http://shopping.yahoo.com/blogs/digital-crave/;_ylt=Am7zdV7MigBJx2tmo4SV8XMEgFoB"/><link ID="3d148722fcab0e05f7cbbc378223f68a" Name="Shopping Insider" Adr="http://shopping.yahoo.com/articles/;_ylt=AiZ3knfiMvO88AzjC_.PvXUEgFoB"/><link ID="cd0194edc8794c53f822f2d87f006878" Name="Shop by Store" Adr="http://shopping.yahoo.com/stores/;_ylt=AumhN5LLqPeoGRO4sky174oEgFoB"/><link ID="0e1996ec79fcf3937fcb98fed05fe518" Name="Shop by Brand" Adr="http://shopping.yahoo.com/brands/;_ylt=AuRTfvuUUtE.02x7nWaRPAAEgFoB"/><link ID="9a0ae3ae1eebbc7fbe218f6bbb10dc0f" Name="Clothing &amp; Accessories" Adr="http://shopping.yahoo.com/browse/clothing-accessories-shoes/;_ylt=Aojfk01K8lMVTrplX.gnfksEgFoB"/><link ID="0a570c9d7ba3d0391c6556d2077560a7" Name="Women's" Adr="http://shopping.yahoo.com/browse/womens-clothing/;_ylt=ArsyeyEL4JN.IGSXZYDTdEwEgFoB"/><link ID="b442c82ed7e29101d91ec23cf188d7a9" Name="Men's" Adr="http://shopping.yahoo.com/browse/mens-clothing/;_ylt=AgH9A6mcxfuU4spth8nmDTMEgFoB"/><link ID="21dc9045f5f027301fe9c0779fb63715" Name="Shoes" Adr="http://shopping.yahoo.com/browse/shoes/;_ylt=AnkStE81YRvylEHNCO8Y7kEEgFoB"/><link ID="9ee60aee34b1b1c746b36847d5637e81" Name="Flowers &amp; Gifts" Adr="http://shopping.yahoo.com/browse/flowers-gifts/;_ylt=AopcEs3XUyj10LF55tmAgNIEgFoB"/><link ID="d29817bbf28f50da0456eb3d612944f2" Name="Gifts" Adr="http://shopping.yahoo.com/browse/gifts-by-occasion/;_ylt=As_a.qrUeekjZhEfUyDbaG0EgFoB"/><link ID="e3b87f1b7a9a34d8ca3971f6058ed925" Name="Roses" Adr="http://shopping.yahoo.com/browse/roses/;_ylt=ApSYNH6BlEXPsXdckGyfvBcEgFoB"/><link ID="750162d43a6cd9a3022db41e5b6ce3cc" Name="Flowers &amp; Plants" Adr="http://shopping.yahoo.com/browse/flowers-plants/;_ylt=AntL.twBZfoiMyYxSEkKcPEEgFoB"/><link ID="e228689ed4e6443e26b56c41491b673b" Name="Computers" Adr="http://shopping.yahoo.com/browse/computers/;_ylt=Aq1uGzCh550np4z.iVc93W8EgFoB"/><link ID="820f79c40cf9ddd8ba9fb560fb1c6282" Name="Laptops" Adr="http://shopping.yahoo.com/browse/laptops/;_ylt=AntiyRnmw_aUiqUJqI1VTtwEgFoB"/><link ID="3f5752f48fd1f19bb60567069b57f78a" Name="Desktops" Adr="http://shopping.yahoo.com/browse/desktops/;_ylt=Ava4uOsvmp2OcjtWOoDNTcwEgFoB"/><link ID="7f4d7f52e5a19d68dd3dbd45248f057d" Name="Software" Adr="http://shopping.yahoo.com/browse/software/;_ylt=AvndgsAkX9CUKH46mankuJgEgFoB"/><link ID="b9d23f6d17b83e677b4059c8b0b6509c" Name="Electronics" Adr="http://shopping.yahoo.com/browse/electronics/;_ylt=AoVnJ9qjjI57tsXX8oMXgpgEgFoB"/><link ID="ce467c286fb931278da3b65c4323decc" Name="iPods" Adr="http://shopping.yahoo.com/mp3-players/apple--brand/;_ylt=AiJwqEOULr19udPWuEB1nowEgFoB"/><link ID="1c55eddd00f2bfd4fedb248ef920a4f4" Name="Cameras" Adr="http://shopping.yahoo.com/browse/cameras-accessories/;_ylt=Atz_AqbkzGo9tAi9IEXYl7YEgFoB"/><link ID="c8a39f167804978d488e93e574fe3efd" Name="TVs" Adr="http://shopping.yahoo.com/browse/televisions-accessories/;_ylt=At4ozZwij0tjqheagSskwaUEgFoB"/><link ID="cda06afcd73cf31e5f696deaeb080221" Name="Cell Phones" Adr="http://shopping.yahoo.com/browse/cell-phones/;_ylt=Aus8pH.PIkAG_lAyRyfg._UEgFoB"/><link ID="46045fc66f50f740b442471e8d5ef96e" Name="Fragrances &amp; Beauty" Adr="http://shopping.yahoo.com/browse/beauty-fragrances/;_ylt=AtoHlAQ1nBkfwCT02FE9vDkEgFoB"/><link ID="4c23831eb001fbeaf5a7100d31a2f4a0" Name="Perfumes" Adr="http://shopping.yahoo.com/browse/fragrances-perfumes/;_ylt=AtRmg_pL7SaBQFZVttIVQ_MEgFoB"/><link ID="87cf62dc6ce862f72fe1f5290479c3f1" Name="Makeup" Adr="http://shopping.yahoo.com/browse/makeup-cosmetics/;_ylt=AtQ0IM0BqDlhNJH70nTR8_0EgFoB"/><link ID="b49a78fef3d7b65d116e2517fe284b31" Name="Skin Care" Adr="http://shopping.yahoo.com/browse/skin-care/;_ylt=Agg6D1pFqa_m6SIbQ_iqw2cEgFoB"/><link ID="550ac8c4fa38d098f1c1f170613ba500" Name="Sports &amp; Outdoors" Adr="http://shopping.yahoo.com/browse/sports-outdoors/;_ylt=AmKvn.lClzux5Rsbkxy1TCAEgFoB"/><link ID="e4e25614f152f97e9c84e3a14b20441a" Name="Fitness" Adr="http://shopping.yahoo.com/browse/exercise-fitness/;_ylt=AnE_EEQiNkmHHH2QtMSa..gEgFoB"/><link ID="58dcbcfd62d6b9dddca9125405acff82" Name="Team Sports" Adr="http://shopping.yahoo.com/browse/team-sports/;_ylt=AjMQkJs6yT7.l_Gydz3T.SYEgFoB"/><link ID="fb86602e9feaef2aa958cdd63070afde" Name="Camping" Adr="http://shopping.yahoo.com/browse/camping-outdoors/;_ylt=AuC_MdqD4D8o0V37i_Qdk.wEgFoB"/><link ID="04d60ac5790e79475bdafbd32372e31d" Name="Appliances" Adr="http://shopping.yahoo.com/large-kitchen-appliances/;_ylt=ArwbchwcAdDr_1AHtr_jo5kEgFoB"/><link ID="18bf470dde6db185d3e17bc2c208b7a4" Name="Small Appliances" Adr="http://shopping.yahoo.com/small-kitchen-appliances/;_ylt=Al1SpaGZwlWsIifkye5nmnwEgFoB"/><link ID="0392d062a82e493473dbc32093c049b7" Name="Laundry" Adr="http://shopping.yahoo.com/laundry-appliances/;_ylt=AkQwNF_tzq8pG4jk7GIjxqgEgFoB"/><link ID="ebb75346094adbf887348330eb25991e" Name="Home &amp; Garden" Adr="http://shopping.yahoo.com/browse/home-garden/;_ylt=AgbKsRtj4gnUH81AH65GTCkEgFoB"/><link ID="cde02bfb979dee3ea5c177662832b273" Name="Bed &amp; Bath" Adr="http://shopping.yahoo.com/browse/bed-bath/;_ylt=ArGcbd_b23JnA4UYg6LDMX0EgFoB"/><link ID="a9b1b388b7cad88769934f62bc0acf21" Name="Kitchen" Adr="http://shopping.yahoo.com/browse/kitchen/;_ylt=Aq5bJrNpREXmDbc9J.LHVvAEgFoB"/><link ID="22a88663576983ae6735ce113486f486" Name="Furniture" Adr="http://shopping.yahoo.com/browse/furniture/;_ylt=AtkIKmrnuZOKZN6DvcGEXOYEgFoB"/><link ID="12917dbd30b60b2e515b521856f1d5cc" Name="Tools" Adr="http://shopping.yahoo.com/browse/tools-hardware/;_ylt=AkQ3wRHCf.PgU_fxgivT54AEgFoB"/><link ID="ea81bc4053fa2d2baae6f20a7f33d92a" Name="Toys &amp; Baby" Adr="http://shopping.yahoo.com/browse/toys-baby/;_ylt=AhYjTIP7RjoRViKhmRBftOsEgFoB"/><link ID="9710c367b87330a5703d729d12f909d6" Name="Dolls" Adr="http://shopping.yahoo.com/dolls/;_ylt=AoYocZDi3NB1OxFZ9QkWOZYEgFoB"/><link ID="4a40af9b550a87c5adff6ce5b0fd03e9" Name="Car Seats" Adr="http://shopping.yahoo.com/car-seats/;_ylt=Ama.vYsoU3NChiDnPI4LroYEgFoB"/><link ID="c7920e937f2f9de679d75c8cdf458590" Name="Board Games" Adr="http://shopping.yahoo.com/games-puzzles/board-games--game-puzzle-type/;_ylt=AiB8boqnwK_k8kQ9n_AXT.oEgFoB"/><link ID="463400722318bb69bf340778c1889d45" Name="Video Games" Adr="http://shopping.yahoo.com/playstation-3-games/;_ylt=AmbAJFwsZ4kCw7ePVMlgnsQEgFoB"/><link ID="e11ecaf7bd9313e16efd88bc2dec6957" Name="Xbox 360" Adr="http://shopping.yahoo.com/xbox-360-games/;_ylt=Ap5HGqQGRtbDKQhFUgxu5lsEgFoB"/><link ID="462c0a44bd85e146d60d04fbfe394890" Name="Consoles" Adr="http://shopping.yahoo.com/video-games/;_ylt=Ah1T.qLVAnMblhXGixQGTuIEgFoB"/><link ID="06b444f3b86b7377fb73583e50ce137d" Name="Jewelry &amp; Watches" Adr="http://shopping.yahoo.com/browse/jewelry-watches/;_ylt=AmZGw2v9Qk7ojBhGNTQqboUEgFoB"/><link ID="c710d0d8877d9d9bee653446feb96b9c" Name="Diamonds" Adr="http://shopping.yahoo.com/browse/diamond-jewelry/;_ylt=AhglDFM7dnBP68trnGF.w_AEgFoB"/><link ID="72e7898b15daf346293136d8fc5be613" Name="Engagement" Adr="http://shopping.yahoo.com/browse/engagement/;_ylt=AgsyWRycL0zhbYE_UFJRvy0EgFoB"/><link ID="3adcb8dd7b5a4666d5920a72ec44f9ac" Name="Watches" Adr="http://shopping.yahoo.com/browse/watches/;_ylt=AuNrFg3HTZKEWUBBHmG9O4MEgFoB"/><link ID="ac1fae37eb18d9a36670c42938e2d359" Name="More Categories" Adr="http://shopping.yahoo.com/browse/;_ylt=Avc4TT9fhjW5xDNZvnSYrrUEgFoB"/><link ID="532de948b8862aae71494a3a22b4d95c" Name="Autos" Adr="http://shopping.yahoo.com/browse/automotive/;_ylt=AlWF24Zw5Htk0Lfb9ezL7lIEgFoB"/><link ID="e72d2e5fdb94b65beb53275985f56bc3" Name="Grocery" Adr="http://shopping.yahoo.com/browse/grocery-gourmet-foods/;_ylt=Ak9xZiQdkHsMkUz_PxnYwKMEgFoB"/><link ID="bb68fd0b8d8a808369503db83e28121d" Name="Health" Adr="http://shopping.yahoo.com/browse/health-personal-care/;_ylt=AkyFmsNoNhYy31E69EcyEA4EgFoB"/><link ID="8587271ea0689f73102cc4636dbd30b3" Name="Books" Adr="http://shopping.yahoo.com/browse/books-magazines/;_ylt=AokUwM7o9Zu3v_d5usTW38AEgFoB"/><link ID="3bc3d066e75e0265ab6974e5a460c52d" Name="" Adr="http://shopping.yahoo.com/javascript:;"/><link ID="3bc3d066e75e0265ab6974e5a460c52d" Name="" Adr="http://shopping.yahoo.com/javascript:;"/><link ID="242a11898554fb65765b29721d6e6479" Name="" Adr="http://shopping.yahoo.com/1024844768-galaxy-s-iii-pebble-blue-smartphone-verizon-wireless-15-ghz-dual-core-processor-2-gb-ram-16-gb-internal-storage-microsd-card-android-40-4g-8-mp-camera/;_ylt=AgxE0Tr26QTUKpMnvUxDYz4EgFoB"/><link ID="fc6348b77028def1b3df393299cc3e00" Name="Galaxy S III Pebble Blue Smartph..." Adr="http://shopping.yahoo.com/1024844768-galaxy-s-iii-pebble-blue-smartphone-verizon-wireless-15-ghz-dual-core-processor-2-gb-ram-16-gb-internal-storage-microsd-card-android-40-4g-8-mp-camera/;_ylt=AgxE0Tr26QTUKpMnvUxDYz4EgFoB"/><link ID="b5a00a716a517c9ff33fde5df586339b" Name="&lt;IMG  uid='476' id='element-476' left='203' top='783' width='328' height='908' margin_left='0px' background_color='rgba(0, 0, 0, 0)' font_size='13px' font_weight='normal' display='inline' visibility='visible' src='http://i.pgcdn.com/pi/102/88/07/1028807679_125.jpg' alt='BRAVIA KDL-32EX340 32' LED TV'/&gt;" Adr="http://shopping.yahoo.com/1028807679-bravia-kdl-32ex340-32-led-tv/;_ylt=AtjVPMVnhMd5GidKy.I1uEAEgFoB"/><link ID="f0efaec874091f81779dd0451af7f365" Name="BRAVIA KDL-32EX340 32&quot; LED TV" Adr="http://shopping.yahoo.com/1028807679-bravia-kdl-32ex340-32-led-tv/;_ylt=AtjVPMVnhMd5GidKy.I1uEAEgFoB"/><link ID="691876c7d35e163f469e6eb7f9008d84" Name="&lt;IMG  uid='485' id='element-485' left='355' top='783' width='480' height='908' margin_left='0px' background_color='rgba(0, 0, 0, 0)' font_size='13px' font_weight='normal' display='inline' visibility='visible' src='http://i.pgcdn.com/pi/89/14/05/891405233_125.jpg' alt='Cleary Women's Slip-on Dress Shoes - Black'/&gt;" Adr="http://shopping.yahoo.com/891405233-cleary-womens-slip-on-dress-shoes-black/;_ylt=AgGDw9d5.iD4UIWXvoCITKEEgFoB"/><link ID="1ae02acf72c0fd879ccd2610e980d6b6" Name="Cleary Women's Slip-on Dress Sho..." Adr="http://shopping.yahoo.com/891405233-cleary-womens-slip-on-dress-shoes-black/;_ylt=AgGDw9d5.iD4UIWXvoCITKEEgFoB"/><link ID="f19b85215907c5403a6ca424dc450763" Name="&lt;IMG  uid='494' id='element-494' left='507' top='783' width='632' height='908' margin_left='0px' background_color='rgba(0, 0, 0, 0)' font_size='13px' font_weight='normal' display='inline' visibility='visible' src='http://i.pgcdn.com/pi/78/82/91/788291842_125.jpg' alt='Men's Apex Bionic Jacket'/&gt;" Adr="http://shopping.yahoo.com/788291842-mens-apex-bionic-jacket/;_ylt=AqQ90zUu5IbMcjXIfHUf4NEEgFoB"/><link ID="f5082e4052a1e59c89c8b6e0009f8205" Name="Men's Apex Bionic Jacket" Adr="http://shopping.yahoo.com/788291842-mens-apex-bionic-jacket/;_ylt=AqQ90zUu5IbMcjXIfHUf4NEEgFoB"/><link ID="924824acb66f2c1101680c68f408f4aa" Name="" Adr="http://shopping.yahoo.com/1027098330-northwest-sagamore-freestanding-log-flame-fireplace-black-/;_ylt=Avu1P4Fi9.bLAr7k9pA0HPsEgFoB"/><link ID="823dbee1f5c9615df20b889b086b9a0c" Name="Northwest Sagamore Freestanding ..." Adr="http://shopping.yahoo.com/1027098330-northwest-sagamore-freestanding-log-flame-fireplace-black-/;_ylt=Avu1P4Fi9.bLAr7k9pA0HPsEgFoB"/><link ID="3b59ac30ee12697de92fbf47c0bf2ff1" Name="" Adr="http://shopping.yahoo.com/957893145-laura-ashley-cherubs-pink-fun-umbrella-pink-s-na/;_ylt=AugtRIDt8K7uqQiFVrCEYP0EgFoB"/><link ID="d883393f81a322cf1da0d1c57258947d" Name="Laura Ashley Cherubs Pink Fun Um..." Adr="http://shopping.yahoo.com/957893145-laura-ashley-cherubs-pink-fun-umbrella-pink-s-na/;_ylt=AugtRIDt8K7uqQiFVrCEYP0EgFoB"/><link ID="1bfbd20c3b4bc8366b53f5461d98c600" Name="" Adr="http://shopping.yahoo.com/1536992-electric-knife-with-holder/;_ylt=As2u8RpYPdST4W.u.jbxBekEgFoB"/><link ID="b885cda2de99ea49379d66abe2feb86c" Name="Electric Knife with Holder" Adr="http://shopping.yahoo.com/1536992-electric-knife-with-holder/;_ylt=As2u8RpYPdST4W.u.jbxBekEgFoB"/><link ID="55c508c54814bea6ef2e367b05ecd6a3" Name="" Adr="http://shopping.yahoo.com/919439055-rose-tree-shenandoah-4-piece-comforter-set-full-comforter-set-multi/;_ylt=AvL5SNy_CX72j7TV.OWSGZwEgFoB"/><link ID="4fb043a2d5acb5066e63036109a192cd" Name="Rose Tree Shenandoah 4-Piece Com..." Adr="http://shopping.yahoo.com/919439055-rose-tree-shenandoah-4-piece-comforter-set-full-comforter-set-multi/;_ylt=AvL5SNy_CX72j7TV.OWSGZwEgFoB"/></Links>
+<Imgs ID="9dee121b350ef34f5c90e76ca2824478" IDList="267904cff81465659bec508eaf269d13,8d102dca9f3175e1a5147dede4b716d7,5272446630aef860b2c52066cbe89c0e,d9da9e4a5bf22bfb999cd3e8593e9857,267904cff81465659bec508eaf269d13,92a5e364aa9706ab2c7eae216480c06f,267904cff81465659bec508eaf269d13,6fab687067d73696817dc0df6302cd8c,2d045abca44da8f38d09a4e460b439aa,f337479cbae4680b5883eb0b5b4bf507,f4b9c30393047a67baa90e77e6f011e4,ca819f2d33ff9ab84383ac476af00734,d413d76186c41743effb4b84de997fb4">
+<img ID="267904cff81465659bec508eaf269d13" Name="Background Image" Src="http://shopping.yahoo.com/ http://shopping.yahoo.com/; visibility: visible; background-position: 100% 0%; background-repeat: no-repeat no-repeat;"/><img ID="8d102dca9f3175e1a5147dede4b716d7" Name="Background Image" Src="http://shopping.yahoo.com/ http://l.yimg.com/dh/ap/i/us/shop2/clothing_hero_new_2012.jpg; visibility: visible; background-position: 0% 0%; background-repeat: no-repeat no-repeat;"/><img ID="5272446630aef860b2c52066cbe89c0e" Name="Background Image" Src="http://shopping.yahoo.com/ http://l.yimg.com/a/i/us/sh/gr/topshop/w1-test-3b_electronics_hero_right.jpg; visibility: visible; background-position: 100% 0%; background-repeat: no-repeat no-repeat;"/><img ID="d9da9e4a5bf22bfb999cd3e8593e9857" Name="Background Image" Src="http://shopping.yahoo.com/ http://l.yimg.com/a/i/us/sh/gr/topshop/topshop_hero_electronics-4.jpg; visibility: visible; background-position: 0% 0%; background-repeat: no-repeat no-repeat;"/><img ID="267904cff81465659bec508eaf269d13" Name="Background Image" Src="http://shopping.yahoo.com/ http://shopping.yahoo.com/; visibility: visible; background-position: 100% 0%; background-repeat: no-repeat no-repeat;"/><img ID="92a5e364aa9706ab2c7eae216480c06f" Name="Background Image" Src="http://shopping.yahoo.com/ http://l.yimg.com/cv/ip/us/sh/img/topshop_hero_bbbold.jpg; visibility: visible; background-position: 0% 0%; background-repeat: no-repeat no-repeat;"/><img ID="267904cff81465659bec508eaf269d13" Name="Background Image" Src="http://shopping.yahoo.com/ http://shopping.yahoo.com/; visibility: visible; background-position: 100% 0%; background-repeat: no-repeat no-repeat;"/><img ID="6fab687067d73696817dc0df6302cd8c" Name="Background Image" Src="http://shopping.yahoo.com/ http://l.yimg.com/a/i/us/sh/gr/topshop/topshop_hero_techblog_launch.jpg; visibility: visible; background-position: 0% 0%; background-repeat: no-repeat no-repeat;"/><img ID="2d045abca44da8f38d09a4e460b439aa" Name="Galaxy S III Pebble Blue Smartphone - Verizon Wireless (1.5 GHz Dual-Core Processor, 2 GB RAM, 16 GB Internal Storage, microSD Card, Android 4.0, 4G, 8 MP Camera)" Src="http://i.pgcdn.com/pi/102/48/44/1024844768_125.jpg"/><img ID="f337479cbae4680b5883eb0b5b4bf507" Name="Northwest Sagamore Freestanding Log Flame Fireplace (Black )" Src="http://i.pgcdn.com/pi/102/70/98/1027098330_125.jpg"/><img ID="f4b9c30393047a67baa90e77e6f011e4" Name="Laura Ashley Cherubs Pink Fun Umbrella (Pink S N/A)" Src="http://i.pgcdn.com/pi/95/78/93/957893145_125.jpg"/><img ID="ca819f2d33ff9ab84383ac476af00734" Name="Electric Knife with Holder" Src="http://i.pgcdn.com/pi/0/15/36/1536992_125.jpg"/><img ID="d413d76186c41743effb4b84de997fb4" Name="Rose Tree Shenandoah 4-Piece Comforter Set: Full Comforter Set Multi" Src="http://i.pgcdn.com/pi/91/94/39/919439055_125.jpg"/></Imgs>
+<Txts ID="568cd5803e57a926e2d3b0b41fbba6d7" Txt="
+                   Shopping Insider
+                
+                   Shop by Store
+                
+                   Shop by Brand
+                
+                Shopping Categories
+             
+                   Clothing &amp;amp; Accessories
+                
+                   Women's
+                
+                  ,
+                
+                   Men's
+                
+                  ,
+                
+                   Shoes
+                
+                   Flowers &amp;amp; Gifts
+                
+                   Gifts
+                
+                  ,
+                
+                   Roses
+                
+                  ,
+                
+                   Flowers &amp;amp; Plants
+                
+                   Computers
+                
+                   Laptops
+                
+                  ,
+                
+                   Desktops
+                
+                  ,
+                
+                   Software
+                
+                   Electronics
+                
+                   iPods
+                
+                  ,
+                
+                   Cameras
+                
+                  ,
+                
+                   TVs
+                
+                  ,
+                
+                   Cell Phones
+                
+                   Fragrances &amp;amp; Beauty
+                
+                   Perfumes
+                
+                  ,
+                
+                   Makeup
+                
+                  ,
+                
+                   Skin Care
+                
+                   Sports &amp;amp; Outdoors
+                
+                   Fitness
+                
+                  ,
+                
+                   Team Sports
+                
+                  ,
+                
+                   Camping
+                
+                   Appliances
+                
+                   Small Appliances
+                
+                  ,
+                
+                   Laundry
+                
+                   Home &amp;amp; Garden
+                
+                   Bed &amp;amp; Bath
+                
+                  ,
+                
+                   Kitchen
+                
+                  ,
+                
+                   Furniture
+                
+                  ,
+                
+                   Tools
+                
+                   Toys &amp;amp; Baby
+                
+                   Dolls
+                
+                  ,
+                
+                   Car Seats
+                
+                  ,
+                
+                   Board Games
+                
+                   Video Games
+                
+                   Xbox 360
+                
+                  ,
+                
+                   Consoles
+                
+                   Jewelry &amp;amp; Watches
+                
+                   Diamonds
+                
+                  ,
+                
+                   Engagement
+                
+                  ,
+                
+                   Watches
+                
+                   More Categories
+                
+                   Autos
+                
+                  ,
+                
+                   Grocery
+                
+                  ,
+                
+                   Health
+                
+                  ,
+                
+                   Books
+                
+                Hot November Deals
+             
+                    Galaxy S III Pebble Blue Smartph...
+                 
+                   $629.00
+                
+                 
+                
+                    BRAVIA KDL-32EX340 32&quot; LED TV
+                 
+                   $378.00 - $399.99
+                
+                 
+                
+                    Cleary Women's Slip-on Dress Sho...
+                 
+                   $40.98
+                
+                 
+                
+                    Men's Apex Bionic Jacket
+                 
+                   $94.99 - $149.00
+                
+                    Northwest Sagamore Freestanding ...
+                 
+                   $125.99 - $147.05
+                
+                    Laura Ashley Cherubs Pink Fun Um...
+                 
+                   $24.99 - $25.99
+                
+                    Electric Knife with Holder
+                 
+                   $49.95 - $54.95
+                
+                    Rose Tree Shenandoah 4-Piece Com...
+                 
+                   $272.99
+                ,
+                   Shopping Insider
+                
+                   Shop by Store
+                
+                   Shop by Brand
+                
+                Shopping Categories
+             
+                   Clothing &amp;amp; Accessories
+                
+                   Women's
+                
+                  ,
+                
+                   Men's
+                
+                  ,
+                
+                   Shoes
+                
+                   Flowers &amp;amp; Gifts
+                
+                   Gifts
+                
+                  ,
+                
+                   Roses
+                
+                  ,
+                
+                   Flowers &amp;amp; Plants
+                
+                   Computers
+                
+                   Laptops
+                
+                  ,
+                
+                   Desktops
+                
+                  ,
+                
+                   Software
+                
+                   Electronics
+                
+                   iPods
+                
+                  ,
+                
+                   Cameras
+                
+                  ,
+                
+                   TVs
+                
+                  ,
+                
+                   Cell Phones
+                
+                   Fragrances &amp;amp; Beauty
+                
+                   Perfumes
+                
+                  ,
+                
+                   Makeup
+                
+                  ,
+                
+                   Skin Care
+                
+                   Sports &amp;amp; Outdoors
+                
+                   Fitness
+                
+                  ,
+                
+                   Team Sports
+                
+                  ,
+                
+                   Camping
+                
+                   Appliances
+                
+                   Small Appliances
+                
+                  ,
+                
+                   Laundry
+                
+                   Home &amp;amp; Garden
+                
+                   Bed &amp;amp; Bath
+                
+                  ,
+                
+                   Kitchen
+                
+                  ,
+                
+                   Furniture
+                
+                  ,
+                
+                   Tools
+                
+                   Toys &amp;amp; Baby
+                
+                   Dolls
+                
+                  ,
+                
+                   Car Seats
+                
+                  ,
+                
+                   Board Games
+                
+                   Video Games
+                
+                   Xbox 360
+                
+                  ,
+                
+                   Consoles
+                
+                   Jewelry &amp;amp; Watches
+                
+                   Diamonds
+                
+                  ,
+                
+                   Engagement
+                
+                  ,
+                
+                   Watches
+                
+                   More Categories
+                
+                   Autos
+                
+                  ,
+                
+                   Grocery
+                
+                  ,
+                
+                   Health
+                
+                  ,
+                
+                   Books
+                ,
+                   Shopping Insider
+                
+                   Shop by Store
+                
+                   Shop by Brand
+                
+                Shopping Categories
+             ,
+                   Shopping Insider
+                
+                   Shop by Store
+                
+                   Shop by Brand
+                ,
+                   Shopping Insider
+                ,
+                   Shop by Store
+                ,
+                   Shop by Brand
+                ,
+                Shopping Categories
+             ,
+                   Clothing &amp;amp; Accessories
+                
+                   Women's
+                
+                  ,
+                
+                   Men's
+                
+                  ,
+                
+                   Shoes
+                
+                   Flowers &amp;amp; Gifts
+                
+                   Gifts
+                
+                  ,
+                
+                   Roses
+                
+                  ,
+                
+                   Flowers &amp;amp; Plants
+                
+                   Computers
+                
+                   Laptops
+                
+                  ,
+                
+                   Desktops
+                
+                  ,
+                
+                   Software
+                
+                   Electronics
+                
+                   iPods
+                
+                  ,
+                
+                   Cameras
+                
+                  ,
+                
+                   TVs
+                
+                  ,
+                
+                   Cell Phones
+                
+                   Fragrances &amp;amp; Beauty
+                
+                   Perfumes
+                
+                  ,
+                
+                   Makeup
+                
+                  ,
+                
+                   Skin Care
+                
+                   Sports &amp;amp; Outdoors
+                
+                   Fitness
+                
+                  ,
+                
+                   Team Sports
+                
+                  ,
+                
+                   Camping
+                
+                   Appliances
+                
+                   Small Appliances
+                
+                  ,
+                
+                   Laundry
+                
+                   Home &amp;amp; Garden
+                
+                   Bed &amp;amp; Bath
+                
+                  ,
+                
+                   Kitchen
+                
+                  ,
+                
+                   Furniture
+                
+                  ,
+                
+                   Tools
+                
+                   Toys &amp;amp; Baby
+                
+                   Dolls
+                
+                  ,
+                
+                   Car Seats
+                
+                  ,
+                
+                   Board Games
+                
+                   Video Games
+                
+                   Xbox 360
+                
+                  ,
+                
+                   Consoles
+                
+                   Jewelry &amp;amp; Watches
+                
+                   Diamonds
+                
+                  ,
+                
+                   Engagement
+                
+                  ,
+                
+                   Watches
+                
+                   More Categories
+                
+                   Autos
+                
+                  ,
+                
+                   Grocery
+                
+                  ,
+                
+                   Health
+                
+                  ,
+                
+                   Books
+                ,
+                   Clothing &amp;amp; Accessories
+                
+                   Women's
+                
+                  ,
+                
+                   Men's
+                
+                  ,
+                
+                   Shoes
+                ,
+                   Clothing &amp;amp; Accessories
+                ,
+                   Women's
+                
+                  ,
+                
+                   Men's
+                
+                  ,
+                
+                   Shoes
+                ,
+                   Women's
+                ,
+                  ,
+                ,
+                   Men's
+                ,
+                   Shoes
+                ,
+                   Flowers &amp;amp; Gifts
+                
+                   Gifts
+                
+                  ,
+                
+                   Roses
+                
+                  ,
+                
+                   Flowers &amp;amp; Plants
+                ,
+                   Flowers &amp;amp; Gifts
+                ,
+                   Gifts
+                
+                  ,
+                
+                   Roses
+                
+                  ,
+                
+                   Flowers &amp;amp; Plants
+                ,
+                   Gifts
+                ,
+                   Roses
+                ,
+                   Flowers &amp;amp; Plants
+                ,
+                   Computers
+                
+                   Laptops
+                
+                  ,
+                
+                   Desktops
+                
+                  ,
+                
+                   Software
+                ,
+                   Computers
+                ,
+                   Laptops
+                
+                  ,
+                
+                   Desktops
+                
+                  ,
+                
+                   Software
+                ,
+                   Laptops
+                ,
+                   Desktops
+                ,
+                   Software
+                ,
+                   Electronics
+                
+                   iPods
+                
+                  ,
+                
+                   Cameras
+                
+                  ,
+                
+                   TVs
+                
+                  ,
+                
+                   Cell Phones
+                ,
+                   Electronics
+                ,
+                   iPods
+                
+                  ,
+                
+                   Cameras
+                
+                  ,
+                
+                   TVs
+                
+                  ,
+                
+                   Cell Phones
+                ,
+                   iPods
+                ,
+                   Cameras
+                ,
+                   TVs
+                ,
+                   Cell Phones
+                ,
+                   Fragrances &amp;amp; Beauty
+                
+                   Perfumes
+                
+                  ,
+                
+                   Makeup
+                
+                  ,
+                
+                   Skin Care
+                ,
+                   Fragrances &amp;amp; Beauty
+                ,
+                   Perfumes
+                
+                  ,
+                
+                   Makeup
+                
+                  ,
+                
+                   Skin Care
+                ,
+                   Perfumes
+                ,
+                   Makeup
+                ,
+                   Skin Care
+                ,
+                   Sports &amp;amp; Outdoors
+                
+                   Fitness
+                
+                  ,
+                
+                   Team Sports
+                
+                  ,
+                
+                   Camping
+                ,
+                   Sports &amp;amp; Outdoors
+                ,
+                   Fitness
+                
+                  ,
+                
+                   Team Sports
+                
+                  ,
+                
+                   Camping
+                ,
+                   Fitness
+                ,
+                   Team Sports
+                ,
+                   Camping
+                ,
+                   Appliances
+                
+                   Small Appliances
+                
+                  ,
+                
+                   Laundry
+                ,
+                   Appliances
+                ,
+                   Small Appliances
+                
+                  ,
+                
+                   Laundry
+                ,
+                   Small Appliances
+                ,
+                   Laundry
+                ,
+                   Home &amp;amp; Garden
+                
+                   Bed &amp;amp; Bath
+                
+                  ,
+                
+                   Kitchen
+                
+                  ,
+                
+                   Furniture
+                
+                  ,
+                
+                   Tools
+                ,
+                   Home &amp;amp; Garden
+                ,
+                   Bed &amp;amp; Bath
+                
+                  ,
+                
+                   Kitchen
+                
+                  ,
+                
+                   Furniture
+                
+                  ,
+                
+                   Tools
+                ,
+                   Bed &amp;amp; Bath
+                ,
+                   Kitchen
+                ,
+                   Furniture
+                ,
+                   Tools
+                ,
+                   Toys &amp;amp; Baby
+                
+                   Dolls
+                
+                  ,
+                
+                   Car Seats
+                
+                  ,
+                
+                   Board Games
+                ,
+                   Toys &amp;amp; Baby
+                ,
+                   Dolls
+                
+                  ,
+                
+                   Car Seats
+                
+                  ,
+                
+                   Board Games
+                ,
+                   Dolls
+                ,
+                   Car Seats
+                ,
+                   Board Games
+                ,
+                   Video Games
+                
+                   Xbox 360
+                
+                  ,
+                
+                   Consoles
+                ,
+                   Video Games
+                ,
+                   Xbox 360
+                
+                  ,
+                
+                   Consoles
+                ,
+                   Xbox 360
+                ,
+                   Consoles
+                ,
+                   Jewelry &amp;amp; Watches
+                
+                   Diamonds
+                
+                  ,
+                
+                   Engagement
+                
+                  ,
+                
+                   Watches
+                ,
+                   Jewelry &amp;amp; Watches
+                ,
+                   Diamonds
+                
+                  ,
+                
+                   Engagement
+                
+                  ,
+                
+                   Watches
+                ,
+                   Diamonds
+                ,
+                   Engagement
+                ,
+                   Watches
+                ,
+                   More Categories
+                
+                   Autos
+                
+                  ,
+                
+                   Grocery
+                
+                  ,
+                
+                   Health
+                
+                  ,
+                
+                   Books
+                ,
+                   More Categories
+                ,
+                   Autos
+                
+                  ,
+                
+                   Grocery
+                
+                  ,
+                
+                   Health
+                
+                  ,
+                
+                   Books
+                ,
+                   Autos
+                ,
+                   Grocery
+                ,
+                   Health
+                ,
+                   Books
+                ,
+                Hot November Deals
+             
+                    Galaxy S III Pebble Blue Smartph...
+                 
+                   $629.00
+                
+                 
+                
+                    BRAVIA KDL-32EX340 32&quot; LED TV
+                 
+                   $378.00 - $399.99
+                
+                 
+                
+                    Cleary Women's Slip-on Dress Sho...
+                 
+                   $40.98
+                
+                 
+                
+                    Men's Apex Bionic Jacket
+                 
+                   $94.99 - $149.00
+                
+                    Northwest Sagamore Freestanding ...
+                 
+                   $125.99 - $147.05
+                
+                    Laura Ashley Cherubs Pink Fun Um...
+                 
+                   $24.99 - $25.99
+                
+                    Electric Knife with Holder
+                 
+                   $49.95 - $54.95
+                
+                    Rose Tree Shenandoah 4-Piece Com...
+                 
+                   $272.99
+                ,
+                Hot November Deals
+             ,
+                    Galaxy S III Pebble Blue Smartph...
+                 
+                   $629.00
+                
+                 
+                
+                    BRAVIA KDL-32EX340 32&quot; LED TV
+                 
+                   $378.00 - $399.99
+                
+                 
+                
+                    Cleary Women's Slip-on Dress Sho...
+                 
+                   $40.98
+                
+                 
+                
+                    Men's Apex Bionic Jacket
+                 
+                   $94.99 - $149.00
+                
+                    Northwest Sagamore Freestanding ...
+                 
+                   $125.99 - $147.05
+                
+                    Laura Ashley Cherubs Pink Fun Um...
+                 
+                   $24.99 - $25.99
+                
+                    Electric Knife with Holder
+                 
+                   $49.95 - $54.95
+                
+                    Rose Tree Shenandoah 4-Piece Com...
+                 
+                   $272.99
+                ,
+                    Galaxy S III Pebble Blue Smartph...
+                 
+                   $629.00
+                ,
+                    Galaxy S III Pebble Blue Smartph...
+                 ,
+                   $629.00
+                ,
+                 
+                
+                    BRAVIA KDL-32EX340 32&quot; LED TV
+                 
+                   $378.00 - $399.99
+                ,
+                 ,
+                    BRAVIA KDL-32EX340 32&quot; LED TV
+                 ,
+                   $378.00 - $399.99
+                ,
+                 
+                
+                    Cleary Women's Slip-on Dress Sho...
+                 
+                   $40.98
+                ,
+                    Cleary Women's Slip-on Dress Sho...
+                 ,
+                   $40.98
+                ,
+                 
+                
+                    Men's Apex Bionic Jacket
+                 
+                   $94.99 - $149.00
+                ,
+                    Men's Apex Bionic Jacket
+                 ,
+                   $94.99 - $149.00
+                ,
+                    Northwest Sagamore Freestanding ...
+                 
+                   $125.99 - $147.05
+                ,
+                    Northwest Sagamore Freestanding ...
+                 ,
+                   $125.99 - $147.05
+                ,
+                    Laura Ashley Cherubs Pink Fun Um...
+                 
+                   $24.99 - $25.99
+                ,
+                    Laura Ashley Cherubs Pink Fun Um...
+                 ,
+                   $24.99 - $25.99
+                ,
+                    Electric Knife with Holder
+                 
+                   $49.95 - $54.95
+                ,
+                    Electric Knife with Holder
+                 ,
+                   $49.95 - $54.95
+                ,
+                    Rose Tree Shenandoah 4-Piece Com...
+                 
+                   $272.99
+                ,
+                    Rose Tree Shenandoah 4-Piece Com...
+                 ,
+                   $272.99
+                "/>
+</Block>
+<Block Ref="Block1-2-2-2" internal_id='6' ID="215a26b2ba97efd8606dddaa45c64e0c" Pos="WindowWidth||PageRectLeft:669.0 WindowHeight||PageRectTop:185.0 ObjectRectWidth:310.0 ObjectRectHeight:813.0" Doc="6">
+<Links ID="918044b52cb78509000dd8a787c67d6e" IDList="6812115e8eb0266995b549690aee4037,75ddb6dc53d7894f9fc5578ef9698afa,0bc541892203c4d2777e051dbe58bc7c,f5c108ce3940f9cd6695794454116a74,c16c088a2f9c506c735b461b7f1796ad,b971a52675feef4c0ec22ce2310c57f0,864bf2add51ca0897b45f08093db40b5,f167c65daad4cfff38f819f8e23b65b8,ee90571d695eb3951fbd25f9846831b2,1ff22806241789f8446234f976393220,3bc3d066e75e0265ab6974e5a460c52d,3bc3d066e75e0265ab6974e5a460c52d,063613968a251bd1ba05d9389568b1b2,28e5165519a39bcbf21812f64f06fc4c,b643716dd8b854ceaf54cd320d5bc98e,e9737759c65899eeb903bb9c8bb940a2,db28d225b012087cabca31001121c502,9421247c79f7348025d1db0ff14dbd92,1277ac3063a74832adcecafc92d39654,1d47715f6c6e049f2e4b60625770f610,5a9730853e3f1597295fea9b9eb37f47,b90e06001d71145d9119761cd15d4caf,8a8f271f662f247b22b9befcb84604d4,64779e0ead567e828380cddfb889bb53,b327f48c33941d55c90a8352fe143f1a,53ea544acb86f83c4542bc02d416619a,7bf1356bc6c4025ab026cb9dc62d5681,fefbd3c8e9bd1e9c189a9c5930babfd8,9a2c15d5c6a623b4cc589434f0e5a9f5,b49ccb5f8c28c1331eb0260070f17126,89f9424277e00d232770f1604a8df684,798068d5119e3d4386d4d1cecd984982,7674eba8dc7742e11356048b148f164f,8e268b3eb0d8b5cafbe455769c0abc5d,c98b1ae9a6361b98751217e3abd5b784,72a86f243ae101cc2a4964ead0d069d3,bbfc6f2fab1239d3d502943a87841369,b917be25d5d0130b418ae8e81f7892f5,4a2e5f4773bd6dfecba74ca913e9f5bd,a96934f8a9204621140e766a8450494e,67d3f1abb505992f92e9ad56f0af9e06,47c6fc8be59d9e7956b4ff639db46d18,31430faafea5a41caccd9311b38aa82e,6c55a66456bb0a021662d46770da91ca,46a5e8f620aeb5ec328e60a8da5ff563,2fee59dd411b8eacb178f9798b382661,f607e0bd760f4fb07e6e51519acc3599,0798ce4ae3df0f84f7a5d10961ec1fe9,fd73fedc125fb80569c9d4e0355b0596,70accd92ff0228d15f5818067d8b6cf0,7597b116dc3c32ab9ae04e975a854829,8a938d440c757e074cb01fef60dac4bd,766821b8e0bfc7df6916c2194097b957,47805e2df51e3abd80f4f0235fbe2232,ddd40bff3b7ddf58ca5207412cf2f34f,855332418082c98c467f6cadc21c64d5,d25fcb1e6cdb62680f74184966dde9e2,c403752145cea3e94a83487131837482,3e501cf568247f2ee1650a97fa0f7fd0,8986054ae7db9921bcc75b910e13da52,f92657db8d51b803d389332f3a278392,3dccaceefcfe809ab4d456ef0607dc98,b041865c423e492d52aa039fe76a8bff,ac197c8d1ddbfca174b826902c37dc7b,3fd06d8076bc7ea297f1ed5b2e5c99fa,a5148a79445a71b9fad78a57444530bf,5cf89c9f1ea40db126b071fee2888314">
+<link ID="6812115e8eb0266995b549690aee4037" Name="AdChoices" Adr="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE1aDdtamltaChnaWQkTmZUWW0yS0ozMGthVFJxYlVLVTFGQUtLaE9QTVFGQ2xOUlFBRERIdyxzdCQxMzUzMDA0MzA4ODU1MDMxLHNpJDQ0NjYwNTEsc3AkMjI3MDgyMjgsY3IkMzAxNDYyMjA1MSx2JDIuMCxhaWQkV3JzMWVrd05QYXMtLGN0JDI1LHlieCRvcVdpbmsxUnFqWFAySDlQMHdTVmxnLGJpJDE1NDU3ODc1NTEsdyQwKSk/1/*http://info.yahoo.com/relevantads/"/><link ID="75ddb6dc53d7894f9fc5578ef9698afa" Name="" Adr="http://shopping.yahoo.com/blogs/digital-crave/;_ylt=AjFmjguJ4vKN9qKXYkGHRKYEgFoB"/><link ID="0bc541892203c4d2777e051dbe58bc7c" Name="Visit the Digital Crave for the latest in Tech" Adr="http://shopping.yahoo.com/blogs/digital-crave/;_ylt=AjFmjguJ4vKN9qKXYkGHRKYEgFoB"/><link ID="f5c108ce3940f9cd6695794454116a74" Name="Visit the blog now »" Adr="http://shopping.yahoo.com/blogs/digital-crave/;_ylt=AjFmjguJ4vKN9qKXYkGHRKYEgFoB"/><link ID="c16c088a2f9c506c735b461b7f1796ad" Name="" Adr="http://shopping.yahoo.com/articles/;_ylt=Aqkpg90vdvv0JqXIEm41T_4EgFoB"/><link ID="b971a52675feef4c0ec22ce2310c57f0" Name="The latest articles on top trends" Adr="http://shopping.yahoo.com/articles/;_ylt=Aqkpg90vdvv0JqXIEm41T_4EgFoB"/><link ID="864bf2add51ca0897b45f08093db40b5" Name="Go there now »" Adr="http://shopping.yahoo.com/articles/;_ylt=Aqkpg90vdvv0JqXIEm41T_4EgFoB"/><link ID="f167c65daad4cfff38f819f8e23b65b8" Name="" Adr="http://us.lrd.yahoo.com/_ylt=AnfyNFzg0W180dzyPTT1HLMEgFoB/SIG=17onb12mk/EXP=1354213908/**http%3A//ad.doubleclick.net/click;h=v2%7C3FC4%7C0%7C0%7C%252a%7Cv;262153060;0-0;0;86302673;31-1%7C1;50245212%7C50232410%7C1;;;pc=%5BTPAS_ID%5D%253fhttp%3A//blackberry.yahoo.com/%3FCPID=STTXTNAUSFY13Q3000000187900001400100001TXT123"/><link ID="ee90571d695eb3951fbd25f9846831b2" Name="Learn about BlackBerry devices and apps" Adr="http://us.lrd.yahoo.com/_ylt=AnfyNFzg0W180dzyPTT1HLMEgFoB/SIG=17onb12mk/EXP=1354213908/**http%3A//ad.doubleclick.net/click;h=v2%7C3FC4%7C0%7C0%7C%252a%7Cv;262153060;0-0;0;86302673;31-1%7C1;50245212%7C50232410%7C1;;;pc=%5BTPAS_ID%5D%253fhttp%3A//blackberry.yahoo.com/%3FCPID=STTXTNAUSFY13Q3000000187900001400100001TXT123"/><link ID="1ff22806241789f8446234f976393220" Name="Visit the site »" Adr="http://us.lrd.yahoo.com/_ylt=AnfyNFzg0W180dzyPTT1HLMEgFoB/SIG=17onb12mk/EXP=1354213908/**http%3A//ad.doubleclick.net/click;h=v2%7C3FC4%7C0%7C0%7C%252a%7Cv;262153060;0-0;0;86302673;31-1%7C1;50245212%7C50232410%7C1;;;pc=%5BTPAS_ID%5D%253fhttp%3A//blackberry.yahoo.com/%3FCPID=STTXTNAUSFY13Q3000000187900001400100001TXT123"/><link ID="3bc3d066e75e0265ab6974e5a460c52d" Name="" Adr="http://shopping.yahoo.com/javascript:;"/><link ID="3bc3d066e75e0265ab6974e5a460c52d" Name="" Adr="http://shopping.yahoo.com/javascript:;"/><link ID="063613968a251bd1ba05d9389568b1b2" Name="Tablets" Adr="http://shopping.yahoo.com/tablets-e-readers/tablet--product-type/;_ylt=Aur0qF6TjcHEX5.s59vPZXYEgFoB"/><link ID="28e5165519a39bcbf21812f64f06fc4c" Name="Skiing Equipment" Adr="http://shopping.yahoo.com/skiing/;_ylt=An9gGpVYpMtlTPex1yff280EgFoB"/><link ID="b643716dd8b854ceaf54cd320d5bc98e" Name="Snowboarding Equipment" Adr="http://shopping.yahoo.com/snowboarding/;_ylt=AlpEl7JqV5ClK2reFHiOIhAEgFoB"/><link ID="e9737759c65899eeb903bb9c8bb940a2" Name="Playstation 3" Adr="http://shopping.yahoo.com/playstation-3/;_ylt=Al6A9vTFwK9LE8hQ4eqtoUgEgFoB"/><link ID="db28d225b012087cabca31001121c502" Name="Xbox 360" Adr="http://shopping.yahoo.com/xbox-360/;_ylt=AqJ3L8J7KH5LTXXI2mOoMNwEgFoB"/><link ID="9421247c79f7348025d1db0ff14dbd92" Name="Women's Watches" Adr="http://shopping.yahoo.com/browse/womens-watches/;_ylt=An7aCjTjllg1ne.59jAg.VgEgFoB"/><link ID="1277ac3063a74832adcecafc92d39654" Name="NFL Fan Gear" Adr="http://shopping.yahoo.com/football-memorabilia-fan-gear/;_ylt=Aqotb82lyEpS5At_jsyZU3sEgFoB"/><link ID="1d47715f6c6e049f2e4b60625770f610" Name="NHL Fan Gear" Adr="http://shopping.yahoo.com/hockey-memorabilia-fan-gear/;_ylt=ApVJ5ymQkfnmWjoX0s5mUnMEgFoB"/><link ID="5a9730853e3f1597295fea9b9eb37f47" Name="Holiday Decorations" Adr="http://shopping.yahoo.com/holiday-decorations/;_ylt=ArhL5dUefyNpPzGk_gRLJTIEgFoB"/><link ID="b90e06001d71145d9119761cd15d4caf" Name="Fall Outerwear" Adr="http://shopping.yahoo.com/outerwear/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="8a8f271f662f247b22b9befcb84604d4" Name="see all Categories »" Adr="http://shopping.yahoo.com/browse/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="64779e0ead567e828380cddfb889bb53" Name="Indoor Living" Adr="http://shopping.yahoo.com/indoor-living/;_ylt=Aur0qF6TjcHEX5.s59vPZXYEgFoB"/><link ID="b327f48c33941d55c90a8352fe143f1a" Name="Outdoor Living" Adr="http://shopping.yahoo.com/outdoor-living/;_ylt=An9gGpVYpMtlTPex1yff280EgFoB"/><link ID="53ea544acb86f83c4542bc02d416619a" Name="Bedroom Furniture" Adr="http://shopping.yahoo.com/bedroom-furniture/;_ylt=AlpEl7JqV5ClK2reFHiOIhAEgFoB"/><link ID="7bf1356bc6c4025ab026cb9dc62d5681" Name="Gardening &amp; Nursery" Adr="http://shopping.yahoo.com/gardening-nursery/;_ylt=Al6A9vTFwK9LE8hQ4eqtoUgEgFoB"/><link ID="fefbd3c8e9bd1e9c189a9c5930babfd8" Name="Home Décor" Adr="http://shopping.yahoo.com/home-decor/;_ylt=AqJ3L8J7KH5LTXXI2mOoMNwEgFoB"/><link ID="9a2c15d5c6a623b4cc589434f0e5a9f5" Name="Outdoor Furniture" Adr="http://shopping.yahoo.com/outdoor-furniture/;_ylt=An7aCjTjllg1ne.59jAg.VgEgFoB"/><link ID="b49ccb5f8c28c1331eb0260070f17126" Name="Dining Room Furniture" Adr="http://shopping.yahoo.com/kitchen-dining-room-furniture/;_ylt=Aqotb82lyEpS5At_jsyZU3sEgFoB"/><link ID="89f9424277e00d232770f1604a8df684" Name="BBQ &amp; Patio" Adr="http://shopping.yahoo.com/barbecue-patio/;_ylt=ApVJ5ymQkfnmWjoX0s5mUnMEgFoB"/><link ID="798068d5119e3d4386d4d1cecd984982" Name="Comforters" Adr="http://shopping.yahoo.com/comforters/;_ylt=ArhL5dUefyNpPzGk_gRLJTIEgFoB"/><link ID="7674eba8dc7742e11356048b148f164f" Name="Bedding" Adr="http://shopping.yahoo.com/bedding/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="8e268b3eb0d8b5cafbe455769c0abc5d" Name="see more Home &amp; Garden »" Adr="http://shopping.yahoo.com/browse/home-garden/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="c98b1ae9a6361b98751217e3abd5b784" Name="Women's Dresses" Adr="http://shopping.yahoo.com/womens-dresses/;_ylt=Aur0qF6TjcHEX5.s59vPZXYEgFoB"/><link ID="72a86f243ae101cc2a4964ead0d069d3" Name="Women's Shoes" Adr="http://shopping.yahoo.com/browse/womens-shoes/;_ylt=An9gGpVYpMtlTPex1yff280EgFoB"/><link ID="bbfc6f2fab1239d3d502943a87841369" Name="Lingerie" Adr="http://shopping.yahoo.com/lingerie/;_ylt=AlpEl7JqV5ClK2reFHiOIhAEgFoB"/><link ID="b917be25d5d0130b418ae8e81f7892f5" Name="Men's Shoes" Adr="http://shopping.yahoo.com/mens-shoes/;_ylt=Al6A9vTFwK9LE8hQ4eqtoUgEgFoB"/><link ID="4a2e5f4773bd6dfecba74ca913e9f5bd" Name="Intimate Apparel" Adr="http://shopping.yahoo.com/womens-intimate-apparel/;_ylt=AqJ3L8J7KH5LTXXI2mOoMNwEgFoB"/><link ID="a96934f8a9204621140e766a8450494e" Name="Women's Shirts" Adr="http://shopping.yahoo.com/womens-shirts-blouses/;_ylt=An7aCjTjllg1ne.59jAg.VgEgFoB"/><link ID="67d3f1abb505992f92e9ad56f0af9e06" Name="Women's Jeans" Adr="http://shopping.yahoo.com/womens-jeans/;_ylt=Aqotb82lyEpS5At_jsyZU3sEgFoB"/><link ID="47c6fc8be59d9e7956b4ff639db46d18" Name="Women's Swimwear" Adr="http://shopping.yahoo.com/womens-swimwear/;_ylt=ApVJ5ymQkfnmWjoX0s5mUnMEgFoB"/><link ID="31430faafea5a41caccd9311b38aa82e" Name="Handbags" Adr="http://shopping.yahoo.com/handbags/;_ylt=ArhL5dUefyNpPzGk_gRLJTIEgFoB"/><link ID="6c55a66456bb0a021662d46770da91ca" Name="Men's Jeans" Adr="http://shopping.yahoo.com/mens-jeans/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="46a5e8f620aeb5ec328e60a8da5ff563" Name="see more Clothing »" Adr="http://shopping.yahoo.com/browse/clothing-accessories-shoes/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="2fee59dd411b8eacb178f9798b382661" Name="LCD TVs" Adr="http://shopping.yahoo.com/plasma-lcd-tvs/lcd--display-type/;_ylt=Aur0qF6TjcHEX5.s59vPZXYEgFoB"/><link ID="f607e0bd760f4fb07e6e51519acc3599" Name="Camcorder" Adr="http://shopping.yahoo.com/browse/camcorders/;_ylt=An9gGpVYpMtlTPex1yff280EgFoB"/><link ID="0798ce4ae3df0f84f7a5d10961ec1fe9" Name="iPads" Adr="http://shopping.yahoo.com/tablets-e-readers/apple--brand/;_ylt=AlpEl7JqV5ClK2reFHiOIhAEgFoB"/><link ID="fd73fedc125fb80569c9d4e0355b0596" Name="MP3 Players" Adr="http://shopping.yahoo.com/browse/mp3-players-accessories/;_ylt=Al6A9vTFwK9LE8hQ4eqtoUgEgFoB"/><link ID="70accd92ff0228d15f5818067d8b6cf0" Name="GPS" Adr="http://shopping.yahoo.com/gps-and-accessories/;_ylt=AqJ3L8J7KH5LTXXI2mOoMNwEgFoB"/><link ID="7597b116dc3c32ab9ae04e975a854829" Name="Digital Cameras" Adr="http://shopping.yahoo.com/digital-cameras-accessories/;_ylt=An7aCjTjllg1ne.59jAg.VgEgFoB"/><link ID="8a938d440c757e074cb01fef60dac4bd" Name="iPhones" Adr="http://shopping.yahoo.com/cell-phones/apple--brand/;_ylt=Aqotb82lyEpS5At_jsyZU3sEgFoB"/><link ID="766821b8e0bfc7df6916c2194097b957" Name="Home Audio" Adr="http://shopping.yahoo.com/browse/home-audio/;_ylt=ApVJ5ymQkfnmWjoX0s5mUnMEgFoB"/><link ID="47805e2df51e3abd80f4f0235fbe2232" Name="Home Theater Systems" Adr="http://shopping.yahoo.com/home-theater-systems/;_ylt=ArhL5dUefyNpPzGk_gRLJTIEgFoB"/><link ID="ddd40bff3b7ddf58ca5207412cf2f34f" Name="Plasma TVs" Adr="http://shopping.yahoo.com/plasma-lcd-tvs/plasma--display-type/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="855332418082c98c467f6cadc21c64d5" Name="see more Electronics »" Adr="http://shopping.yahoo.com/browse/electronics/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="d25fcb1e6cdb62680f74184966dde9e2" Name="Networking" Adr="http://shopping.yahoo.com/networking/;_ylt=Aur0qF6TjcHEX5.s59vPZXYEgFoB"/><link ID="c403752145cea3e94a83487131837482" Name="Netbooks" Adr="http://shopping.yahoo.com/laptops/netbook--laptop-type/;_ylt=An9gGpVYpMtlTPex1yff280EgFoB"/><link ID="3e501cf568247f2ee1650a97fa0f7fd0" Name="Tablet PCs" Adr="http://shopping.yahoo.com/laptops/tablet-pc--laptop-type/;_ylt=AlpEl7JqV5ClK2reFHiOIhAEgFoB"/><link ID="8986054ae7db9921bcc75b910e13da52" Name="Computer Storage" Adr="http://shopping.yahoo.com/computer-storage-devices/;_ylt=Al6A9vTFwK9LE8hQ4eqtoUgEgFoB"/><link ID="f92657db8d51b803d389332f3a278392" Name="Monitors" Adr="http://shopping.yahoo.com/browse/monitors-projectors/;_ylt=AqJ3L8J7KH5LTXXI2mOoMNwEgFoB"/><link ID="3dccaceefcfe809ab4d456ef0607dc98" Name="Wireless Networking" Adr="http://shopping.yahoo.com/wireless-networking/;_ylt=An7aCjTjllg1ne.59jAg.VgEgFoB"/><link ID="b041865c423e492d52aa039fe76a8bff" Name="Operating Systems" Adr="http://shopping.yahoo.com/operating-systems/;_ylt=Aqotb82lyEpS5At_jsyZU3sEgFoB"/><link ID="ac197c8d1ddbfca174b826902c37dc7b" Name="Routers" Adr="http://shopping.yahoo.com/routers/;_ylt=ApVJ5ymQkfnmWjoX0s5mUnMEgFoB"/><link ID="3fd06d8076bc7ea297f1ed5b2e5c99fa" Name="Motherboards" Adr="http://shopping.yahoo.com/motherboards/;_ylt=ArhL5dUefyNpPzGk_gRLJTIEgFoB"/><link ID="a5148a79445a71b9fad78a57444530bf" Name="Computer Accessoreis" Adr="http://shopping.yahoo.com/all-computer-accessories/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/><link ID="5cf89c9f1ea40db126b071fee2888314" Name="see more Computers »" Adr="http://shopping.yahoo.com/browse/computers/;_ylt=Ap5.4cu3zPxdC2Mt_4SosBwEgFoB"/></Links>
+<Imgs ID="a9fdd4792c9ff9b7beaf70d69b874805" IDList="b058e04304ea4434db5ea34296e836d2,c7a246237897f620795f4c1ed795424f,a2d539d5312af9df7a53bfe22b0d89e9,3bb38d78ec6a5e5578a5b71cdd92c1fe,3fe16f2b0487241a1f7b8c9dc73038be">
+<img ID="b058e04304ea4434db5ea34296e836d2" Name="undefined" Src="http://shopping.yahoo.com/undefined"/><img ID="c7a246237897f620795f4c1ed795424f" Name="undefined" Src="http://speed.pointroll.com/PointRoll/Media/banners/trans.gif?PRAd=1688530&amp;PRCID=1688530&amp;PRplcmt=1898927&amp;PRPID=1898927"/><img ID="a2d539d5312af9df7a53bfe22b0d89e9" Name="Visit the Digital Crave for the latest in Tech" Src="http://l.yimg.com/a/i/us/sh/gr/techblog_thumb_60x60.jpg"/><img ID="3bb38d78ec6a5e5578a5b71cdd92c1fe" Name="The latest articles on top trends" Src="http://l.yimg.com/a/i/us/sh/gr/more_on_y_shopinsider_60x60.jpg"/><img ID="3fe16f2b0487241a1f7b8c9dc73038be" Name="Learn about BlackBerry devices and apps" Src="http://l.yimg.com/dh/ap/i/us/shop2/bb60x60black.jpg"/></Imgs>
+<Txts ID="07aed9aef2b5c6b486d77e7fff5cdfeb" Txt="
+                      AdChoices
+                   
+                More on Yahoo!
+             
+                    Visit the Digital Crave for the latest in Tech
+                 
+                   Visit the blog now »
+                
+                    The latest articles on top trends
+                 
+                   Go there now »
+                
+                    Learn about BlackBerry devices and apps
+                 
+                   Visit the site »
+                
+                   Popular Categories
+                
+                    Tablets
+                 
+                    Skiing Equipment
+                 
+                    Snowboarding Equipment
+                 
+                    Playstation 3
+                 
+                    Xbox 360
+                 
+                    Women's Watches
+                 
+                    NFL Fan Gear
+                 
+                    NHL Fan Gear
+                 
+                    Holiday Decorations
+                 
+                    Fall Outerwear
+                 
+                    see all Categories »
+                 
+                   Home &amp;amp; Garden Categories
+                
+                    Indoor Living
+                 
+                    Outdoor Living
+                 
+                    Bedroom Furniture
+                 
+                    Gardening &amp;amp; Nursery
+                 
+                    Home Décor
+                 
+                    Outdoor Furniture
+                 
+                    Dining Room Furniture
+                 
+                    BBQ &amp;amp; Patio
+                 
+                    Comforters
+                 
+                    Bedding
+                 
+                    see more Home &amp;amp; Garden »
+                 
+                   Clothing Categories
+                
+                    Women's Dresses
+                 
+                    Women's Shoes
+                 
+                    Lingerie
+                 
+                    Men's Shoes
+                 
+                    Intimate Apparel
+                 
+                    Women's Shirts
+                 
+                    Women's Jeans
+                 
+                    Women's Swimwear
+                 
+                    Handbags
+                 
+                    Men's Jeans
+                 
+                    see more Clothing »
+                 
+                   Electronics Categories
+                
+                    LCD TVs
+                 
+                    Camcorder
+                 
+                    iPads
+                 
+                    MP3 Players
+                 
+                    GPS
+                 
+                    Digital Cameras
+                 
+                    iPhones
+                 
+                    Home Audio
+                 
+                    Home Theater Systems
+                 
+                    Plasma TVs
+                 
+                    see more Electronics »
+                 
+                   Computers Categories
+                
+                    Networking
+                 
+                    Netbooks
+                 
+                    Tablet PCs
+                 
+                    Computer Storage
+                 
+                    Monitors
+                 
+                    Wireless Networking
+                 
+                    Operating Systems
+                 
+                    Routers
+                 
+                    Motherboards
+                 
+                    Computer Accessoreis
+                 
+                    see more Computers »
+                 ,
+                      AdChoices
+                   ,
+                More on Yahoo!
+             
+                    Visit the Digital Crave for the latest in Tech
+                 
+                   Visit the blog now »
+                
+                    The latest articles on top trends
+                 
+                   Go there now »
+                
+                    Learn about BlackBerry devices and apps
+                 
+                   Visit the site »
+                ,
+                More on Yahoo!
+             ,
+                    Visit the Digital Crave for the latest in Tech
+                 
+                   Visit the blog now »
+                
+                    The latest articles on top trends
+                 
+                   Go there now »
+                
+                    Learn about BlackBerry devices and apps
+                 
+                   Visit the site »
+                ,
+                    Visit the Digital Crave for the latest in Tech
+                 
+                   Visit the blog now »
+                ,
+                    Visit the Digital Crave for the latest in Tech
+                 ,
+                   Visit the blog now »
+                ,
+                    The latest articles on top trends
+                 
+                   Go there now »
+                ,
+                    The latest articles on top trends
+                 ,
+                   Go there now »
+                ,
+                    Learn about BlackBerry devices and apps
+                 
+                   Visit the site »
+                ,
+                    Learn about BlackBerry devices and apps
+                 ,
+                   Visit the site »
+                ,
+                   Popular Categories
+                
+                    Tablets
+                 
+                    Skiing Equipment
+                 
+                    Snowboarding Equipment
+                 
+                    Playstation 3
+                 
+                    Xbox 360
+                 
+                    Women's Watches
+                 
+                    NFL Fan Gear
+                 
+                    NHL Fan Gear
+                 
+                    Holiday Decorations
+                 
+                    Fall Outerwear
+                 
+                    see all Categories »
+                 
+                   Home &amp;amp; Garden Categories
+                
+                    Indoor Living
+                 
+                    Outdoor Living
+                 
+                    Bedroom Furniture
+                 
+                    Gardening &amp;amp; Nursery
+                 
+                    Home Décor
+                 
+                    Outdoor Furniture
+                 
+                    Dining Room Furniture
+                 
+                    BBQ &amp;amp; Patio
+                 
+                    Comforters
+                 
+                    Bedding
+                 
+                    see more Home &amp;amp; Garden »
+                 
+                   Clothing Categories
+                
+                    Women's Dresses
+                 
+                    Women's Shoes
+                 
+                    Lingerie
+                 
+                    Men's Shoes
+                 
+                    Intimate Apparel
+                 
+                    Women's Shirts
+                 
+                    Women's Jeans
+                 
+                    Women's Swimwear
+                 
+                    Handbags
+                 
+                    Men's Jeans
+                 
+                    see more Clothing »
+                 
+                   Electronics Categories
+                
+                    LCD TVs
+                 
+                    Camcorder
+                 
+                    iPads
+                 
+                    MP3 Players
+                 
+                    GPS
+                 
+                    Digital Cameras
+                 
+                    iPhones
+                 
+                    Home Audio
+                 
+                    Home Theater Systems
+                 
+                    Plasma TVs
+                 
+                    see more Electronics »
+                 
+                   Computers Categories
+                
+                    Networking
+                 
+                    Netbooks
+                 
+                    Tablet PCs
+                 
+                    Computer Storage
+                 
+                    Monitors
+                 
+                    Wireless Networking
+                 
+                    Operating Systems
+                 
+                    Routers
+                 
+                    Motherboards
+                 
+                    Computer Accessoreis
+                 
+                    see more Computers »
+                 ,
+                   Popular Categories
+                
+                    Tablets
+                 
+                    Skiing Equipment
+                 
+                    Snowboarding Equipment
+                 
+                    Playstation 3
+                 
+                    Xbox 360
+                 
+                    Women's Watches
+                 
+                    NFL Fan Gear
+                 
+                    NHL Fan Gear
+                 
+                    Holiday Decorations
+                 
+                    Fall Outerwear
+                 
+                    see all Categories »
+                 ,
+                   Popular Categories
+                ,
+                    Tablets
+                 
+                    Skiing Equipment
+                 
+                    Snowboarding Equipment
+                 
+                    Playstation 3
+                 
+                    Xbox 360
+                 
+                    Women's Watches
+                 
+                    NFL Fan Gear
+                 
+                    NHL Fan Gear
+                 
+                    Holiday Decorations
+                 
+                    Fall Outerwear
+                 ,
+                    Tablets
+                 ,
+                    Skiing Equipment
+                 ,
+                    Snowboarding Equipment
+                 ,
+                    Playstation 3
+                 ,
+                    Xbox 360
+                 ,
+                    Women's Watches
+                 ,
+                    NFL Fan Gear
+                 ,
+                    NHL Fan Gear
+                 ,
+                    Holiday Decorations
+                 ,
+                    Fall Outerwear
+                 ,
+                    see all Categories »
+                 ,
+                   Home &amp;amp; Garden Categories
+                
+                    Indoor Living
+                 
+                    Outdoor Living
+                 
+                    Bedroom Furniture
+                 
+                    Gardening &amp;amp; Nursery
+                 
+                    Home Décor
+                 
+                    Outdoor Furniture
+                 
+                    Dining Room Furniture
+                 
+                    BBQ &amp;amp; Patio
+                 
+                    Comforters
+                 
+                    Bedding
+                 
+                    see more Home &amp;amp; Garden »
+                 ,
+                   Home &amp;amp; Garden Categories
+                ,
+                    Indoor Living
+                 
+                    Outdoor Living
+                 
+                    Bedroom Furniture
+                 
+                    Gardening &amp;amp; Nursery
+                 
+                    Home Décor
+                 
+                    Outdoor Furniture
+                 
+                    Dining Room Furniture
+                 
+                    BBQ &amp;amp; Patio
+                 
+                    Comforters
+                 
+                    Bedding
+                 ,
+                    Indoor Living
+                 ,
+                    Outdoor Living
+                 ,
+                    Bedroom Furniture
+                 ,
+                    Gardening &amp;amp; Nursery
+                 ,
+                    Home Décor
+                 ,
+                    Outdoor Furniture
+                 ,
+                    Dining Room Furniture
+                 ,
+                    BBQ &amp;amp; Patio
+                 ,
+                    Comforters
+                 ,
+                    Bedding
+                 ,
+                    see more Home &amp;amp; Garden »
+                 ,
+                   Clothing Categories
+                
+                    Women's Dresses
+                 
+                    Women's Shoes
+                 
+                    Lingerie
+                 
+                    Men's Shoes
+                 
+                    Intimate Apparel
+                 
+                    Women's Shirts
+                 
+                    Women's Jeans
+                 
+                    Women's Swimwear
+                 
+                    Handbags
+                 
+                    Men's Jeans
+                 
+                    see more Clothing »
+                 ,
+                   Clothing Categories
+                ,
+                    Women's Dresses
+                 
+                    Women's Shoes
+                 
+                    Lingerie
+                 
+                    Men's Shoes
+                 
+                    Intimate Apparel
+                 
+                    Women's Shirts
+                 
+                    Women's Jeans
+                 
+                    Women's Swimwear
+                 
+                    Handbags
+                 
+                    Men's Jeans
+                 ,
+                    Women's Dresses
+                 ,
+                    Women's Shoes
+                 ,
+                    Lingerie
+                 ,
+                    Men's Shoes
+                 ,
+                    Intimate Apparel
+                 ,
+                    Women's Shirts
+                 ,
+                    Women's Jeans
+                 ,
+                    Women's Swimwear
+                 ,
+                    Handbags
+                 ,
+                    Men's Jeans
+                 ,
+                    see more Clothing »
+                 ,
+                   Electronics Categories
+                
+                    LCD TVs
+                 
+                    Camcorder
+                 
+                    iPads
+                 
+                    MP3 Players
+                 
+                    GPS
+                 
+                    Digital Cameras
+                 
+                    iPhones
+                 
+                    Home Audio
+                 
+                    Home Theater Systems
+                 
+                    Plasma TVs
+                 
+                    see more Electronics »
+                 ,
+                   Electronics Categories
+                ,
+                    LCD TVs
+                 
+                    Camcorder
+                 
+                    iPads
+                 
+                    MP3 Players
+                 
+                    GPS
+                 
+                    Digital Cameras
+                 
+                    iPhones
+                 
+                    Home Audio
+                 
+                    Home Theater Systems
+                 
+                    Plasma TVs
+                 ,
+                    LCD TVs
+                 ,
+                    Camcorder
+                 ,
+                    iPads
+                 ,
+                    MP3 Players
+                 ,
+                    GPS
+                 ,
+                    Digital Cameras
+                 ,
+                    iPhones
+                 ,
+                    Home Audio
+                 ,
+                    Home Theater Systems
+                 ,
+                    Plasma TVs
+                 ,
+                    see more Electronics »
+                 ,
+                   Computers Categories
+                
+                    Networking
+                 
+                    Netbooks
+                 
+                    Tablet PCs
+                 
+                    Computer Storage
+                 
+                    Monitors
+                 
+                    Wireless Networking
+                 
+                    Operating Systems
+                 
+                    Routers
+                 
+                    Motherboards
+                 
+                    Computer Accessoreis
+                 
+                    see more Computers »
+                 ,
+                   Computers Categories
+                ,
+                    Networking
+                 
+                    Netbooks
+                 
+                    Tablet PCs
+                 
+                    Computer Storage
+                 
+                    Monitors
+                 
+                    Wireless Networking
+                 
+                    Operating Systems
+                 
+                    Routers
+                 
+                    Motherboards
+                 
+                    Computer Accessoreis
+                 ,
+                    Networking
+                 ,
+                    Netbooks
+                 ,
+                    Tablet PCs
+                 ,
+                    Computer Storage
+                 ,
+                    Monitors
+                 ,
+                    Wireless Networking
+                 ,
+                    Operating Systems
+                 ,
+                    Routers
+                 ,
+                    Motherboards
+                 ,
+                    Computer Accessoreis
+                 ,
+                    see more Computers »
+                 "/>
+</Block>
+</Block>
+<Block Ref="Block1-2-3" internal_id='7' ID="860a394fc1529497d5c935db738655c2" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:1008.0 ObjectRectWidth:970.0 ObjectRectHeight:330.0" Doc="6">
+<Links ID="891575fbee926ab7c8f5232c1ddfa026" IDList="e2b57d1d62f974afa3919d09921e3f5b,d41d8cd98f00b204e9800998ecf8427e,7a1a0c2a4aed246b901e74973636036b,0bfc836f132072284831198ec8300fdb,06e7d443484c70f72a8028a5cd4c51a7,524cdd9ed64d68579c585cf4c52e14d5,bee785ed86276a2b84873c07e79f617b,c4b7552f13f6a87527eee19df73f53aa,afdf3bfb567ebc281c4d6eb62657d71e,30733159fc1ebb21559711c178738ed9">
+<link ID="e2b57d1d62f974afa3919d09921e3f5b" Name="AdChoices" Adr="http://clicks.beap.bc.yahoo.com/yc/YnY9MS4wLjAmYnM9KDE1aHJhZnBzbyhnaWQkTmZUWW0yS0ozMGthVFJxYlVLVTFGQUtLaE9QTVFGQ2xOUlFBRERIdyxzdCQxMzUzMDA0MzA4ODU1MDMxLHNpJDQ0NjYwNTEsc3AkMjI3MDgyMjgsY3IkMzAxNDYyMjU1MSx2JDIuMCxhaWQkVzhVMWVrd05QYXMtLGN0JDI1LHlieCRvcVdpbmsxUnFqWFAySDlQMHdTVmxnLGJpJDE1NDU3ODgwNTEsdyQwKSk/1/*http://info.yahoo.com/relevantads/"/><link ID="d41d8cd98f00b204e9800998ecf8427e" Name="" Adr=""/><link ID="7a1a0c2a4aed246b901e74973636036b" Name="Build your own online store" Adr="http://us.lrd.yahoo.com/_ylt=Ah5bZQTGkiKTisM__fE6WtAEgFoB/SIG=11tlbgkt4/EXP=1354213908/**http%3A//smallbusiness.yahoo.com/ecommerce/"/><link ID="0bfc836f132072284831198ec8300fdb" Name="Advertise with us" Adr="https://us.lrd.yahoo.com/_ylt=AoaIhhsToBe3FADCNW.sGrYEgFoB/SIG=12vlpol3u/EXP=1354213908/**https%3A//partner.pricegrabber.com/mss_main.php%3Fsec=6%26ccode=us%26rfid=a14"/><link ID="06e7d443484c70f72a8028a5cd4c51a7" Name="Sitemap" Adr="http://shopping.yahoo.com/browse/;_ylt=AhrOQDWOvykUqyRtYkif.OEEgFoB"/><link ID="524cdd9ed64d68579c585cf4c52e14d5" Name="All Brands" Adr="http://shopping.yahoo.com/brands/;_ylt=AoX_PRJPwjKYWlxvwBreXqAEgFoB"/><link ID="bee785ed86276a2b84873c07e79f617b" Name="Privacy Policy" Adr="http://global.ard.yahoo.com/SIG=15l4cs7ei/M=224039.2393041.14052065.2328457/D=shp/S=22708228:FOOT/_ylt=ArGEnLlTDDSh1JggYcK8bVcEgFoB/Y=YAHOO/EXP=1353011508/L=NfTYm2KJ30kaTRqbUKU1FAKKhOPMQFClNRQADDHw/B=jdpUT2KImkQ-/J=1353004308955820/K=PaSGLPycWq0YzqMdHsH6_g/A=6089929/R=0/*http://us.lrd.yahoo.com/_ylt=AvE8XGGaCKlYxq3m4Lsw5a5j8ksB;_ylu=X3oDMTBtZGNtcDM0BF9zAzk1ODgwMzgyBHNlYwNmb290ZXI-/SIG=1191j06fh/**http%3a//info.yahoo.com/privacy/us/yahoo/shopping/details.html"/><link ID="c4b7552f13f6a87527eee19df73f53aa" Name="About Our Ads" Adr="http://global.ard.yahoo.com/SIG=15l4cs7ei/M=224039.2393041.14052065.2328457/D=shp/S=22708228:FOOT/_ylt=ArGEnLlTDDSh1JggYcK8bVcEgFoB/Y=YAHOO/EXP=1353011508/L=NfTYm2KJ30kaTRqbUKU1FAKKhOPMQFClNRQADDHw/B=jdpUT2KImkQ-/J=1353004308955820/K=PaSGLPycWq0YzqMdHsH6_g/A=6089929/R=1/*http://info.yahoo.com/relevantads/"/><link ID="afdf3bfb567ebc281c4d6eb62657d71e" Name="Terms of Service" Adr="http://global.ard.yahoo.com/SIG=15l4cs7ei/M=224039.2393041.14052065.2328457/D=shp/S=22708228:FOOT/_ylt=ArGEnLlTDDSh1JggYcK8bVcEgFoB/Y=YAHOO/EXP=1353011508/L=NfTYm2KJ30kaTRqbUKU1FAKKhOPMQFClNRQADDHw/B=jdpUT2KImkQ-/J=1353004308955820/K=PaSGLPycWq0YzqMdHsH6_g/A=6089929/R=2/*http://us.lrd.yahoo.com/_ylt=AuLWSQOxqzgHIFzrqTtxLaRj8ksB;_ylu=X3oDMTBtODZ1ZDV0BF9zAzk1ODgwMzc2BHNlYwNmb290ZXI-/SIG=116tblcdi/**http%3a//docs.yahoo.com/info/terms/"/><link ID="30733159fc1ebb21559711c178738ed9" Name="Copyright/IP Policy" Adr="http://global.ard.yahoo.com/SIG=15l4cs7ei/M=224039.2393041.14052065.2328457/D=shp/S=22708228:FOOT/_ylt=ArGEnLlTDDSh1JggYcK8bVcEgFoB/Y=YAHOO/EXP=1353011508/L=NfTYm2KJ30kaTRqbUKU1FAKKhOPMQFClNRQADDHw/B=jdpUT2KImkQ-/J=1353004308955820/K=PaSGLPycWq0YzqMdHsH6_g/A=6089929/R=3/*http://us.lrd.yahoo.com/_ylt=AjHL8gQI0BgraG.Bh7xU0sFj8ksB;_ylu=X3oDMTBtOXJxcDQwBF9zAzk2MTAyMjAzBHNlYwNmb290ZXI-/SIG=11ob2usl9/**http%3a//docs.yahoo.com/info/copyright/copyright.html"/></Links>
+<Imgs ID="d41d8cd98f00b204e9800998ecf8427e" IDList="">
+</Imgs>
+<Txts ID="a6340c77458405a5539d23d7b14b02e5" Txt="
+                   AdChoices
+                
+                All departments
+             
+                Appliances
+             
+                Auto Parts
+             
+                Babies &amp;amp; Kids
+             
+                Books
+             
+                Cameras
+             
+                Clothing
+             
+                Computers
+             
+                Electronics
+             
+                Flowers &amp;amp; Gifts
+             
+                Furniture
+             
+                Grocery &amp;amp; Gourmet
+             
+                Health &amp;amp; Beauty
+             
+                Indoor Living
+             
+                Industrial Supply
+             
+                Jewelry &amp;amp; Watches
+             
+                Magazines
+             
+                Movies
+             
+                Music
+             
+                Musical Instruments
+             
+                Office
+             
+                Outdoor Living
+             
+                Software
+             
+                Sporting Goods
+             
+                Toys
+             
+                Video Games
+             
+            Find, Compare, Read Reviews &amp;amp; Buy Online @ Yahoo! Shopping - Online Shopping with great products, prices and reviews  •  Want to see your products in Yahoo! Shopping?
+          
+             Build your own online store
+          
+            or
+          
+             Advertise with us
+          
+            .   •
+          
+             Sitemap
+          
+            •
+          
+             All Brands
+          
+           Copyright © 2012  Yahoo! Inc. All Rights Reserved.
+         
+            Privacy Policy
+         
+           -
+         
+            About Our Ads
+         
+           -
+         
+            Terms of Service
+         
+           -
+         
+            Copyright/IP Policy
+         
+           .
+           
+           
+           
+           
+         
+            Information about prices, products, services and merchants is provided by third parties and is for informational purposes only. Yahoo! does not represent or warrant the accuracy or reliability of the information, and will not be liable for any errors, omissions, or delays in this information or any losses, injuries, or damages arising from its display or use.
+         ,
+                   AdChoices
+                ,
+                All departments
+             
+                Appliances
+             
+                Auto Parts
+             
+                Babies &amp;amp; Kids
+             
+                Books
+             
+                Cameras
+             
+                Clothing
+             
+                Computers
+             
+                Electronics
+             
+                Flowers &amp;amp; Gifts
+             
+                Furniture
+             
+                Grocery &amp;amp; Gourmet
+             
+                Health &amp;amp; Beauty
+             
+                Indoor Living
+             
+                Industrial Supply
+             
+                Jewelry &amp;amp; Watches
+             
+                Magazines
+             
+                Movies
+             
+                Music
+             
+                Musical Instruments
+             
+                Office
+             
+                Outdoor Living
+             
+                Software
+             
+                Sporting Goods
+             
+                Toys
+             
+                Video Games
+             ,
+                All departments
+             ,
+                Appliances
+             ,
+                Auto Parts
+             ,
+                Babies &amp;amp; Kids
+             ,
+                Books
+             ,
+                Cameras
+             ,
+                Clothing
+             ,
+                Computers
+             ,
+                Electronics
+             ,
+                Flowers &amp;amp; Gifts
+             ,
+                Furniture
+             ,
+                Grocery &amp;amp; Gourmet
+             ,
+                Health &amp;amp; Beauty
+             ,
+                Indoor Living
+             ,
+                Industrial Supply
+             ,
+                Jewelry &amp;amp; Watches
+             ,
+                Magazines
+             ,
+                Movies
+             ,
+                Music
+             ,
+                Musical Instruments
+             ,
+                Office
+             ,
+                Outdoor Living
+             ,
+                Software
+             ,
+                Sporting Goods
+             ,
+                Toys
+             ,
+                Video Games
+             ,
+            Find, Compare, Read Reviews &amp;amp; Buy Online @ Yahoo! Shopping - Online Shopping with great products, prices and reviews  •  Want to see your products in Yahoo! Shopping?
+          
+             Build your own online store
+          
+            or
+          
+             Advertise with us
+          
+            .   •
+          
+             Sitemap
+          
+            •
+          
+             All Brands
+          
+           Copyright © 2012  Yahoo! Inc. All Rights Reserved.
+         
+            Privacy Policy
+         
+           -
+         
+            About Our Ads
+         
+           -
+         
+            Terms of Service
+         
+           -
+         
+            Copyright/IP Policy
+         
+           .
+           
+           
+           
+           
+         
+            Information about prices, products, services and merchants is provided by third parties and is for informational purposes only. Yahoo! does not represent or warrant the accuracy or reliability of the information, and will not be liable for any errors, omissions, or delays in this information or any losses, injuries, or damages arising from its display or use.
+         ,
+            Find, Compare, Read Reviews &amp;amp; Buy Online @ Yahoo! Shopping - Online Shopping with great products, prices and reviews  •  Want to see your products in Yahoo! Shopping?
+          
+             Build your own online store
+          
+            or
+          
+             Advertise with us
+          
+            .   •
+          
+             Sitemap
+          
+            •
+          
+             All Brands
+          ,
+            Find, Compare, Read Reviews &amp;amp; Buy Online @ Yahoo! Shopping - Online Shopping with great products, prices and reviews  •  Want to see your products in Yahoo! Shopping?
+          ,
+             Build your own online store
+          ,
+            or
+          ,
+             Advertise with us
+          ,
+            .   •
+          ,
+             Sitemap
+          ,
+            •
+          ,
+             All Brands
+          ,
+           Copyright © 2012  Yahoo! Inc. All Rights Reserved.
+         ,
+            Privacy Policy
+         ,
+           -
+         ,
+            About Our Ads
+         ,
+            Terms of Service
+         ,
+            Copyright/IP Policy
+         ,
+           .
+           
+           
+           
+           
+         ,
+            Information about prices, products, services and merchants is provided by third parties and is for informational purposes only. Yahoo! does not represent or warrant the accuracy or reliability of the information, and will not be liable for any errors, omissions, or delays in this information or any losses, injuries, or damages arising from its display or use.
+         "/>
+</Block>
+</Block>
+<Block Ref="Block1-3" internal_id='8' ID="06723308ad21847d24b1e25c05baed89" Pos="WindowWidth||PageRectLeft:469.0 WindowHeight||PageRectTop:224.0 ObjectRectWidth:200.0 ObjectRectHeight:204.0" Doc="8">
+<Links ID="d41d8cd98f00b204e9800998ecf8427e" IDList="">
+</Links>
+<Imgs ID="d41d8cd98f00b204e9800998ecf8427e" IDList="">
+</Imgs>
+<Txts ID="d41d8cd98f00b204e9800998ecf8427e" Txt=""/>
+</Block>
+</Block>
+</Document>
+</XML>
