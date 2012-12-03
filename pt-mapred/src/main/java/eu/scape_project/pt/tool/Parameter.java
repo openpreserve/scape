@@ -14,12 +14,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for Input complex type.
+ * <p>Java class for Parameter complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Input">
+ * &lt;complexType name="Parameter">
  *   &lt;complexContent>
  *     &lt;extension base="{http://scape-project.eu/tool}InOutAttrs">
  *       &lt;sequence>
@@ -33,10 +33,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Input", propOrder = {
+@XmlType(name = "Parameter", propOrder = {
     "defaultValue"
 })
-public class Input
+public class Parameter
     extends InOutAttrs
 {
 

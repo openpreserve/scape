@@ -18,6 +18,7 @@ package eu.scape_project.pt.proc;
 import eu.scape_project.pt.pit.ToolRepository;
 import eu.scape_project.pt.pit.invoke.CommandNotFoundException;
 import eu.scape_project.pt.pit.invoke.Out;
+import eu.scape_project.pt.pit.invoke.Stream;
 import eu.scape_project.pt.pit.invoke.ToolInvoker;
 import eu.scape_project.pt.tool.Input;
 import eu.scape_project.pt.tool.Inputs;
@@ -41,57 +42,54 @@ import org.apache.hadoop.fs.Path;
 
 /**
  * Creates processes for a Tool.
- * 
+ *
  * @author Matthias Rella [my_rho]
  */
 public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
 
-	private static Log LOG = LogFactory.getLog(ToolProcessor.class);
-
+    private static Log LOG = LogFactory.getLog(ToolProcessor.class);
     /**
      * Name of the Operation of a Tool to use.
      */
     private String strOperation;
     private Operation operation;
-
     /**
      * Name of the Tool to use.
      */
     private String strTool;
     private Tool tool;
-
     /**
      * In this Processor context is used as the Processor input parameters set.
      */
-    private HashMap<String, String> context;
-
+    private HashMap<String, Stream> context;
     private String strRepo;
     private ToolRepository repo;
-
     private InputStream stdin;
     private OutputStream stdout;
 
     /**
      * Sets toolstring and actionstring.
-     * 
+     *
      * @param strTool
      * @param strAction
      */
-    public ToolProcessor( String strTool, String strOperation, String strRepo ) {
+    public ToolProcessor(String strTool, String strOperation, String strRepo) {
         this.strTool = strTool;
         this.strOperation = strOperation;
         this.strRepo = strRepo;
 
-        Path fRepo = new Path( strRepo );
+        Path fRepo = new Path(strRepo);
         FileSystem fs;
         try {
-            fs = FileSystem.get( new Configuration() );
+            fs = FileSystem.get(new Configuration());
             this.repo = new ToolRepository(fs, fRepo);
             this.tool = repo.getTool(strTool);
             Operations operations = this.tool.getOperations();
-            for( Operation operation: operations.getOperation() )
-                if( operation.getName().equals(strOperation))
+            for (Operation operation : operations.getOperation()) {
+                if (operation.getName().equals(strOperation)) {
                     this.operation = operation;
+                }
+            }
 
         } catch (IOException ex) {
             Logger.getLogger(ToolProcessor.class.getName()).log(Level.SEVERE, null, ex);
@@ -100,23 +98,27 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
 
     @Override
     public int execute() throws Exception {
-        LOG.debug("execute");
+        // FIXME update this processor to use Stream class!
+        throw new Exception("update ToolProcessor to use Stream class");
 
-        // get default values for input parameters
-		HashMap<String, String> inputs = getDefaults();
-
-        // replace default values by given parameters in the context
-        if( this.context != null )
-            inputs.putAll(this.context);
-		
-		for( String key : inputs.keySet() ) {
-			LOG.debug("Key: "+key+" = "+inputs.get(key));
-		}
-		
-        ToolInvoker invoker = new ToolInvoker();
-
-		// Now invoke the command:
-		return invoker.runCommand(this.operation.getCommand(), inputs, null, this.stdout);
+        /*
+         * LOG.debug("execute");          *
+         * // get default values for input parameters HashMap<String, String>
+         * inputs = getDefaults();
+         *
+         * // replace default values by given parameters in the context if(
+         * this.context != null ) inputs.putAll(this.context);
+         *
+         * for( String key : inputs.keySet() ) { LOG.debug("Key: "+key+" =
+         * "+inputs.get(key)); }
+         *
+         * ToolInvoker invoker = new ToolInvoker();
+         *
+         * // Now invoke the command: return
+         * invoker.runCommand(this.operation.getCommand(), inputs, null,
+         * this.stdout);
+         *
+         */
     }
 
     @Override
@@ -124,7 +126,7 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
     }
 
     @Override
-    public void setContext(HashMap<String, String> hashMap) {
+    public void setContext(HashMap<String, Stream> hashMap) {
         this.context = hashMap;
     }
 
@@ -137,33 +139,34 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
     public HashMap<String, ParamSpec> getParameters() {
         HashMap<String, ParamSpec> parameters = new HashMap<String, ParamSpec>();
 
-        if( operation.getInputs() != null )
-            for( Input input : operation.getInputs().getInput() ) { 
+        if (operation.getInputs() != null) {
+            for (Input input : operation.getInputs().getInput()) {
                 ParamSpec param = new ParamSpec();
                 param.setDirection(ParamSpec.Direction.IN);
                 param.setRequired(input.isRequired());
-                parameters.put( input.getName(), param );
+                parameters.put(input.getName(), param);
             }
+        }
 
-        if( operation.getOutputs() != null )
-            for( Output output : operation.getOutputs().getOutput() ) { 
+        if (operation.getOutputs() != null) {
+            for (Output output : operation.getOutputs().getOutput()) {
                 ParamSpec param = new ParamSpec();
                 param.setDirection(ParamSpec.Direction.OUT);
                 param.setRequired(output.isRequired());
-                parameters.put( output.getName(), param );
+                parameters.put(output.getName(), param);
             }
+        }
 
         return parameters;
     }
 
     private HashMap<String, String> getDefaults() {
-		HashMap<String,String> defaults = new HashMap<String,String>();
-		if( operation.getInputs() != null ) {
-			for( Input input : operation.getInputs().getInput() ) {
-				defaults.put(input.getName(), input.getDefaultValue());
-			}
-		}
-		return defaults;
+        HashMap<String, String> defaults = new HashMap<String, String>();
+        if (operation.getInputs() != null) {
+            for (Input input : operation.getInputs().getInput()) {
+                defaults.put(input.getName(), input.getDefaultValue());
+            }
+        }
+        return defaults;
     }
-    
 }

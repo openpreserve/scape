@@ -28,7 +28,7 @@ import org.apache.hadoop.fs.Path;
  * Manages toolspecs for a given physical location, eg. a directory.
  * @author Matthias Rella [my_rho]
  */
-public class ToolRepository {
+public class ToolRepository implements Repository{
 
 	private static Log LOG = LogFactory.getLog(ToolRepository.class);
     private final Path repo_dir;

@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import eu.scape_project.pt.pit.ToolSpec;
+import eu.scape_project.pt.pit.invoke.Stream;
 import eu.scape_project.pt.pit.invoke.ToolInvoker;
 import eu.scape_project.pt.util.ParamSpec;
 
@@ -36,7 +37,7 @@ public class TaskProcessor implements Processor {
 	}
 
     @Override
-    public void setContext(HashMap<String, String> hashMap) {
+    public void setContext(HashMap<String, Stream> hashMap) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
