@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>eu.scape_project.core</groupId>
+	<groupId>eu.scape_project.tool</groupId>
 	<artifactId>toolwrapper</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SCAPE ToolWrapper</name>
@@ -14,10 +14,10 @@
 	<packaging>pom</packaging>
 	
 	<modules>
-		<module>toolwrapper_bash</module>
-		<module>toolwrapper_core</module>
-		<module>toolwrapper_data</module>
-		<!--<module>toolwrapper_rest</module>-->
+		<module>bash-generator</module>
+		<module>core</module>
+		<module>data</module>
+		<!--<module>rest-generator</module>-->
 	</modules>
 
 	<build>

@@ -1,0 +1,7 @@
+Format: http://dep.debian.net/deps/dep5
+Upstream-Name: $wrapperName
+Source: $toolHomepage
+
+Files: *
+Copyright: 2012 SCAPE project <http://www.scape-project.eu/>
+License: Apache-2.0

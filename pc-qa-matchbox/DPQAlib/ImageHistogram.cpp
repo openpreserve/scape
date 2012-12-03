@@ -69,7 +69,7 @@ void ImageHistogram::execute(Mat& image)
 
 		bins.push_back(hist);
 
-		// claculate entropy
+		// calculate entropy
 		double sumIntermediate = 0;
 
 		for( int e = 0; e < binSize; e++ )
@@ -81,7 +81,6 @@ void ImageHistogram::execute(Mat& image)
 				sumIntermediate += (p_ai * (log10(p_ai)/log10((double)2)));
 			}
 		}
-
 
 		sumIntermediate = -(sumIntermediate);
 

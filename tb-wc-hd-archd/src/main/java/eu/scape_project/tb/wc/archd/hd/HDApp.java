@@ -81,7 +81,10 @@ public class HDApp extends Configured implements Tool {
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         job.setJarByClass(App.class);
-        job.setJobName("HADOOP ARC reader test application");
+        
+        //*** Allow setting jobName from command line. (-D mapred.job.name='Override the JobName')
+        String myJobName = job.getJobName(); // check if the JobName has been set from outside
+        if(myJobName.equals("")) job.setJobName("HADOOP ARC reader test application"); // only set if it has not been set from the command line (avoids override)
 
         //*** Set interface data types
         // We are using LONG because this value can become very large on huge archives.

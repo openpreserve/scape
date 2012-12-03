@@ -132,7 +132,7 @@ if(EXISTS "${OpenCV_DIR}")
     endif(NOT EXISTS ${VERSION_FILE_DIR})
 
     if(${OpenCV_VERSION} VERSION_GREATER 2.1.0)
-      set(OPENCV_LIB_COMPONENTS calib3d contrib core features2d flann gpu highgui imgproc legacy ml objdetect video)
+      set(OPENCV_LIB_COMPONENTS contrib core features2d flann gpu highgui imgproc legacy ml objdetect nonfree)
 
       #Add parent directory of ${OpenCV_INCLUDE_DIR} to ${OpenCV_INCLUDE_DIR} itself
       #to be able to do both

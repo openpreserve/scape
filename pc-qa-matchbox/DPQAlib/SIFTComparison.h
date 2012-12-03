@@ -19,6 +19,8 @@
 
 #include "CLAHE.h"
 
+#include <algorithm>
+
 #define _USE_MATH_DEFINES
 
 
@@ -36,6 +38,8 @@ private:
 	vector<KeyPoint> keypoints;
 	double           scale;
 	double           dispersion;
+	double           uniformity;
+	double           sizeVariation;
 
 	// commandline arguments
 	int              sdk;
@@ -44,9 +48,14 @@ private:
 
 	vector<DMatch>   calcGoodMatches(vector<DMatch>& matches);
 	Mat              calcAffineTransform(vector<DMatch>& matches, vector<KeyPoint>& keypointsTrain, vector<KeyPoint>& keypointsQuery, double scale2);
-	Mat              downsample(Mat& matImg);
-	vector<KeyPoint> findSpatiallyDistinctiveLocalKeypoints(Mat& image, vector<KeyPoint>& keypoints);
+	Mat              downsample(Mat& matImg);	
 	double           calcDispersion(vector<KeyPoint>& keypoints, Mat& image);
+	double			 calcUniformity(vector<KeyPoint>& keypoints);
+	double           calcSizeVariation(vector<KeyPoint>& keypoints);
+
+	vector<int>      findSpatiallyDistinctiveLocalKeypoints(Mat& image, vector<KeyPoint>& keypoints);
+	vector<KeyPoint> filterKeypoints(vector<KeyPoint>& origKeypoints, vector<int>& indeces);
+	Mat              filterDescriptors(Mat& origDescriptors, vector<int>& indeces);
 
 protected:
 	using Feature::name;
@@ -74,4 +83,5 @@ public:
 	Mat              getDescriptors(void);
 	vector<KeyPoint> getKeypoints(void);
 	double           getScale(void);
+	void normalizeDescriptors( Mat& descriptors );
 };

@@ -180,8 +180,8 @@ void drawBowDescriptors( vector<string> dirNames, Mat vocab )
 	Mat response_hist = Mat( 1, vocab.rows, CV_32FC1, Scalar::all(0.0) );
 	int descCount = 0;
 
-	vector<list<KeyPoint>> bowDist(vocab.rows);
-	vector<map<string,int>> bowExamples(vocab.rows);
+	vector< list<KeyPoint> > bowDist(vocab.rows);
+	vector< map<string,int> > bowExamples(vocab.rows);
 	int maxWidth = 0;
 	int maxHeight = 0;
 
@@ -200,7 +200,7 @@ void drawBowDescriptors( vector<string> dirNames, Mat vocab )
 		int numFiles = files.size();
 		int i = 1;
 
-		sumMat = Mat::zeros(files.size(), vocab.rows, CV_16U);
+		sumMat = Mat::zeros(files.size(), vocab.rows, CV_32S);
 		int fileID = 0;
 
 		
@@ -259,7 +259,7 @@ void drawBowDescriptors( vector<string> dirNames, Mat vocab )
 						dptr[bowIdx] = dptr[bowIdx] + 1.f;
 						bowDist[bowIdx].push_back(sComp->getKeypoints().at(trainIdx));
 
-						sumMat.at<UINT16>(fileID,bowIdx)++;
+						sumMat.at<int>(fileID,bowIdx)++;
 
 						map<string,int>::iterator m_it = bowExamples[bowIdx].find(filename);
 						if (m_it != bowExamples[bowIdx].end())
@@ -310,6 +310,11 @@ void drawBowDescriptors( vector<string> dirNames, Mat vocab )
 		{
 			string filename = *it2;
 
+			if (filename.find("+Z136436004_31525197396361129-76_v1_S70") == -1)
+			{
+				continue;
+			}
+			
 			VerboseOutput::println("train", "[%i of %i in directory '%s']", i++, numFiles, dirName.c_str());
 			stringstream ssStream;
 			ssStream << dirName << "/" << filename;

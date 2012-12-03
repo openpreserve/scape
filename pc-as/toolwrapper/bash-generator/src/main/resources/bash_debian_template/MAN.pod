@@ -1,0 +1,26 @@
+=head1 NAME
+
+$wrapperName - $toolDescription 
+
+=head1 SYNOPSIS
+
+$wrapperName $usageInputParameter $usageParamParameter $usageOutputParameter
+
+=head1 DESCRIPTION
+
+$toolDescription
+
+=head1 OPTIONS
+
+$usageInputParameterDescriptionForMan
+
+$usageParamParameterDescriptionForMan
+
+$usageOutputParameterDescriptionForMan
+
+=head1 AUTHORS
+
+B<$wrapperName> was written by SCAPE project consortium.
+
+This manual page was written by SCAPE project <$maintainerEmail>.
+=cut
