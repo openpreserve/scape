@@ -5,6 +5,7 @@ const string SIFTComparison::TASK_NAME = "SIFTComparison";
 TCLAP::ValueArg<int> argSDK       ("","sdk"  ,      "[SIFTComparison] Number of Spatial Distinctive Keypoints (0 = no SDK)",                   false,0 ,"int");
 TCLAP::ValueArg<int> argCLAHE     ("","clahe",      "[SIFTComparison] Value of adaptive contrast enhancement (1 = no enhancement)",            false,1 ,"int");
 TCLAP::ValueArg<int> argPRECLUSTER("","precluster", "[SIFTComparison] Number of descriptors to select in preclustering (0 = no preclustering)",false,0 ,"int");
+TCLAP::ValueArg<int> argDOWNSAMPLE("","downsample", "[SIFTComparison] Sample the image down to this resolution"                               ,false,1000000 ,"int");
 
 SIFTComparison::SIFTComparison(void):Level3Feature()
 {
@@ -18,6 +19,7 @@ SIFTComparison::SIFTComparison(void):Level3Feature()
 	addCharacterizationCommandlineArgument(&argSDK);
 	addCharacterizationCommandlineArgument(&argCLAHE);
 	addCharacterizationCommandlineArgument(&argPRECLUSTER);
+	addCharacterizationCommandlineArgument(&argDOWNSAMPLE);
 
 	addComparisonCommandlineArgument(&argSDK);
 }
@@ -115,7 +117,7 @@ void SIFTComparison::execute(Mat& img)
 	image = img.clone();
 
 	// too big images may fail to be processed due to resource limitations (e.g. internal memory)
-	if ((img.rows * img.cols) > MAX_IMAGE_RESOLUTION)
+	if ((img.rows * img.cols) > maxResolution)
 	{
 		// downsample image to approx. MAX_IMAGE_RESOLUTION
 		Feature::verbosePrintln(string("downsampling image"));
@@ -135,8 +137,6 @@ void SIFTComparison::execute(Mat& img)
 		IplImage ipl_dest = dest;
 
 		cvCLAdaptEqualize(&ipl_src, &ipl_dest,16,16,256,clahe, CV_CLAHE_RANGE_FULL);
-
-		//Feature::verbosePrintln(string("CLAHE done 1"));
 
 		Mat imgMat(&ipl_dest);
 		image = imgMat;
@@ -376,7 +376,7 @@ Mat SIFTComparison::downsample(Mat& matImg)
 	try
 	{
 		// calculate scaling factor
-		scale = 1/sqrt((double)((matImg.rows * matImg.cols) / MAX_IMAGE_RESOLUTION));
+		scale = 1/sqrt((double)((matImg.rows * matImg.cols) / maxResolution));
 		resize(matImg,orImg, Size(), scale, scale,INTER_LINEAR);
 	}
 	catch(Exception& e)
@@ -461,9 +461,10 @@ void SIFTComparison::setCmdlineArguments(list<string> *args)
 
 void SIFTComparison::parseCommandlineArguments()
 {
-	sdk        = argSDK.getValue();
-	clahe      = argCLAHE.getValue();
+	sdk               = argSDK.getValue();
+	clahe             = argCLAHE.getValue();
 	numClusterCenters = argPRECLUSTER.getValue();
+	maxResolution     = argDOWNSAMPLE.getValue();
 }
 
 Mat& SIFTComparison::getImage(void)

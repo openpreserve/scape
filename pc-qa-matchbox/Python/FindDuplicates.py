@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
 # ======================================================== #
 # Module  : FindDuplicates                                 #
@@ -73,6 +74,7 @@ if __name__ == '__main__':
     parser.add_argument('--config',     help='Configuration Parameter',                                     type=str, default="Linux")
     parser.add_argument('--featdir',    help='Alternative directory for storing feature files',             type=str, default="")
     parser.add_argument('--bowsize',    help='Size of Bag of Words',                                        type=int, default=1000)
+    parser.add_argument('--downsample', help='Downsample to a certain number of pixels',                    type=int, default=1000000)
     parser.add_argument('--csv',        help='Update Feature',                                              action='store_true')
     #
     parser.add_argument('-v',           help="Print verbose messages",                                      dest='verbose', action='store_true')
@@ -110,7 +112,7 @@ if __name__ == '__main__':
         
         print "\n=== extracting features from directory {0} ===\n".format(args['dir'])
         
-        MatchboxLib.extractFeatures(config, args['dir'], args['sdk'],args['threads'], args['clahe'], args['featdir'], "SIFTComparison")
+        MatchboxLib.extractFeatures(config, args['dir'], args['sdk'],args['threads'], args['clahe'], args['featdir'], "SIFTComparison",args['downsample'])
     
     # ===============================================================================
     # action: train

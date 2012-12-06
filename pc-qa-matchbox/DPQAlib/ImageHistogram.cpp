@@ -69,34 +69,34 @@ void ImageHistogram::execute(Mat& image)
 
 		bins.push_back(hist);
 
-		// calculate entropy
-		double sumIntermediate = 0;
+		//// calculate entropy
+		//double sumIntermediate = 0;
 
-		for( int e = 0; e < binSize; e++ )
-		{
-			double p_ai = hist.at<double>(e);
-			
-			if (p_ai > 0)
-			{
-				sumIntermediate += (p_ai * (log10(p_ai)/log10((double)2)));
-			}
-		}
+		//for( int e = 0; e < binSize; e++ )
+		//{
+		//	double p_ai = hist.at<double>(e);
+		//	
+		//	if (p_ai > 0)
+		//	{
+		//		sumIntermediate += (p_ai * (log10(p_ai)/log10((double)2)));
+		//	}
+		//}
 
-		sumIntermediate = -(sumIntermediate);
+		//sumIntermediate = -(sumIntermediate);
 
-		if (sumIntermediate > entropy)
-		{
-			entropy = sumIntermediate;
-		}
+		//if (sumIntermediate > entropy)
+		//{
+		//	entropy = sumIntermediate;
+		//}
 
-		Mat meanVal;
-		Mat stdevVal;
+		//Mat meanVal;
+		//Mat stdevVal;
 
-		meanStdDev(hist,meanVal,stdevVal);
-		variance += stdevVal.at<double>(0) * stdevVal.at<double>(0);
+		//meanStdDev(hist,meanVal,stdevVal);
+		//variance += stdevVal.at<double>(0) * stdevVal.at<double>(0);
 	}
 
-	variance = variance / 3;
+	//variance = variance / 3;
 }
 
 void ImageHistogram::compare(Feature *task)
@@ -165,8 +165,8 @@ void ImageHistogram::writeOutput(FileStorage& fs)
 		fs << ssStream.str().c_str() << m1;
 	}
 
-	fs << "entropy"  << entropy;
-	fs << "variance" << variance;
+	//fs << "entropy"  << entropy;
+	//fs << "variance" << variance;
 
 	fs << "}";
 }
