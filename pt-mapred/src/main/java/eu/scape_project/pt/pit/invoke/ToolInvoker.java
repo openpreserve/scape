@@ -9,7 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.io.IOUtils;
 
 /*
@@ -120,10 +120,10 @@ public class ToolInvoker {
      * Replaces input parameters in the given command and executes it locally. 
      * 
      * @param cmd String of command path with variables like ${"key"}
-     * @param inputs HashMap of input parameters (keys and values)
+     * @param inputs Map of input parameters (keys and values)
      * @throws IOException 
      */
-    public int runCommand( String cmd, HashMap<String, String> inputs ) throws IOException {
+    public int runCommand( String cmd, Map<String, String> inputs ) throws IOException {
         return runCommand( cmd, inputs, null, null );
     }
 
@@ -132,12 +132,12 @@ public class ToolInvoker {
      * Passes in Inputstream stdin and writes command's standard output to stdout.
      * 
      * @param cmd String of command path with variables like ${"key"}
-     * @param inputs HashMap of input parameters (keys and values)
+     * @param inputs Map of input parameters (keys and values)
      * @param stdin InputStream to read command's standard input from
      * @param stdout OutputStream to write command's standard output to
      * @throws IOException 
      */
-	public int runCommand( String cmd, HashMap<String, String> inputs, InputStream stdin, OutputStream stdout ) throws IOException {
+	public int runCommand( String cmd, Map<String, String> inputs, InputStream stdin, OutputStream stdout ) throws IOException {
 
 		// Build the command:
         String[] cmd_template = cmd.split(" ");
@@ -191,7 +191,7 @@ public class ToolInvoker {
      * @param cmd_template
      * @param inputs 
      */
-	protected void replaceAll(String[] cmd_template, HashMap<String,String> inputs) {
+	protected void replaceAll(String[] cmd_template, Map<String,String> inputs) {
 		for( int i = 0; i < cmd_template.length; i++ ) {
 			for( String key : inputs.keySet() ) {
 				// Something is inserting a null,null pair into the map - ignoring it here:
