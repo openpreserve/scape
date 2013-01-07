@@ -3,7 +3,7 @@ package eu.scape_project.pt.proc;
 import eu.scape_project.pt.pit.invoke.Stream;
 import eu.scape_project.pt.util.ParamSpec;
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.Map;
 
 public interface Processor {
 
@@ -12,16 +12,16 @@ public interface Processor {
 	
 	public void initialize();
 
-    public void setContext( HashMap<String, Stream> hashMap);
+    public void setContext( Map<String, Stream> streamMap);
 
     public void setStdout( OutputStream out );
 
     /**
      * Get input parameters to the processor.
      * 
-     * TODO use a Inputs Object instead of HashMap
+     * TODO use a Inputs Object instead of Map
      * @return 
      */
-    public HashMap<String, ParamSpec> getParameters();
+    public Map<String, ParamSpec> getParameters();
 	
 }

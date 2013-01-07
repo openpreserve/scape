@@ -1,39 +1,18 @@
-/*
- * Copyright 2012 ait.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package eu.scape_project.pt.proc;
 
 import eu.scape_project.pt.pit.ToolRepository;
-import eu.scape_project.pt.pit.invoke.CommandNotFoundException;
-import eu.scape_project.pt.pit.invoke.Out;
 import eu.scape_project.pt.pit.invoke.Stream;
-import eu.scape_project.pt.pit.invoke.ToolInvoker;
 import eu.scape_project.pt.tool.Input;
-import eu.scape_project.pt.tool.Inputs;
 import eu.scape_project.pt.tool.Operation;
 import eu.scape_project.pt.tool.Operations;
 import eu.scape_project.pt.tool.Output;
 import eu.scape_project.pt.tool.Tool;
 import eu.scape_project.pt.util.ParamSpec;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -61,17 +40,21 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
     /**
      * In this Processor context is used as the Processor input parameters set.
      */
-    private HashMap<String, Stream> context;
+    private Map<String, Stream> context;
     private String strRepo;
     private ToolRepository repo;
     private InputStream stdin;
     private OutputStream stdout;
 
     /**
-     * Sets toolstring and actionstring.
+     * Constructs the processor with a toolspec name, an action name of the
+     * toolspec and a location of the repository. 
+     * 
+     * Creates the Toolspec, Operation and Repository instances.
      *
      * @param strTool
      * @param strAction
+     * @param strRepo
      */
     public ToolProcessor(String strTool, String strOperation, String strRepo) {
         this.strTool = strTool;
@@ -92,7 +75,7 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
             }
 
         } catch (IOException ex) {
-            Logger.getLogger(ToolProcessor.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex.getMessage());
         }
     }
 
@@ -103,7 +86,7 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
 
         /*
          * LOG.debug("execute");          *
-         * // get default values for input parameters HashMap<String, String>
+         * // get default values for input parameters Map<String, String>
          * inputs = getDefaults();
          *
          * // replace default values by given parameters in the context if(
@@ -126,8 +109,8 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
     }
 
     @Override
-    public void setContext(HashMap<String, Stream> hashMap) {
-        this.context = hashMap;
+    public void setContext(Map<String, Stream> streamMap) {
+        this.context = streamMap;
     }
 
     @Override
@@ -136,8 +119,8 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
     }
 
     @Override
-    public HashMap<String, ParamSpec> getParameters() {
-        HashMap<String, ParamSpec> parameters = new HashMap<String, ParamSpec>();
+    public Map<String, ParamSpec> getParameters() {
+        Map<String, ParamSpec> parameters = new HashMap<String, ParamSpec>();
 
         if (operation.getInputs() != null) {
             for (Input input : operation.getInputs().getInput()) {
@@ -160,8 +143,8 @@ public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
         return parameters;
     }
 
-    private HashMap<String, String> getDefaults() {
-        HashMap<String, String> defaults = new HashMap<String, String>();
+    private Map<String, String> getDefaults() {
+        Map<String, String> defaults = new HashMap<String, String>();
         if (operation.getInputs() != null) {
             for (Input input : operation.getInputs().getInput()) {
                 defaults.put(input.getName(), input.getDefaultValue());
