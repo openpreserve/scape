@@ -82,8 +82,8 @@ This example, even if simplified for presentation purpose, demonstrates how one 
 
 Execute the following on the command-line ($SCAPE\_GITHUB\_FOLDER denotes the path to the folder where the scape repository was cloned):
 
-`$> cd $SCAPE_GITHUB_FOLDER/pc-as/toolwrapper/
-$> mvn package`
+	$> cd $SCAPE_GITHUB_FOLDER/pc-as/toolwrapper/
+	$> mvn package
 
 ### Different Debian package generation scenarios                                                                                                                                                             
 
