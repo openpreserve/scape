@@ -1,18 +1,4 @@
-package eu.scape_project.tool.toolwrapper;
-
-import java.io.PrintWriter;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.PosixParser;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-
-import eu.scape_project.tool.data.Tool;
-import eu.scape_project.tool.data.utils.Utils;
-
-/*
+/**
  ################################################################################
  #                  Copyright 2012 The SCAPE Project Consortium
  #
@@ -33,37 +19,53 @@ import eu.scape_project.tool.data.utils.Utils;
  #   limitations under the License.
  ################################################################################
  */
+package eu.scape_project.tool.toolwrapper;
+
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.PosixParser;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.log4j.Logger;
+
+import eu.scape_project.tool.data.Tool;
+import eu.scape_project.tool.data.utils.Utils;
+import eu.scape_project.tool.toolwrapper.configuration.Constants;
 
 public abstract class ToolWrapperCommandline {
-	private static final String SCAPE_COPYRIGHT_STATEMENT = "\nThis software is copyrighted by the SCAPE Project Consortium.\nThe SCAPE project is co-funded by the European Union under\nFP7 ICT-2009.4.1 (Grant Agreement number 270137).";
 	private Options options;
+	private static Logger log = Logger.getLogger(ToolWrapperCommandline.class);
 
 	public ToolWrapperCommandline() {
+		Option opt;
 		options = new Options();
-		options.addOption("t", "toolspec", true, "toolspec file location");
-		options.addOption("o", "outDir", true,
+		opt = new Option("t", "toolspec", true, "toolspec file location");
+		opt.setRequired(true);
+		options.addOption(opt);
+		opt = new Option("o", "outDir", true,
 				"directory where to put the generated artifacts");
-		options.addOption("e", "email", true,
-				"maintainer e-mail for Debian package generation");
-		options.addOption("d", "debian", false,
-				"generate Debian package for each artifact");
-		options.addOption("sh", "script", true,
-				"location of the script referred in the toolspec"
-						+ " that invokes the tool (to simplify the invocation)");
+		opt.setRequired(true);
+		options.addOption(opt);
 	}
 
 	/** Method used to print command-line syntax (usage) */
-	public void printUsage(boolean exitProgram, int exitCode) {
+	public void printUsage() {
 		HelpFormatter helpFormatter = new HelpFormatter();
-		PrintWriter systemErrPrintWriter = new PrintWriter(System.err, true);
+
+		PrintWriter systemErrPrintWriter = new PrintWriter(
+				new OutputStreamWriter(System.err, Charset.defaultCharset()),
+				true);
 		helpFormatter.printHelp(systemErrPrintWriter,
 				HelpFormatter.DEFAULT_WIDTH, "\"" + getClass().getSimpleName()
 						+ ".jar\"", null, options,
 				HelpFormatter.DEFAULT_LEFT_PAD, HelpFormatter.DEFAULT_DESC_PAD,
-				SCAPE_COPYRIGHT_STATEMENT, true);
-		if (exitProgram) {
-			System.exit(exitCode);
-		}
+				Constants.SCAPE_COPYRIGHT_STATEMENT, true);
 	}
 
 	/**
@@ -76,7 +78,7 @@ public abstract class ToolWrapperCommandline {
 		try {
 			commandLine = parser.parse(options, args);
 		} catch (org.apache.commons.cli.ParseException e) {
-			System.err.println(e);
+			log.error(e.getMessage() + "\n");
 		}
 		return commandLine;
 	}
@@ -87,13 +89,15 @@ public abstract class ToolWrapperCommandline {
 		Tool tool = null;
 		CommandLine cmd = parseArguments(args);
 		if (cmd != null && cmd.hasOption("t") && cmd.hasOption("o")) {
-			if (!(cmd.hasOption("d") && !cmd.hasOption("e"))) {
-				tool = Utils.createTool(cmd.getOptionValue("t"));
-				if (tool != null) {
-					pair = ImmutablePair.of(cmd, tool);
-				}
+			tool = Utils.createTool(cmd.getOptionValue("t"));
+			if (tool != null) {
+				pair = ImmutablePair.of(cmd, tool);
 			}
 		}
 		return pair;
+	}
+
+	public Options getOptions() {
+		return options;
 	}
 }

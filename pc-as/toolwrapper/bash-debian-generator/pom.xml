@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>bash-generator</artifactId>
-	<name>SCAPE ToolWrapper - Bash component</name>
+	<artifactId>bash-debian-generator</artifactId>
+	<name>SCAPE ToolWrapper - Bash component (Debian)</name>
 	<url>www.scape-project.eu/</url>
 
 	<properties>
@@ -37,7 +37,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>eu.scape_project.tool.bash_generator.BashWrapperGenerator</mainClass>
+							<mainClass>eu.scape_project.tool.bash_debian_generator.DebianBashWrapperGenerator</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

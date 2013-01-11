@@ -1,0 +1,10 @@
+#if(!$aggregate)
+$wrapperName usr/bin
+#else
+#foreach( $operation in $operations )
+$operation.getName() usr/bin
+#end
+#end
+#foreach( $thing in $installList )
+$thing usr/share/$wrapperName/
+#end

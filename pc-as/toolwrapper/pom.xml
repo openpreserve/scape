@@ -3,21 +3,23 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scape_project.tool</groupId>
 	<artifactId>toolwrapper</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>SCAPE ToolWrapper</name>
 	<url>www.scape-project.eu/</url>
+	<description>TBA</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<packaging>pom</packaging>
-	
+
 	<modules>
 		<module>bash-generator</module>
+		<module>bash-debian-generator</module>
 		<module>core</module>
 		<module>data</module>
-		<!--<module>rest-generator</module>-->
+		<!--<module>rest-generator</module> -->
 	</modules>
 
 	<build>
@@ -33,4 +35,20 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<organization>
+		<name>KEEP SOLUTIONS</name>
+		<url>http://www.keep.pt</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>hsilva</id>
+			<name>Hélder Silva</name>
+			<email>hsilva@keep.pt</email>
+			<organization>KEEP SOLUTIONS</organization>
+			<organizationUrl>http://www.keep.pt</organizationUrl>
+			<timezone>0</timezone>
+		</developer>
+	</developers>
 </project>
