@@ -1,4 +1,0 @@
-$wrapperName usr/bin
-#if($scriptName)
-$scriptName usr/share/$wrapperName/
-#end
