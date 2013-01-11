@@ -85,11 +85,12 @@ Execute the following on the command-line ($SCAPE\_GITHUB\_FOLDER denotes the pa
 <pre>$> cd $SCAPE_GITHUB_FOLDER/pc-as/toolwrapper/
 $> mvn package</pre>
 
+
 ### Different Debian package generation scenarios
 
 __1 toolspec with 1 operation__
 
-This will generate 1 Debian package named OPERATION-NAME_VERSION
+This will generate 1 Debian package named OPERATION-NAME\_VERSION
 
 __1 toolspec with n operations (n > 1)__
 
@@ -97,6 +98,7 @@ There are 2 possibilities:
 
 1. Generate a Debian package with all operations (1 bash wrapper/Taverna workflow per operation)
 2. Generate a Debian package per operation **DEFAULT**
+
 
 ### How to generate a Debian package from a toolspec
 
