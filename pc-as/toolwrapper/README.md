@@ -88,11 +88,11 @@ $> mvn package</pre>
 
 ### Different Debian package generation scenarios
 
-__1 toolspec with 1 operation__
+**1 toolspec with 1 operation**
 
 This will generate 1 Debian package named OPERATION-NAME\_VERSION
 
-__1 toolspec with n operations (n > 1)__
+**1 toolspec with n operations (n > 1)**
 
 There are 2 possibilities:
 
