@@ -19,7 +19,7 @@
  #   limitations under the License.
  ################################################################################
  */
-package eu.scape_project.tool.toolwrapper.utils;
+package eu.scape_project.tool.core.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

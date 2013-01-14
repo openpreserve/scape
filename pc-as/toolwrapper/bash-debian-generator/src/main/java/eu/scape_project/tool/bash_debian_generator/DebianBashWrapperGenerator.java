@@ -53,6 +53,10 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import eu.scape_project.tool.bash_debian_generator.utils.DebianFileFilter;
+import eu.scape_project.tool.core.ToolWrapperCommandline;
+import eu.scape_project.tool.core.ToolWrapperGenerator;
+import eu.scape_project.tool.core.configuration.Constants;
+import eu.scape_project.tool.core.utils.Utils;
 import eu.scape_project.tool.data.Input;
 import eu.scape_project.tool.data.Installation;
 import eu.scape_project.tool.data.OperatingSystemDependency;
@@ -60,10 +64,6 @@ import eu.scape_project.tool.data.Operation;
 import eu.scape_project.tool.data.Output;
 import eu.scape_project.tool.data.Parameter;
 import eu.scape_project.tool.data.Tool;
-import eu.scape_project.tool.toolwrapper.ToolWrapperCommandline;
-import eu.scape_project.tool.toolwrapper.ToolWrapperGenerator;
-import eu.scape_project.tool.toolwrapper.configuration.Constants;
-import eu.scape_project.tool.toolwrapper.utils.Utils;
 
 public class DebianBashWrapperGenerator extends ToolWrapperCommandline
 		implements ToolWrapperGenerator {
@@ -215,6 +215,7 @@ public class DebianBashWrapperGenerator extends ToolWrapperCommandline
 				res = generateDebianPackage(wrapperContext);
 			}
 
+			cleanEnvironment();
 		} else {
 			res = false;
 		}
@@ -396,7 +397,7 @@ public class DebianBashWrapperGenerator extends ToolWrapperCommandline
 
 	private boolean generateDebianPackage(VelocityContext context) {
 		return setupEnvironment(context) && copyExternalFiles()
-				&& buildPackage() && copyPackageAndCleanEnvironment();
+				&& buildPackage() && copyPackage();
 	}
 
 	private boolean setupEnvironment(VelocityContext context) {
@@ -651,7 +652,7 @@ public class DebianBashWrapperGenerator extends ToolWrapperCommandline
 		return success;
 	}
 
-	private boolean copyPackageAndCleanEnvironment() {
+	private boolean copyPackage() {
 		boolean res = true;
 
 		// copy the Debian package
@@ -666,15 +667,16 @@ public class DebianBashWrapperGenerator extends ToolWrapperCommandline
 				res = false;
 			}
 		}
+		return res;
+	}
 
+	private void cleanEnvironment() {
 		// delete the temporary directory as it isn't needed anymore
 		boolean deleteRes = FileUtils.deleteQuietly(tempDebianBaseDir);
 		if (!deleteRes) {
 			log.error("Error while deleting temporary directory \""
 					+ tempDebianBaseDir + "\"");
-			res = false;
 		}
-		return res;
 	}
 
 	private static boolean areNonRequiredArgumentsThatCanBeCombinedInvalid(

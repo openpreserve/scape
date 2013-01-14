@@ -19,7 +19,7 @@
  #   limitations under the License.
  ################################################################################
  */
-package eu.scape_project.tool.toolwrapper.configuration;
+package eu.scape_project.tool.core.configuration;
 
 public final class Constants {
 	private Constants() {

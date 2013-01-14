@@ -1,0 +1,13 @@
+toolwrapper (1.0.1) unstable; urgency=low
+
+  * The temporary folder used to build the Debian package wasn't 
+    being deleted when an error occurred (DebianBashWrapperGenerator.java).
+  * Maven dependencies analyzed and fixed.
+
+ -- SCAPE project <hsilva@keep.pt>  Mon, 14 Jan 2013 13:00:00 +0000
+
+toolwrapper (1.0.0) unstable; urgency=low
+
+  * Initial Release.
+
+ -- SCAPE project <hsilva@keep.pt>  Fri, 11 Jan 2013 18:00:00 +0000
