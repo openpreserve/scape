@@ -98,7 +98,8 @@ If one executes the **bash-generator** first, for a given toolspec, one will end
  +--------+     |                |     |                     |
                 |                |     | ./workflow/         |
                 +----------------+     |    ./workflow_1     |
-                                       +---------------------+</pre>
+                                       +---------------------+
+</pre>
   
 Then, if one wants to generate a Debian package, for a given toolspec and for the previously generated artifacts, one executes the **bash-debian-generator**, as the following diagram explains.
 
@@ -111,11 +112,12 @@ Then, if one wants to generate a Debian package, for a given toolspec and for th
  |                     |     | bash-debian-generator |+---&gt;| ./workflow/         |
  | ./workflow/         |  --&gt;|                       |     |    ./workflow_1     |
  |    ./workflow_1     |  |  |                       |     |                     |
- +---------------------+  |  +-----------------------+     | ./debian/w/         |
+ +---------------------+  |  +-----------------------+     | ./debian/           |
                           |                                |    ./debian_1       |
         +--------+        |                                +---------------------+
         |toolspec|+-------|
-        +--------+</pre>
+        +--------+
+</pre>
   
 ### Different Debian package generation scenarios                                                                                                                                                             
 
