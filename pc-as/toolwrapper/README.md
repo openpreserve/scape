@@ -85,6 +85,39 @@ Execute the following on the command-line ($SCAPE\_GITHUB\_FOLDER denotes the pa
 	$> cd $SCAPE_GITHUB_FOLDER/pc-as/toolwrapper/
 	$> mvn package
 
+### How toolwrapper works
+
+In the project directory, there are 2 components (for now) whose name ends up with "generator". These, when executed in a certain sequence, generate different outputs.  
+If one executes the **bash-generator** first, for a given toolspec, one will end up with a bash wrapper and a Taverna workflow, as the following diagram explains.
+
+<pre>                                       +---------------------+
+                +----------------+     |  output_directory   |
+                |                |     |---------------------|
+ +--------+     |                |     | ./bash/             |
+ |toolspec|+---&gt;| bash-generator |+---&gt;|    ./bash_wrapper_1 |
+ +--------+     |                |     |                     |
+                |                |     | ./workflow/         |
+                +----------------+     |    ./workflow_1     |
+                                       +---------------------+</pre>
+
+Then, if one wants to generate a Debian package, for a given toolspec and for the previously generated artifacts, one executes the **bash-debian-generator**, as the following diagram explains.
+
+<pre>                                                           +---------------------+
+ +---------------------+                                   |  output_directory   |
+ |  output_directory   |                                   |---------------------|
+ |---------------------|     +-----------------------+     | ./bash/             |
+ | ./bash/             |     |                       |     |    ./bash_wrapper_1 |
+ |    ./bash_wrapper_1 |+---&gt;|                       |     |                     |
+ |                     |     | bash-debian-generator |+---&gt;| ./workflow/         |
+ | ./workflow/         |  --&gt;|                       |     |    ./workflow_1     |
+ |    ./workflow_1     |  |  |                       |     |                     |
+ +---------------------+  |  +-----------------------+     | ./debian/w/         |
+                          |                                |    ./debian_1       |
+        +--------+        |                                +---------------------+
+        |toolspec|+-------|
+        +--------+</pre>
+
+
 ### Different Debian package generation scenarios                                                                                                                                                             
 
 **1 toolspec with 1 operation**
