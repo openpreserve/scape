@@ -39,15 +39,15 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
+import eu.scape_project.tool.core.ToolWrapperCommandline;
+import eu.scape_project.tool.core.ToolWrapperGenerator;
+import eu.scape_project.tool.core.configuration.Constants;
+import eu.scape_project.tool.core.utils.Utils;
 import eu.scape_project.tool.data.Input;
 import eu.scape_project.tool.data.Operation;
 import eu.scape_project.tool.data.Output;
 import eu.scape_project.tool.data.Parameter;
 import eu.scape_project.tool.data.Tool;
-import eu.scape_project.tool.toolwrapper.ToolWrapperCommandline;
-import eu.scape_project.tool.toolwrapper.ToolWrapperGenerator;
-import eu.scape_project.tool.toolwrapper.configuration.Constants;
-import eu.scape_project.tool.toolwrapper.utils.Utils;
 
 public class BashWrapperGenerator extends ToolWrapperCommandline implements
 		ToolWrapperGenerator {

@@ -19,7 +19,7 @@
  #   limitations under the License.
  ################################################################################
  */
-package eu.scape_project.tool.toolwrapper;
+package eu.scape_project.tool.core;
 
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -34,9 +34,9 @@ import org.apache.commons.cli.PosixParser;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.log4j.Logger;
 
+import eu.scape_project.tool.core.configuration.Constants;
 import eu.scape_project.tool.data.Tool;
 import eu.scape_project.tool.data.utils.Utils;
-import eu.scape_project.tool.toolwrapper.configuration.Constants;
 
 public abstract class ToolWrapperCommandline {
 	private Options options;

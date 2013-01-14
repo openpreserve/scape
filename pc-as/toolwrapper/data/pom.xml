@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>eu.scape_project.tool</groupId>
 		<artifactId>toolwrapper</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 		<relativePath>..</relativePath>
 	</parent>
 

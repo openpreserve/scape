@@ -19,7 +19,7 @@
  #   limitations under the License.
  ################################################################################
  */
-package eu.scape_project.tool.toolwrapper;
+package eu.scape_project.tool.core;
 
 import eu.scape_project.tool.data.Operation;
 import eu.scape_project.tool.data.Tool;

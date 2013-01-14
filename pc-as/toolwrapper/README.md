@@ -2,10 +2,10 @@
 
 The toolwrapper is a Java tool developed in the SCAPE Project to simplify the execution of the following tasks:
 
-1. __Tool description__ (through the toolspec);
-2. __Tool invocation__ (simplified) through command-line wrapping;
-3. __Artifacts generation__ (associated to a tool invocation, e.g., Taverna workflow);
-4. __Packaging__ of all the generated artifacts for easier distribution and installation.
+1. **Tool description** (through the toolspec);
+2. **Tool invocation** (simplified) through command-line wrapping;
+3. **Artifacts generation** (associated to a tool invocation, e.g., Taverna workflow);
+4. **Packaging** of all the generated artifacts for easier distribution and installation.
 
 ## Toolwrapper and the toolspec
 
@@ -15,7 +15,7 @@ Tools, and tools invocations, are described using a machine-readable language (X
 2. Tool installation information, i.e., software dependencies, license, etc;
 3. One or more concrete operations, pre-described, that can be executed for a particular input to generate a particular output.
 
-__Example:__
+**Example:**
 
 This example, even if simplified for presentation purpose, demonstrates how one could describe a image file format conversion using ImageMagick.
 
@@ -91,46 +91,47 @@ In the project directory, there are 2 components (for now) whose name ends up wi
 If one executes the **bash-generator** first, for a given toolspec, one will end up with a bash wrapper and a Taverna workflow, as the following diagram explains.
 
 <pre>                                       +---------------------+
-                +----------------+     |  output_directory   |
-                |                |     |---------------------|
- +--------+     |                |     | ./bash/             |
- |toolspec|+---&gt;| bash-generator |+---&gt;|    ./bash_wrapper_1 |
- +--------+     |                |     |                     |
-                |                |     | ./workflow/         |
-                +----------------+     |    ./workflow_1     |
+                                       |  output_directory   |
+                +----------------+     |---------------------|
+                |                |     | ./bash/             |
+ +--------+     |                |     |    ./bash_wrapper_1 |
+ |toolspec|+---&gt;| bash-generator |+---&gt;|                     |
+ +--------+     |                |     | ./workflow/         |
+                |                |     |    ./workflow_1     |
+                +----------------+     |                     |
+                                       | ./install/          |
                                        +---------------------+
 </pre>
   
 Then, if one wants to generate a Debian package, for a given toolspec and for the previously generated artifacts, one executes the **bash-debian-generator**, as the following diagram explains.
 
-<pre>                                                           +---------------------+
- +---------------------+                                   |  output_directory   |
- |  output_directory   |                                   |---------------------|
- |---------------------|     +-----------------------+     | ./bash/             |
- | ./bash/             |     |                       |     |    ./bash_wrapper_1 |
- |    ./bash_wrapper_1 |+---&gt;|                       |     |                     |
- |                     |     | bash-debian-generator |+---&gt;| ./workflow/         |
- | ./workflow/         |  --&gt;|                       |     |    ./workflow_1     |
- |    ./workflow_1     |  |  |                       |     |                     |
- +---------------------+  |  +-----------------------+     | ./debian/           |
-                          |                                |    ./debian_1       |
-        +--------+        |                                +---------------------+
-        |toolspec|+-------|
-        +--------+
+<pre> +---------------------+                                   +---------------------+
+ |  output_directory   |                                   |  output_directory   |
+ |---------------------|                                   |---------------------|
+ | ./bash/             |     +-----------------------+     | ./bash/             |
+ |    ./bash_wrapper_1 |     |                       |     |    ./bash_wrapper_1 |
+ |                     |+---&gt;|                       |     |                     |
+ | ./workflow/         |     | bash-debian-generator |+---&gt;| ./workflow/         |
+ |    ./workflow_1     |  --&gt;|                       |     |    ./workflow_1     |
+ |                     |  |  |                       |     |                     |
+ | ./install/          |  |  +-----------------------+     | ./install/          |
+ +---------------------+  |                                |                     |
+        +--------+        |                                | ./debian/           |
+        |toolspec|+-------|                                |    ./debian_1       |
+        +--------+                                         +---------------------+
 </pre>
   
-### Different Debian package generation scenarios                                                                                                                                                             
+**Sum up:**  
+1. Components can be combined, in the correct order, passing generated artifacts through a folder (i.e., the output folder of the **bash-generator** will be the input folder of the **bash-debian-generator**).  
+2. An install folder is generated by the **bash-generator**, which can be used to place scripts/files/programs that should be installed alongside with the bash wrapper and workflow. These scripts/files/programs are going to be placed under **/usr/share/OPERATION-NAME/**.
+  
+### Different Debian package generation scenarios
 
-**1 toolspec with 1 operation**
-
-This will generate 1 Debian package named OPERATION-NAME\_VERSION                                                                                                                                             
-
-**1 toolspec with n operations (n > 1)**
-
-There are 2 possibilities:
-
-1. Generate a Debian package with all operations (1 bash wrapper/Taverna workflow per operation)                                                                                                              
-2. Generate a Debian package per operation **DEFAULT**
+1. **1 toolspec with 1 operation**  
+This will generate 1 Debian package named OPERATION-NAME\_VERSION\_all.deb
+2. **1 toolspec with n operations (n > 1)**
+    1. Generate a Debian package with all artifacts (named DEB-NAME\_VERSION\_all.deb, where DEB-NAME is passed as a parameter through the command-line)
+    2. Generate a Debian package per operation (named OPERATION-NAME\_VERSION\_all.deb) **DEFAULT**
 
 ### How to generate a Debian package from a toolspec
 
@@ -149,7 +150,7 @@ $> ./bash-debian-generator/bin/generate.sh -ch README_FILES/digital-preservation
 
 ### How to develop a specific functionality for the toolwrapper
 
-(e.g., generate RPM for Red Hat and others)
+TBA (e.g., generate RPM for Red Hat and others)
 
 ##Acknowledgements
 

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scape_project.tool</groupId>
 	<artifactId>toolwrapper</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>SCAPE ToolWrapper</name>
 	<url>www.scape-project.eu/</url>
 	<description>TBA</description>
