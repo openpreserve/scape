@@ -67,6 +67,7 @@ This example, even if simplified for presentation purpose, demonstrates how one 
     * **bin** folder with script that eases the component execution
     * **pom.xml**
     * **src** java source code and other resources (templates for bash wrapper and Taverna workflow)
+* **CHANGELOG.txt**
 * **core** component with common core functionalities
     * **pom.xml**
     * **src** java source code and other resources (log4j.xml)
