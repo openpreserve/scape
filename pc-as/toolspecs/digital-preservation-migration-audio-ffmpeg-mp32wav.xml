@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd" xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" schemaVersion="1.0" name="FFmpeg" version="1.0.1" homepage="http://ffmpeg.org/">
+<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd"
+      xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink"
+      schemaVersion="1.0" name="FFmpeg" version="1.0.2" homepage="http://ffmpeg.org/">
   <installation>
     <dependency operatingSystemName="Debian">ffmpeg</dependency>
     <license type="Apache Licence 2.0">Apache License, Version 2.0</license>
@@ -10,7 +13,7 @@
   <operations>
     <operation name="digital-preservation-migration-audio-ffmpeg-mp32wav">
       <description>Converts MP3 to WAV</description>
-      <command>ffmpeg -y -i ${input} ${output}</command>
+        <command>ffmpeg -y -f mp3 -i ${input} -f wav ${output}</command>
       <inputs>
         <input name="input" required="true">
           <description>Reference to input file</description>
