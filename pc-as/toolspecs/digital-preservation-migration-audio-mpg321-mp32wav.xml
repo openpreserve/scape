@@ -2,9 +2,9 @@
 <tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd"
       xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink"
-      schemaVersion="1.0" name="mpg321" version="1.0" homepage="http://mpg321.sourceforge.net/">
+      schemaVersion="1.0" name="mpg321" version="1.0.0" homepage="http://mpg321.sourceforge.net/">
     <installation>
-        <dependency operatingSystemName="Debian">ffmpeg</dependency>
+        <dependency operatingSystemName="Debian">mpg321</dependency>
         <license type="Apache Licence 2.0">Apache License, Version 2.0</license>
     </installation>
     <otherProperties>
