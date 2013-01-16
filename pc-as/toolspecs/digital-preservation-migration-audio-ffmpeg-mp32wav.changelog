@@ -1,6 +1,11 @@
 digital-preservation-migration-audio-ffmpeg-mp32wav (1.0.2) unstable; urgency=low
 
   * Now enforces input and output formats
+
+ -- SCAPE project <bam@statsbiblioteket.dk>  Thu, 16 Jan 2013 11:00:00 +0000
+
+digital-preservation-migration-audio-ffmpeg-mp32wav (1.0.1) unstable; urgency=low
+
   * Initial Release.
 
  -- SCAPE project <hsilva@keep.pt>  Thu, 01 Jan 2013 12:02:10 +0000
