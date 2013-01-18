@@ -2,26 +2,107 @@ package eu.scape_project.pt.proc;
 
 import eu.scape_project.pt.pit.invoke.Stream;
 import eu.scape_project.pt.util.ParamSpec;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
-public interface Processor {
-
-	//TODO change error code to result object
-	public int execute() throws Exception;
-	
-	public void initialize();
-
-    public void setContext( Map<String, Stream> streamMap);
-
-    public void setStdout( OutputStream out );
+public abstract class Processor {
 
     /**
-     * Get input parameters to the processor.
-     * 
-     * TODO use a Inputs Object instead of Map
+     * Inputstream to read from. 
+     */
+    protected InputStream isIn;
+
+    /**
+     * Outputstream to write to. 
+     */
+    protected OutputStream osOut;
+
+    /**
+     * Processor to execute.
+     */
+    protected Processor next;
+
+    /**
+     * Processor to read output from.
+     */
+    protected Processor prev;
+
+    /**
+     * Executes its process and provides the InputStream for the next processor.
+     * @return exit code of process (0 for success)
+     * @throws Exception 
+     */
+	abstract public int execute() throws Exception;
+	
+	abstract public void initialize();
+
+    /**
+     * Gets InputStream of processor
+     * @return InputStream isIn
+     */
+    public InputStream getInputStream( ) {
+        return this.isIn;
+    }
+
+    /**
+     * Gets OutputStream of processor
+     * @return OutputStream osOut
+     */
+    public OutputStream getOutputStream( ) {
+        return this.osOut;
+    }
+
+    /**
+     * Sets InputStream of processor
+     * @param InputStream in 
+     */
+    public void setInputStream(InputStream in) {
+        this.isIn = in;
+    }
+
+    /**
+     * Sets OutputStream of processor
+     * @param outputStream in 
+     */
+    public void setOutputStream(OutputStream out) {
+        this.osOut = out;
+    }
+
+    /**
+     * Get next processor
      * @return 
      */
-    public Map<String, ParamSpec> getParameters();
-	
+    public Processor next() {
+        return next;
+    }
+    
+    /**
+     * Get previous processor
+     * @return 
+     */
+    public Processor prev() {
+        return prev;
+    }
+
+    /**
+     * Double-link this processor to given next processor
+     * @param next 
+     */
+    public void next(Processor next) {
+        if( this.next == next ) return;
+        this.next = next;
+        next.prev(this);
+    }
+
+    /**
+     * Double-link this processor to given previous processor
+     * @param prev 
+     */
+    private void prev(Processor prev) {
+        if( this.prev == prev ) return;
+        this.prev = prev;
+        prev.next(this);
+    }
+
 }
