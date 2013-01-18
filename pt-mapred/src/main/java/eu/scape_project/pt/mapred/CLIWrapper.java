@@ -1,12 +1,23 @@
 package eu.scape_project.pt.mapred;
 
-import eu.scape_project.pt.pit.invoke.ToolSpecNotFoundException;
+import eu.scape_project.pt.executors.Executor;
+import eu.scape_project.pt.executors.TavernaCLExecutor;
+import eu.scape_project.pt.executors.ToolspecExecutor;
+import eu.scape_project.pt.repo.Repository;
+import eu.scape_project.pt.repo.ToolRepository;
+import eu.scape_project.pt.invoke.ToolSpecNotFoundException;
+import eu.scape_project.pt.util.PropertyNames;
 import java.io.IOException;
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import joptsimple.OptionParser;
+import joptsimple.OptionSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -16,16 +27,6 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
-
-import eu.scape_project.pt.executors.Executor;
-import eu.scape_project.pt.executors.TavernaCLExecutor;
-import eu.scape_project.pt.executors.ToolspecExecutor;
-import eu.scape_project.pt.pit.ToolRepository;
-import eu.scape_project.pt.pit.ToolSpecRepository;
-import eu.scape_project.pt.pit.Repository;
-import eu.scape_project.pt.util.ArgsParser;
-import java.io.File;
-import org.apache.hadoop.fs.FileSystem;
 
 /**
  * A command-line interaction wrapper to execute cmd-line tools with MapReduce.
@@ -41,38 +42,37 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	
 	public static class CLIMapper extends Mapper<Object, Text, Text, IntWritable> {
 
-		// Executes the setup and map jobs.
+		/** 
+         * Executes the setup and map jobs.
+         */
 		Executor executor;
 		
         /**
-         * Parser for the parameters in the command-lines (records).
-         */
-        static ArgsParser parser = null;
-
-        /**
-         * Sets up stuff which needs to be created only once and can be used in all maps this Mapper performs.
+         * Sets up the appropriate executor for the job. 
          * 
-         * For per Job there can only be one Tool and one Action selected, this stuff is the processor and the input parameters parser.
          * @param context
          */
         @Override
 		public void setup( Context context ) {
-        	if(context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION) != null && context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION) != "") {
-        		executor = new TavernaCLExecutor(context.getConfiguration().get(ArgsParser.TAVERNA_HOME),
-        				context.getConfiguration().get(ArgsParser.WORKFLOW_LOCATION),
-        				context.getConfiguration().get(ArgsParser.OUTDIR));
+            Configuration conf = context.getConfiguration();
+        	if(conf.get(PropertyNames.TAVERNA_WORKFLOW) != null 
+               && conf.get(PropertyNames.TAVERNA_WORKFLOW) != "") {
+        		executor = new TavernaCLExecutor(
+                        conf.get(PropertyNames.TAVERNA_HOME),
+        				conf.get(PropertyNames.TAVERNA_WORKFLOW),
+        				conf.get(PropertyNames.OUTDIR));
         	} else {
         		executor = new ToolspecExecutor(
-                        context.getConfiguration().get(ArgsParser.TOOLSTRING), 
-                        context.getConfiguration().get(ArgsParser.ACTIONSTRING),
-                        context.getConfiguration().get(ArgsParser.REPO_LOCATION));
+                        conf.get(PropertyNames.TOOLSTRING), 
+                        conf.get(PropertyNames.ACTIONSTRING),
+                        conf.get(PropertyNames.REPO_LOCATION));
         	}
 	    	executor.setup();
 		}
 
         @Override
-		public void map(Object key, Text value, Context context
-	                    ) throws IOException, InterruptedException {
+		public void map(Object key, Text value, Context context) 
+                throws IOException, InterruptedException {
 	    	executor.map(key, value, context );
 	    }	  
 	}
@@ -106,34 +106,18 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         job.setOutputValueClass(Text.class);
 
         job.setMapperClass(CLIMapper.class);
-
-
-        //job.setReducerClass(MyReducer.class);
-
-        job.setInputFormatClass(PtInputFormat.class);
         
-        //if(conf.get(ArgsParser.NUM_LINES_PER_SPLIT) != null) 
-        	//NLineInputFormat.setNumLinesPerSplit(job, Integer.parseInt(conf.get(ArgsParser.NUM_LINES_PER_SPLIT)));
-        //job.setInputFormatClass(NLineInputFormat.class);
+        if(conf.get(PropertyNames.NUM_LINES_PER_SPLIT) != null) {
+        	NLineInputFormat.setNumLinesPerSplit(
+                job, 
+                Integer.parseInt(conf.get(PropertyNames.NUM_LINES_PER_SPLIT)));
+            job.setInputFormatClass(NLineInputFormat.class);
+        } else
+            job.setInputFormatClass(PtInputFormat.class);
         
-        //job.setOutputFormatClass(FileOutputFormat.class);
-		//job.setOutputFormatClass(MultipleOutputFormat.class);
-		
-		//FileInputFormat.addInputPath(job, new Path(args[0])); ArgsParser.INFILE
-		//FileOutputFormat.setOutputPath(job, new Path(args[1])); ArgsParser.OUTDIR
-		FileInputFormat.addInputPath(job, new Path(conf.get(ArgsParser.INFILE)));
-		FileOutputFormat.setOutputPath(job, new Path(conf.get(ArgsParser.OUTDIR)) ); 
+		FileInputFormat.addInputPath(job, new Path(conf.get(PropertyNames.INFILE)));
+		FileOutputFormat.setOutputPath(job, new Path(conf.get(PropertyNames.OUTDIR)) ); 
 				
-		//add command to job configuration
-		//conf.set(TOOLSPEC, args[2]);
-		
-		//job.setNumReduceTasks(Integer.parseInt(args[2]));
-
-		//FileInputFormat.setInputPaths(job, s.toString());
-		//FileOutputFormat.setOutputPath(job, new Path("output"));
-
-		//FileInputFormat.setMaxInputSplitSize(job, 1000000);
-
 		job.waitForCompletion(true);
 		return 0;
 	}
@@ -144,114 +128,87 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		CLIWrapper mr = new CLIWrapper();
         Configuration conf = new Configuration();
         Repository repo;
+
+        Map<String, String> parameters = new HashMap<String, String>() {{
+            put("i", PropertyNames.INFILE );
+            put("o", PropertyNames.OUTDIR );
+            put("j", "mapred.job.reuse.jvm.num.tasks" );
+            put("n", PropertyNames.NUM_LINES_PER_SPLIT );
+            put("t", PropertyNames.TOOLSTRING );
+            put("a", PropertyNames.ACTIONSTRING );
+            put("r", PropertyNames.REPO_LOCATION);
+            put("v", PropertyNames.TAVERNA_HOME );
+            put("w", PropertyNames.TAVERNA_WORKFLOW );
+        }};
         		
 		try {
-			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v:w:r:j:n:", args);
+            String pStrings = "";
+            for( String i : parameters.values() )
+                pStrings += i + ":";
 
-            String outDir = 
-                (conf.get(ArgsParser.OUTDIR) == null) ? 
-                    "out/"+System.nanoTime()%10000 : 
-                    conf.get(ArgsParser.OUTDIR); 
+			OptionParser parser = new OptionParser(pStrings);
+            OptionSet options = parser.parse(args);
 
-            conf.set(ArgsParser.OUTDIR, outDir);
-			
-			conf.set(ArgsParser.INFILE, pargs.getValue("i"));			
-			//toolMap.initialize();
-			//ToolSpec tool = toolMap.get(pargs.getValue("t"));
-			//if(tool != null) conf.set(ArgsParser.TOOLSTRING, tool.toString());
-			if (pargs.hasOption("t")) conf.set(ArgsParser.TOOLSTRING, pargs.getValue("t"));
-			if (pargs.hasOption("a")) conf.set(ArgsParser.ACTIONSTRING, pargs.getValue("a"));
-	        if (pargs.hasOption("o")) conf.set(ArgsParser.OUTDIR, pargs.getValue("o"));
-	        if (pargs.hasOption("p")) conf.set(ArgsParser.PARAMETERLIST, pargs.getValue("p"));
-	        if (pargs.hasOption("r")) conf.set(ArgsParser.REPO_LOCATION, pargs.getValue("r"));
-	        
-	        //parameters for job fine tuning
-	        if (pargs.hasOption("j")) conf.setInt("mapred.job.reuse.jvm.num.tasks", Integer.parseInt(pargs.getValue("j")));
-	        if (pargs.hasOption("n")) conf.set(ArgsParser.NUM_LINES_PER_SPLIT, pargs.getValue("n"));
-	        else conf.set(ArgsParser.NUM_LINES_PER_SPLIT, "10");
-	        
+            // default values:
+            conf.set(PropertyNames.NUM_LINES_PER_SPLIT, "10");
+            conf.set(PropertyNames.OUTDIR, "out/"+System.nanoTime()%10000 );
+
+            // store parameter values:
+            for( Entry<String, String> param : parameters.entrySet() )
+                if(options.hasArgument(param.getKey()))
+                    conf.set(param.getValue(), 
+                             options.valueOf(param.getKey()).toString());
+
 			//input file
-			LOG.info("Input: " + conf.get(ArgsParser.INFILE));
+			LOG.info("Input: " + conf.get(PropertyNames.INFILE));
 			//hadoop's output 
-			LOG.info("Output: " + conf.get(ArgsParser.OUTDIR));
+			LOG.info("Output: " + conf.get(PropertyNames.OUTDIR));
 			//tool to select
-			LOG.info("ToolSpec: " + conf.get(ArgsParser.TOOLSTRING));
+			LOG.info("ToolSpec: " + conf.get(PropertyNames.TOOLSTRING));
             //action to select
-            LOG.info("Action: " + conf.get(ArgsParser.ACTIONSTRING));
-			//defined parameter list
-			LOG.info("Parameters: " + conf.get(ArgsParser.PARAMETERLIST));
+            LOG.info("Action: " + conf.get(PropertyNames.ACTIONSTRING));
 			//toolspec directory
-            LOG.info("Toolspec Directory: " + conf.get(ArgsParser.REPO_LOCATION));
+            LOG.info("Toolspec Directory: " 
+                    + conf.get(PropertyNames.REPO_LOCATION));
             //jvm reuse
-            LOG.info("JVM reuse: " + conf.get("mapred.job.reuse.jvm.num.tasks"));
+            LOG.info("JVM reuse: " 
+                    + conf.get("mapred.job.reuse.jvm.num.tasks"));
             //NInputFormat
-            LOG.info("Number of Lines: " + conf.get(ArgsParser.NUM_LINES_PER_SPLIT));
+            LOG.info("Number of Lines: " 
+                    + conf.get(PropertyNames.NUM_LINES_PER_SPLIT));
+            // taverna workflow location
+			LOG.info("Taverna: " + conf.get(PropertyNames.TAVERNA_HOME));
+            // taverna home
+			LOG.info("Workflow: " + conf.get(PropertyNames.TAVERNA_WORKFLOW));
+
+            // check if enough parameters:
+
+		    if ( conf.get(PropertyNames.INFILE) == null )
+                throw new Exception("Input file needed");
+
+            if( conf.get(PropertyNames.TOOLSTRING) == null ||
+                conf.get(PropertyNames.ACTIONSTRING) == null ) 
+                throw new Exception("Toolspec and Action needed");
 
 
-            // taverna set?
-			//LOG.info("taverna: " + pargs.getValue("v"));
-			//LOG.info("workflow: " + pargs.getValue("w"));
-	        
-	        // Get Taverna home directory and workflow location
-	        //if (pargs.hasOption("w")) conf.set(ArgsParser.WORKFLOW_LOCATION, pargs.getValue("w"));
-	        //if (pargs.hasOption("v")) conf.set(ArgsParser.TAVERNA_HOME, pargs.getValue("v"));
+            // check if toolspec exists:
 
-            // TODO validate input parameters (eg. look for toolspec, action, ...)
-            Path fRepo = new Path( conf.get(ArgsParser.REPO_LOCATION) );
-            if( conf.get(ArgsParser.TOOLSTRING).startsWith("digital-preservation"))
-                repo = new ToolRepository(FileSystem.get( conf ),fRepo );
-            else
-                repo = new ToolSpecRepository(FileSystem.get(conf), fRepo );
+            Path fRepo = new Path( conf.get(PropertyNames.REPO_LOCATION) );
+            repo = new ToolRepository(FileSystem.get( conf ),fRepo );
 
             String[] astrToolspecs = repo.getToolList();
             LOG.info( "Available ToolSpecs: ");
             for( String strToolspec: astrToolspecs ) 
                 LOG.info( strToolspec );
             
-            if( !repo.toolspecExists( conf.get(ArgsParser.TOOLSTRING)))
-                throw new ToolSpecNotFoundException( "Toolspec " + conf.get(ArgsParser.TOOLSTRING) + " not found" );
+            // TODO also check if action exists
+            if( !repo.toolspecExists( conf.get(PropertyNames.TOOLSTRING)))
+                throw new ToolSpecNotFoundException( 
+                    "Toolspec " + conf.get(PropertyNames.TOOLSTRING) + " not found" );
 
-	        
-            /*
-			if(tool == null) {
-				System.out.println("Cannot find tool: "+pargs.getValue("t"));
-				System.exit(-1);
-			}
-             */
-	        //don't run hadoop
-	        if(pargs.hasOption("x")) {
-	        	
-	        	/*
-	        	String t = System.getProperty("java.io.tmpdir");
-	    		LOG.info("Using Temp. Directory:" + t);
-	    		File execDir = new File(t);
-	    		if(!execDir.exists()) {
-	    			execDir.mkdir();
-	    		}
-	        	
-	    		LOG.info("Is execDir a file: "+execDir.isFile() + " and a dir: "+execDir.isDirectory());
-	    		File paper_ps = new File(execDir.toString()+"/paper.ps");
-	    		LOG.info("Looking for this file: "+paper_ps);
-	    		LOG.info("Is paper.ps a file: "+paper_ps.isFile());
-	    		
-	    		//LOG.info("trying ps2pdf in without args.....");
-	    		String cmd = "/usr/bin/ps2pdf paper.ps paper.ps.pdf";
-	    		String[] cmds = cmd.split(" ");
-	    		System.out.println("cmds.length "+cmds.length);
-	    		ProcessBuilder pb = new ProcessBuilder(cmds);
-	    		pb.directory(execDir);
-	    		Process p1 = pb.start();
-	    		//LOG.info(".....");
-	        	*/
-	        	
-	        	
-	        	System.out.println("option x detected.");	        	
-	        	System.exit(1);
-	        }
 		} catch (Exception e) {
-			System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-p \"parameterList\"] [-r toolspec repository on hdfs] -t toolspec -a action");
-			//System.out.println("   or: CLIWrapper -i inFile -o outFile [-v tavernaDir] -w workflow");
-			LOG.info(e);
+            printUsage();
+			LOG.error(e);
 			e.printStackTrace();
 			System.exit(-1);
 		}
@@ -264,5 +221,11 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		}
 		System.exit(res);
 	}		
+
+    public static void printUsage() {
+        System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-j mapred.job.reuse.jvm.num.tasks] [-n num lines of inFile per task]");
+        System.out.println("    execution of ToolSpec: -t toolspec -a action [-r toolspec repository on hdfs]");
+        System.out.println("    execution of Taverna workflow: -w workflow [-v tavernaDir]");
+    }
 		
 }
