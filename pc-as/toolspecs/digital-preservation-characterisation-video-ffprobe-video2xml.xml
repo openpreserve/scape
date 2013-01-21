@@ -23,10 +23,10 @@
                 </parameter>
             </inputs>
             <outputs>
-                <stdout>
+                <output name="output" required="true">
                     <format registryName="web">http://www.ffmpeg.org/schema/ffprobe.xsd</format>
                     <description>Reference to output file</description>
-                </stdout>
+                </output>
             </outputs>
         </operation>
     </operations>
