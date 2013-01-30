@@ -1,6 +1,6 @@
 package eu.scape_project.pt.proc;
 
-import eu.scape_project.pt.pit.invoke.Stream;
+import eu.scape_project.pt.invoke.Stream;
 import eu.scape_project.pt.util.ParamSpec;
 import java.io.InputStream;
 import java.io.OutputStream;

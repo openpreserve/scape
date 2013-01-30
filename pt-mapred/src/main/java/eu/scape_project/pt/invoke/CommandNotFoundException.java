@@ -1,19 +1,18 @@
-package eu.scape_project.pt.pit.invoke;
-
+package eu.scape_project.pt.invoke;
 /**
  * @author  <a href="mailto:andrew.jackson@bl.uk">Andrew Jackson</a>
  */
-public class ToolSpecNotFoundException extends Exception {
+public class CommandNotFoundException extends Exception {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6842192485602025566L;
+	private static final long serialVersionUID = -4405067564500792267L;
 
 	/**
 	 * 
 	 */
-	public ToolSpecNotFoundException() {
+	public CommandNotFoundException() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -22,7 +21,7 @@ public class ToolSpecNotFoundException extends Exception {
 	 * @param message
 	 * @param cause
 	 */
-	public ToolSpecNotFoundException(String message, Throwable cause) {
+	public CommandNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
@@ -30,7 +29,7 @@ public class ToolSpecNotFoundException extends Exception {
 	/**
 	 * @param message
 	 */
-	public ToolSpecNotFoundException(String message) {
+	public CommandNotFoundException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
@@ -38,10 +37,9 @@ public class ToolSpecNotFoundException extends Exception {
 	/**
 	 * @param cause
 	 */
-	public ToolSpecNotFoundException(Throwable cause) {
+	public CommandNotFoundException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
-	
 
 }

@@ -1,4 +1,4 @@
-package eu.scape_project.pt.fs.util;
+package eu.scape_project.pt.util.fs;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,8 +68,7 @@ public class HDFSFiler extends Filer{
         File dir = new File( strSrc );
 		
 		if(!dir.isDirectory()) {
-			LOG.error("Could not find correct local output directory: " + dir );
-			return;
+			throw new IOException("Could not find correct local output directory: " + dir );
 		}
 		
 		LOG.info("Local directory is: " + dir );
@@ -103,9 +102,11 @@ public class HDFSFiler extends Filer{
 
     @Override
     public String getFileRef() {
+        // TODO introduce a namespace for temp files so that
+        // other running tasks on the machine don't interfere
         return System.getProperty("java.io.tmpdir") 
                 + System.getProperty("file.separator")
-                    + "hdfsfiler_" + file.hashCode() + ".tmp";
+                    + "hdfsfiler_" + file.hashCode() + "-" + file.getName();
     }
 
     @Override

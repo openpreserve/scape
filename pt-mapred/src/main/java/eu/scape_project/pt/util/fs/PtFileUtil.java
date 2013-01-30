@@ -1,4 +1,4 @@
-package eu.scape_project.pt.fs.util;
+package eu.scape_project.pt.util.fs;
 
 import java.io.File;
 import java.net.URI;

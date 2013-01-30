@@ -53,7 +53,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          * @param context
          */
         @Override
-		public void setup( Context context ) {
+		public void setup( Context context ) throws IOException {
             Configuration conf = context.getConfiguration();
         	if(conf.get(PropertyNames.TAVERNA_WORKFLOW) != null 
                && conf.get(PropertyNames.TAVERNA_WORKFLOW) != "") {
@@ -62,12 +62,9 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         				conf.get(PropertyNames.TAVERNA_WORKFLOW),
         				conf.get(PropertyNames.OUTDIR));
         	} else {
-        		executor = new ToolspecExecutor(
-                        conf.get(PropertyNames.TOOLSTRING), 
-                        conf.get(PropertyNames.ACTIONSTRING),
-                        conf.get(PropertyNames.REPO_LOCATION));
+        		executor = new ToolspecExecutor();
         	}
-	    	executor.setup();
+	    	executor.setup(context);
 		}
 
         @Override
@@ -143,7 +140,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         		
 		try {
             String pStrings = "";
-            for( String i : parameters.values() )
+            for( String i : parameters.keySet() )
                 pStrings += i + ":";
 
 			OptionParser parser = new OptionParser(pStrings);

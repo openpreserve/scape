@@ -1,15 +1,15 @@
 package eu.scape_project.pt.proc;
 
-import eu.scape_project.pt.pit.ToolRepository;
-import eu.scape_project.pt.pit.invoke.Stream;
-import eu.scape_project.pt.pit.invoke.ToolInvoker;
+import eu.scape_project.pt.repo.ToolRepository;
+import eu.scape_project.pt.invoke.Stream;
+import eu.scape_project.pt.invoke.ToolInvoker;
+import eu.scape_project.pt.invoke.ToolSpecNotFoundException;
 import eu.scape_project.pt.tool.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
@@ -50,32 +50,30 @@ public class ToolProcessor extends Processor {
     private Map<String, String> mapOutputFileParameters;
 
     /**
-     * Constructs the processor with a toolspec name, an action name of the
-     * toolspec and a location of the repository.
+     * Constructs the processor with a tool and an action of a
+     * toolspec.
      *
-     * Creates the Toolspec, Operation and Repository instances.
-     *
-     * @param strTool
-     * @param strAction
-     * @param strRepo
+     * @param Tool tool
+     * @param Operation operation
      */
-    public ToolProcessor(String strTool, String strOperation, String strRepo) {
-        Path fRepo = new Path(strRepo);
-        FileSystem fs;
-        try {
-            fs = FileSystem.get(new Configuration());
-            this.repo = new ToolRepository(fs, fRepo);
-            this.tool = repo.getTool(strTool);
-            Operations operations = this.tool.getOperations();
-            for (Operation operation : operations.getOperation()) {
-                if (operation.getName().equals(strOperation)) {
-                    this.operation = operation;
-                }
-            }
+    public ToolProcessor(Tool tool) {
+        this.tool = tool;
+    }
 
-        } catch (IOException ex) {
-            LOG.error(ex.getMessage());
+    public Operation findOperation( String strOp ) {
+        LOG.debug("findOperation(" + strOp + ")");
+        Operations operations = tool.getOperations();
+        for (Operation op : operations.getOperation()) {
+            LOG.debug("op = " + op.getName());
+            if (op.getName().equals(strOp)) {
+                return op;
+            }
         }
+        return null;
+    }
+
+    public void setOperation( Operation op ) {
+        this.operation = op;
     }
 
     @Override
@@ -92,6 +90,8 @@ public class ToolProcessor extends Processor {
         }
 
         String strCmd = replaceAll(this.operation.getCommand(), allInputs);
+
+        LOG.debug("strCmd = " + strCmd );
 
         ToolInvoker invoker = new ToolInvoker();
 
@@ -113,26 +113,34 @@ public class ToolProcessor extends Processor {
     }
 
     public Map<String, String> getInputFileParameters() {
+        LOG.debug("getInputFileParameters");
+        if( this.mapInputFileParameters != null )
+            return this.mapInputFileParameters;
         Map<String, String> parameters = new HashMap<String, String>();
 
         if (operation.getInputs() != null) {
             for (Input input : operation.getInputs().getInput()) {
+                LOG.debug("input = " + input.getName());
                 parameters.put(input.getName(), input.getDefaultValue());
             }
         }
-        return parameters;
+        return this.mapInputFileParameters = parameters;
 
     }
 
     public Map<String, String> getOutputFileParameters() {
+        LOG.debug("getOutputFileParameters");
+        if( this.mapOutputFileParameters != null )
+            return this.mapOutputFileParameters;
         Map<String, String> parameters = new HashMap<String, String>();
 
         if (operation.getOutputs() != null) {
             for (Output output : operation.getOutputs().getOutput()) {
+                LOG.debug("output = " + output.getName());
                 parameters.put(output.getName(), null);
             }
         }
-        return parameters;
+        return this.mapOutputFileParameters = parameters;
 
     }
 
@@ -163,18 +171,34 @@ public class ToolProcessor extends Processor {
      * @param mapInputs 
      */
 	 private String replaceAll(String strCmd, Map<String,String> mapInputs) {
-        // create the pattern joining the keys with '|'
-        String regexp = StringUtils.join(
-                mapInputs.keySet().toArray( new String[mapInputs.size()]), "|");
+         if( mapInputs.isEmpty() ) return strCmd;
+        // create the pattern wrapping the keys with ${} and join them with '|'
+        String regexp = "";
+        for( String input : mapInputs.keySet())
+            regexp += parameterToVariable(input);
+        regexp = regexp.substring(0, regexp.length()-1);
+
+        LOG.debug("replaceAll.regexp = " + regexp );
         StringBuffer sb = new StringBuffer();
         Pattern p = Pattern.compile(regexp);
         Matcher m = p.matcher(strCmd);
 
         while (m.find())
-            m.appendReplacement(sb, mapInputs.get(m.group()));
+        {
+            String param = variableToParameter(m.group());
+            m.appendReplacement(sb, mapInputs.get(param));
+        }
         m.appendTail(sb);
 
         return sb.toString();
 
 	}
+
+    private String parameterToVariable( String strParameter ) {
+        return "\\$\\{" + strParameter + "\\}|"; 
+    }
+
+    private String variableToParameter( String strVariable ) {
+        return strVariable.substring(2, strVariable.length() - 1 );
+    }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd" xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" schemaVersion="1.0" name="FFmpeg" version="1.0.1" homepage="http://ffmpeg.org/">
+  <installation>
+    <dependency operatingSystemName="Debian">file</dependency>
+    <license type="Apache Licence 2.0">Apache License, Version 2.0</license>
+  </installation>
+  <otherProperties>
+    <property name="cost">0</property>
+  </otherProperties>
+  <operations>
+    <operation name="identify">
+      <description>Identifies a files mime-type</description>
+      <command>file ${input}</command>
+      <inputs>
+        <input name="input" required="true">
+          <description>Reference to input file</description>
+        </input>
+      </inputs>
+    </operation>
+    <operation name="identify-stdin">
+      <description>Identifies a files mime-type reading from stdin</description>
+      <command>file -</command>
+      <inputs>
+        <stdin name="stdin" required="true">
+          <description>Reference to input file</description>
+        </stdin>
+      </inputs>
+    </operation>
+  </operations>
+</tool>

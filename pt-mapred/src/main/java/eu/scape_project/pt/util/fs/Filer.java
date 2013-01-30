@@ -1,4 +1,4 @@
-package eu.scape_project.pt.fs.util;
+package eu.scape_project.pt.util.fs;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,14 +26,8 @@ public abstract class Filer {
      * @throws IOException 
      */
     public static Filer create(String strUri) throws IOException{
-        URI uri = null;
-        try {
-            uri = new URI(strUri);
-        } catch (URISyntaxException ex) {
-            throw new IOException(ex);
-        }
-        if( uri.getScheme().toLowerCase().equals("hdfs")) {
-            return new HDFSFiler(uri.toString());
+        if( strUri.startsWith("hdfs")) {
+            return new HDFSFiler(strUri.toString());
         }
         throw new IOException("no appropriate filer for URI " + strUri + " found");
     };

@@ -15,6 +15,6 @@ import org.apache.hadoop.mapreduce.Mapper.Context;
  *
  */
 public interface Executor {
-	public void setup();
+	public void setup(Context context ) throws IOException;
 	public void map(Object key, Text value, Context context) throws IOException;
 }

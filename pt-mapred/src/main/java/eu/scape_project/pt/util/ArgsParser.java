@@ -38,6 +38,7 @@ public class ArgsParser {
 
     /**
      * Set of parameters which are recognized by this parser.
+     * If null or empty parser accepts all parameters
      */
     private Set<String> setParameters = new HashSet<String>();
 
@@ -119,7 +120,10 @@ public class ArgsParser {
         String value = null;
         if (nextToken() == '-') {
             if (nextToken() == StreamTokenizer.TT_WORD
-                    && setParameters.contains(tokenizer.sval)) {
+                    && 
+                ( setParameters == null 
+                  || setParameters.isEmpty()
+                  || setParameters.contains(tokenizer.sval))) {
                 key = tokenizer.sval;
             } else {
                 LOG.error("unrecognized token, expecting key word");
@@ -186,7 +190,7 @@ public class ArgsParser {
      * @return String
      */
     public String getStdinFile() {
-        return this.strStdinFile == "" ? null : "";
+        return this.strStdinFile == "" ? null : this.strStdinFile;
     }
 
     /**
@@ -194,7 +198,7 @@ public class ArgsParser {
      * @return String
      */
     public String getStdoutFile() {
-        return this.strStdoutFile == "" ? null : "";
+        return this.strStdoutFile == "" ? null : this.strStdoutFile;
     }
 
 

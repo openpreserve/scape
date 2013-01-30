@@ -1,4 +1,4 @@
-package eu.scape_project.pt.pit.invoke;
+package eu.scape_project.pt.invoke;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,7 +49,7 @@ public class ToolInvoker {
 		
 		ProcessBuilder processBuilder = new ProcessBuilder(cmds);
 		processBuilder.directory(execDir);
-		Process p = processBuilder.start();
+		Process p = processBuilder.proc();
 		p.waitFor();
 		return p.exitValue();
 	}	
@@ -123,8 +123,8 @@ public class ToolInvoker {
      * @param inputs Map of input parameters (keys and values)
      * @throws IOException 
      */
-    public int runCommand( String cmd, Map<String, String> inputs ) throws IOException {
-        return runCommand( cmd, inputs, null, null );
+    public int runCommand( String cmd ) throws IOException {
+        return runCommand( cmd, null, null );
     }
 
     /**
@@ -137,34 +137,30 @@ public class ToolInvoker {
      * @param stdout OutputStream to write command's standard output to
      * @throws IOException 
      */
-	public int runCommand( String cmd, Map<String, String> inputs, InputStream stdin, OutputStream stdout ) throws IOException {
+	public int runCommand( String cmd, InputStream in, OutputStream out ) 
+            throws IOException {
 
 		// Build the command:
-        String[] cmd_template = cmd.split(" ");
-        replaceAll(cmd_template, inputs );
+        //String[] cmd_template = cmd.split(" ");
+        //replaceAll(cmd_template, inputs );
 
-		ProcessBuilder pb = new ProcessBuilder(cmd_template);
-		LOG.debug("Executing: "+pb.command());
-		/*
-		for( String command : pb.command() ) {
-			System.out.println("Command : "+command);			
-		}
-		*/
+		//ProcessBuilder pb = new ProcessBuilder(cmd_template);
+		LOG.debug("Executing: "+cmd);
 		
-		pb.redirectErrorStream(true);
-		Process start = pb.start();
+		//pb.redirectErrorStream(true);
+		Process proc = Runtime.getRuntime().exec(cmd);//pb.start();
 		try {
 			//copy input stream to output stream
-			if( stdin != null ) {
-				IOUtils.copyLarge(stdin,  start.getOutputStream() );
-				start.getOutputStream().close();
+			if( in != null ) {
+				IOUtils.copyLarge(in,  proc.getOutputStream() );
+				proc.getOutputStream().close();
 				System.out.println("Data in...");
 			}
 			
-            InputStream procStdout = start.getInputStream();
+            InputStream procStdout = proc.getInputStream();
 			// Copy the OutputStream:
-            if( stdout != null ) {
-                IOUtils.copy( procStdout, stdout );
+            if( out != null ) {
+                IOUtils.copy( procStdout, out );
             }
             else {
                 //StringWriter sw = new StringWriter();
@@ -172,38 +168,18 @@ public class ToolInvoker {
                 //System.out.println(sw.toString());
             }
 
-			
 			// Wait for completion:
 			// FIXME Needs time-out. 			
-			start.waitFor();
+			proc.waitFor();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-            start.destroy();
+            proc.destroy();
         }
-        return start.exitValue();
+        return proc.exitValue();
 	}
 	
-    /**
-     * Replaces ${key}s in given space-devided command-array by values.
-     * 
-     * @param cmd_template
-     * @param inputs 
-     */
-	protected void replaceAll(String[] cmd_template, Map<String,String> inputs) {
-		for( int i = 0; i < cmd_template.length; i++ ) {
-			for( String key : inputs.keySet() ) {
-				// Something is inserting a null,null pair into the map - ignoring it here:
-				if( key != null && inputs.get(key) != null ) {
-					String matchTo = Pattern.quote("${"+key+"}");
-					LOG.debug("GOT "+key+" "+inputs.get(key));
-					cmd_template[i] = cmd_template[i].replaceAll(
-                            matchTo, inputs.get(key).replace("\\", "\\\\") );
-				}
-			}
-		}
-	}
 
 
 }

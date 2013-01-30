@@ -1,4 +1,4 @@
-package eu.scape_project.pt.pit;
+package eu.scape_project.pt.repo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,6 +9,7 @@ import eu.scape_project.pt.tool.Tool;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
@@ -45,9 +46,8 @@ public class ToolRepository implements Repository{
 		}
 	}
 
-    // TODO constructor should not rely on these internal parameters
-    // a parametrized factoryMethod would do better
-    public ToolRepository( FileSystem fs, Path directory ) throws FileNotFoundException, IOException {
+    public ToolRepository( FileSystem fs, Path directory ) 
+            throws FileNotFoundException, IOException {
         if( !fs.exists(directory) )
             throw new FileNotFoundException();
 
