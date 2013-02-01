@@ -50,6 +50,11 @@ public class ToolProcessor extends Processor {
     private Map<String, String> mapOutputFileParameters;
 
     /**
+     * Underlying sub-process.
+     */
+    private Process proc;
+
+    /**
      * Constructs the processor with a tool and an action of a
      * toolspec.
      *
@@ -58,6 +63,7 @@ public class ToolProcessor extends Processor {
      */
     public ToolProcessor(Tool tool) {
         this.tool = tool;
+        debugToken = 'T';
     }
 
     public Operation findOperation( String strOp ) {
@@ -93,9 +99,30 @@ public class ToolProcessor extends Processor {
 
         LOG.debug("strCmd = " + strCmd );
 
-        ToolInvoker invoker = new ToolInvoker();
+		proc = Runtime.getRuntime().exec(strCmd);
 
-        return invoker.runCommand( strCmd, isIn, osOut);
+        this.setStdIn(proc.getOutputStream());
+        this.setStdOut(proc.getInputStream());
+
+        new Thread(this).start();
+
+        if( this.next != null )
+            return this.next.execute();
+
+        return proc.waitFor();
+    }
+
+    /** 
+     * Waits for the sub-process to terminate.
+     * 
+     * @return
+     * @throws InterruptedException 
+     */
+    @Override
+    public int waitFor() throws InterruptedException {
+        if( proc == null ) return 0;
+        LOG.debug("waitFor");
+        return proc.waitFor();
     }
 
     @Override

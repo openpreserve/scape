@@ -18,7 +18,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.io.Text;
 
 import eu.scape_project.pt.util.fs.Filer;
-import eu.scape_project.pt.proc.FileProcessor;
+import eu.scape_project.pt.proc.StreamProcessor;
 import eu.scape_project.pt.util.ArgsParser;
 import java.util.*;
 import java.util.Map.Entry;
@@ -39,7 +39,7 @@ public class TavernaCLExecutor implements Executor {
 	private String resultOutDir;
 	
 	// File processor to get temporary input files
-	FileProcessor fileProcessor;
+	StreamProcessor fileProcessor;
 	
 	// Taverna output directory
 	private String tavernaOutput;

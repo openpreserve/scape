@@ -3,6 +3,7 @@ package eu.scape_project.pt.executors;
 import eu.scape_project.pt.util.fs.Filer;
 import eu.scape_project.pt.invoke.Stream;
 import eu.scape_project.pt.invoke.ToolSpecNotFoundException;
+import eu.scape_project.pt.proc.StreamProcessor;
 import eu.scape_project.pt.proc.ToolProcessor;
 import eu.scape_project.pt.repo.ToolRepository;
 import eu.scape_project.pt.tool.Operation;
@@ -14,6 +15,7 @@ import eu.scape_project.pt.util.PropertyNames;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -65,6 +67,8 @@ public class ToolspecExecutor implements Executor {
         FileSystem fs = FileSystem.get(conf);
         this.repo = new ToolRepository(fs, fRepo);
         this.tool = repo.getTool(strTool);
+
+        LOG.debug("bla");
 
         processor = new ToolProcessor(this.tool);
 
@@ -157,34 +161,30 @@ public class ToolspecExecutor implements Executor {
         processor.setInputFileParameters(mapTempInputFileParameters);
         processor.setOutputFileParameters(mapTempOutputFileParameters);
 
-        //FileProcessor fileProcessorIn = null;
+        StreamProcessor streamProcessorIn = null;
         if( strStdinFile != null ) {
             Filer filer = Filer.create(strStdinFile);
-            InputStream isStdin = filer.getInputStream();
+            InputStream iStdin = filer.getInputStream();
 
-            processor.setInputStream(isStdin);
-            //fileProcessorIn = new FileProcessor(isStdin);
+            streamProcessorIn = new StreamProcessor(iStdin);
         }
 
+        OutputStream oStdout = null;
         if( strStdoutFile != null ) {
             Filer filer = Filer.create(strStdoutFile);
-            OutputStream osStdout = filer.getOutputStream();
+            oStdout = filer.getOutputStream();
+        } else // default: output to stdout
+            oStdout = new PrintStream(System.out);
 
-            processor.setOutputStream(osStdout);
-            //FileProcessor fileProcessorOut = new FileProcessor(osStdout);
-            //processor.next(fileProcessorOut);
-        }
+        StreamProcessor streamProcessorOut = new StreamProcessor(oStdout);
+        processor.next(streamProcessorOut);
 
         try {
-            //if( fileProcessorIn != null ) {
-                //fileProcessorIn.next(processor);
-                //fileProcessorIn.execute();
-            //} else
+            if( streamProcessorIn != null ) {
+                streamProcessorIn.next(processor);
+                streamProcessorIn.execute();
+            } else
                 processor.execute();
-                if( processor.getInputStream() != null)
-                    processor.getInputStream().close();
-                if( processor.getOutputStream() != null)
-                    processor.getOutputStream().close();
 
         } catch (Exception ex) {
             LOG.error(ex.getStackTrace());
@@ -248,7 +248,7 @@ public class ToolspecExecutor implements Executor {
                     }
                 }
 
-                // contexts for FileProcessor
+                // contexts for StreamProcessor
                 /*
                  * if (entry.getValue().getDirection() ==
                  * ParamSpec.Direction.IN) { inFiles.put(entry.getKey(),
@@ -260,7 +260,7 @@ public class ToolspecExecutor implements Executor {
             }
         }
 
-        // TODO need to tell FileProcessor if parameters are to be used as streams
+        // TODO need to tell StreamProcessor if parameters are to be used as streams
 
         // if mapInputs are not known, the paramters could be parsed that way:
         //HashMap<String, String> pContext = OldArgsParser.readParameters(
@@ -272,7 +272,7 @@ public class ToolspecExecutor implements Executor {
         // FIXME maybe they are not hdfs-files ...
 
         /*
-         * FileProcessor fileProcessor = new FileProcessor( inFiles, outFiles);
+         * StreamProcessor fileProcessor = new StreamProcessor( inFiles, outFiles);
          *
          * try { fileProcessor.resolvePrecondition(); } catch (Exception e_pre)
          * { LOG.error("Exception in preprocessing phase: " +
@@ -352,8 +352,8 @@ public class ToolspecExecutor implements Executor {
          *
          * //pipe(process.getErrorStream(), System.err);
          *
-         * OutputStream p_out = processor.getOutputStream(); InputStream p_in =
-         * processor.getInputStream(); //TODO copy outstream and send to log file
+         * OutputStream p_out = processor.getStdIn(); InputStream p_in =
+         * processor.getStdOut(); //TODO copy outstream and send to log file
          *
          * byte[] buffer = new byte[1024]; int bytesRead = -1;
          *

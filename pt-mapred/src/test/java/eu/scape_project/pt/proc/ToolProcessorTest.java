@@ -71,7 +71,7 @@ public class ToolProcessorTest extends Configured {
     /**
      * Test of execute method, of class ToolProcessor.
      */
-    public void testExecute() throws Exception {
+    public void testExecuteFileIdentify() throws Exception {
         Tool tool = repo.getTool("file");
 
         String tmpInputFile = this.getClass().getClassLoader()
@@ -90,8 +90,8 @@ public class ToolProcessorTest extends Configured {
         mapInput.put("input", tmpInputFile );
 
         processor.setInputFileParameters( mapInput );
-
-        processor.setOutputStream(System.out);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        processor.next( new StreamProcessor(baos));
         try {
             processor.execute();
         } catch ( IOException ex ) {
@@ -99,30 +99,59 @@ public class ToolProcessorTest extends Configured {
                 "Exception during execution (maybe unresolved system dependency?): "
                     + ex);
         }
+        LOG.info("output: " + new String(baos.toByteArray()) );
+    }
+
+    public void testExecuteFileIdentifyStdin() throws Exception {
 
         LOG.info("TEST file-identify-stdin");
 
-        operation = processor.findOperation("identify-stdin");
+        // This test may throw an "Broken pipe" IOException 
+        // because file needs not to read the whole file data from 
+        // stdin and will terminate while the other thread is reading streams.
+
+        Tool tool = repo.getTool("file");
+
+        String tmpInputFile = this.getClass().getClassLoader()
+                .getResource("ps2pdf-input.ps").getFile();
+
+        ToolProcessor processor = new ToolProcessor(tool);
+        Operation operation = processor.findOperation("identify-stdin");
         processor.setOperation(operation);
 
         FileInputStream fin = new FileInputStream( new File( tmpInputFile ));
-        processor.setInputStream(fin);
-        processor.setOutputStream(System.out);
+        StreamProcessor in = new StreamProcessor(fin);
+        in.next(processor);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos = new ByteArrayOutputStream();
+
+        processor.next( new StreamProcessor(baos));
         try {
-            processor.execute();
+            in.execute();
         } catch ( IOException ex ) {
             LOG.error(
                 "Exception during execution (maybe unresolved system dependency?): "
                     + ex);
         }
+        LOG.info("output: " + new String(baos.toByteArray()) );
+
+    }
+
+    public void testExecutePs2pdfConvert() throws Exception {
+
 
         LOG.info("TEST ps2pdf-convert");
-        tool = repo.getTool("ps2pdf");
+        Tool tool = repo.getTool("ps2pdf");
 
-        processor = new ToolProcessor(tool);
-        operation = processor.findOperation("convert");
+        String tmpInputFile = this.getClass().getClassLoader()
+                .getResource("ps2pdf-input.ps").getFile();
+
+        ToolProcessor processor = new ToolProcessor(tool);
+        Operation operation = processor.findOperation("convert");
         processor.setOperation(operation);
 
+        Map<String, String> mapInput = new HashMap<String, String>();
 
         LOG.debug("tool = " + tool.getName());
 
@@ -147,24 +176,35 @@ public class ToolProcessorTest extends Configured {
                     + ex);
         }
 
-        LOG.info("TEST ps2pdf-convert-streamed");
+    }
 
-        processor = new ToolProcessor(tool);
-        operation = processor.findOperation("convert-streamed");
+    public void testExecutePs2pdfConvertStreamed() throws Exception {
+
+        LOG.info("TEST ps2pdf-convert-streamed");
+        Tool tool = repo.getTool("ps2pdf");
+
+        String tmpInputFile = this.getClass().getClassLoader()
+                .getResource("ps2pdf-input.ps").getFile();
+        String tmpOutputFile = File.createTempFile("ps2pdf", ".pdf").getAbsolutePath();
+
+        ToolProcessor processor = new ToolProcessor(tool);
+        Operation operation = processor.findOperation("convert-streamed");
         processor.setOperation(operation);
 
         LOG.debug("tmpInputFile = " + tmpInputFile );
 
         LOG.debug("tmpOutputFile = " + tmpOutputFile );
 
-        fin = new FileInputStream( new File( tmpInputFile ));
-        processor.setInputStream(fin);
+        FileInputStream fin = new FileInputStream( new File( tmpInputFile ));
+        StreamProcessor in = new StreamProcessor(fin);
+        in = new StreamProcessor( fin );
+        in.next( processor );
 
         FileOutputStream fout = new FileOutputStream( new File( tmpOutputFile ));
-        processor.setOutputStream(fout);
+        processor.next(new StreamProcessor(fout));
 
         try {
-            processor.execute();
+            in.execute();
         } catch ( IOException ex ) {
             LOG.error(
                 "Exception during execution (maybe unresolved system dependency?): "

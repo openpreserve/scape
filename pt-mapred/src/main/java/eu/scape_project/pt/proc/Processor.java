@@ -1,22 +1,25 @@
 package eu.scape_project.pt.proc;
 
-import eu.scape_project.pt.invoke.Stream;
-import eu.scape_project.pt.util.ParamSpec;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Map;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public abstract class Processor {
+public abstract class Processor implements Runnable {
 
+    private static Log LOG = LogFactory.getLog(Processor.class.toString());
+    protected char debugToken = 'P';
     /**
      * Inputstream to read from. 
      */
-    protected InputStream isIn;
+    protected InputStream iStdOut;
 
     /**
      * Outputstream to write to. 
      */
-    protected OutputStream osOut;
+    protected OutputStream oStdIn;
 
     /**
      * Processor to execute.
@@ -28,6 +31,8 @@ public abstract class Processor {
      */
     protected Processor prev;
 
+    protected boolean STOP = false;
+
     /**
      * Executes its process and provides the InputStream for the next processor.
      * @return exit code of process (0 for success)
@@ -38,35 +43,35 @@ public abstract class Processor {
 	abstract public void initialize();
 
     /**
-     * Gets InputStream of processor
-     * @return InputStream isIn
+     * Gets standard output stream of processor
+     * @return InputStream iStdOut
      */
-    public InputStream getInputStream( ) {
-        return this.isIn;
+    public InputStream getStdOut( ) {
+        return this.iStdOut;
     }
 
     /**
-     * Gets OutputStream of processor
-     * @return OutputStream osOut
+     * Gets standard input stream of processor
+     * @return OutputStream oStdIn
      */
-    public OutputStream getOutputStream( ) {
-        return this.osOut;
+    public OutputStream getStdIn( ) {
+        return this.oStdIn;
     }
 
     /**
-     * Sets InputStream of processor
-     * @param InputStream in 
+     * Sets standard output stream of processor
+     * @param InputStream out 
      */
-    public void setInputStream(InputStream in) {
-        this.isIn = in;
+    public void setStdOut(InputStream out) {
+        this.iStdOut = out;
     }
 
     /**
-     * Sets OutputStream of processor
-     * @param outputStream in 
+     * Sets standard input stream of processor
+     * @param OutputStream in 
      */
-    public void setOutputStream(OutputStream out) {
-        this.osOut = out;
+    public void setStdIn(OutputStream in) {
+        this.oStdIn = in;
     }
 
     /**
@@ -104,5 +109,28 @@ public abstract class Processor {
         this.prev = prev;
         prev.next(this);
     }
+
+    @Override
+    public void run() {
+        LOG.debug(debugToken + " run");
+        if( this.prev == null 
+            || this.prev.getStdOut() == null 
+            || oStdIn == null ) return;
+        try {
+            LOG.debug(debugToken + " copy prev.stdout to stdin");
+            LOG.debug("instance of stdout: " + this.prev.getStdOut().toString() );
+            LOG.debug("instance of stdin: " + oStdIn.toString() );
+            IOUtils.copyLarge(this.prev.getStdOut(), oStdIn);
+            this.prev.getStdOut().close();
+            oStdIn.close();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+
+    abstract public int waitFor() throws InterruptedException;
+    
+
 
 }
