@@ -1,0 +1,12 @@
+Package: tika-app-cli
+Version: 1.2
+Architecture: all
+Maintainer: The British Library (UK) <lynn.marwood@bl.uk>
+Installed-Size: 25604
+Section: java
+Priority: extra
+Homepage: http://tika.apache.org/
+Description: Automatic file format identification tool.
+ The Apache Tika library is a toolkit for detecting and extracting
+ metadata and structured text content from various documents using
+ using existing parser libraries.
