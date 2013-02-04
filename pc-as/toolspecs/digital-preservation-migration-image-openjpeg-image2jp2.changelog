@@ -1,3 +1,9 @@
+digital-preservation-migration-image-openjpeg-image2jp2 (1.0.2) unstable; urgency=low
+
+  * Add parameters to command line
+
+ -- SCAPE project <william.palmer@bl.uk>  Mon, 04 Feb 2013 14:00:00 +0000
+
 digital-preservation-migration-image-openjpeg-image2jp2 (1.0.1) unstable; urgency=low
 
   * Initial Release.
