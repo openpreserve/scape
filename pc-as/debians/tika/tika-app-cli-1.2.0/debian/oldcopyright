@@ -1,0 +1,27 @@
+This package was packaged for Debian by:
+
+    Lynn Marwood<lynn.marwood@bl.uk> on Wed, 21 Nov 2012 11:47:00 +0100.
+
+Upstream Author:
+
+    Apache Software Foundation <http://www.apache.org/>.
+
+Copyright: 
+
+    Copyright (c) 2012 The British Library, Open Planets Foundation
+
+License:
+  
+  APACHE TIKA is free software; Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+  
+  Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+  Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+  Neither the name of The British Library nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+  For more details please refer to /usr/share/tika/LICENCE
+
+The Debian packaging is:
+   
+    Copyright (C) 2012 Open Planets Foundation <www.openplanetsfoundation.org> and is licensed under the Apache 2.0 license

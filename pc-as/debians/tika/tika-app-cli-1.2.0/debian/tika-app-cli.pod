@@ -1,0 +1,30 @@
+=head1 NAME
+
+tika-app-cli - CLI for Apache Tika 
+
+=head1 SYNOPSIS
+
+tika-app-cli (-i|--input-file=) I<INPUT_FILE>
+
+=head1 DESCRIPTION
+
+Provides a number of file identification and parsing services
+Use command tika-app-cli --help for more information
+
+=head1 OPTIONS                         
+
+=over 8
+
+=item B<INPUT_FILE>
+
+File to be identified or parsed
+
+=back
+
+=head1 AUTHORS
+
+B<tika-app-cli> was provided by Apache.
+
+This manual page was written by Lynn Marwood <lynn.marwood@bl.uk>.
+=cut
+
