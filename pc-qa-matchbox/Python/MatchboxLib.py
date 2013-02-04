@@ -24,7 +24,7 @@ import os
 import sys
 import glob
 import gzip
-import math
+#import math
 import Queue
 import threading
 
@@ -34,7 +34,8 @@ import xml.etree.ElementTree as et
 
 from xml.dom import minidom
 from subprocess import call
-from scipy.cluster.vq import kmeans2
+
+import cv2
 
 # === definitions =================================================================================
 
@@ -77,6 +78,7 @@ class ExtractFeaturesWorker(threading.Thread):
         self.active             = True
         self.kill_received      = False
         self.__class__.numFiles = queue.qsize()
+        self.__class__.idx      = 1
 
     '''
     # ============================================
@@ -91,11 +93,18 @@ class ExtractFeaturesWorker(threading.Thread):
                 
                 task     = self.queue.get_nowait()
                 
-                filename = "{0}.{1}.feat.xml.gz".format(task[-1], task[2])
+                featureName = "ImageHistogram"
+                
+                for i in range(len(task)):
+                    if task[i] == "-o":
+                        featureName = task[i+1]
+                        break
+                    
+                filename = "{0}.{1}.feat.xml.gz".format(task[-1], featureName)
                 
                 for i in range(len(task)):
                     if task[i] == "-d":
-                        filename = "{0}/{1}.{2}.feat.xml.gz".format(task[i+1],extractFilename(task[-1]), task[2])
+                        filename = "{0}/{1}.{2}.feat.xml.gz".format(task[i+1],extractFilename(task[-1]), featureName)
                         break
                 
                 exists = os.path.exists(filename)
@@ -121,6 +130,184 @@ class ExtractFeaturesWorker(threading.Thread):
     
     def stop(self):
         self.active = False
+
+
+
+
+
+
+
+
+
+
+
+
+
+class KnnWorker(threading.Thread):
+
+    # defining locks
+    incrementLock = threading.RLock()
+    
+    '''
+    # ============================================
+    # Constructor
+    # ============================================
+    #
+    #   @summary: 
+    #
+    #   @param config:  configuration containing path information to matchbox binaries
+    #   @param queue:   receive tasks from this queue
+    #   @param results: store results to this queue
+    '''
+    def __init__(self, config, queue, results):
+        
+        threading.Thread.__init__(self)
+        
+        self.queue         = queue    
+        self.results       = results  
+        self.config        = config   
+        self.kill_received = False
+    
+    '''
+    # ============================================
+    # Method: run
+    # ============================================
+    '''
+    def run(self):
+        
+        try:
+            
+            # receive tasks from queue as long as no kill signal was received
+            while(not self.kill_received):
+                
+                # get the next task from the queue
+                (image1,image2,distance) = self.queue.get_nowait()
+                
+                # execute compare.exe
+                # ===========================================================================
+                # self.config['BIN_COMPARE']    ... path to compare binary
+                # --bowmetric CV_COMP_INTERSECT ... use histogram intersection for comparison
+                # image[0]                      ... path to image1
+                # image[1]                      ... path to image2
+                process        = sub.Popen([self.config['BIN_COMPARE'], 
+                                        "--metric", "CV_COMP_INTERSECT", 
+                                        image1, 
+                                        image2], 
+                                        stdout=sub.PIPE,stderr=sub.PIPE)
+                # store cmd-line output 
+                output, errors = process.communicate()
+                # convert output to utf-8
+                outputStr      = output.decode("utf-8")
+                errorStr       = errors.decode("utf-8")
+    
+                if len(errorStr) == 0:
+                
+                    xml_response = et.fromstring(outputStr)
+                    
+                    ssim         = float(xml_response[0][0].text)
+                    sv           = distance * ssim
+                    
+                    ExtractFeaturesWorker.incrementLock.acquire() 
+                    self.results.append([sv,image2])
+                    ExtractFeaturesWorker.incrementLock.release()
+                
+                else:
+                    
+                    print("    compare.exe -l 4 {0} {1}".format(image1, image2))
+                    print(errorStr)
+                    ExtractFeaturesWorker.incrementLock.acquire() 
+                    self.results.append([-1, image2])
+                    ExtractFeaturesWorker.incrementLock.release()
+                
+        except (Queue.Empty):
+            pass
+        
+
+
+'''
+# ============================================
+# Function: getKnn
+# ============================================
+#
+# @summary: 
+#
+# @param config: 
+# @param queryFile:
+# @param collection:
+# @param numThreads:
+#   
+# @return: results:
+#          kill_received:
+'''
+def runSpatialVerification(config, queryFile, collection, numThreads = 1, offset = 0, limit = 1):
+
+    # initialize variables
+    results       = []
+    pool          = []
+    jobs          = Queue.Queue()
+
+    kill_received = False
+    
+    idx = 0
+    
+    # compare query file against each file of collection
+    for (neighbor, distance) in collection:
+        
+        if (idx - offset) >= limit:
+            break
+        
+        # do not compare query file with itself
+        if neighbor == queryFile:
+            continue
+        
+        idx += 1
+        
+        if  idx <= offset:
+            continue
+        
+        # put jobs into the working queue
+        jobs.put([queryFile.replace("BOWHistogram", "SIFTComparison"),neighbor.replace("BOWHistogram", "SIFTComparison"), distance])
+
+        
+    # start worker threads
+    for i in range(numThreads):
+        
+        # create thread and provide config and queues
+        worker = KnnWorker(config, jobs, results)
+        pool.append(worker)
+        
+        # start thread
+        worker.start()
+    
+    # wait for all threads to finish
+    while len(pool) > 0:
+        try:
+            # Join all threads using a timeout so it doesn't block
+            # Filter out threads which have been joined or are None
+            for thread in pool:
+                thread.join(10)
+                if not thread.isAlive():
+                    pool.remove(thread)
+            
+        except KeyboardInterrupt:
+            
+            # control-c detected - shut down threads and terminate
+            print "Ctrl-c received! Sending kill to threads..."
+            
+            kill_received = True
+            for t in pool:
+                t.kill_received = True    
+    
+    # sort results in descending order
+    results.sort(reverse=True)
+    
+    return results, kill_received
+
+
+
+
+
+
 
 # === functions ===================================================================================
 
@@ -188,7 +375,7 @@ def processExtractFeatures(queue, numThreads):
 # @param only:   
 #   
 '''
-def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featdir = "", only = ""):
+def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featdir = "", only = "", downsample = 1000000):
 
     queue = Queue.Queue()
     
@@ -202,7 +389,7 @@ def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featd
             continue
         
         # create job description
-        job_desc = [config['BIN_EXTRACTFEATURES'], '--sdk', str(sdk), '--clahe', str(clahe)]
+        job_desc = [config['BIN_EXTRACTFEATURES'], '--sdk', str(sdk), '--downsample', str(downsample), '--clahe', str(clahe)]
         
         # an "only" filter has been supplied
         if len(only) > 0:
@@ -289,12 +476,9 @@ def extractBoWHistograms(config, collectiondir, numThreads = 1, featdir = "", bo
 '''   
 def extractFilename(path):
     
-    sep = "\\"
+    path = path.replace("\\", "/")
     
-    if os.name == "posix":
-        sep = "/"
-    
-    tmp = path.split(sep)
+    tmp = path.split("/")
     return tmp[-1].replace(".feat.xml.gz", "")
 
 '''
@@ -373,7 +557,55 @@ def loadBOWHistogram(featureFile):
     # free memory
     xmldoc.clear()
 
-    return data
+    return np.array(data)
+
+
+def loadSIFTFeatures(featureFile):
+
+    # read xml-data
+    f = gzip.open(featureFile, 'rb')
+    xmldoc = et.fromstring(f.read())
+    f.close()
+    
+    i = 0
+    
+    keypoints       = []
+    descriptors     = []
+    
+    curr_keypoint   = []
+    curr_descriptor = []
+    
+    # parse xml-data
+    for t in xmldoc[0][0].text.replace("\n"," ").split(" "):
+        
+        if len(t) > 0:
+            if i <= 5:
+                curr_keypoint.append(float(t))
+                i += 1
+        
+            elif i > 5:
+                curr_keypoint.append(float(t))
+                keypoints.append(curr_keypoint)
+                curr_keypoint = []
+                i = 0
+                
+    for t in xmldoc[0][1][3].text.replace("\n"," ").split(" "):
+            
+        if len(t) > 0:
+            if i <= 126:
+                curr_descriptor.append(float(t))
+                i += 1
+        
+            elif i > 126:
+                curr_descriptor.append(float(t))
+                descriptors.append(curr_descriptor)
+                curr_descriptor = []
+                i = 0
+
+    # free memory
+    xmldoc.clear()
+
+    return keypoints, descriptors
 
 '''
 # ============================================
@@ -445,12 +677,193 @@ def getDistanceMatrix(featureDirectory):
             
             # calculate histogram intersections
             dist = np.sum(np.minimum(query[1],collectionEntry[1]))
-            neighbors.append([dist, collectionEntry])
+            neighbors.append([dist, collectionEntry[0], collectionEntry[1]])
+        
         
         # sort list in descending order
         neighbors.sort(reverse=True)
         
-        distanceMatrix.append([query[0], neighbors])
+        # add to distance matrix
+        # 1. query filename
+        # 2. nearest neighbor
+        # 3. distance value
+        distanceMatrix.append([query[0], neighbors[0][1], neighbors[0][0]])
+
+    return distanceMatrix
+
+'''
+# ============================================
+# Function: getShortLists
+# ============================================
+#
+# @summary:
+#
+# @param featureDirectory: 
+#
+# @return: 
+#
+''' 
+def getShortLists(featureDirectory, length):
+    
+    histograms     = []
+    distanceMatrix = []
+    
+    print "...loading features"
+    
+    # load bow histograms
+    for featureFilename in glob.glob( os.path.join(featureDirectory, "*.BOWHistogram.feat.xml.gz")):
+        
+        # load histogram
+        data = loadBOWHistogram(featureFilename)
+        
+        # store data to list with filename
+        histograms.append([featureFilename, data])
+        
+    print "...calculating distance matrix"
+    for query in histograms:
+        
+        neighbors = []
+        
+        for collectionEntry in histograms:
+            
+            if (collectionEntry == query):
+                continue
+            
+            # calculate histogram intersections
+            dist = np.sum(np.minimum(query[1],collectionEntry[1]))
+            neighbors.append([dist, collectionEntry[0], collectionEntry[1]])
+        
+        
+        # sort list in descending order
+        neighbors.sort(reverse=True)
+        
+        shortlist = []
+        
+        for i in range(0,length):
+            shortlist.append([neighbors[i][1], neighbors[i][0]])
+        
+        # add to distance matrix
+        # 1. query filename
+        # 2. Shortlist
+        #   2.1 filename
+        #   2.2 distance
+        distanceMatrix.append([query[0], shortlist])
+
+    return distanceMatrix
+
+def getShortLists2(featureDirectory1, featureDirectory2, length):
+    
+    histograms1    = []
+    histograms2    = []
+    distanceMatrix = []
+    
+    print "...loading features"
+    
+    # load bow histograms1
+    for featureFilename in glob.glob( os.path.join(featureDirectory1, "*.BOWHistogram.feat.xml.gz")):
+        
+        # load histogram
+        data = loadBOWHistogram(featureFilename)
+        
+        # store data to list with filename
+        histograms1.append([featureFilename, data])
+        
+    # load bow histograms2
+    for featureFilename in glob.glob( os.path.join(featureDirectory2, "*.BOWHistogram.feat.xml.gz")):
+        
+        # load histogram
+        data = loadBOWHistogram(featureFilename)
+        
+        # store data to list with filename
+        histograms2.append([featureFilename, data])
+        
+    print "...calculating distance matrix"
+    for query_filename, query_hist in histograms1:
+        
+        neighbors = []
+        
+        for col2_filename, col2_hist in histograms2:
+            
+            # calculate histogram intersections
+            dist = np.sum(np.minimum(query_hist,col2_hist))
+            neighbors.append([dist, col2_filename, col2_hist])
+        
+        
+        # sort list in descending order
+        neighbors.sort(reverse=True)
+        
+        shortlist = []
+        
+#        print "=================="
+#        print ">", query_filename
+        
+        #dispKeypoints(query_filename, neighbors[0][1])
+        
+        if length == -1:
+            length = len(neighbors) - 1
+        
+        for i in range(0,length):
+#            print neighbors[i][0], neighbors[i][1]
+            shortlist.append([neighbors[i][1], neighbors[i][0]])
+        
+        # add to distance matrix
+        # 1. query filename
+        # 2. Shortlist
+        #   2.1 filename
+        #   2.2 distance
+        distanceMatrix.append([query_filename, shortlist])
+
+    return distanceMatrix
+
+def getShortLists3(query_filename, query_hist, featureDirectory2, length):
+    
+    histograms2    = []
+    distanceMatrix = []
+    
+    
+    print "...loading features"
+        
+    # load bow histograms2
+    for featureFilename in glob.glob( os.path.join(featureDirectory2, "*.BOWHistogram.feat.xml.gz")):
+        
+        # load histogram
+        data = loadBOWHistogram(featureFilename)
+        
+        # store data to list with filename
+        histograms2.append([featureFilename, data])
+
+    print "...calculating distance matrix"
+        
+    print query_filename
+    
+    neighbors = []
+    
+    for col2_filename, col2_hist in histograms2:
+        
+        # calculate histogram intersections
+        dist = np.sum(np.minimum(query_hist,col2_hist))
+        neighbors.append([dist, col2_filename, col2_hist])
+    
+    
+    # sort list in descending order
+    neighbors.sort(reverse=True)
+    
+    shortlist = []
+    
+    if length == -1:
+        length = len(neighbors)
+    
+    for i in range(0,length):
+        shortlist.append([neighbors[i][1], neighbors[i][0]])
+        
+    print ">>>>", len(shortlist)
+    
+    # add to distance matrix
+    # 1. query filename
+    # 2. Shortlist
+    #   2.1 filename
+    #   2.2 distance
+    distanceMatrix.append([query_filename, shortlist])
 
     return distanceMatrix
 
@@ -495,119 +908,240 @@ def compare(config, f1, f2, feature, valueName):
                             
     return resultValue
             
+#'''
+## ============================================
+## Function: pyFindDuplicates
+## ============================================
+##
+## @summary:
+##
+## @param config: 
+## @param featureDirectory: 
+## @param csv: 
+##
+## @return: loaded data
+##
+#''' 
+#def pyFindDuplicates(config, featureDirectory, csv):
+#    
+#    # initialize hardcoded values
+#    seclen       = 200
+#    
+#    # declare variables
+#    distVals     = []
+#    cluster_data = []
+#    
+#    # load distance matrix
+#    dmatrix      = getDistanceMatrix(featureDirectory)
+#    
+#    # calculate number of cluster centers
+#    num_cluster_center = math.ceil(len(dmatrix) / float(seclen))
+#    
+#    # exception: there should be at least three clusters
+#    if num_cluster_center < 3:
+#        num_cluster_center = 3
+#    
+#    print "...loading dispersion from feature files"
+#    
+#    i = 0    
+#    for entry in dmatrix:
+#
+#        # building the feature vector:
+#        # ============================
+#        # i... control variable
+#        # 4... dispersion    => dat[0]
+#        # 5... uniformity    => dat[1]
+#        dat = loadFeatureData2(entry[0].replace("BOWHistogram", "SIFTComparison"), [4,5])
+#        cluster_data.append([ i, dat[0], dat[1] ])
+#        
+#        distVals.append(entry[2])
+#        
+#        i += 1
+#    
+#    [centers, labels] = kmeans2(np.array(cluster_data), num_cluster_center, 10, 1e-5, "points")
+#    
+##    print labels
+##    print centers
+#    
+#    
+#    # convert lists to numpy matrix
+#    k          = 3
+#    d          = np.matrix(distVals,dtype=float)
+#    
+#    ind = np.arange(len(distVals))[np.newaxis,:]
+#    ind += 1
+#    
+##    pylab.plot(ind.transpose(), d.transpose())
+##    pylab.show()
+#    
+#    
+#    r          = np.array(dmatrix)
+#    thresholds = np.zeros((1,len(labels)),dtype=float)
+#    
+#    print "...calculating Mean Absolute Deviations"
+#    
+#    # for each cluster center
+#    for center_number in range(0,int(num_cluster_center - 1)):
+#        
+#        # which images are from this cluster?
+#        indeces_of_images_of_this_cluster = (labels == center_number)
+#        
+#        # get distvals for this cluster
+#        distvals_of_this_cluster = np.extract(indeces_of_images_of_this_cluster, d)
+#    
+#        # calc median and MAD for these values
+#        medd = np.median(distvals_of_this_cluster)
+#        mad  = k * np.median(np.abs(distvals_of_this_cluster - medd))
+#    
+#        # set threshold values for images of this cluster
+#        thresholds = indeces_of_images_of_this_cluster.choose(thresholds,(medd+mad))
+#        
+#    
+#        
+#        
+#    print "...selecting duplicate candidates"
+#    indeces_of_images_exceeding_threshold = (d > thresholds) #duplicate candidates
+#    
+#    duplicates = r[np.where(indeces_of_images_exceeding_threshold)[1]]
+#    
+#    dup_found = set()
+#    result    = []
+#
+#    print "...calculating structural similarity of candidates for spatial verification"
+#    
+#    print "\n=== List of detected duplicates ===\n"
+#    
+#    for dup in duplicates:
+#        
+#        if (dup[0,0] not in dup_found):
+#            
+#            f1 = str(dup[0,0]).replace("BOWHistogram", "SIFTComparison")
+#            f2 = str(dup[0,1]).replace("BOWHistogram", "SIFTComparison")
+#            
+#            ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
+#            
+#            f1 = extractFilename(f1).replace(".SIFTComparison", "")
+#            f2 = extractFilename(f2).replace(".SIFTComparison", "")
+#            
+#            if ssim > 0.9:
+#                print "{0} => {1} [ {2}% ] ==> Duplicate".format(f1, f2, (ssim * 100))
+#                result.append([f1,f2,ssim])
+#                dup_found.add(dup[0,1])
+#            else:
+#                print "{0} => {1} [ {2}% ] ==> No Duplicate".format(f1, f2, (ssim * 100))
+#
+#    return result
+
+
 '''
 # ============================================
-# Function: getDistanceMatrix
+# Function: pyFindDuplicates_SpatialVerification
 # ============================================
 #
 # @summary:
 #
 # @param config: 
 # @param featureDirectory: 
-# @param k: 
 # @param csv: 
 #
 # @return: loaded data
 #
 ''' 
-def pyFindDuplicates(config, featureDirectory, k, csv):
+def pyFindDuplicates_SpatialVerification(config, featureDirectory, csv):
     
     # initialize hardcoded values
-    k       = 3
-    seclen  = 200
     
     # declare variables
-    distVals     = []
-    results      = []
-    cluster_data = []
     
     # load distance matrix
-    dmatrix = getDistanceMatrix(featureDirectory)
+    shortlist = getShortLists(featureDirectory, 4)
     
-    # calculate number of cluster centers
-    num_cluster_center = math.ceil(len(dmatrix) / float(seclen))
+    idx = 1
     
-    # exception: there should be at least three clusters
-    if num_cluster_center < 3:
-        num_cluster_center = 3
-    
-    print "...loading dispersion from feature files"
-    
-    i = 0    
-    for entry in dmatrix:
-
-        # building the feature vector:
-        # ============================
-        # i... control variable
-        # 4... dispersion    => dat[0]
-        # 5... uniformity    => dat[1]
-        # 6... sizeVariation => dat[2]
-        dat = loadFeatureData2(entry[0].replace("BOWHistogram", "SIFTComparison"), [4,5,6])
-        cluster_data.append([ i, dat[0], dat[1], dat[2] ])
+    for (query,neighbors) in shortlist:
         
-        distVals.append(entry[1][0][0])
-        results.append([entry[0], entry[1][0][1][0], entry[1][0][0]])
-
-        i += 1
-    
-    [centers, labels] = kmeans2(np.array(cluster_data), num_cluster_center, 10, 1e-5, "points")
-    
-    print labels
-    print centers
-    
-    # convert lists to numpy matrix
-    d          = np.matrix(distVals,dtype=float)
-    r          = np.array(results)
-    thresholds = np.zeros((1,len(labels)),dtype=float)
-    
-    print "...calculating Mean Absolute Deviations"
-    
-    # for each cluster center
-    for center_number in range(0,int(num_cluster_center - 1)):
+        result, kill = runSpatialVerification(config, query, neighbors, 4)
         
-        # which images are from this cluster?
-        indeces_of_images_of_this_cluster = (labels == center_number)
+        duplicates = []
         
-        # get distvals for this cluster
-        distvals_of_this_cluster = np.extract(indeces_of_images_of_this_cluster, d)
-    
-        # calc median and MAD for these values
-        medd = np.median(distvals_of_this_cluster)
-        mad  = k * np.median(np.abs(distvals_of_this_cluster - medd))
-    
-        # set threshold values for images of this cluster
-        thresholds = indeces_of_images_of_this_cluster.choose(thresholds,(medd+mad))
-        
-        
-    print "...selecting duplicate candidates"
-    indeces_of_images_exceeding_threshold = (d > thresholds) #duplicate candidates
-    
-    duplicates = r[np.where(indeces_of_images_exceeding_threshold)[1]]
-    
-    dup_found = set()
-    result    = []
-
-    print "...calculating structural similarity of candidates for spatial verification"
-    
-    print "\n=== List of detected duplicates ===\n"
-    
-    for dup in duplicates:
-        
-        if (dup[0,0] not in dup_found):
+        for r in result:
             
-            f1 = str(dup[0,0]).replace("BOWHistogram", "SIFTComparison")
-            f2 = str(dup[0,1]).replace("BOWHistogram", "SIFTComparison")
+            if r[0] >= 0.7:
+                
+                
+                duplicates.append(int(r[1].replace("\\", "/").split("/")[-1].split(".")[0]))
+        
+        duplicates.sort()
+        
+        if len(duplicates) > 0:
+            print "[{0} of {1}] {2} => {3}".format(idx, len(shortlist), int(query.replace("\\", "/").split("/")[-1].split(".")[0]), duplicates)
+        else:
+            print "[{0} of {1}] {2}".format(idx, len(shortlist), int(query.replace("\\", "/").split("/")[-1].split(".")[0]))
             
-            ssim = compare(config, f1, f2, "SIFTComparison", "ssim")
-            
-            f1 = extractFilename(f1).replace(".SIFTComparison", "")
-            f2 = extractFilename(f2).replace(".SIFTComparison", "")
-            
-            if ssim > 0.9:
-                print "{0} => {1} [ {2}% ] ==> Duplicate".format(f1, f2, (ssim * 100))
-                result.append([f1,f2,ssim])
-                dup_found.add(dup[0,1])
-            else:
-                print "{0} => {1} [ {2}% ] ==> No Duplicate".format(f1, f2, (ssim * 100))
+        idx += 1
 
-    return result
+
+def dispKeypoints(filename1, filename2):
+    
+    filename1 = filename1.replace("BOWHistogram", "SIFTComparison")
+    
+    keypoints1, descriptors1 = loadSIFTFeatures(filename1)
+    
+    img1 = cv2.imread(filename1.replace(".SIFTComparison.feat.xml.gz", ""))
+    
+    cv2.imshow("img1", img1)
+    cv2.waitKey(10)
+    cv2.waitKey(0)
+    
+    print keypoints1
+
+
+def pyFindReferences(config, col1, col2):
+    
+    shortlist = getShortLists2(col1, col2, -1)
+    
+    idx = 1
+    concurrent_searches = 6
+    
+    print "...running spatial verification"
+    
+    for (query,neighbors) in shortlist:
+        
+#        if idx < 4:
+#            idx += 1
+#            continue
+        
+        result, kill = runSpatialVerification(config, query, neighbors, 2, limit = 2)
+        
+        duplicates = []
+        
+        for r in result:
+            
+            if r[0] >= 0.7:
+                
+                duplicates.append(r[1].replace("\\", "/").split("/")[-1].split(".")[0])
+        
+        offset = 2
+        
+        while len(duplicates) == 0 and offset < len(neighbors):
+            
+            result, kill = runSpatialVerification(config, query, neighbors, numThreads=concurrent_searches,offset=offset,limit=concurrent_searches)
+        
+            for r in result:
+                
+                if r[0] >= 0.7:
+                    
+                    duplicates.append(r[1].replace("\\", "/").split("/")[-1].split(".")[0])
+            
+            offset += concurrent_searches
+        
+        duplicates.sort()
+        
+        if len(duplicates) > 0:
+            print "[{0} of {1}] {2} => {3}".format(idx, len(shortlist), query.replace("\\", "/").split("/")[-1].split(".")[0], duplicates)
+        else:
+            print "[{0} of {1}] {2}".format(idx, len(shortlist), query.replace("\\", "/").split("/")[-1].split(".")[0])
+            
+        idx += 1
+        
+    

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<?meta name="GENERATOR" content="XML::Smart/1.6.9 Perl/5.014002 [linux]" ?>
-<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd" xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" schemaVersion="1.0" name="JasPer" version="1.0" homepage="http://www.ece.uvic.ca/~frodo/jasper/">
+<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd" xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" schemaVersion="1.0" name="JasPer" version="1.0.1" homepage="http://www.ece.uvic.ca/~frodo/jasper/">
   <installation>
     <dependency operatingSystemName="Debian">libjasper-runtime</dependency>
     <license type="Apache Licence 2.0">Apache License, Version 2.0</license>
@@ -29,4 +28,3 @@
     </operation>
   </operations>
 </tool>
-

@@ -6,29 +6,7 @@ Here can be found several files and information related to the Action Services d
 
 ## How to create a Debian package from a toolspec
 
-1) Install all the tools needed. Do:
-* sudo apt-get install build-essential dh-make devscripts debhelper lintian 
-
-2) Clone SCAPE github so you are able to compile the toolwrapper. Do: 
-* git clone https://github.com/openplanets/scape.git
-
-3) Compile the toolwrapper. For that, you'll need to install Apache Maven. Do:
-* sudo apt-get install maven
-
-4) Now compile the toolwrapper. From the root of the SCAPE repository, do:
-* cd pc-as/toolwrapper/ && mvn package
-
-5) Execute the toolwrapper and generate the Debian package. Do:
-
-* ./generateDebianPackages4AllToolspecs.sh TOOLSPECS_DIR|TOOLSPEC TOOLWRAPPER_JAR_WITH_DEPENDENCIES DEBIAN_OUTPUT_DIRECTORY MAINTAINER_EMAIL
-
-Example:
-
-* ./generateDebianPackages4AllToolspecs.sh /home/hsilva/Git/scape/pc-as/toolspecs/digital-preservation-migration-office-pdfbox-pdf2txt.xml /home/hsilva/Git/scape/pc-as/toolwrapper/bash-generator/target/bash-generator-0.0.1-SNAPSHOT-jar-with-dependencies.jar /home/hsilva/Git/scape/pc-as/toolwrapper/outdir/ hsilva@keep.pt
-
-or
-
-* ./generateDebianPackages4AllToolspecs.sh /home/hsilva/Git/scape/pc-as/toolspecs/ /home/hsilva/Git/scape/pc-as/toolwrapper/bash-generator/target/bash-generator-0.0.1-SNAPSHOT-jar-with-dependencies.jar /home/hsilva/Git/scape/pc-as/toolwrapper/outdir/ hsilva@keep.pt
+See toolwrapper README.md: [link](https://github.com/openplanets/scape/tree/master/pc-as/toolwrapper)
 
 ## Try it out locally (tested on Debian 6.0.5)
 

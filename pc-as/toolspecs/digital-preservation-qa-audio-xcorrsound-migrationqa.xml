@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tool xmlns="http://scape-project.eu/tool" schemaVersion="1.0"
+      name="migration-qa" version="1.0.0" homepage="https://github.com/openplanets/scape-xcorrsound">
+    <installation>
+        <dependency operatingSystemName="Debian">migration-qa</dependency>
+        <license type="GPLv2">GNU Public License, Version 2.0</license>
+    </installation>
+    <otherProperties>
+        <property name="cost">0</property>
+    </otherProperties>
+    <operations>
+        <operation name="digital-preservation-qa-audio-xcorrsound-migrationqa">
+            <description>Compares two wave files</description>
+            <command>migrationQA ${wave1} ${wave2}</command>
+            <inputs>
+                <input name="wave1" required="true">
+                    <description>Reference to input file 1</description>
+                </input>
+                <input name="wave2" required="true">
+                    <description>Reference to input file 2</description>
+                </input>
+                <parameter name="params" required="false">
+                    <description>Additional  parameters</description>
+                </parameter>
+            </inputs>
+            <outputs>
+                <stdout>
+                    <description>Output will be printed on standard out. Will use return code 0 when the files are deemed identical</description>
+                </stdout>
+           </outputs>
+        </operation>
+    </operations>
+</tool>
+

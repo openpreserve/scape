@@ -45,6 +45,7 @@ private:
 	int              sdk;
 	int              clahe;
 	int              numClusterCenters;
+	int              maxResolution;
 
 	vector<DMatch>   calcGoodMatches(vector<DMatch>& matches);
 	Mat              calcAffineTransform(vector<DMatch>& matches, vector<KeyPoint>& keypointsTrain, vector<KeyPoint>& keypointsQuery, double scale2);
@@ -62,14 +63,12 @@ protected:
 
 public:
 	static const string TASK_NAME;
-	static const int MAX_IMAGE_RESOLUTION = 1000000;
-
+	
 	SIFTComparison(void);
 	~SIFTComparison(void);
 
 	// implement virtual methods
 	void             execute(Mat& image);
-
 	void             precluster(int centers);
 
 	void             compare(Feature *task);
@@ -83,5 +82,5 @@ public:
 	Mat              getDescriptors(void);
 	vector<KeyPoint> getKeypoints(void);
 	double           getScale(void);
-	void normalizeDescriptors( Mat& descriptors );
+	void             normalizeDescriptors( Mat& descriptors );
 };

@@ -21,6 +21,8 @@ import eu.scape_project.pt.executors.Executor;
 import eu.scape_project.pt.executors.TavernaCLExecutor;
 import eu.scape_project.pt.executors.ToolspecExecutor;
 import eu.scape_project.pt.pit.ToolRepository;
+import eu.scape_project.pt.pit.ToolSpecRepository;
+import eu.scape_project.pt.pit.Repository;
 import eu.scape_project.pt.util.ArgsParser;
 import java.io.File;
 import org.apache.hadoop.fs.FileSystem;
@@ -108,11 +110,11 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
         //job.setReducerClass(MyReducer.class);
 
-        //job.setInputFormatClass(PtInputFormat.class);
+        job.setInputFormatClass(PtInputFormat.class);
         
-        if(conf.get(ArgsParser.NUM_LINES_PER_SPLIT) != null) 
-        	NLineInputFormat.setNumLinesPerSplit(job, Integer.parseInt(conf.get(ArgsParser.NUM_LINES_PER_SPLIT)));
-        job.setInputFormatClass(NLineInputFormat.class);
+        //if(conf.get(ArgsParser.NUM_LINES_PER_SPLIT) != null) 
+        	//NLineInputFormat.setNumLinesPerSplit(job, Integer.parseInt(conf.get(ArgsParser.NUM_LINES_PER_SPLIT)));
+        //job.setInputFormatClass(NLineInputFormat.class);
         
         //job.setOutputFormatClass(FileOutputFormat.class);
 		//job.setOutputFormatClass(MultipleOutputFormat.class);
@@ -141,6 +143,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		int res = 1;
 		CLIWrapper mr = new CLIWrapper();
         Configuration conf = new Configuration();
+        Repository repo;
         		
 		try {
 			ArgsParser pargs = new ArgsParser("i:o:t:a:p:x:v:w:r:j:n:", args);
@@ -195,7 +198,10 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
             // TODO validate input parameters (eg. look for toolspec, action, ...)
             Path fRepo = new Path( conf.get(ArgsParser.REPO_LOCATION) );
-            ToolRepository repo = new ToolRepository(FileSystem.get( conf ),fRepo );
+            if( conf.get(ArgsParser.TOOLSTRING).startsWith("digital-preservation"))
+                repo = new ToolRepository(FileSystem.get( conf ),fRepo );
+            else
+                repo = new ToolSpecRepository(FileSystem.get(conf), fRepo );
 
             String[] astrToolspecs = repo.getToolList();
             LOG.info( "Available ToolSpecs: ");

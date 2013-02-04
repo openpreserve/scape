@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/vseg/!svn/ver/88/bin/vidiff
+END
+execdiff.bat
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/vseg/!svn/ver/75/bin/vidiff/execdiff.bat
+END
+DIFF.jar
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/vseg/!svn/ver/75/bin/vidiff/DIFF.jar
+END
+v1.xml
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/vseg/!svn/ver/96/bin/vidiff/v1.xml
+END
+v2.xml
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/vseg/!svn/ver/96/bin/vidiff/v2.xml
+END

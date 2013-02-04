@@ -1,0 +1,2305 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<XML>
+<Document url="http://www.france24.com/en/" Title="International breaking news and headlines - FRANCE 24" Version="" Pos="WindowWidth||PageRectLeft:1009.0 WindowHeight||PageRectTop:3381.0 ObjectRectWith:0 ObjectRectHeight:0">
+<Block Ref="Block1" internal_id='0' ID="7ebea9228f11d56905a7978a607099d7" Pos="WindowWidth||PageRectLeft:0.0 WindowHeight||PageRectTop:0.0 ObjectRectWidth:1009.0 ObjectRectHeight:3381.0" Doc="4">
+<Block Ref="Block1-1" internal_id='1' ID="94c4a5e70efe84a0f4e13f147d6c016e" Pos="WindowWidth||PageRectLeft:0.0 WindowHeight||PageRectTop:0.0 ObjectRectWidth:1009.0 ObjectRectHeight:40.0" Doc="6">
+<Links ID="fd46bfa9c489b2a16179af81caf8e15e" IDList="88010c1bc08181ee81be3c9e57247d89,8b872651f2d6b721fcc46906c44ec3ce,828ecd35e943696c466859ca3612cf05,29dfcaa3c16ef8123bc31a7cefcead1e">
+<link ID="88010c1bc08181ee81be3c9e57247d89" Name="" Adr="http://www.france24.com/en/#"/><link ID="8b872651f2d6b721fcc46906c44ec3ce" Name="Connect" Adr="http://www.france24.com/en/#"/><link ID="828ecd35e943696c466859ca3612cf05" Name="the France 24 community" Adr="http://www.france24.com/en/france24-web-community"/><link ID="29dfcaa3c16ef8123bc31a7cefcead1e" Name="Log in" Adr="http://www.france24.com/en/"/></Links>
+<Imgs ID="d41d8cd98f00b204e9800998ecf8427e" IDList="">
+</Imgs>
+<Txts ID="2c9785c6c1160db44158f249a15c0e6c" Txt="
+               Connect
+            
+               Join
+             
+                the France 24 community
+             
+               here
+            
+                Log in
+             ,
+               Connect
+            ,
+               Join
+             
+                the France 24 community
+             
+               here
+            
+                Log in
+             ,
+               Join
+             
+                the France 24 community
+             
+               here
+            ,
+               Join
+             ,
+                the France 24 community
+             ,
+               here
+            ,
+                Log in
+             "/>
+</Block>
+<Block Ref="Block1-2" internal_id='2' ID="37a497ef7c94e97cbdc469947cda31cd" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:40.0 ObjectRectWidth:970.0 ObjectRectHeight:3331.0" Doc="4">
+<Block Ref="Block1-2-1" internal_id='3' ID="eb6f861bd57034b37ce800aeedd635bb" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:40.0 ObjectRectWidth:970.0 ObjectRectHeight:174.0" Doc="6">
+<Links ID="567bc1028109f88d7a06e5ff0c588701" IDList="b8fd8c8e7a6dda3a2556549d02112993,c58cbbd1853552e2b24cf1a87f4a82cf,3a0537b47b07eb4cbc2bb54bd16a91e5,a3bb350e90a1ccb42d4b83a66ab40aa2,6e885d3c936f4aa4318d2d435f793096,a745eb03ef0bb0f7a2958b1ef3a10aff,033308667039d5efdbbed06898b7a728,92b86e3c6cbdbe15e2e195be976b3a5d,b1ab487e065560481a22a852ba56c89d,7e80268ca2e8c5ab00028f98b228686b,49691d136053c43ca21f73e35b3613ff,6226948216b3e104440e28c99ac5ff7f,2babb38a2f754750e2625965f29c09c7,04c865fb757e458491384e32b485304f,f631e3d1249aa4ed4574b6a0a2871dfa,0390da56a4357b0f522cd57c15951a7c,e524f271eedf8bf1b6dc06a85241ecb6,59a32fb0a2ebaa1a5297fc64353a713a,30fb965912a4bc11a8ebfaef51dbfbb0,73bec080a7d2418c40262c2ee94d7a64,d13ad32be4cb0dba24c319e991a01287">
+<link ID="b8fd8c8e7a6dda3a2556549d02112993" Name="" Adr="http://www.france24.com/en/"/><link ID="c58cbbd1853552e2b24cf1a87f4a82cf" Name="" Adr="http://pub.ftv-publicite.fr/RealMedia/ads/click_lx.ads/www.france24.en/accueil/L23/1811673975/Top/OasDefault/2012045858844000104700301/Mega_PodcastEN.html/684f504d5146436c4e52304141516930"/><link ID="3a0537b47b07eb4cbc2bb54bd16a91e5" Name="TOP STORIES" Adr="http://www.france24.com/en/"/><link ID="a3bb350e90a1ccb42d4b83a66ab40aa2" Name="FRANCE" Adr="http://www.france24.com/en/france"/><link ID="6e885d3c936f4aa4318d2d435f793096" Name="AFRICA" Adr="http://www.france24.com/en/africa"/><link ID="a745eb03ef0bb0f7a2958b1ef3a10aff" Name="MIDDLE EAST" Adr="http://www.france24.com/en/middle-east"/><link ID="033308667039d5efdbbed06898b7a728" Name="EUROPE" Adr="http://www.france24.com/en/europe"/><link ID="92b86e3c6cbdbe15e2e195be976b3a5d" Name="AMERICAS" Adr="http://www.france24.com/en/americas"/><link ID="b1ab487e065560481a22a852ba56c89d" Name="ASIA / PACIFIC" Adr="http://www.france24.com/en/asia-pacific"/><link ID="7e80268ca2e8c5ab00028f98b228686b" Name="OBSERVERS" Adr="http://observers.france24.com/en"/><link ID="49691d136053c43ca21f73e35b3613ff" Name="WEATHER" Adr="http://meteo.france24.com/en"/><link ID="6226948216b3e104440e28c99ac5ff7f" Name="BUSINESS / TECH" Adr="http://www.france24.com/en/business"/><link ID="2babb38a2f754750e2625965f29c09c7" Name="SPORT" Adr="http://www.france24.com/en/sport"/><link ID="04c865fb757e458491384e32b485304f" Name="CULTURE" Adr="http://www.france24.com/en/culture"/><link ID="f631e3d1249aa4ed4574b6a0a2871dfa" Name="HEALTH" Adr="http://www.france24.com/en/health"/><link ID="0390da56a4357b0f522cd57c15951a7c" Name="EARTH" Adr="http://www.france24.com/en/earth"/><link ID="e524f271eedf8bf1b6dc06a85241ecb6" Name="REPORTAGES" Adr="http://www.france24.com/en/reporters"/><link ID="59a32fb0a2ebaa1a5297fc64353a713a" Name="TV SHOWS" Adr="http://www.france24.com/en/tvshows"/><link ID="30fb965912a4bc11a8ebfaef51dbfbb0" Name="BLOGS" Adr="http://blogs.france24.com/front/en"/><link ID="73bec080a7d2418c40262c2ee94d7a64" Name="MOBILE" Adr="http://www.france24.com/en/mobile"/><link ID="d13ad32be4cb0dba24c319e991a01287" Name="TRAVEL" Adr="http://travel.france24.com/"/></Links>
+<Imgs ID="3f2de169265d764c26c21894a2b7d5e6" IDList="87b9c05e857f2d281acf9630bf475fb3,e4ebffbbadf3c10daeff17de4ce35d04,e28130a6d709a87ef77e12236884c3fa">
+<img ID="87b9c05e857f2d281acf9630bf475fb3" Name="FRANCE 24 latest world news report" Src="http://www.france24.com/en/sites/france24.com.en/themes/france24/logo-en.png"/><img ID="e4ebffbbadf3c10daeff17de4ce35d04" Name="Cliquez ici !" Src="http://pub.ftv-publicite.fr/RealMedia/ads/Creatives/OasDefault/2012045858844000104700301/13355_megaban_podcast_en.jpg"/><img ID="e28130a6d709a87ef77e12236884c3fa" Name="undefined" Src="http://pub.ftv-publicite.fr/5/www.france24.en/accueil/L23/1811673975/Top/OasDefault/2012045858844000104700301/Mega_PodcastEN.html/684f504d5146436c4e52304141516930?_RM_EMPTY_&amp;"/></Imgs>
+<Txts ID="2fb464e81610e4ab1b7dd85138702326" Txt="
+           International breaking news and headlines - FRANCE 24
+        
+                TOP STORIES
+             
+                FRANCE
+             
+                AFRICA
+             
+                MIDDLE EAST
+             
+                EUROPE
+             
+                AMERICAS
+             
+                ASIA / PACIFIC
+             
+                OBSERVERS
+             
+                WEATHER
+             
+                BUSINESS / TECH
+             
+                SPORT
+             
+                CULTURE
+             
+                HEALTH
+             
+                EARTH
+             
+                REPORTAGES
+             
+                TV SHOWS
+             
+                BLOGS
+             
+                MOBILE
+             
+                TRAVEL
+             ,
+           International breaking news and headlines - FRANCE 24
+        ,
+                TOP STORIES
+             
+                FRANCE
+             
+                AFRICA
+             
+                MIDDLE EAST
+             
+                EUROPE
+             
+                AMERICAS
+             
+                ASIA / PACIFIC
+             
+                OBSERVERS
+             
+                WEATHER
+             
+                BUSINESS / TECH
+             
+                SPORT
+             
+                CULTURE
+             
+                HEALTH
+             
+                EARTH
+             
+                REPORTAGES
+             
+                TV SHOWS
+             
+                BLOGS
+             
+                MOBILE
+             
+                TRAVEL
+             ,
+                TOP STORIES
+             
+                FRANCE
+             
+                AFRICA
+             
+                MIDDLE EAST
+             
+                EUROPE
+             
+                AMERICAS
+             
+                ASIA / PACIFIC
+             
+                OBSERVERS
+             
+                WEATHER
+             ,
+                TOP STORIES
+             ,
+                FRANCE
+             ,
+                AFRICA
+             ,
+                MIDDLE EAST
+             ,
+                EUROPE
+             ,
+                AMERICAS
+             ,
+                ASIA / PACIFIC
+             ,
+                OBSERVERS
+             ,
+                WEATHER
+             ,
+                BUSINESS / TECH
+             
+                SPORT
+             
+                CULTURE
+             
+                HEALTH
+             
+                EARTH
+             
+                REPORTAGES
+             
+                TV SHOWS
+             
+                BLOGS
+             
+                MOBILE
+             
+                TRAVEL
+             ,
+                BUSINESS / TECH
+             ,
+                SPORT
+             ,
+                CULTURE
+             ,
+                HEALTH
+             ,
+                EARTH
+             ,
+                REPORTAGES
+             ,
+                TV SHOWS
+             ,
+                BLOGS
+             ,
+                MOBILE
+             ,
+                TRAVEL
+             "/>
+</Block>
+<Block Ref="Block1-2-2" internal_id='4' ID="643459c0d299f971d99f8fba8dc02fbe" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:214.0 ObjectRectWidth:970.0 ObjectRectHeight:2817.0" Doc="4">
+<Block Ref="Block1-2-2-1" internal_id='5' ID="31de1dfc05e9d037ac6fdfaabcfd0c2c" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:214.0 ObjectRectWidth:660.0 ObjectRectHeight:2802.0" Doc="4">
+<Block Ref="Block1-2-2-1-1" internal_id='6' ID="6c26224d38bad6ded6421eb790753499" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:214.0 ObjectRectWidth:660.0 ObjectRectHeight:23.0" Doc="8">
+<Links ID="a0cda3c6eef38cf9c0e503723e120590" IDList="733fd6bf8f928d0f4350195a32646653,e69f80bea115af6a31e871d13dfe2eee">
+<link ID="733fd6bf8f928d0f4350195a32646653" Name="TOP STORIES" Adr="http://www.france24.com/en/world"/><link ID="e69f80bea115af6a31e871d13dfe2eee" Name="THE WORLD THIS WEEK" Adr="http://www.france24.com/en/page-world-week-part-1"/></Links>
+<Imgs ID="d41d8cd98f00b204e9800998ecf8427e" IDList="">
+</Imgs>
+<Txts ID="4c17b376aef3022e7e73b864a769057b" Txt="
+                 TOP STORIES
+              
+                 THE WORLD THIS WEEK
+              ,
+                 TOP STORIES
+              ,
+                 THE WORLD THIS WEEK
+              "/>
+</Block>
+<Block Ref="Block1-2-2-1-2" internal_id='7' ID="69ac59ffeb7a33fb95ef87230165bdd6" Pos="WindowWidth||PageRectLeft:30.0 WindowHeight||PageRectTop:247.0 ObjectRectWidth:639.0 ObjectRectHeight:2758.0" Doc="4">
+<Block Ref="Block1-2-2-1-2-1" internal_id='8' ID="a4f09436c0ba1417080209ccdc93732c" Pos="WindowWidth||PageRectLeft:30.0 WindowHeight||PageRectTop:247.0 ObjectRectWidth:638.0 ObjectRectHeight:432.0" Doc="6">
+<Links ID="ea68877d62204f20502756496fa10f05" IDList="f5a95d2b6e6ba62a412532cd11c86938,f5a95d2b6e6ba62a412532cd11c86938,870899176d982cd5f34052ceb08706e0,c12134981c29f2a5461176b5bd4a5577,1ef7273c4411bb1c4b15f457da83b313,57db4141016327e3e6d27a3b66c5bc01,e35e8428f1461e7cc7167260403b5320,b5ffc463fa4e783690d82d17232064bd,465c2b4595274152827ff497e8dccb51,f3e3887a12fac780c13a4f4e6758da89,16c5c423c49683202cc20af8e02e8be8,16c5c423c49683202cc20af8e02e8be8,1ef7273c4411bb1c4b15f457da83b313,36e5f0530c51d8f307b969c81ae86b2a,8e7b05226a1607dd4479c2ab654216fd,229e6c85a7caf150e607222935772800,7273237e8d370f782778d65c2133ecf9,7613369a59c4b9a5c3a88d262aa3dce0,9bdd5da9a5bae83539866a5b472c97af,241a176592bf2414c2ad056aa90b72a2,3df49907e0ac80c7a4a24b8b0c93c551">
+<link ID="f5a95d2b6e6ba62a412532cd11c86938" Name="" Adr="http://www.france24.com/en/20121115-israel-strikes-gaza-rocket-tel-aviv?autoplay=1"/><link ID="f5a95d2b6e6ba62a412532cd11c86938" Name="" Adr="http://www.france24.com/en/20121115-israel-strikes-gaza-rocket-tel-aviv?autoplay=1"/><link ID="870899176d982cd5f34052ceb08706e0" Name="Israeli strikes intensify as Gazan rocket skirts Tel Aviv" Adr="http://www.france24.com/en/20121115-israel-strikes-gaza-rocket-tel-aviv"/><link ID="c12134981c29f2a5461176b5bd4a5577" Name="Blog: Palestinian and Israeli attacks escalate in Gaza" Adr="http://www.france24.com/en/20121115-liveblog-gaza-palestinian-isreali-offensive-escalate-military-action-rockets-strikes"/><link ID="1ef7273c4411bb1c4b15f457da83b313" Name="Israel and Hamas wage online war of words" Adr="http://www.france24.com/en/20121115-israel-hamas-gaza-twitter-facebook-blog-internet-palestinians-idf-al-jaabari"/><link ID="57db4141016327e3e6d27a3b66c5bc01" Name="Israel to ‘topple’ Abbas if Palestine gains UN status" Adr="http://www.france24.com/en/20121114-israel-topple-abbas-palestine-un-state-observer"/><link ID="e35e8428f1461e7cc7167260403b5320" Name="" Adr="http://www.france24.com/en/20121115-turkey-recognises-new-syrian-opposition"/><link ID="b5ffc463fa4e783690d82d17232064bd" Name="Turkey recognises new Syrian opposition" Adr="http://www.france24.com/en/20121115-turkey-recognises-new-syrian-opposition"/><link ID="465c2b4595274152827ff497e8dccb51" Name="" Adr="http://www.france24.com/en/20121115-bp-oil-record-45-billion-us-fines-deepwater-oil-spill-gulf-of-mexico"/><link ID="f3e3887a12fac780c13a4f4e6758da89" Name="BP accepts record $4.5bn in US fines over 2010 oil spill" Adr="http://www.france24.com/en/20121115-bp-oil-record-45-billion-us-fines-deepwater-oil-spill-gulf-of-mexico"/><link ID="16c5c423c49683202cc20af8e02e8be8" Name="" Adr="http://www.france24.com/en/20121115-israel-hamas-gaza-twitter-facebook-blog-internet-palestinians-idf-al-jaabari"/><link ID="16c5c423c49683202cc20af8e02e8be8" Name="" Adr="http://www.france24.com/en/20121115-israel-hamas-gaza-twitter-facebook-blog-internet-palestinians-idf-al-jaabari"/><link ID="1ef7273c4411bb1c4b15f457da83b313" Name="Israel and Hamas wage online war of words" Adr="http://www.france24.com/en/20121115-israel-hamas-gaza-twitter-facebook-blog-internet-palestinians-idf-al-jaabari"/><link ID="36e5f0530c51d8f307b969c81ae86b2a" Name="" Adr="http://www.france24.com/en/taxonomy/term2/feed/all/all/all/all/all/wire"/><link ID="8e7b05226a1607dd4479c2ab654216fd" Name="Tymoshenko agrees to end hunger strike: doctor" Adr="http://www.france24.com/en/20121115-tymoshenko-agrees-end-hunger-strike-doctor"/><link ID="229e6c85a7caf150e607222935772800" Name="Maltese EU health commissioner gets parliament green light" Adr="http://www.france24.com/en/20121115-maltese-eu-health-commissioner-gets-parliament-green-light"/><link ID="7273237e8d370f782778d65c2133ecf9" Name="Obama to see 'Lincoln' at White House screening" Adr="http://www.france24.com/en/20121115-obama-see-lincoln-white-house-screening"/><link ID="7613369a59c4b9a5c3a88d262aa3dce0" Name="BBC Savile colleague held for suspected sexual offences" Adr="http://www.france24.com/en/20121115-bbc-savile-colleague-held-suspected-sexual-offences"/><link ID="9bdd5da9a5bae83539866a5b472c97af" Name="Stenson performs in SA Open first round" Adr="http://www.france24.com/en/20121115-stenson-performs-sa-open-first-round"/><link ID="241a176592bf2414c2ad056aa90b72a2" Name="Olympic champ Agnel sets 400m freestyle record" Adr="http://www.france24.com/en/20121115-olympic-champ-agnel-sets-400m-freestyle-record"/><link ID="3df49907e0ac80c7a4a24b8b0c93c551" Name="All news briefs" Adr="http://www.france24.com/en/all-wire"/></Links>
+<Imgs ID="d5b5124da946c987e4de7a2aa745ed33" IDList="0e634e75707300f1e0e5fdf7621a48ae,370db1b1d504c25e48de9a65fd06213f,d88dfb01d84038eef524ba4bbe5fd9e0,d54b76c55a9a0a7d1f20234b37261e5d,4d6ec080329a4524c0685382f49af37b">
+<img ID="0e634e75707300f1e0e5fdf7621a48ae" Name="Israeli strikes intensify as Gazan rocket skirts Tel Aviv" Src="http://www.france24.com/en/files/imagecache/france24_ct_article_169_group_main_thumbnail/article/image/gaza-bombe-m.jpg"/><img ID="370db1b1d504c25e48de9a65fd06213f" Name="Turkey recognises new Syrian opposition" Src="http://www.france24.com/en/files/imagecache/france24_ct_article_169_group_secondary_thumbnail/article/image/ahmet%20davutoglu.jpg"/><img ID="d88dfb01d84038eef524ba4bbe5fd9e0" Name="BP accepts record $4.5bn in US fines over 2010 oil spill" Src="http://www.france24.com/en/files/imagecache/france24_ct_article_169_group_secondary_thumbnail/article/image/151112-bpdeepwater-m.jpg"/><img ID="d54b76c55a9a0a7d1f20234b37261e5d" Name="Israel and Hamas wage online war of words" Src="http://www.france24.com/en/files/imagecache/france24_ct_article_169_group_secondary_thumbnail/article/image/idf.jpg"/><img ID="4d6ec080329a4524c0685382f49af37b" Name="Syndicate content" Src="http://www.france24.com/en/misc/feed.png"/></Imgs>
+<Txts ID="dc2a998fbfa23c9feabc0c2984e56132" Txt="
+                     ISRAEL - PALESTINIAN TERRITORIES
+                  
+                     Israeli strikes intensify as Gazan rocket skirts Tel Aviv
+                  
+                    A Gazan rocket crashed into the sea near Tel Aviv on Thursday as the Palestinian death toll from Israeli airstrikes in the Gaza Strip rose to 15, lurching the military showdown closer to all-out war and a possible Israeli ground invasion.
+                 
+                        Blog: Palestinian and Israeli attacks escalate in Gaza
+                     
+                        Israel and Hamas wage online war of words
+                     
+                        Israel to ‘topple’ Abbas if Palestine gains UN status
+                     
+                      SYRIA
+                   
+                      Turkey recognises new Syrian opposition
+                   
+                      UNITED STATES
+                   
+                      BP accepts record $4.5bn in US fines over 2010 oil spill
+                   
+                      PALESTINIAN TERRITORIES
+                   
+                      Israel and Hamas wage online war of words
+                   
+                          news briefs
+                       
+                                    19:16
+                                 
+                                      Tymoshenko agrees to end hunger strike: doctor
+                                   
+                                     - AFP
+                                  
+                                    19:07
+                                 
+                                      Maltese EU health commissioner gets parliament green light
+                                   
+                                     - AFP
+                                  
+                                    19:01
+                                 
+                                      Obama to see 'Lincoln' at White House screening
+                                   
+                                     - AFP
+                                  
+                                    18:43
+                                 
+                                      BBC Savile colleague held for suspected sexual offences
+                                   
+                                     - AFP
+                                  
+                                    18:33
+                                 
+                                      Stenson performs in SA Open first round
+                                   
+                                     - AFP
+                                  
+                                    18:17
+                                 
+                                      Olympic champ Agnel sets 400m freestyle record
+                                   
+                                     - AFP
+                                  
+                                 All news briefs
+                              ,
+                     ISRAEL - PALESTINIAN TERRITORIES
+                  
+                     Israeli strikes intensify as Gazan rocket skirts Tel Aviv
+                  
+                    A Gazan rocket crashed into the sea near Tel Aviv on Thursday as the Palestinian death toll from Israeli airstrikes in the Gaza Strip rose to 15, lurching the military showdown closer to all-out war and a possible Israeli ground invasion.
+                 
+                        Blog: Palestinian and Israeli attacks escalate in Gaza
+                     
+                        Israel and Hamas wage online war of words
+                     
+                        Israel to ‘topple’ Abbas if Palestine gains UN status
+                     ,
+                     ISRAEL - PALESTINIAN TERRITORIES
+                  ,
+                     Israeli strikes intensify as Gazan rocket skirts Tel Aviv
+                  ,
+                    A Gazan rocket crashed into the sea near Tel Aviv on Thursday as the Palestinian death toll from Israeli airstrikes in the Gaza Strip rose to 15, lurching the military showdown closer to all-out war and a possible Israeli ground invasion.
+                 ,
+                        Blog: Palestinian and Israeli attacks escalate in Gaza
+                     
+                        Israel and Hamas wage online war of words
+                     
+                        Israel to ‘topple’ Abbas if Palestine gains UN status
+                     ,
+                        Blog: Palestinian and Israeli attacks escalate in Gaza
+                     ,
+                        Israel and Hamas wage online war of words
+                     ,
+                        Israel to ‘topple’ Abbas if Palestine gains UN status
+                     ,
+                      SYRIA
+                   
+                      Turkey recognises new Syrian opposition
+                   
+                      UNITED STATES
+                   
+                      BP accepts record $4.5bn in US fines over 2010 oil spill
+                   
+                      PALESTINIAN TERRITORIES
+                   
+                      Israel and Hamas wage online war of words
+                   
+                          news briefs
+                       
+                                    19:16
+                                 
+                                      Tymoshenko agrees to end hunger strike: doctor
+                                   
+                                     - AFP
+                                  
+                                    19:07
+                                 
+                                      Maltese EU health commissioner gets parliament green light
+                                   
+                                     - AFP
+                                  
+                                    19:01
+                                 
+                                      Obama to see 'Lincoln' at White House screening
+                                   
+                                     - AFP
+                                  
+                                    18:43
+                                 
+                                      BBC Savile colleague held for suspected sexual offences
+                                   
+                                     - AFP
+                                  
+                                    18:33
+                                 
+                                      Stenson performs in SA Open first round
+                                   
+                                     - AFP
+                                  
+                                    18:17
+                                 
+                                      Olympic champ Agnel sets 400m freestyle record
+                                   
+                                     - AFP
+                                  
+                                 All news briefs
+                              ,
+                      SYRIA
+                   
+                      Turkey recognises new Syrian opposition
+                   ,
+                      SYRIA
+                   ,
+                      Turkey recognises new Syrian opposition
+                   ,
+                      UNITED STATES
+                   
+                      BP accepts record $4.5bn in US fines over 2010 oil spill
+                   ,
+                      UNITED STATES
+                   ,
+                      BP accepts record $4.5bn in US fines over 2010 oil spill
+                   ,
+                      PALESTINIAN TERRITORIES
+                   
+                      Israel and Hamas wage online war of words
+                   ,
+                      PALESTINIAN TERRITORIES
+                   ,
+                      Israel and Hamas wage online war of words
+                   ,
+                          news briefs
+                       
+                                    19:16
+                                 
+                                      Tymoshenko agrees to end hunger strike: doctor
+                                   
+                                     - AFP
+                                  
+                                    19:07
+                                 
+                                      Maltese EU health commissioner gets parliament green light
+                                   
+                                     - AFP
+                                  
+                                    19:01
+                                 
+                                      Obama to see 'Lincoln' at White House screening
+                                   
+                                     - AFP
+                                  
+                                    18:43
+                                 
+                                      BBC Savile colleague held for suspected sexual offences
+                                   
+                                     - AFP
+                                  
+                                    18:33
+                                 
+                                      Stenson performs in SA Open first round
+                                   
+                                     - AFP
+                                  
+                                    18:17
+                                 
+                                      Olympic champ Agnel sets 400m freestyle record
+                                   
+                                     - AFP
+                                  
+                                 All news briefs
+                              ,
+                          news briefs
+                       ,
+                                    19:16
+                                 
+                                      Tymoshenko agrees to end hunger strike: doctor
+                                   
+                                     - AFP
+                                  
+                                    19:07
+                                 
+                                      Maltese EU health commissioner gets parliament green light
+                                   
+                                     - AFP
+                                  
+                                    19:01
+                                 
+                                      Obama to see 'Lincoln' at White House screening
+                                   
+                                     - AFP
+                                  
+                                    18:43
+                                 
+                                      BBC Savile colleague held for suspected sexual offences
+                                   
+                                     - AFP
+                                  
+                                    18:33
+                                 
+                                      Stenson performs in SA Open first round
+                                   
+                                     - AFP
+                                  
+                                    18:17
+                                 
+                                      Olympic champ Agnel sets 400m freestyle record
+                                   
+                                     - AFP
+                                  
+                                 All news briefs
+                              ,
+                                    19:16
+                                 
+                                      Tymoshenko agrees to end hunger strike: doctor
+                                   
+                                     - AFP
+                                  
+                                    19:07
+                                 
+                                      Maltese EU health commissioner gets parliament green light
+                                   
+                                     - AFP
+                                  
+                                    19:01
+                                 
+                                      Obama to see 'Lincoln' at White House screening
+                                   
+                                     - AFP
+                                  
+                                    18:43
+                                 
+                                      BBC Savile colleague held for suspected sexual offences
+                                   
+                                     - AFP
+                                  
+                                    18:33
+                                 
+                                      Stenson performs in SA Open first round
+                                   
+                                     - AFP
+                                  
+                                    18:17
+                                 
+                                      Olympic champ Agnel sets 400m freestyle record
+                                   
+                                     - AFP
+                                  ,
+                                    19:16
+                                 
+                                      Tymoshenko agrees to end hunger strike: doctor
+                                   
+                                     - AFP
+                                  ,
+                                    19:16
+                                 ,
+                                      Tymoshenko agrees to end hunger strike: doctor
+                                   
+                                     - AFP
+                                  ,
+                                      Tymoshenko agrees to end hunger strike: doctor
+                                   ,
+                                     - AFP
+                                  ,
+                                    19:07
+                                 
+                                      Maltese EU health commissioner gets parliament green light
+                                   
+                                     - AFP
+                                  ,
+                                    19:07
+                                 ,
+                                      Maltese EU health commissioner gets parliament green light
+                                   
+                                     - AFP
+                                  ,
+                                      Maltese EU health commissioner gets parliament green light
+                                   ,
+                                    19:01
+                                 
+                                      Obama to see 'Lincoln' at White House screening
+                                   
+                                     - AFP
+                                  ,
+                                    19:01
+                                 ,
+                                      Obama to see 'Lincoln' at White House screening
+                                   
+                                     - AFP
+                                  ,
+                                      Obama to see 'Lincoln' at White House screening
+                                   ,
+                                    18:43
+                                 
+                                      BBC Savile colleague held for suspected sexual offences
+                                   
+                                     - AFP
+                                  ,
+                                    18:43
+                                 ,
+                                      BBC Savile colleague held for suspected sexual offences
+                                   
+                                     - AFP
+                                  ,
+                                      BBC Savile colleague held for suspected sexual offences
+                                   ,
+                                    18:33
+                                 
+                                      Stenson performs in SA Open first round
+                                   
+                                     - AFP
+                                  ,
+                                    18:33
+                                 ,
+                                      Stenson performs in SA Open first round
+                                   
+                                     - AFP
+                                  ,
+                                      Stenson performs in SA Open first round
+                                   ,
+                                    18:17
+                                 
+                                      Olympic champ Agnel sets 400m freestyle record
+                                   
+                                     - AFP
+                                  ,
+                                    18:17
+                                 ,
+                                      Olympic champ Agnel sets 400m freestyle record
+                                   
+                                     - AFP
+                                  ,
+                                      Olympic champ Agnel sets 400m freestyle record
+                                   ,
+                                 All news briefs
+                              "/>
+</Block>
+<Block Ref="Block1-2-2-1-2-2" internal_id='9' ID="1085531a57999a76ba938eb15861aaa2" Pos="WindowWidth||PageRectLeft:30.0 WindowHeight||PageRectTop:695.0 ObjectRectWidth:639.0 ObjectRectHeight:2310.0" Doc="8">
+<Links ID="b8ebf708e1f4bcea84111a18df2fbc2c" IDList="fda420b6abd242392e133ab44024a8f4,09db9a804161d1d20483898f576f3181,7a323b7b9e5d5c049485153fbe8af70a,c32dc1f060ab49e2241130f57a30d5c1,145c0fe4eb574b8b3b740b077bcf2c08,14be2f2a30ab754501eb11555b9e048e,b41e83c4452273ab7acf106fce5b0673,cc3ce571702887f75f5f6f060047fb61,1a11f00500fa4431053e3d598aa1a1cb,8e171feb66d7335bfaea9353e0b50513,9262eda86c6b71838c63ed51bb31fcea,ae62258c598c6c72a80a5ddbd6700e71,a69d191710ce286c1b0b4519be6729ff,6522bae177b3b26287f2f673b2a2a3c9,e30c0013d4d01b77fb5c4209d92c11cd,ea8842824f1884c030d7694bc3e485d6,88f452d601c9e6da9fb658d07112a14b,8c740d72d2d56190d88eadbd31447330,5a1f72c4f7e449ad43cc8b6632f4a089,c54e3101352fce115b22adfc3652604c,0d98ef588f8972f72c37ac1a55086148,311cb9d31958215bc6e3437f40c3d5c2,45b0312ee7105c2d17b2027d471d11d2,a0d630e821975c0ff5d793f568d5132d,d6099a332c0ff9b2a5185470238cd503,aee5538335573e29ed4716cbe261fc5a,ee11da2660576f36cc2e54c869427d9b,08b2d9589546f29a1fa1c9fd2ddaab8b,091b9bca25434334a07ec46575b589fa,10a18569727a386f2601adec7fcb41c3,f1686e9da834a672f1fc65dae96dbeab,83f8da9d69c15e2c93cef589dbcd9e14,45d8de55a8d5a8fc961fdbe459f244e7,3e1282371e13de9d8b8429b2b891c1ee,6a4a092165957fc565e4b6746f1f461a,a7dc6f97236a67b84a1675a980e8bcfd,a7dc6f97236a67b84a1675a980e8bcfd,2cac9ba951c4321841a58ca35d794c9d,bda00b5b6476025d4885de32a2dd57fe,bda00b5b6476025d4885de32a2dd57fe,bcab6a53567ff241d5b33675b6a3a3fa,86b847fe1a6588067c89af77a411e86e,86b847fe1a6588067c89af77a411e86e,c8fef54fb8a3d8aa0ce39115578d4dd1,76fcf41c1cca7047af72f4d03684df70,76fcf41c1cca7047af72f4d03684df70,9fc8719e60270df6da3ee8818ec4fe77,a5d6207e25b7675e8260d0c73eb1b694,85111f43c80f82683b4c5ac2c4f5f1f3,21f8346ffcb91436e473504dec6868e2,c02c6ff8ae5f4c98c48ced0c8bb3ceb2,cdbcbea069b26d93cf85c1a670ccb55e,cdbcbea069b26d93cf85c1a670ccb55e,f12045110b2570ea0308ddf462a281d5,5826eb7dfffabe5bb9252677c165372a,12dd4691f7571b1e35bd83abf9a08651,12dd4691f7571b1e35bd83abf9a08651,8d1423affa49092c646e20fe85eb5b44,81514949cfef8a891436701cdf28496d,81514949cfef8a891436701cdf28496d,f86f7df57052b55864a436b0ddd729c5,05c4d44aa3a62b38fc19fb73d1184c80,05c4d44aa3a62b38fc19fb73d1184c80,4fd564a05015663a2f28a47379427b2f,34f88bbba66073e2a178ebd3a95a8f3b,34f88bbba66073e2a178ebd3a95a8f3b,231e38e14b5f9eac7dc63dcd349276b7,d0e65bd6568feaea4a58163140551a89,d0e65bd6568feaea4a58163140551a89,7f6fc8fdae78d33deae7931d7cdeb8d0,c94cad52d5e276c39a0d597f56b1460d,d81cbb018709d7a4b91739984595520c,d81cbb018709d7a4b91739984595520c,bedba43c2842d41db4bb37cc40a01e82,1d4f6ad803761ffb7162458e9dac07ec">
+<link ID="fda420b6abd242392e133ab44024a8f4" Name="&lt;IMG  uid='293' id='element-293' left='30' top='711' width='140' height='773' margin_left='0px' background_color='rgba(0, 0, 0, 0)' font_size='16px' font_weight='normal' display='inline' visibility='visible' src='/en/files/imagecache/france24_169_medium/article/image/china_4.jpg' alt='Xi Jinping officially named China's new leader'/&gt;" Adr="http://www.france24.com/en/20121115-xi-jinping-named-china-new-leader-communist-party-congress-hu-jintao"/><link ID="09db9a804161d1d20483898f576f3181" Name="" Adr="http://www.france24.com/en/20121115-xi-jinping-named-china-new-leader-communist-party-congress-hu-jintao"/><link ID="7a323b7b9e5d5c049485153fbe8af70a" Name="Xi Jinping officially named China's new leader" Adr="http://www.france24.com/en/20121115-xi-jinping-named-china-new-leader-communist-party-congress-hu-jintao"/><link ID="c32dc1f060ab49e2241130f57a30d5c1" Name="Reason for headaches and cheer, France's Beaujolais Nouveau is here" Adr="http://josephbamat.blogs.france24.com/article/2012/11/15/beaujolais-nouveau-wine-france-international-party-drinking-hangove-0"/><link ID="145c0fe4eb574b8b3b740b077bcf2c08" Name="" Adr="http://www.france24.com/en/20121114-french-soldiers-wives-strip-facebook-pay-protest-army"/><link ID="14be2f2a30ab754501eb11555b9e048e" Name="French soldiers’ wives strip in protest at late payments" Adr="http://www.france24.com/en/20121114-french-soldiers-wives-strip-facebook-pay-protest-army"/><link ID="b41e83c4452273ab7acf106fce5b0673" Name="" Adr="http://www.france24.com/en/20110420-syria-regime-rocked-unprecedented-wave-protests-assad-opposition-emergency-rule"/><link ID="cc3ce571702887f75f5f6f060047fb61" Name="" Adr="http://www.france24.com/en/20121115-children-bodies-found-freezer-france"/><link ID="1a11f00500fa4431053e3d598aa1a1cb" Name="Children discovered in freezer in French town" Adr="http://www.france24.com/en/20121115-children-bodies-found-freezer-france"/><link ID="8e171feb66d7335bfaea9353e0b50513" Name="" Adr="http://www.france24.com/en/20121114-ansar-dine-%E2%80%98we-are-determined-have-peace%E2%80%99-northern-mali"/><link ID="9262eda86c6b71838c63ed51bb31fcea" Name="Ansar Dine: ‘We are determined to have peace’ in northern Mali" Adr="http://www.france24.com/en/20121114-ansar-dine-%E2%80%98we-are-determined-have-peace%E2%80%99-northern-mali"/><link ID="ae62258c598c6c72a80a5ddbd6700e71" Name="" Adr="http://www.france24.com/en/20121115-france-germany-resists-eurozone-recession-third-quarter-q3-economy"/><link ID="a69d191710ce286c1b0b4519be6729ff" Name="France avoids eurozone recession in third quarter" Adr="http://www.france24.com/en/20121115-france-germany-resists-eurozone-recession-third-quarter-q3-economy"/><link ID="6522bae177b3b26287f2f673b2a2a3c9" Name="Hindu woman denied abortion in ‘Catholic’ Ireland" Adr="http://leelajacinto.blogs.france24.com/article/2012/11/14/not-happy-diwali-family-dead-hindu-woman-denied-abortion-catholic--0"/><link ID="e30c0013d4d01b77fb5c4209d92c11cd" Name="&lt;IMG  uid='396' id='element-396' left='30' top='2055' width='140' height='2117' margin_left='0px' background_color='rgba(0, 0, 0, 0)' font_size='16px' font_weight='normal' display='inline' visibility='visible' src='/en/files/imagecache/france24_169_medium/article/image/Orsay-Shanghai.jpg' alt='France's Musée d'Orsay to open Shanghai exhibit'/&gt;" Adr="http://www.france24.com/en/20121115-france-musee-orsay-museum-open-shanghai-exhibit-courbet-millet-paintings-china"/><link ID="ea8842824f1884c030d7694bc3e485d6" Name="France's Musée d'Orsay to open Shanghai exhibit" Adr="http://www.france24.com/en/20121115-france-musee-orsay-museum-open-shanghai-exhibit-courbet-millet-paintings-china"/><link ID="88f452d601c9e6da9fb658d07112a14b" Name="Libyan oil is flowing again, but few are reaping the profits" Adr="http://observers.france24.com/content/20121115-libyan-oil-flowing-again-few-are-reaping-profits-brega-region-east-sirte-gulf-refineries-export-poverty-marsa"/><link ID="8c740d72d2d56190d88eadbd31447330" Name="&lt;IMG  uid='415' id='element-415' left='30' top='2324' width='140' height='2386' margin_left='0px' background_color='rgba(0, 0, 0, 0)' font_size='16px' font_weight='normal' display='inline' visibility='visible' src='/en/files/imagecache/france24_169_medium/article/image/Nutella.jpg' alt='French Senate approves 'Nutella' tax hike'/&gt;" Adr="http://www.france24.com/en/20121115-french-senate-approves-nutella-tax-hike-palm-oil-amendment"/><link ID="5a1f72c4f7e449ad43cc8b6632f4a089" Name="French Senate approves 'Nutella' tax hike" Adr="http://www.france24.com/en/20121115-french-senate-approves-nutella-tax-hike-palm-oil-amendment"/><link ID="c54e3101352fce115b22adfc3652604c" Name="Obama grilled by press over Petraeus scandal, tax hikes" Adr="http://www.france24.com/en/20121114-obama-be-grilled-over-petraeus-scandal-cia-fbi"/><link ID="0d98ef588f8972f72c37ac1a55086148" Name="Clashes erupt amid Europe's anti-austerity protests" Adr="http://www.france24.com/en/20121114-europe-anti-austerity-protests-strike-economy"/><link ID="311cb9d31958215bc6e3437f40c3d5c2" Name="" Adr="http://www.france24.com/en/20121114-europe-union-agrees-euro-billion-aid-package-egypt-morsi"/><link ID="45b0312ee7105c2d17b2027d471d11d2" Name="European Union agrees to €5 billion aid package for Egypt" Adr="http://www.france24.com/en/20121114-europe-union-agrees-euro-billion-aid-package-egypt-morsi"/><link ID="a0d630e821975c0ff5d793f568d5132d" Name="" Adr="http://pub.ftv-publicite.fr/5c/www.france24.en/accueil/307157345/x01/OasDefault/default/empty.gif/684f504d5146436c4e52304141516930"/><link ID="d6099a332c0ff9b2a5185470238cd503" Name="" Adr="http://www.france24.com/en/taxonomy/term2/feed/20277/all/all/all/all/all"/><link ID="aee5538335573e29ed4716cbe261fc5a" Name="" Adr="http://www.france24.com/en/20121114-lebanon-syria-shiite-sunni-salafist-preacher-threaten-hezbollah-hassan-nasrallah"/><link ID="ee11da2660576f36cc2e54c869427d9b" Name="The Salafist preacher who declared war on Hezbollah" Adr="http://www.france24.com/en/20121114-lebanon-syria-shiite-sunni-salafist-preacher-threaten-hezbollah-hassan-nasrallah"/><link ID="08b2d9589546f29a1fa1c9fd2ddaab8b" Name="" Adr="http://www.france24.com/en/taxonomy/term2/feed/2778/all/all/all/all/all"/><link ID="091b9bca25434334a07ec46575b589fa" Name="" Adr="http://www.france24.com/en/20121115-beaujolais-nouveau-france-wine-2012-photos-instagram-bars-restaurants-markets"/><link ID="10a18569727a386f2601adec7fcb41c3" Name="Beaujolais Nouveau makes yearly splash" Adr="http://www.france24.com/en/20121115-beaujolais-nouveau-france-wine-2012-photos-instagram-bars-restaurants-markets"/><link ID="f1686e9da834a672f1fc65dae96dbeab" Name="" Adr="http://www.france24.com/static/infographies/syrie_opposant/index_en_v6.html?keepThis=true&amp;TB_iframe=true&amp;height=1000&amp;width=620&amp;"/><link ID="83f8da9d69c15e2c93cef589dbcd9e14" Name="" Adr="http://www.france24.com/en/taxonomy/term2/feed/18004%2B18015%2B18012/all/all/all/all/all"/><link ID="45d8de55a8d5a8fc961fdbe459f244e7" Name="&lt;IMG  uid='572' id='element-572' left='460' top='1359' width='530' height='1398' margin_left='0px' background_color='rgba(0, 0, 0, 0)' font_size='12px' font_weight='normal' display='inline' visibility='visible' src='/en/files/imagecache/france24_169_small/edition/Politics%201114.jpg' alt='François Hollande: the end of the 'normal' president? '/&gt;" Adr="http://www.france24.com/en/20121115-politics-francois-hollande-end-normal-president-press-conference-poll-ratings-france"/><link ID="3e1282371e13de9d8b8429b2b891c1ee" Name="" Adr="http://www.france24.com/en/20121115-politics-francois-hollande-end-normal-president-press-conference-poll-ratings-france"/><link ID="6a4a092165957fc565e4b6746f1f461a" Name="François Hollande: the end of the 'normal' president?" Adr="http://www.france24.com/en/20121115-politics-francois-hollande-end-normal-president-press-conference-poll-ratings-france"/><link ID="a7dc6f97236a67b84a1675a980e8bcfd" Name="" Adr="http://www.france24.com/en/20121114-interview-general-carter-ham-commander-africa-mali"/><link ID="a7dc6f97236a67b84a1675a980e8bcfd" Name="" Adr="http://www.france24.com/en/20121114-interview-general-carter-ham-commander-africa-mali"/><link ID="2cac9ba951c4321841a58ca35d794c9d" Name="General Carter F. Ham,  Commander, United States Africa Command" Adr="http://www.france24.com/en/20121114-interview-general-carter-ham-commander-africa-mali"/><link ID="bda00b5b6476025d4885de32a2dd57fe" Name="" Adr="http://www.france24.com/en/20121114-interview-jamie-shea-nato-emerging-security-challenges-unit"/><link ID="bda00b5b6476025d4885de32a2dd57fe" Name="" Adr="http://www.france24.com/en/20121114-interview-jamie-shea-nato-emerging-security-challenges-unit"/><link ID="bcab6a53567ff241d5b33675b6a3a3fa" Name="Jamie Shea, Head of NATO’s Emerging Security Challenges Unit" Adr="http://www.france24.com/en/20121114-interview-jamie-shea-nato-emerging-security-challenges-unit"/><link ID="86b847fe1a6588067c89af77a411e86e" Name="" Adr="http://www.france24.com/en/20121114-kostyantyn-gryshchenko-ukraine-parliamentary-election"/><link ID="86b847fe1a6588067c89af77a411e86e" Name="" Adr="http://www.france24.com/en/20121114-kostyantyn-gryshchenko-ukraine-parliamentary-election"/><link ID="c8fef54fb8a3d8aa0ce39115578d4dd1" Name="Kostyantyn Gryshchenko, Ukrainian Foreign Minister" Adr="http://www.france24.com/en/20121114-kostyantyn-gryshchenko-ukraine-parliamentary-election"/><link ID="76fcf41c1cca7047af72f4d03684df70" Name="" Adr="http://www.france24.com/en/20121112-interview-aleksander-kwasniewski-former-polish-president"/><link ID="76fcf41c1cca7047af72f4d03684df70" Name="" Adr="http://www.france24.com/en/20121112-interview-aleksander-kwasniewski-former-polish-president"/><link ID="9fc8719e60270df6da3ee8818ec4fe77" Name="Aleksander Kwasniewski, former Polish President" Adr="http://www.france24.com/en/20121112-interview-aleksander-kwasniewski-former-polish-president"/><link ID="a5d6207e25b7675e8260d0c73eb1b694" Name="" Adr="http://www.france24.com/en/taxonomy/term2/feed/5062/all/all/all/all/all"/><link ID="85111f43c80f82683b4c5ac2c4f5f1f3" Name="" Adr="http://www.france24.com/en/20121112-french-anti-airport-protesters-prepare-pitched-battle"/><link ID="21f8346ffcb91436e473504dec6868e2" Name="French anti-airport protesters prepare for battle" Adr="http://www.france24.com/en/20121112-french-anti-airport-protesters-prepare-pitched-battle"/><link ID="c02c6ff8ae5f4c98c48ced0c8bb3ceb2" Name="" Adr="http://www.france24.com/en/taxonomy/term2/feed/18020%2B18022%2B18018%2B18023%2B18021%2B18024%2B18019/all/all/all/all/all"/><link ID="cdbcbea069b26d93cf85c1a670ccb55e" Name="" Adr="http://www.france24.com/en/20121114-week-americas-haiti-hurricane-sandy-cia-petraeus--argentina-fernandez"/><link ID="cdbcbea069b26d93cf85c1a670ccb55e" Name="" Adr="http://www.france24.com/en/20121114-week-americas-haiti-hurricane-sandy-cia-petraeus--argentina-fernandez"/><link ID="f12045110b2570ea0308ddf462a281d5" Name="Haiti: Hurricane Sandy’s forgotten victims" Adr="http://www.france24.com/en/20121114-week-americas-haiti-hurricane-sandy-cia-petraeus--argentina-fernandez"/><link ID="5826eb7dfffabe5bb9252677c165372a" Name="" Adr="http://www.france24.com/en/taxonomy/term2/feed/19076/all/all/all/all/edition"/><link ID="12dd4691f7571b1e35bd83abf9a08651" Name="" Adr="http://www.france24.com/en/20121115-Fears-for-fresh-conflict-betwwen-Israel-and-Hamas"/><link ID="12dd4691f7571b1e35bd83abf9a08651" Name="" Adr="http://www.france24.com/en/20121115-Fears-for-fresh-conflict-betwwen-Israel-and-Hamas"/><link ID="8d1423affa49092c646e20fe85eb5b44" Name="Fears of a fresh conflict between Israel and Hamas" Adr="http://www.france24.com/en/20121115-Fears-for-fresh-conflict-betwwen-Israel-and-Hamas"/><link ID="81514949cfef8a891436701cdf28496d" Name="" Adr="http://www.france24.com/en/20121114-fuel-protests-sweep-debt-laden-Jordan"/><link ID="81514949cfef8a891436701cdf28496d" Name="" Adr="http://www.france24.com/en/20121114-fuel-protests-sweep-debt-laden-Jordan"/><link ID="f86f7df57052b55864a436b0ddd729c5" Name="Oil price protests sweep debt-laden Jordan" Adr="http://www.france24.com/en/20121114-fuel-protests-sweep-debt-laden-Jordan"/><link ID="05c4d44aa3a62b38fc19fb73d1184c80" Name="" Adr="http://www.france24.com/en/20121113-french-imams-visit-Jerusalem"/><link ID="05c4d44aa3a62b38fc19fb73d1184c80" Name="" Adr="http://www.france24.com/en/20121113-french-imams-visit-Jerusalem"/><link ID="4fd564a05015663a2f28a47379427b2f" Name="French imams build bridges in Jerusalem" Adr="http://www.france24.com/en/20121113-french-imams-visit-Jerusalem"/><link ID="34f88bbba66073e2a178ebd3a95a8f3b" Name="" Adr="http://www.france24.com/en/20121113-syrian-refugee-camps-in-turkey-at-saturation-point"/><link ID="34f88bbba66073e2a178ebd3a95a8f3b" Name="" Adr="http://www.france24.com/en/20121113-syrian-refugee-camps-in-turkey-at-saturation-point"/><link ID="231e38e14b5f9eac7dc63dcd349276b7" Name="Syrian refugee camps in Turkey hit saturation point" Adr="http://www.france24.com/en/20121113-syrian-refugee-camps-in-turkey-at-saturation-point"/><link ID="d0e65bd6568feaea4a58163140551a89" Name="" Adr="http://www.france24.com/en/20121112-malians-in-Paris-fear-for-their-homeland"/><link ID="d0e65bd6568feaea4a58163140551a89" Name="" Adr="http://www.france24.com/en/20121112-malians-in-Paris-fear-for-their-homeland"/><link ID="7f6fc8fdae78d33deae7931d7cdeb8d0" Name="Malian expatriates in Paris fear for loved ones back home" Adr="http://www.france24.com/en/20121112-malians-in-Paris-fear-for-their-homeland"/><link ID="c94cad52d5e276c39a0d597f56b1460d" Name="" Adr="http://www.france24.com/en/taxonomy/term2/feed/18008%2B20093/all/all/all/all/all"/><link ID="d81cbb018709d7a4b91739984595520c" Name="" Adr="http://www.france24.com/en/20121115-2012-11-14-2050-wb-en-webnews"/><link ID="d81cbb018709d7a4b91739984595520c" Name="" Adr="http://www.france24.com/en/20121115-2012-11-14-2050-wb-en-webnews"/><link ID="bedba43c2842d41db4bb37cc40a01e82" Name="USA: online petitions call for states to secede" Adr="http://www.france24.com/en/20121115-2012-11-14-2050-wb-en-webnews"/><link ID="1d4f6ad803761ffb7162458e9dac07ec" Name="" Adr="http://www.france24.com/en/graphics"/></Links>
+<Imgs ID="f6323f51bedaa94608c4cbcf6494ae33" IDList="ea7b839633816564a6e585ead38539a7,65178b7d557a99af7a22275b76f2fe52,985f3e07693c806035af9200820fa724,d9a3dd2e4e0f15d994aebbec09ad63ce,c4a915bc0049bd2fb6c0d3ab0493b900,73681e05c7fab4b4b005ef615f308e0e,346c39b3d3813b27e4cfc29617ee62aa,4d6ec080329a4524c0685382f49af37b,c311a395a0dd05224d337c3d70b9bed5,4d6ec080329a4524c0685382f49af37b,5af0305e7477a9177117f53a1bda3e9a,fb15cd2611cffba4804fce95e9cdae39,4d6ec080329a4524c0685382f49af37b,ce1d4282d97471bbc8c96d3f0b322cb1,3158d928ec675903722bb999e44dfd43,3af138260e6ff3a994ae50ec2da3ead8,e382bc0a3fa2d973a1b02392167c3ef2,4d6ec080329a4524c0685382f49af37b,a1007b15ea11a40e5571b66b28f63275,4d6ec080329a4524c0685382f49af37b,f66a5f29963e2646e5394809c2d8e3aa,4d6ec080329a4524c0685382f49af37b,fa9dade491e37b8867e9dcb67e06a509,72921bccf85f2f9adb9312944c373494,3f8daf3b244a85d39f4fc8259b986397,41edbe89b5112056c1e65bc017fe699f,57692f92c6abb9744d04db732b1e49c2,4d6ec080329a4524c0685382f49af37b,9a900f2e241dbd2e5b2f1bbc1fd6c22c,82dc1a8fbcd984a413f23363cf2b6abc">
+<img ID="ea7b839633816564a6e585ead38539a7" Name="French soldiers’ wives strip in protest at late payments" Src="http://www.france24.com/en/files/imagecache/france24_169_medium/article/image/femmes3_0.jpg"/><img ID="65178b7d557a99af7a22275b76f2fe52" Name="" Src="http://www.france24.com/en/files/element_multimedia/image/zone2_V3_Syrie_en.jpg"/><img ID="985f3e07693c806035af9200820fa724" Name="Children discovered in freezer in French town" Src="http://www.france24.com/en/files/imagecache/france24_169_medium/article/image/b%C3%A9b%C3%A9s-frigo.jpg"/><img ID="d9a3dd2e4e0f15d994aebbec09ad63ce" Name="Ansar Dine: ‘We are determined to have peace’ in northern Mali" Src="http://www.france24.com/en/files/imagecache/france24_169_medium/article/image/Mali%20new.jpg"/><img ID="c4a915bc0049bd2fb6c0d3ab0493b900" Name="France avoids eurozone recession in third quarter" Src="http://www.france24.com/en/files/imagecache/france24_169_medium/article/image/eurozone-m_4.jpg"/><img ID="73681e05c7fab4b4b005ef615f308e0e" Name="European Union agrees to €5 billion aid package for Egypt" Src="http://www.france24.com/en/files/imagecache/france24_169_medium/article/image/morsi%20ue.jpg"/><img ID="346c39b3d3813b27e4cfc29617ee62aa" Name="" Src="http://pub.ftv-publicite.fr/5/www.france24.en/accueil/307157345/x01/OasDefault/default/empty.gif/684f504d5146436c4e52304141516930?"/><img ID="4d6ec080329a4524c0685382f49af37b" Name="Syndicate content" Src="http://www.france24.com/en/misc/feed.png"/><img ID="c311a395a0dd05224d337c3d70b9bed5" Name="The Salafist preacher who declared war on Hezbollah" Src="http://www.france24.com/en/files/imagecache/france24_special_169_medium/article/image/assir.jpg"/><img ID="4d6ec080329a4524c0685382f49af37b" Name="Syndicate content" Src="http://www.france24.com/en/misc/feed.png"/><img ID="5af0305e7477a9177117f53a1bda3e9a" Name="Beaujolais Nouveau makes yearly splash" Src="http://www.france24.com/en/files/imagecache/france24_special_169_medium/article/image/beaujolais-m_0.jpg"/><img ID="fb15cd2611cffba4804fce95e9cdae39" Name="" Src="http://www.france24.com/static/infographies/syrie_opposant/zone3_assembly_en.jpg"/><img ID="4d6ec080329a4524c0685382f49af37b" Name="Syndicate content" Src="http://www.france24.com/en/misc/feed.png"/><img ID="ce1d4282d97471bbc8c96d3f0b322cb1" Name="General Carter F. Ham,  Commander, United States Africa Command" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/carter.jpg"/><img ID="3158d928ec675903722bb999e44dfd43" Name="Jamie Shea, Head of NATO’s Emerging Security Challenges Unit" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/ENTK%20THE%20INTERVIEW%201114%20%281%29.jpg"/><img ID="3af138260e6ff3a994ae50ec2da3ead8" Name="Kostyantyn Gryshchenko, Ukrainian Foreign Minister" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/FR%20MG%20ENTRETIEN%20GRYSCHEN%20CL.jpg"/><img ID="e382bc0a3fa2d973a1b02392167c3ef2" Name="Aleksander Kwasniewski, former Polish President" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/EN%20MG%20INTERVIEW%20KWASNIEWSKI.jpg"/><img ID="4d6ec080329a4524c0685382f49af37b" Name="Syndicate content" Src="http://www.france24.com/en/misc/feed.png"/><img ID="a1007b15ea11a40e5571b66b28f63275" Name="French anti-airport protesters prepare for battle" Src="http://www.france24.com/en/files/imagecache/france24_special_169_medium/article/image/notre%20dame%20landes.jpg"/><img ID="4d6ec080329a4524c0685382f49af37b" Name="Syndicate content" Src="http://www.france24.com/en/misc/feed.png"/><img ID="f66a5f29963e2646e5394809c2d8e3aa" Name="Haiti: Hurricane Sandy’s forgotten victims " Src="http://www.france24.com/en/files/imagecache/france24_special_169_medium/edition/ENMG%20THE%20WEEK%20IN%20THE%20AMERIC_3.jpg"/><img ID="4d6ec080329a4524c0685382f49af37b" Name="Syndicate content" Src="http://www.france24.com/en/misc/feed.png"/><img ID="fa9dade491e37b8867e9dcb67e06a509" Name="Fears of a fresh conflict between Israel and Hamas" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/FM%201115%20Gaza%20Israel%20assassination.jpg"/><img ID="72921bccf85f2f9adb9312944c373494" Name="Oil price protests sweep debt-laden Jordan" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/FS%201114%20Jordan%20oil%20prices.jpg"/><img ID="3f8daf3b244a85d39f4fc8259b986397" Name="French imams build bridges in Jerusalem" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/FS%201113%20Israel%20French%20imamas.jpg"/><img ID="41edbe89b5112056c1e65bc017fe699f" Name="Syrian refugee camps in Turkey hit saturation point" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/FM%201112%20Syrian%20refugees%20Turkey.jpg"/><img ID="57692f92c6abb9744d04db732b1e49c2" Name="Malian expatriates in Paris fear for loved ones back home" Src="http://www.france24.com/en/files/imagecache/france24_169_small/edition/FS%201112%20Malians.jpg"/><img ID="4d6ec080329a4524c0685382f49af37b" Name="Syndicate content" Src="http://www.france24.com/en/misc/feed.png"/><img ID="9a900f2e241dbd2e5b2f1bbc1fd6c22c" Name="USA: online petitions call for states to secede" Src="http://www.france24.com/en/files/imagecache/france24_special_169_medium/edition/Snapz%20Pro%20XCapture001_113.jpg"/><img ID="82dc1a8fbcd984a413f23363cf2b6abc" Name="" Src="http://www.france24.com/en/files/element_multimedia/image/zone3_en-info.jpg"/></Imgs>
+<Txts ID="7af1e6b65e5f63218e1f9f00a257d2b5" Txt="
+                          
+                         
+                             CHINA
+                          
+                             Xi Jinping officially named China's new leader
+                          
+                            Xi Jinping took over from Hu Jintao as China’s new leader on Thursday after the close of a week-long Communist Party congress that approved a new leadership committee.
+                         
+                            ON THE BLOGS
+                         
+                             Reason for headaches and cheer, France's Beaujolais Nouveau is here
+                          
+                             FRANCE
+                          
+                             French soldiers’ wives strip in protest at late payments
+                          
+                            Hundreds of French women have bared their backs in a Facebook campaign for the payment of their soldier-husbands’ salaries. The French Ministry of Defence's faulty payments system has left them in the lurch.
+                         
+                             FRANCE
+                          
+                             Children discovered in freezer in French town
+                          
+                            The corpses of two young children were found in the refrigerator of their home in a south-eastern town in France on Thursday morning, alongside their mother, who had suffered “a violent death” according to a local prosecutor.
+                         
+                             MALI
+                          
+                             Ansar Dine: ‘We are determined to have peace’ in northern Mali
+                          
+                            With a plan for a military intervention in northern Mali already mapped out, a delegation from militant Islamist group Ansar Dine (currently occupying the region) met with a UN official in Burkina Faso.
+                         
+                             EUROZONE
+                          
+                             France avoids eurozone recession in third quarter
+                          
+                            The eurozone slipped into its second recession since 2009 in the third quarter of this year, with output falling 0.1%, Eurostat data showed on Thursday. France and Germany managed to buck the trend, with both managing 0.2% growth in the same period.
+                         
+                             OUR PARTNERS' SERVICES
+                          
+                            FRANCE 24 BLOG
+                         
+                             Hindu woman denied abortion in ‘Catholic’ Ireland
+                          
+                          
+                         
+                             PAINTING
+                          
+                             France's Musée d'Orsay to open Shanghai exhibit
+                          
+                            A collection of 19th century paintings from France's Musée d'Orsay will go on display Friday at the new modern art museum in Shanghai. The exhibit will include 87 paintings by French Naturalists including Gustave Courbet and Jean-François Millet.
+                         
+                            On The Observers
+                         
+                             Libyan oil is flowing again, but few are reaping the profits
+                          
+                          
+                         
+                             FRANCE
+                          
+                             French Senate approves 'Nutella' tax hike
+                          
+                            The French Senate on Wednesday approved the so-called Nutella tax, an amendment quadrupling the tax on palm oil that is aimed at curbing consumption of the saturated fat. The measure must pass another vote in the Senate and in the lower house.
+                         
+                             USA
+                          
+                             Obama grilled by press over Petraeus scandal, tax hikes
+                          
+                            US President Barack Obama faced the press for the first time since his re-election Wednesday when he was grilled over the sex scandal that toppled CIA director David Petraeus and the looming face off with Republicans over increased taxes.
+                         
+                            EUROPEAN UNION
+                         
+                             Clashes erupt amid Europe's anti-austerity protests
+                          
+                             EGYPT
+                          
+                             European Union agrees to €5 billion aid package for Egypt
+                          
+                            The EU will send a €5 billion aid package to Egypt to help rebuild the economy, it was announced Wednesday, in a deal finalised in Cairo between Egypt’s President Mohamed Morsi and the EU's Foreign Policy Chief Catherine Ashton.
+                         
+                               PORTRAIT
+                            
+                                             SYRIA
+                                          
+                                              The Salafist preacher who declared war on Hezbollah
+                                           
+                               IN PICTURES
+                            
+                                             FRANCE
+                                          
+                                              Beaujolais Nouveau makes yearly splash
+                                           
+                               WHO'S WHO
+                            
+                               The France 24 Interviews
+                            
+                                        
+                                       
+                                          POLITICS
+                                       
+                                          François Hollande: the end of the 'normal' president?
+                                       
+                                          THE INTERVIEW
+                                       
+                                          General Carter F. Ham,  Commander, United States Africa Command
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Jamie Shea, Head of NATO’s Emerging Security Challenges Unit
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Kostyantyn Gryshchenko, Ukrainian Foreign Minister
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Aleksander Kwasniewski, former Polish President
+                                       
+                               FOCUS
+                            
+                                             FRANCE
+                                          
+                                              French anti-airport protesters prepare for battle
+                                           
+                               A WEEK OF NEWS
+                            
+                                             THE WEEK IN THE AMERICAS
+                                          
+                                              Haiti: Hurricane Sandy’s forgotten victims
+                                           
+                               In-Depth Reports
+                            
+                                          MIDDLE EAST
+                                       
+                                          Fears of a fresh conflict between Israel and Hamas
+                                       
+                                          JORDAN
+                                       
+                                          Oil price protests sweep debt-laden Jordan
+                                       
+                                          ISRAEL
+                                       
+                                          French imams build bridges in Jerusalem
+                                       
+                                          TURKEY
+                                       
+                                          Syrian refugee camps in Turkey hit saturation point
+                                       
+                                          FRANCE
+                                       
+                                          Malian expatriates in Paris fear for loved ones back home
+                                       
+                               NEWS, GOSSIP AND BUZZ
+                            
+                                             WEBNEWS
+                                          
+                                              USA: online petitions call for states to secede
+                                           ,
+                          
+                         
+                             CHINA
+                          
+                             Xi Jinping officially named China's new leader
+                          
+                            Xi Jinping took over from Hu Jintao as China’s new leader on Thursday after the close of a week-long Communist Party congress that approved a new leadership committee.
+                         
+                            ON THE BLOGS
+                         
+                             Reason for headaches and cheer, France's Beaujolais Nouveau is here
+                          
+                             FRANCE
+                          
+                             French soldiers’ wives strip in protest at late payments
+                          
+                            Hundreds of French women have bared their backs in a Facebook campaign for the payment of their soldier-husbands’ salaries. The French Ministry of Defence's faulty payments system has left them in the lurch.
+                         
+                             FRANCE
+                          
+                             Children discovered in freezer in French town
+                          
+                            The corpses of two young children were found in the refrigerator of their home in a south-eastern town in France on Thursday morning, alongside their mother, who had suffered “a violent death” according to a local prosecutor.
+                         
+                             MALI
+                          
+                             Ansar Dine: ‘We are determined to have peace’ in northern Mali
+                          
+                            With a plan for a military intervention in northern Mali already mapped out, a delegation from militant Islamist group Ansar Dine (currently occupying the region) met with a UN official in Burkina Faso.
+                         
+                             EUROZONE
+                          
+                             France avoids eurozone recession in third quarter
+                          
+                            The eurozone slipped into its second recession since 2009 in the third quarter of this year, with output falling 0.1%, Eurostat data showed on Thursday. France and Germany managed to buck the trend, with both managing 0.2% growth in the same period.
+                         
+                             OUR PARTNERS' SERVICES
+                          
+                            FRANCE 24 BLOG
+                         
+                             Hindu woman denied abortion in ‘Catholic’ Ireland
+                          
+                          
+                         
+                             PAINTING
+                          
+                             France's Musée d'Orsay to open Shanghai exhibit
+                          
+                            A collection of 19th century paintings from France's Musée d'Orsay will go on display Friday at the new modern art museum in Shanghai. The exhibit will include 87 paintings by French Naturalists including Gustave Courbet and Jean-François Millet.
+                         
+                            On The Observers
+                         
+                             Libyan oil is flowing again, but few are reaping the profits
+                          
+                          
+                         
+                             FRANCE
+                          
+                             French Senate approves 'Nutella' tax hike
+                          
+                            The French Senate on Wednesday approved the so-called Nutella tax, an amendment quadrupling the tax on palm oil that is aimed at curbing consumption of the saturated fat. The measure must pass another vote in the Senate and in the lower house.
+                         
+                             USA
+                          
+                             Obama grilled by press over Petraeus scandal, tax hikes
+                          
+                            US President Barack Obama faced the press for the first time since his re-election Wednesday when he was grilled over the sex scandal that toppled CIA director David Petraeus and the looming face off with Republicans over increased taxes.
+                         
+                            EUROPEAN UNION
+                         
+                             Clashes erupt amid Europe's anti-austerity protests
+                          
+                             EGYPT
+                          
+                             European Union agrees to €5 billion aid package for Egypt
+                          
+                            The EU will send a €5 billion aid package to Egypt to help rebuild the economy, it was announced Wednesday, in a deal finalised in Cairo between Egypt’s President Mohamed Morsi and the EU's Foreign Policy Chief Catherine Ashton.
+                         ,
+                          
+                         
+                             CHINA
+                          
+                             Xi Jinping officially named China's new leader
+                          
+                            Xi Jinping took over from Hu Jintao as China’s new leader on Thursday after the close of a week-long Communist Party congress that approved a new leadership committee.
+                         ,
+                          ,
+                             CHINA
+                          
+                             Xi Jinping officially named China's new leader
+                          
+                            Xi Jinping took over from Hu Jintao as China’s new leader on Thursday after the close of a week-long Communist Party congress that approved a new leadership committee.
+                         ,
+                             CHINA
+                          ,
+                             Xi Jinping officially named China's new leader
+                          ,
+                            Xi Jinping took over from Hu Jintao as China’s new leader on Thursday after the close of a week-long Communist Party congress that approved a new leadership committee.
+                         ,
+                            ON THE BLOGS
+                         
+                             Reason for headaches and cheer, France's Beaujolais Nouveau is here
+                          ,
+                            ON THE BLOGS
+                         ,
+                             Reason for headaches and cheer, France's Beaujolais Nouveau is here
+                          ,
+                             FRANCE
+                          
+                             French soldiers’ wives strip in protest at late payments
+                          
+                            Hundreds of French women have bared their backs in a Facebook campaign for the payment of their soldier-husbands’ salaries. The French Ministry of Defence's faulty payments system has left them in the lurch.
+                         ,
+                             FRANCE
+                          ,
+                             French soldiers’ wives strip in protest at late payments
+                          ,
+                            Hundreds of French women have bared their backs in a Facebook campaign for the payment of their soldier-husbands’ salaries. The French Ministry of Defence's faulty payments system has left them in the lurch.
+                         ,
+                             FRANCE
+                          
+                             Children discovered in freezer in French town
+                          
+                            The corpses of two young children were found in the refrigerator of their home in a south-eastern town in France on Thursday morning, alongside their mother, who had suffered “a violent death” according to a local prosecutor.
+                         ,
+                             Children discovered in freezer in French town
+                          ,
+                            The corpses of two young children were found in the refrigerator of their home in a south-eastern town in France on Thursday morning, alongside their mother, who had suffered “a violent death” according to a local prosecutor.
+                         ,
+                             MALI
+                          
+                             Ansar Dine: ‘We are determined to have peace’ in northern Mali
+                          
+                            With a plan for a military intervention in northern Mali already mapped out, a delegation from militant Islamist group Ansar Dine (currently occupying the region) met with a UN official in Burkina Faso.
+                         ,
+                             MALI
+                          ,
+                             Ansar Dine: ‘We are determined to have peace’ in northern Mali
+                          ,
+                            With a plan for a military intervention in northern Mali already mapped out, a delegation from militant Islamist group Ansar Dine (currently occupying the region) met with a UN official in Burkina Faso.
+                         ,
+                             EUROZONE
+                          
+                             France avoids eurozone recession in third quarter
+                          
+                            The eurozone slipped into its second recession since 2009 in the third quarter of this year, with output falling 0.1%, Eurostat data showed on Thursday. France and Germany managed to buck the trend, with both managing 0.2% growth in the same period.
+                         ,
+                             EUROZONE
+                          ,
+                             France avoids eurozone recession in third quarter
+                          ,
+                            The eurozone slipped into its second recession since 2009 in the third quarter of this year, with output falling 0.1%, Eurostat data showed on Thursday. France and Germany managed to buck the trend, with both managing 0.2% growth in the same period.
+                         ,
+                             OUR PARTNERS' SERVICES
+                          ,
+                            FRANCE 24 BLOG
+                         
+                             Hindu woman denied abortion in ‘Catholic’ Ireland
+                          ,
+                            FRANCE 24 BLOG
+                         ,
+                             Hindu woman denied abortion in ‘Catholic’ Ireland
+                          ,
+                          
+                         
+                             PAINTING
+                          
+                             France's Musée d'Orsay to open Shanghai exhibit
+                          
+                            A collection of 19th century paintings from France's Musée d'Orsay will go on display Friday at the new modern art museum in Shanghai. The exhibit will include 87 paintings by French Naturalists including Gustave Courbet and Jean-François Millet.
+                         ,
+                             PAINTING
+                          
+                             France's Musée d'Orsay to open Shanghai exhibit
+                          
+                            A collection of 19th century paintings from France's Musée d'Orsay will go on display Friday at the new modern art museum in Shanghai. The exhibit will include 87 paintings by French Naturalists including Gustave Courbet and Jean-François Millet.
+                         ,
+                             PAINTING
+                          ,
+                             France's Musée d'Orsay to open Shanghai exhibit
+                          ,
+                            A collection of 19th century paintings from France's Musée d'Orsay will go on display Friday at the new modern art museum in Shanghai. The exhibit will include 87 paintings by French Naturalists including Gustave Courbet and Jean-François Millet.
+                         ,
+                            On The Observers
+                         
+                             Libyan oil is flowing again, but few are reaping the profits
+                          ,
+                            On The Observers
+                         ,
+                             Libyan oil is flowing again, but few are reaping the profits
+                          ,
+                          
+                         
+                             FRANCE
+                          
+                             French Senate approves 'Nutella' tax hike
+                          
+                            The French Senate on Wednesday approved the so-called Nutella tax, an amendment quadrupling the tax on palm oil that is aimed at curbing consumption of the saturated fat. The measure must pass another vote in the Senate and in the lower house.
+                         ,
+                             FRANCE
+                          
+                             French Senate approves 'Nutella' tax hike
+                          
+                            The French Senate on Wednesday approved the so-called Nutella tax, an amendment quadrupling the tax on palm oil that is aimed at curbing consumption of the saturated fat. The measure must pass another vote in the Senate and in the lower house.
+                         ,
+                             French Senate approves 'Nutella' tax hike
+                          ,
+                            The French Senate on Wednesday approved the so-called Nutella tax, an amendment quadrupling the tax on palm oil that is aimed at curbing consumption of the saturated fat. The measure must pass another vote in the Senate and in the lower house.
+                         ,
+                             USA
+                          
+                             Obama grilled by press over Petraeus scandal, tax hikes
+                          
+                            US President Barack Obama faced the press for the first time since his re-election Wednesday when he was grilled over the sex scandal that toppled CIA director David Petraeus and the looming face off with Republicans over increased taxes.
+                         ,
+                             USA
+                          ,
+                             Obama grilled by press over Petraeus scandal, tax hikes
+                          ,
+                            US President Barack Obama faced the press for the first time since his re-election Wednesday when he was grilled over the sex scandal that toppled CIA director David Petraeus and the looming face off with Republicans over increased taxes.
+                         ,
+                            EUROPEAN UNION
+                         
+                             Clashes erupt amid Europe's anti-austerity protests
+                          ,
+                            EUROPEAN UNION
+                         ,
+                             Clashes erupt amid Europe's anti-austerity protests
+                          ,
+                             EGYPT
+                          
+                             European Union agrees to €5 billion aid package for Egypt
+                          
+                            The EU will send a €5 billion aid package to Egypt to help rebuild the economy, it was announced Wednesday, in a deal finalised in Cairo between Egypt’s President Mohamed Morsi and the EU's Foreign Policy Chief Catherine Ashton.
+                         ,
+                             EGYPT
+                          ,
+                             European Union agrees to €5 billion aid package for Egypt
+                          ,
+                            The EU will send a €5 billion aid package to Egypt to help rebuild the economy, it was announced Wednesday, in a deal finalised in Cairo between Egypt’s President Mohamed Morsi and the EU's Foreign Policy Chief Catherine Ashton.
+                         ,
+                               PORTRAIT
+                            
+                                             SYRIA
+                                          
+                                              The Salafist preacher who declared war on Hezbollah
+                                           
+                               IN PICTURES
+                            
+                                             FRANCE
+                                          
+                                              Beaujolais Nouveau makes yearly splash
+                                           
+                               WHO'S WHO
+                            
+                               The France 24 Interviews
+                            
+                                        
+                                       
+                                          POLITICS
+                                       
+                                          François Hollande: the end of the 'normal' president?
+                                       
+                                          THE INTERVIEW
+                                       
+                                          General Carter F. Ham,  Commander, United States Africa Command
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Jamie Shea, Head of NATO’s Emerging Security Challenges Unit
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Kostyantyn Gryshchenko, Ukrainian Foreign Minister
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Aleksander Kwasniewski, former Polish President
+                                       
+                               FOCUS
+                            
+                                             FRANCE
+                                          
+                                              French anti-airport protesters prepare for battle
+                                           
+                               A WEEK OF NEWS
+                            
+                                             THE WEEK IN THE AMERICAS
+                                          
+                                              Haiti: Hurricane Sandy’s forgotten victims
+                                           
+                               In-Depth Reports
+                            
+                                          MIDDLE EAST
+                                       
+                                          Fears of a fresh conflict between Israel and Hamas
+                                       
+                                          JORDAN
+                                       
+                                          Oil price protests sweep debt-laden Jordan
+                                       
+                                          ISRAEL
+                                       
+                                          French imams build bridges in Jerusalem
+                                       
+                                          TURKEY
+                                       
+                                          Syrian refugee camps in Turkey hit saturation point
+                                       
+                                          FRANCE
+                                       
+                                          Malian expatriates in Paris fear for loved ones back home
+                                       
+                               NEWS, GOSSIP AND BUZZ
+                            
+                                             WEBNEWS
+                                          
+                                              USA: online petitions call for states to secede
+                                           ,
+                               PORTRAIT
+                            
+                                             SYRIA
+                                          
+                                              The Salafist preacher who declared war on Hezbollah
+                                           ,
+                               PORTRAIT
+                            ,
+                                             SYRIA
+                                          
+                                              The Salafist preacher who declared war on Hezbollah
+                                           ,
+                                             SYRIA
+                                          ,
+                                              The Salafist preacher who declared war on Hezbollah
+                                           ,
+                               IN PICTURES
+                            
+                                             FRANCE
+                                          
+                                              Beaujolais Nouveau makes yearly splash
+                                           ,
+                               IN PICTURES
+                            ,
+                                             FRANCE
+                                          
+                                              Beaujolais Nouveau makes yearly splash
+                                           ,
+                                             FRANCE
+                                          ,
+                                              Beaujolais Nouveau makes yearly splash
+                                           ,
+                               WHO'S WHO
+                            ,
+                               The France 24 Interviews
+                            
+                                        
+                                       
+                                          POLITICS
+                                       
+                                          François Hollande: the end of the 'normal' president?
+                                       
+                                          THE INTERVIEW
+                                       
+                                          General Carter F. Ham,  Commander, United States Africa Command
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Jamie Shea, Head of NATO’s Emerging Security Challenges Unit
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Kostyantyn Gryshchenko, Ukrainian Foreign Minister
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Aleksander Kwasniewski, former Polish President
+                                       ,
+                               The France 24 Interviews
+                            ,
+                                        
+                                       
+                                          POLITICS
+                                       
+                                          François Hollande: the end of the 'normal' president?
+                                       
+                                          THE INTERVIEW
+                                       
+                                          General Carter F. Ham,  Commander, United States Africa Command
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Jamie Shea, Head of NATO’s Emerging Security Challenges Unit
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Kostyantyn Gryshchenko, Ukrainian Foreign Minister
+                                       
+                                          THE INTERVIEW
+                                       
+                                          Aleksander Kwasniewski, former Polish President
+                                       ,
+                                        
+                                       
+                                          POLITICS
+                                       
+                                          François Hollande: the end of the 'normal' president?
+                                       ,
+                                        ,
+                                          POLITICS
+                                       ,
+                                          François Hollande: the end of the 'normal' president?
+                                       ,
+                                          THE INTERVIEW
+                                       
+                                          General Carter F. Ham,  Commander, United States Africa Command
+                                       ,
+                                          THE INTERVIEW
+                                       ,
+                                          General Carter F. Ham,  Commander, United States Africa Command
+                                       ,
+                                          THE INTERVIEW
+                                       
+                                          Jamie Shea, Head of NATO’s Emerging Security Challenges Unit
+                                       ,
+                                          Jamie Shea, Head of NATO’s Emerging Security Challenges Unit
+                                       ,
+                                          THE INTERVIEW
+                                       
+                                          Kostyantyn Gryshchenko, Ukrainian Foreign Minister
+                                       ,
+                                          Kostyantyn Gryshchenko, Ukrainian Foreign Minister
+                                       ,
+                                          THE INTERVIEW
+                                       
+                                          Aleksander Kwasniewski, former Polish President
+                                       ,
+                                          Aleksander Kwasniewski, former Polish President
+                                       ,
+                               FOCUS
+                            
+                                             FRANCE
+                                          
+                                              French anti-airport protesters prepare for battle
+                                           ,
+                               FOCUS
+                            ,
+                                             FRANCE
+                                          
+                                              French anti-airport protesters prepare for battle
+                                           ,
+                                              French anti-airport protesters prepare for battle
+                                           ,
+                               A WEEK OF NEWS
+                            
+                                             THE WEEK IN THE AMERICAS
+                                          
+                                              Haiti: Hurricane Sandy’s forgotten victims
+                                           ,
+                               A WEEK OF NEWS
+                            ,
+                                             THE WEEK IN THE AMERICAS
+                                          
+                                              Haiti: Hurricane Sandy’s forgotten victims
+                                           ,
+                                             THE WEEK IN THE AMERICAS
+                                          ,
+                                              Haiti: Hurricane Sandy’s forgotten victims
+                                           ,
+                               In-Depth Reports
+                            
+                                          MIDDLE EAST
+                                       
+                                          Fears of a fresh conflict between Israel and Hamas
+                                       
+                                          JORDAN
+                                       
+                                          Oil price protests sweep debt-laden Jordan
+                                       
+                                          ISRAEL
+                                       
+                                          French imams build bridges in Jerusalem
+                                       
+                                          TURKEY
+                                       
+                                          Syrian refugee camps in Turkey hit saturation point
+                                       
+                                          FRANCE
+                                       
+                                          Malian expatriates in Paris fear for loved ones back home
+                                       ,
+                               In-Depth Reports
+                            ,
+                                          MIDDLE EAST
+                                       
+                                          Fears of a fresh conflict between Israel and Hamas
+                                       
+                                          JORDAN
+                                       
+                                          Oil price protests sweep debt-laden Jordan
+                                       
+                                          ISRAEL
+                                       
+                                          French imams build bridges in Jerusalem
+                                       
+                                          TURKEY
+                                       
+                                          Syrian refugee camps in Turkey hit saturation point
+                                       
+                                          FRANCE
+                                       
+                                          Malian expatriates in Paris fear for loved ones back home
+                                       ,
+                                          MIDDLE EAST
+                                       
+                                          Fears of a fresh conflict between Israel and Hamas
+                                       ,
+                                          MIDDLE EAST
+                                       ,
+                                          Fears of a fresh conflict between Israel and Hamas
+                                       ,
+                                          JORDAN
+                                       
+                                          Oil price protests sweep debt-laden Jordan
+                                       ,
+                                          JORDAN
+                                       ,
+                                          Oil price protests sweep debt-laden Jordan
+                                       ,
+                                          ISRAEL
+                                       
+                                          French imams build bridges in Jerusalem
+                                       ,
+                                          ISRAEL
+                                       ,
+                                          French imams build bridges in Jerusalem
+                                       ,
+                                          TURKEY
+                                       
+                                          Syrian refugee camps in Turkey hit saturation point
+                                       ,
+                                          TURKEY
+                                       ,
+                                          Syrian refugee camps in Turkey hit saturation point
+                                       ,
+                                          FRANCE
+                                       
+                                          Malian expatriates in Paris fear for loved ones back home
+                                       ,
+                                          FRANCE
+                                       ,
+                                          Malian expatriates in Paris fear for loved ones back home
+                                       ,
+                               NEWS, GOSSIP AND BUZZ
+                            
+                                             WEBNEWS
+                                          
+                                              USA: online petitions call for states to secede
+                                           ,
+                               NEWS, GOSSIP AND BUZZ
+                            ,
+                                             WEBNEWS
+                                          
+                                              USA: online petitions call for states to secede
+                                           ,
+                                             WEBNEWS
+                                          ,
+                                              USA: online petitions call for states to secede
+                                           "/>
+</Block>
+</Block>
+</Block>
+<Block Ref="Block1-2-2-2" internal_id='10' ID="1038651f1783680d08b033f7229b1033" Pos="WindowWidth||PageRectLeft:689.0 WindowHeight||PageRectTop:214.0 ObjectRectWidth:300.0 ObjectRectHeight:2695.0" Doc="6">
+<Links ID="15038630a84b9e8f4b4bce6d7be89872" IDList="98701cfba11b97ea9ba4d76a107d91eb,54c791f8a090229d1054b8d29059dd99,805c4ec4b0f0cabcb6cf596a5ce16a30,2b5956dd6b818b4c54c7a3ca264ac997,f52978f25297daa95fca1b3f31cb1ca6,344519db5c76892894766c9fc17e6c06,3e4a69d8f2768959ed7a446a2358ee17,87a22f650bd233102714b9924b494d00,347bc750b2adbe5c1037c76ddf3f58ce,88010c1bc08181ee81be3c9e57247d89,88010c1bc08181ee81be3c9e57247d89,88f452d601c9e6da9fb658d07112a14b,f9809d5cb8c64169ad156f6ce54b9925,60b13642ed8e820d023884324d7b57f0,e969725989687569cbac28972f4acd15,ff47cfaf6fea5c56d4b17196b1bb7221,c6ed2e6dabcc58cb7645b5c36a107230,6f0fef89c07989f32f563c8ef3635163,fd8d6ec4d2906ea4d1d1397f2f558bee,28862a366877daf77d3fbae05ec30b12,aaf96bdbfacbbb10c0d754bfe97dfaf5,aaf96bdbfacbbb10c0d754bfe97dfaf5,556a9d9dc9de230169ea9f77120f817a,88985ad22bd56b603c5d8881aa74699c,481041a8f66025c8fdfecfe7cafaa0a4,ab3401ce65c77fce4de67af2a2f503d3,a6791808b6850c174a3762df1cbc6ef1,f29e06eba4be666d308ceb69eb221ae7,f29e06eba4be666d308ceb69eb221ae7,81fbe49ddbf62899b95fc869ca4696a8,1894bc8fee3dfc08ed8d1c2a7c60d932,c9f1cd3177365d85ac037a845cec7f1d,f29e06eba4be666d308ceb69eb221ae7,f29e06eba4be666d308ceb69eb221ae7,81fbe49ddbf62899b95fc869ca4696a8,ab3401ce65c77fce4de67af2a2f503d3,a6791808b6850c174a3762df1cbc6ef1,27518fdb4d7d594bf8714e27b9e6804d,1c85d09c4e6d1466803f16741dfe2dc2,cd589b4f4ca230f9b318ad934bf8f357,cd589b4f4ca230f9b318ad934bf8f357,f0f06e29536396e7109cf4ea0a4e7096,7904dc89a83eaa33cba8a7e545c2a09c,84bf240d11075128039814a11423b184,7da7766cd2545e6e9b6801ca6d978b01,1bcc5c0d984cfb67f334c64c6344b258,b5433da66d515358b2e5ef5f25dc9ab2">
+<link ID="98701cfba11b97ea9ba4d76a107d91eb" Name="English" Adr="http://www.france24.com/en/"/><link ID="54c791f8a090229d1054b8d29059dd99" Name="Français" Adr="http://www.france24.com/fr/"/><link ID="805c4ec4b0f0cabcb6cf596a5ce16a30" Name="عربي" Adr="http://www.france24.com/ar/"/><link ID="2b5956dd6b818b4c54c7a3ca264ac997" Name="Watch France 24" Adr="http://www.france24.com/en/world"/><link ID="f52978f25297daa95fca1b3f31cb1ca6" Name="Live" Adr="http://www.france24.com/en/"/><link ID="344519db5c76892894766c9fc17e6c06" Name="News" Adr="http://www.france24.com/en/"/><link ID="3e4a69d8f2768959ed7a446a2358ee17" Name="Business" Adr="http://www.france24.com/en/"/><link ID="87a22f650bd233102714b9924b494d00" Name="Weather" Adr="http://www.france24.com/en/"/><link ID="347bc750b2adbe5c1037c76ddf3f58ce" Name="Watch :
+               
+                 FRANCE 24 live : THE DEBATE" Adr="http://www.france24.com/en/"/><link ID="88010c1bc08181ee81be3c9e57247d89" Name="" Adr="http://www.france24.com/en/#"/><link ID="88010c1bc08181ee81be3c9e57247d89" Name="" Adr="http://www.france24.com/en/#"/><link ID="88f452d601c9e6da9fb658d07112a14b" Name="Libyan oil is flowing again, but few are reaping the profits" Adr="http://observers.france24.com/content/20121115-libyan-oil-flowing-again-few-are-reaping-profits-brega-region-east-sirte-gulf-refineries-export-poverty-marsa"/><link ID="f9809d5cb8c64169ad156f6ce54b9925" Name="" Adr="http://observers.france24.com/content/20121115-libyan-oil-flowing-again-few-are-reaping-profits-brega-region-east-sirte-gulf-refineries-export-poverty-marsa"/><link ID="60b13642ed8e820d023884324d7b57f0" Name="" Adr="http://pub.ftv-publicite.fr/RealMedia/ads/click_lx.ads/www.france24.en/accueil/L23/436056138/Middle/OasDefault/2012045858844000104300301/Pave_Infographies_EN.html/684f504d5146436c4e52304141516930"/><link ID="e969725989687569cbac28972f4acd15" Name="" Adr="http://musictahrir.france24.com/tahrir-en.html"/><link ID="ff47cfaf6fea5c56d4b17196b1bb7221" Name="" Adr="http://www.france24.com/en/press-review"/><link ID="c6ed2e6dabcc58cb7645b5c36a107230" Name="'A killing that will rebound on Israel'" Adr="http://www.france24.com/en/20121115-israel-gaza-attack-hamas-netanyahu-egypt-muslim-brotherhood-peace-syria"/><link ID="6f0fef89c07989f32f563c8ef3635163" Name="Fillon and Copé face off in bid for party leadership" Adr="http://www.france24.com/en/20121115-cope-fillon-ump-race-politics-go-right-renault-salaries-competitiveness"/><link ID="fd8d6ec4d2906ea4d1d1397f2f558bee" Name="Most read" Adr="http://www.france24.com/en/#quicktabs-1"/><link ID="28862a366877daf77d3fbae05ec30b12" Name="Most commented" Adr="http://www.france24.com/en/#quicktabs-1"/><link ID="aaf96bdbfacbbb10c0d754bfe97dfaf5" Name="" Adr="http://www.france24.com/en/20121113-us-general-allen-probe-emails-petraeus-scandal-cia"/><link ID="aaf96bdbfacbbb10c0d754bfe97dfaf5" Name="" Adr="http://www.france24.com/en/20121113-us-general-allen-probe-emails-petraeus-scandal-cia"/><link ID="556a9d9dc9de230169ea9f77120f817a" Name="Top US general investigated for emails to Petraeus friend" Adr="http://www.france24.com/en/20121113-us-general-allen-probe-emails-petraeus-scandal-cia"/><link ID="88985ad22bd56b603c5d8881aa74699c" Name="" Adr="http://www.france24.com/en/20121112-second-woman-petraeus-affair-cia-usa"/><link ID="481041a8f66025c8fdfecfe7cafaa0a4" Name="Second woman in Petraeus affair revealed" Adr="http://www.france24.com/en/20121112-second-woman-petraeus-affair-cia-usa"/><link ID="ab3401ce65c77fce4de67af2a2f503d3" Name="" Adr="http://www.france24.com/en/20121110-france-food-lawmakers-debate-palm-oil-tax-nutella-health-concerns-saturated-fats"/><link ID="a6791808b6850c174a3762df1cbc6ef1" Name="French lawmakers debate ‘Nutella tax’" Adr="http://www.france24.com/en/20121110-france-food-lawmakers-debate-palm-oil-tax-nutella-health-concerns-saturated-fats"/><link ID="f29e06eba4be666d308ceb69eb221ae7" Name="" Adr="http://www.france24.com/en/20121113-radical-islamist-cleric-abu-qatada-free-uk-prison"/><link ID="f29e06eba4be666d308ceb69eb221ae7" Name="" Adr="http://www.france24.com/en/20121113-radical-islamist-cleric-abu-qatada-free-uk-prison"/><link ID="81fbe49ddbf62899b95fc869ca4696a8" Name="Radical Islamist cleric Abu Qatada freed from UK jail" Adr="http://www.france24.com/en/20121113-radical-islamist-cleric-abu-qatada-free-uk-prison"/><link ID="1894bc8fee3dfc08ed8d1c2a7c60d932" Name="" Adr="http://www.france24.com/en/20121109-syria-rebel-brigade-commander-last-days-exclusive-report"/><link ID="c9f1cd3177365d85ac037a845cec7f1d" Name="Exclusive: The last days of a Syrian rebel commander" Adr="http://www.france24.com/en/20121109-syria-rebel-brigade-commander-last-days-exclusive-report"/><link ID="f29e06eba4be666d308ceb69eb221ae7" Name="" Adr="http://www.france24.com/en/20121113-radical-islamist-cleric-abu-qatada-free-uk-prison"/><link ID="f29e06eba4be666d308ceb69eb221ae7" Name="" Adr="http://www.france24.com/en/20121113-radical-islamist-cleric-abu-qatada-free-uk-prison"/><link ID="81fbe49ddbf62899b95fc869ca4696a8" Name="Radical Islamist cleric Abu Qatada freed from UK jail" Adr="http://www.france24.com/en/20121113-radical-islamist-cleric-abu-qatada-free-uk-prison"/><link ID="ab3401ce65c77fce4de67af2a2f503d3" Name="" Adr="http://www.france24.com/en/20121110-france-food-lawmakers-debate-palm-oil-tax-nutella-health-concerns-saturated-fats"/><link ID="a6791808b6850c174a3762df1cbc6ef1" Name="French lawmakers debate ‘Nutella tax’" Adr="http://www.france24.com/en/20121110-france-food-lawmakers-debate-palm-oil-tax-nutella-health-concerns-saturated-fats"/><link ID="27518fdb4d7d594bf8714e27b9e6804d" Name="&lt;IMG  uid='1023' id='element-1023' left='0' top='0' width='70' height='39' margin_left='0px' background_color='rgba(0, 0, 0, 0)' font_size='12px' font_weight='normal' display='inline' visibility='visible' src='/en/files/imagecache/france24_169_small/article/image/italie%20inondations.jpg' alt='Deadly flooding strikes Italy's Tuscany'/&gt;" Adr="http://www.france24.com/en/20121113-italy-tuscany-flooding-deaths-collapsed-bridge-venice-water-receding"/><link ID="1c85d09c4e6d1466803f16741dfe2dc2" Name="Deadly flooding strikes Italy's Tuscany" Adr="http://www.france24.com/en/20121113-italy-tuscany-flooding-deaths-collapsed-bridge-venice-water-receding"/><link ID="cd589b4f4ca230f9b318ad934bf8f357" Name="" Adr="http://www.france24.com/en/20121113-president-hollande-press-popularity-france"/><link ID="cd589b4f4ca230f9b318ad934bf8f357" Name="" Adr="http://www.france24.com/en/20121113-president-hollande-press-popularity-france"/><link ID="f0f06e29536396e7109cf4ea0a4e7096" Name="Hollande faces the press amid popularity slump" Adr="http://www.france24.com/en/20121113-president-hollande-press-popularity-france"/><link ID="7904dc89a83eaa33cba8a7e545c2a09c" Name="" Adr="http://www.france24.com/en/20121109-france-french-actor-gerard-depardieu-heading-tax-exile-belgium-hollande-nachin"/><link ID="84bf240d11075128039814a11423b184" Name="Is French actor Gerard Depardieu heading for tax exile?" Adr="http://www.france24.com/en/20121109-france-french-actor-gerard-depardieu-heading-tax-exile-belgium-hollande-nachin"/><link ID="7da7766cd2545e6e9b6801ca6d978b01" Name="" Adr="http://academie.france24-mcd-rfi.com/en/index.php"/><link ID="1bcc5c0d984cfb67f334c64c6344b258" Name="" Adr="http://www.france24.com/en/how-to-watch-on-tv"/><link ID="b5433da66d515358b2e5ef5f25dc9ab2" Name="" Adr="http://pub.ftv-publicite.fr/5c/www.france24.en/accueil/709743697/Middle2/OasDefault/default/empty.gif/684f504d5146436c4e52304141516930"/></Links>
+<Imgs ID="0007ef902f60ddfaed37b991b3a885e7" IDList="d5a672d969bf188f1b4ebd76d2247831,45944e3e7b25d223f5d56c5cba96e162,340cc5a9a7dac147a5648a9ea7cf1c71,1e3cbdee1c2a107fb6a22cede872b52d,58f51132a0c758c9ee631871423b5448,5adaa3db77d94f9392fd669db157dcb4,5adaa3db77d94f9392fd669db157dcb4,8ff16da29b38ee4426c36270ec818d8d,8d4d2e8cc7517c6078654840cf363b77,524ea15d0eef9eae73fe058d282e89ec,2435d99e3f3eead21c2b541532f033f2,3629a6265c680ba8979ac6e3a9fa83b9,2435d99e3f3eead21c2b541532f033f2,524ea15d0eef9eae73fe058d282e89ec,5f07062b219afbd74a8efdc75b5e3463,d97c60596738a81bd5f53cf75bb0115c,1622e6ec5f03fa7a13bbc9604aa5a73e,eac5393c11e30e2daf9e2ffe2a7353ad,b32a772639dce4c24f221fccafdb658e">
+<img ID="d5a672d969bf188f1b4ebd76d2247831" Name="" Src="http://www.france24.com/en/files/imagecache/france24_observers_thumbnail_block_watermark/ext_links_img/Teaser%20raffinerie_0.jpg"/><img ID="45944e3e7b25d223f5d56c5cba96e162" Name="Cliquez ici !" Src="http://pub.ftv-publicite.fr/RealMedia/ads/Creatives/OasDefault/2012045858844000104300301/13556_pave_page_infographie_en.jpg"/><img ID="340cc5a9a7dac147a5648a9ea7cf1c71" Name="undefined" Src="http://pub.ftv-publicite.fr/5/www.france24.en/accueil/L23/436056138/Middle/OasDefault/2012045858844000104300301/Pave_Infographies_EN.html/684f504d5146436c4e52304141516930?_RM_EMPTY_&amp;"/><img ID="1e3cbdee1c2a107fb6a22cede872b52d" Name="" Src="http://www.france24.com/static/infographies/bannieres/banniere_tahrir_bloc_EN.jpg"/><img ID="58f51132a0c758c9ee631871423b5448" Name="Revue de Presse FRANCE 24" Src="http://www.france24.com/static/infographies/rdp/transparent.gif"/><img ID="5adaa3db77d94f9392fd669db157dcb4" Name="undefined" Src="http://www.france24.com/static/infographies/rdp/fleche.jpg"/><img ID="5adaa3db77d94f9392fd669db157dcb4" Name="undefined" Src="http://www.france24.com/static/infographies/rdp/fleche.jpg"/><img ID="8ff16da29b38ee4426c36270ec818d8d" Name="Top US general investigated for emails to Petraeus friend" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/john-allen-m.jpg"/><img ID="8d4d2e8cc7517c6078654840cf363b77" Name="Second woman in Petraeus affair revealed" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/david-petraeus-m.jpg"/><img ID="524ea15d0eef9eae73fe058d282e89ec" Name="French lawmakers debate ‘Nutella tax’" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/nutella%20tax.jpg"/><img ID="2435d99e3f3eead21c2b541532f033f2" Name="Radical Islamist cleric Abu Qatada freed from UK jail" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/abu-qatada.jpg"/><img ID="3629a6265c680ba8979ac6e3a9fa83b9" Name="Exclusive: The last days of a Syrian rebel commander" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/syrie-harem-m_0.jpg"/><img ID="2435d99e3f3eead21c2b541532f033f2" Name="Radical Islamist cleric Abu Qatada freed from UK jail" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/abu-qatada.jpg"/><img ID="524ea15d0eef9eae73fe058d282e89ec" Name="French lawmakers debate ‘Nutella tax’" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/nutella%20tax.jpg"/><img ID="5f07062b219afbd74a8efdc75b5e3463" Name="Hollande faces the press amid popularity slump" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/hollande%20conf%20presse.jpg"/><img ID="d97c60596738a81bd5f53cf75bb0115c" Name="Is French actor Gerard Depardieu heading for tax exile?" Src="http://www.france24.com/en/files/imagecache/france24_169_small/article/image/depardieu2.jpg"/><img ID="1622e6ec5f03fa7a13bbc9604aa5a73e" Name="" Src="http://www.france24.com/static/infographies/academie-f24-mcd-rfi/zone4_en.jpg"/><img ID="eac5393c11e30e2daf9e2ffe2a7353ad" Name="  " Src="http://www.france24.com/en/files/carte-distrib_EN.jpg"/><img ID="b32a772639dce4c24f221fccafdb658e" Name="" Src="http://pub.ftv-publicite.fr/5/www.france24.en/accueil/709743697/Middle2/OasDefault/default/empty.gif/684f504d5146436c4e52304141516930?"/></Imgs>
+<Txts ID="0d2e5fd9b6f37bd43a4cce32ea5df432" Txt="
+               English
+            
+               Français
+            
+               عربي
+            
+                 Watch France 24
+              
+                 Live
+              
+                 News
+              
+                 Business
+              
+                 Weather
+              
+                  Watch :
+               
+                 FRANCE 24 live : THE DEBATE
+              
+                 Next :
+              
+                FLASH
+             
+                 Playing now :
+               
+             ‘Darth Vader’ demands free land from Ukrainian government
+          
+               Libyan oil is flowing again, but few are reaping the profits
+            
+               Browse all editions
+            
+                    IN THE WORLD PAPERS
+                 
+                     'A killing that will rebound on Israel'
+                  
+                    IN THE FRENCH PAPERS
+                 
+                     Fillon and Copé face off in bid for party leadership
+                  
+                 Most read
+              
+                 Most commented
+              
+                       USA
+                    
+                       Top US general investigated for emails to Petraeus friend
+                    
+                       USA
+                    
+                       Second woman in Petraeus affair revealed
+                    
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    
+                       SYRIA
+                    
+                       Exclusive: The last days of a Syrian rebel commander
+                    
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    
+                     
+                    
+                       ITALY
+                    
+                       Deadly flooding strikes Italy's Tuscany
+                    
+                       FRANCE
+                    
+                       Hollande faces the press amid popularity slump
+                    
+                       FRANCE-BELGIUM
+                    
+                       Is French actor Gerard Depardieu heading for tax exile?
+                    ,
+               English
+            
+               Français
+            
+               عربي
+            ,
+               English
+            ,
+               Français
+            ,
+               عربي
+            ,
+                 Watch France 24
+              
+                 Live
+              
+                 News
+              
+                 Business
+              
+                 Weather
+              
+                  Watch :
+               
+                 FRANCE 24 live : THE DEBATE
+              
+                 Next :
+              
+                FLASH
+             
+                 Playing now :
+               ,
+                 Watch France 24
+              ,
+                 Live
+              
+                 News
+              
+                 Business
+              
+                 Weather
+              
+                  Watch :
+               
+                 FRANCE 24 live : THE DEBATE
+              
+                 Next :
+              
+                FLASH
+             
+                 Playing now :
+               ,
+                 Live
+              
+                 News
+              
+                 Business
+              
+                 Weather
+              ,
+                 Live
+              ,
+                 News
+              ,
+                 Business
+              ,
+                 Weather
+              ,
+                  Watch :
+               
+                 FRANCE 24 live : THE DEBATE
+              
+                 Next :
+              
+                FLASH
+             ,
+                  Watch :
+               
+                 FRANCE 24 live : THE DEBATE
+              ,
+                  Watch :
+               ,
+                 FRANCE 24 live : THE DEBATE
+              ,
+                 Next :
+              ,
+                FLASH
+             ,
+                 Playing now :
+               ,
+             ‘Darth Vader’ demands free land from Ukrainian government
+          
+               Libyan oil is flowing again, but few are reaping the profits
+            ,
+             ‘Darth Vader’ demands free land from Ukrainian government
+          ,
+               Libyan oil is flowing again, but few are reaping the profits
+            ,
+               Browse all editions
+            ,
+                    IN THE WORLD PAPERS
+                 
+                     'A killing that will rebound on Israel'
+                  
+                    IN THE FRENCH PAPERS
+                 
+                     Fillon and Copé face off in bid for party leadership
+                  ,
+                    IN THE WORLD PAPERS
+                 
+                     'A killing that will rebound on Israel'
+                  ,
+                    IN THE WORLD PAPERS
+                 ,
+                     'A killing that will rebound on Israel'
+                  ,
+                    IN THE FRENCH PAPERS
+                 
+                     Fillon and Copé face off in bid for party leadership
+                  ,
+                    IN THE FRENCH PAPERS
+                 ,
+                     Fillon and Copé face off in bid for party leadership
+                  ,
+                 Most read
+              
+                 Most commented
+              
+                       USA
+                    
+                       Top US general investigated for emails to Petraeus friend
+                    
+                       USA
+                    
+                       Second woman in Petraeus affair revealed
+                    
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    
+                       SYRIA
+                    
+                       Exclusive: The last days of a Syrian rebel commander
+                    
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    
+                     
+                    
+                       ITALY
+                    
+                       Deadly flooding strikes Italy's Tuscany
+                    
+                       FRANCE
+                    
+                       Hollande faces the press amid popularity slump
+                    
+                       FRANCE-BELGIUM
+                    
+                       Is French actor Gerard Depardieu heading for tax exile?
+                    ,
+                 Most read
+              
+                 Most commented
+              ,
+                 Most read
+              ,
+                 Most commented
+              ,
+                       USA
+                    
+                       Top US general investigated for emails to Petraeus friend
+                    
+                       USA
+                    
+                       Second woman in Petraeus affair revealed
+                    
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    
+                       SYRIA
+                    
+                       Exclusive: The last days of a Syrian rebel commander
+                    
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    
+                     
+                    
+                       ITALY
+                    
+                       Deadly flooding strikes Italy's Tuscany
+                    
+                       FRANCE
+                    
+                       Hollande faces the press amid popularity slump
+                    
+                       FRANCE-BELGIUM
+                    
+                       Is French actor Gerard Depardieu heading for tax exile?
+                    ,
+                       USA
+                    
+                       Top US general investigated for emails to Petraeus friend
+                    
+                       USA
+                    
+                       Second woman in Petraeus affair revealed
+                    
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    
+                       SYRIA
+                    
+                       Exclusive: The last days of a Syrian rebel commander
+                    ,
+                       USA
+                    
+                       Top US general investigated for emails to Petraeus friend
+                    ,
+                       USA
+                    ,
+                       Top US general investigated for emails to Petraeus friend
+                    ,
+                       USA
+                    
+                       Second woman in Petraeus affair revealed
+                    ,
+                       Second woman in Petraeus affair revealed
+                    ,
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    ,
+                       FRANCE
+                    ,
+                       French lawmakers debate ‘Nutella tax’
+                    ,
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    ,
+                       UK
+                    ,
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    ,
+                       SYRIA
+                    
+                       Exclusive: The last days of a Syrian rebel commander
+                    ,
+                       SYRIA
+                    ,
+                       Exclusive: The last days of a Syrian rebel commander
+                    ,
+                       UK
+                    
+                       Radical Islamist cleric Abu Qatada freed from UK jail
+                    
+                       FRANCE
+                    
+                       French lawmakers debate ‘Nutella tax’
+                    
+                     
+                    
+                       ITALY
+                    
+                       Deadly flooding strikes Italy's Tuscany
+                    
+                       FRANCE
+                    
+                       Hollande faces the press amid popularity slump
+                    
+                       FRANCE-BELGIUM
+                    
+                       Is French actor Gerard Depardieu heading for tax exile?
+                    ,
+                     
+                    
+                       ITALY
+                    
+                       Deadly flooding strikes Italy's Tuscany
+                    ,
+                     ,
+                       ITALY
+                    ,
+                       Deadly flooding strikes Italy's Tuscany
+                    ,
+                       FRANCE
+                    
+                       Hollande faces the press amid popularity slump
+                    ,
+                       Hollande faces the press amid popularity slump
+                    ,
+                       FRANCE-BELGIUM
+                    
+                       Is French actor Gerard Depardieu heading for tax exile?
+                    ,
+                       FRANCE-BELGIUM
+                    ,
+                       Is French actor Gerard Depardieu heading for tax exile?
+                    "/>
+</Block>
+</Block>
+<Block Ref="Block1-2-3" internal_id='11' ID="ade327a9c20482d0a52af7e691f3c0da" Pos="WindowWidth||PageRectLeft:19.0 WindowHeight||PageRectTop:3047.0 ObjectRectWidth:970.0 ObjectRectHeight:324.0" Doc="6">
+<Links ID="4b77e7afd0afd50cfed8567170f50440" IDList="d98204c21928a522b0293face90bdf33,35497ec74ef01be704f2e30533d9068f,747b02168645eae84b14890c3e14839c,0d667daad1211428f82bd1cd532a1c6f,ef202eb6c9900ea929f49c4196333ed1,2785d8d49e9a99a3a60cb7859ca55cf7,8163f9b2bb4063e29fad8a55bb9e8ef8,7740fbfe9c31f146b1228747c8849101,31ffec46cae34c7ad9c49d9ee1781791,13972049ac7ec56a3d2b246ebebac83a,a7821975e8a5fc729182a6fd575f0972,14225f1c54c8d58141013fd46883b2a9,4bdbc7fe31dbdc208f67be272b7c1f8e,f1ecfe27af99fce41baa9bf6c592e37f,e4b1717ae331c466aa374accf59ad56a,f1f5c4b192715e5f04e22fe553aa68a5,eaa6f3bf99ff01feb17fca6943db05c5,1d83bf63ecca55361c2ffacc6593179d,6e3573884456e483555ea5c21ff09f84,9747d870f047953d0ebf28a078603f6b,2ed7d8d0ce7777894b8e651f928cf624,bf8bc3fa5f3f371104a9b74160a37d12,18bb5bb9a267ac4dcdbc3d3ac0701f36,ff87e5b7a003616a6069acaac7ef7760,41f4af690ff77e353872d2ade2f4c056,8ca38defb9752c8dbbce344dd51618bf,76de5dcf068a6afe1b778718cf622710,7a0c6cc75cdda1923817f5aef60b168b,8e691a25f1c56785750a3ba8f1090624,3276f257efe005ee6735980d4a4ebada,346f2bac88d80d26feaa5c00c161d4a1,cf2fd03c18cf77acb0c4b836dc6565cb,89077809196dffa3fafca88801882430,c0609ae6151917960a8f396dcface130,6db639817fce5fc509f8f5a9fd1c7c9c,e28ae4c3bef2daf1553634bb42fc0725,df4f9a933f1e08a6365465af0fe09190,6614eb58ad66edc14aeda1cfb4f48c5d,b69d0a7ac35b07081aa67744c627972d,218a0a36ee6b52b3acddb6ac8a460320,78bde28d8afad03a5d83fda7597f88d5,406feaa6d5a175c92a19d4c1d6265b9d,fb0a5ff0bf0a580dc21ce946ab018ab1,b748fafa40891539b43cf488982eb193,bc679b7c19b3de701b6af5af79c5ec23,bc37d84a8b5a24249a56d72760a6db77,8640c80cf66e638fcfcafd3084e2c15d">
+<link ID="d98204c21928a522b0293face90bdf33" Name="Top stories" Adr="http://www.france24.com/en/world"/><link ID="35497ec74ef01be704f2e30533d9068f" Name="France" Adr="http://www.france24.com/en/france"/><link ID="747b02168645eae84b14890c3e14839c" Name="Africa" Adr="http://www.france24.com/en/africa"/><link ID="0d667daad1211428f82bd1cd532a1c6f" Name="Middle East" Adr="http://www.france24.com/en/middle-east"/><link ID="ef202eb6c9900ea929f49c4196333ed1" Name="Americas" Adr="http://www.france24.com/en/americas"/><link ID="2785d8d49e9a99a3a60cb7859ca55cf7" Name="Europe" Adr="http://www.france24.com/en/europe"/><link ID="8163f9b2bb4063e29fad8a55bb9e8ef8" Name="Asia and the Pacific" Adr="http://www.france24.com/en/asia-pacific"/><link ID="7740fbfe9c31f146b1228747c8849101" Name="Business/Tech" Adr="http://www.france24.com/en/business"/><link ID="31ffec46cae34c7ad9c49d9ee1781791" Name="Sports" Adr="http://www.france24.com/en/sport"/><link ID="13972049ac7ec56a3d2b246ebebac83a" Name="Culture" Adr="http://www.france24.com/en/culture"/><link ID="a7821975e8a5fc729182a6fd575f0972" Name="Health" Adr="http://www.france24.com/en/health"/><link ID="14225f1c54c8d58141013fd46883b2a9" Name="Earth" Adr="http://www.france24.com/en/earth"/><link ID="4bdbc7fe31dbdc208f67be272b7c1f8e" Name="FRANCE 24 Live" Adr="http://www.france24.com/en/livefeed"/><link ID="f1ecfe27af99fce41baa9bf6c592e37f" Name="TV shows" Adr="http://www.france24.com/en/tvshows"/><link ID="e4b1717ae331c466aa374accf59ad56a" Name="Reports" Adr="http://www.france24.com/en/reportages"/><link ID="f1f5c4b192715e5f04e22fe553aa68a5" Name="Press review" Adr="http://www.france24.com/en/press-review"/><link ID="eaa6f3bf99ff01feb17fca6943db05c5" Name="Podcasts" Adr="http://www.france24.com/en/podcasts/video"/><link ID="1d83bf63ecca55361c2ffacc6593179d" Name="The Observers" Adr="http://observers.france24.com/en"/><link ID="6e3573884456e483555ea5c21ff09f84" Name="Special reports" Adr="http://www.france24.com/en/special_reports"/><link ID="9747d870f047953d0ebf28a078603f6b" Name="Blogs" Adr="http://blogs.france24.com/front/en"/><link ID="2ed7d8d0ce7777894b8e651f928cf624" Name="Webdocumentaries" Adr="http://www.france24.com/en/webdocumentaries"/><link ID="bf8bc3fa5f3f371104a9b74160a37d12" Name="Graphics" Adr="http://www.france24.com/en/graphics"/><link ID="18bb5bb9a267ac4dcdbc3d3ac0701f36" Name="All our services" Adr="http://www.france24.com/en/services"/><link ID="ff87e5b7a003616a6069acaac7ef7760" Name="Newsletters" Adr="http://emailing.france24.com/en/inscription-newsletter_en.php"/><link ID="41f4af690ff77e353872d2ade2f4c056" Name="Mobile" Adr="http://www.france24.com/en/mobile"/><link ID="8ca38defb9752c8dbbce344dd51618bf" Name="RSS feeds" Adr="http://www.france24.com/en/rss"/><link ID="76de5dcf068a6afe1b778718cf622710" Name="Join the community" Adr="http://www.france24.com/en/france24-web-community"/><link ID="7a0c6cc75cdda1923817f5aef60b168b" Name="FRANCE 24 on social media" Adr="http://www.france24.com/en/social-media"/><link ID="8e691a25f1c56785750a3ba8f1090624" Name="Facebook" Adr="http://f24.my/cJGuY0"/><link ID="3276f257efe005ee6735980d4a4ebada" Name="Twitter" Adr="http://f24.my/cVD6yQ"/><link ID="346f2bac88d80d26feaa5c00c161d4a1" Name="Google+" Adr="http://f24.my/rJ94j5"/><link ID="cf2fd03c18cf77acb0c4b836dc6565cb" Name="" Adr="https://plus.google.com/102302812252644717886"/><link ID="89077809196dffa3fafca88801882430" Name="YouTube" Adr="http://f24.my/cCQEz9"/><link ID="c0609ae6151917960a8f396dcface130" Name="Dailymotion" Adr="http://f24.my/vBe9if"/><link ID="6db639817fce5fc509f8f5a9fd1c7c9c" Name="Foursquare" Adr="http://f24.my/v3LQjw"/><link ID="e28ae4c3bef2daf1553634bb42fc0725" Name="Soundcloud" Adr="http://f24.my/JwyFe5"/><link ID="df4f9a933f1e08a6365465af0fe09190" Name="FRANCE 24 / RFI Lab" Adr="http://f24.my/dpxFYw"/><link ID="6614eb58ad66edc14aeda1cfb4f48c5d" Name="About FRANCE 24" Adr="http://www.france24.com/en/about-france-24"/><link ID="b69d0a7ac35b07081aa67744c627972d" Name="How to watch on TV?" Adr="http://www.france24.com/en/how-to-watch-on-tv"/><link ID="218a0a36ee6b52b3acddb6ac8a460320" Name="Press" Adr="http://www.france24.com/en/category/tags-th%C3%A9matiques/press-release"/><link ID="78bde28d8afad03a5d83fda7597f88d5" Name="Press kit" Adr="http://www.france24.com/static/infographies/presse/FRANCE24_PressKit_0712_EN.pdf"/><link ID="406feaa6d5a175c92a19d4c1d6265b9d" Name="Partners" Adr="http://www.france24.com/en/partners"/><link ID="fb0a5ff0bf0a580dc21ce946ab018ab1" Name="Help" Adr="http://www.france24.com/en/help"/><link ID="b748fafa40891539b43cf488982eb193" Name="Contact us" Adr="http://www.france24.com/en/contact-us"/><link ID="bc679b7c19b3de701b6af5af79c5ec23" Name="Site map" Adr="http://www.france24.com/en/site-map"/><link ID="bc37d84a8b5a24249a56d72760a6db77" Name="Terms of use / Privacy policy" Adr="http://www.france24.com/en/termsofuse"/><link ID="8640c80cf66e638fcfcafd3084e2c15d" Name="" Adr="http://pub.ftv-publicite.fr/5c/www.france24.en/accueil/1943843113/x02/OasDefault/default/empty.gif/684f504d5146436c4e52304141516930"/></Links>
+<Imgs ID="526d8691fd56f60ffa6ed72f580883da" IDList="b42da4ff58f7a82b844dab4e47074529">
+<img ID="b42da4ff58f7a82b844dab4e47074529" Name="" Src="http://pub.ftv-publicite.fr/5/www.france24.en/accueil/1943843113/x02/OasDefault/default/empty.gif/684f504d5146436c4e52304141516930?"/></Imgs>
+<Txts ID="33ac8136e7cf046bbc67bb7218b82265" Txt="
+                 News
+              
+                   Top stories
+                
+                   France
+                
+                   Africa
+                
+                   Middle East
+                
+                   Americas
+                
+                   Europe
+                
+                   Asia and the Pacific
+                
+                   Business/Tech
+                
+                   Sports
+                
+                   Culture
+                
+                   Health
+                
+                   Earth
+                
+               On TV
+            
+                 FRANCE 24 Live
+              
+                 TV shows
+              
+                 Reports
+              
+                 Press review
+              
+                 Podcasts
+              
+               Beyond the news
+            
+                 The Observers
+              
+                 Special reports
+              
+                 Blogs
+              
+                 Webdocumentaries
+              
+                 Graphics
+              
+               Online services
+            
+                 All our services
+              
+                 Newsletters
+              
+                 Mobile
+              
+                 RSS feeds
+              
+               Community
+            
+                 Join the community
+              
+                 FRANCE 24 on social media
+              
+                 Facebook
+              
+                 Twitter
+              
+                 Google+
+              
+                 YouTube
+              
+                 Dailymotion
+              
+                 Foursquare
+              
+                 Soundcloud
+              
+                 FRANCE 24 / RFI Lab
+              
+               FRANCE 24
+            
+                 About FRANCE 24
+              
+                 How to watch on TV?
+              
+                 Press
+              
+                 Press kit
+              
+                 Partners
+              
+                 Help
+              
+                 Contact us
+              
+                 Site map
+              
+                 Terms of use / Privacy policy
+              
+            © 2006 -
+          
+            2012
+          
+            Copyright FRANCE 24. All rights reserved – FRANCE 24 is not responsible for the content of external websites.
+         ,
+                 News
+              
+                   Top stories
+                
+                   France
+                
+                   Africa
+                
+                   Middle East
+                
+                   Americas
+                
+                   Europe
+                
+                   Asia and the Pacific
+                
+                   Business/Tech
+                
+                   Sports
+                
+                   Culture
+                
+                   Health
+                
+                   Earth
+                
+               On TV
+            
+                 FRANCE 24 Live
+              
+                 TV shows
+              
+                 Reports
+              
+                 Press review
+              
+                 Podcasts
+              
+               Beyond the news
+            
+                 The Observers
+              
+                 Special reports
+              
+                 Blogs
+              
+                 Webdocumentaries
+              
+                 Graphics
+              
+               Online services
+            
+                 All our services
+              
+                 Newsletters
+              
+                 Mobile
+              
+                 RSS feeds
+              
+               Community
+            
+                 Join the community
+              
+                 FRANCE 24 on social media
+              
+                 Facebook
+              
+                 Twitter
+              
+                 Google+
+              
+                 YouTube
+              
+                 Dailymotion
+              
+                 Foursquare
+              
+                 Soundcloud
+              
+                 FRANCE 24 / RFI Lab
+              
+               FRANCE 24
+            
+                 About FRANCE 24
+              
+                 How to watch on TV?
+              
+                 Press
+              
+                 Press kit
+              
+                 Partners
+              
+                 Help
+              
+                 Contact us
+              
+                 Site map
+              
+                 Terms of use / Privacy policy
+              ,
+                 News
+              
+                   Top stories
+                
+                   France
+                
+                   Africa
+                
+                   Middle East
+                
+                   Americas
+                
+                   Europe
+                
+                   Asia and the Pacific
+                
+                   Business/Tech
+                
+                   Sports
+                
+                   Culture
+                
+                   Health
+                
+                   Earth
+                ,
+                 News
+              
+                   Top stories
+                
+                   France
+                
+                   Africa
+                
+                   Middle East
+                
+                   Americas
+                
+                   Europe
+                
+                   Asia and the Pacific
+                ,
+                 News
+              ,
+                   Top stories
+                
+                   France
+                
+                   Africa
+                
+                   Middle East
+                
+                   Americas
+                
+                   Europe
+                
+                   Asia and the Pacific
+                ,
+                   Top stories
+                ,
+                   France
+                ,
+                   Africa
+                ,
+                   Middle East
+                ,
+                   Americas
+                ,
+                   Europe
+                ,
+                   Asia and the Pacific
+                ,
+                   Business/Tech
+                
+                   Sports
+                
+                   Culture
+                
+                   Health
+                
+                   Earth
+                ,
+                   Business/Tech
+                ,
+                   Sports
+                ,
+                   Culture
+                ,
+                   Health
+                ,
+                   Earth
+                ,
+               On TV
+            
+                 FRANCE 24 Live
+              
+                 TV shows
+              
+                 Reports
+              
+                 Press review
+              
+                 Podcasts
+              ,
+               On TV
+            ,
+                 FRANCE 24 Live
+              
+                 TV shows
+              
+                 Reports
+              
+                 Press review
+              
+                 Podcasts
+              ,
+                 FRANCE 24 Live
+              ,
+                 TV shows
+              ,
+                 Reports
+              ,
+                 Press review
+              ,
+                 Podcasts
+              ,
+               Beyond the news
+            
+                 The Observers
+              
+                 Special reports
+              
+                 Blogs
+              
+                 Webdocumentaries
+              
+                 Graphics
+              
+               Online services
+            
+                 All our services
+              
+                 Newsletters
+              
+                 Mobile
+              
+                 RSS feeds
+              ,
+               Beyond the news
+            ,
+                 The Observers
+              
+                 Special reports
+              
+                 Blogs
+              
+                 Webdocumentaries
+              
+                 Graphics
+              ,
+                 The Observers
+              ,
+                 Special reports
+              ,
+                 Blogs
+              ,
+                 Webdocumentaries
+              ,
+                 Graphics
+              ,
+               Online services
+            ,
+                 All our services
+              
+                 Newsletters
+              
+                 Mobile
+              
+                 RSS feeds
+              ,
+                 All our services
+              ,
+                 Newsletters
+              ,
+                 Mobile
+              ,
+                 RSS feeds
+              ,
+               Community
+            
+                 Join the community
+              
+                 FRANCE 24 on social media
+              
+                 Facebook
+              
+                 Twitter
+              
+                 Google+
+              
+                 YouTube
+              
+                 Dailymotion
+              
+                 Foursquare
+              
+                 Soundcloud
+              
+                 FRANCE 24 / RFI Lab
+              ,
+               Community
+            ,
+                 Join the community
+              
+                 FRANCE 24 on social media
+              
+                 Facebook
+              
+                 Twitter
+              
+                 Google+
+              
+                 YouTube
+              
+                 Dailymotion
+              
+                 Foursquare
+              
+                 Soundcloud
+              
+                 FRANCE 24 / RFI Lab
+              ,
+                 Join the community
+              ,
+                 FRANCE 24 on social media
+              ,
+                 Facebook
+              ,
+                 Twitter
+              ,
+                 Google+
+              ,
+                 YouTube
+              ,
+                 Dailymotion
+              ,
+                 Foursquare
+              ,
+                 Soundcloud
+              ,
+                 FRANCE 24 / RFI Lab
+              ,
+               FRANCE 24
+            
+                 About FRANCE 24
+              
+                 How to watch on TV?
+              
+                 Press
+              
+                 Press kit
+              
+                 Partners
+              
+                 Help
+              
+                 Contact us
+              
+                 Site map
+              
+                 Terms of use / Privacy policy
+              ,
+               FRANCE 24
+            ,
+                 About FRANCE 24
+              
+                 How to watch on TV?
+              
+                 Press
+              
+                 Press kit
+              
+                 Partners
+              
+                 Help
+              
+                 Contact us
+              
+                 Site map
+              
+                 Terms of use / Privacy policy
+              ,
+                 About FRANCE 24
+              ,
+                 How to watch on TV?
+              ,
+                 Press
+              ,
+                 Press kit
+              ,
+                 Partners
+              ,
+                 Help
+              ,
+                 Contact us
+              ,
+                 Site map
+              ,
+                 Terms of use / Privacy policy
+              ,
+            © 2006 -
+          
+            2012
+          
+            Copyright FRANCE 24. All rights reserved – FRANCE 24 is not responsible for the content of external websites.
+         ,
+            © 2006 -
+          ,
+            2012
+          ,
+            Copyright FRANCE 24. All rights reserved – FRANCE 24 is not responsible for the content of external websites.
+         "/>
+</Block>
+</Block>
+</Block>
+</Document>
+</XML>

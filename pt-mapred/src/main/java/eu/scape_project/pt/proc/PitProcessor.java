@@ -14,6 +14,7 @@ import eu.scape_project.pt.pit.tools.ToolSpec;
 import eu.scape_project.pt.pit.invoke.Processor;
 
 import eu.scape_project.pt.pit.ToolSpecRepository;
+import eu.scape_project.pt.pit.invoke.*;
 import eu.scape_project.pt.util.ParamSpec;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,7 +55,7 @@ public class PitProcessor implements eu.scape_project.pt.proc.Processor {
     /**
      * In this Processor context is used as the Processor input parameters set.
      */
-    private HashMap<String, String> context;
+    private HashMap<String, Stream> context;
     private final String strRepo;
 
     /**
@@ -74,7 +75,7 @@ public class PitProcessor implements eu.scape_project.pt.proc.Processor {
      * 
      * @param context
      */
-    public void setContext( HashMap<String, String> context ) {
+    public void setContext( HashMap<String, Stream> context ) {
         this.context = context;
     }
 
@@ -124,31 +125,31 @@ public class PitProcessor implements eu.scape_project.pt.proc.Processor {
      * @return inputs in a HashMap
      */
     public HashMap<String, ParamSpec> getParameters( ) {
-        throw new UnsupportedOperationException();
-        /*
-        HashMap<String, HashMap> mapInputz = new HashMap<String,HashMap>();
-        if( strTool.equals("ghostscript") && strAction.equals("gs-to-pdfa") ||
-            strTool.equals("convert") && strAction.equals("convertTIFFtoTIFF")) {
-            HashMap<String, Object> mapInputParam = new HashMap<String, Object>();
-            mapInputParam.put( "required", false );
-            mapInputParam.put( "datatype", URI.class );
-            mapInputParam.put( "direction", "input");
-            mapInputz.put("input", mapInputParam);
+        HashMap<String, ParamSpec> mapInputz = new HashMap<String,ParamSpec>();
+        if( strTool.equals("ghostscript") && strAction.startsWith("ps-to-pdfa") ||
+            strTool.equals("convert") ) {
 
-            HashMap<String, Object> mapOutputParam = new HashMap<String, Object>();
-            mapOutputParam.put( "required", false );
-            mapOutputParam.put( "datatype", URI.class );
-            mapOutputParam.put( "direction", "output");
-            mapInputz.put("output", mapOutputParam);
+            ParamSpec param = new ParamSpec();
+            param.setDirection(ParamSpec.Direction.IN);
+            param.setRequired(false);
+            param.setType(URI.class);
+            mapInputz.put( "input", param );
+
+            ParamSpec param2 = new ParamSpec();
+            param2.setDirection(ParamSpec.Direction.OUT);
+            param2.setRequired(false);
+            param2.setType(URI.class);
+            mapInputz.put( "output", param2 );
         }
-        else if( strTool.equals("file") && strAction.equals("file")) {
-            HashMap<String, Object> mapInputParam = new HashMap<String, Object>();
-            mapInputParam.put( "required", true );
-            mapInputParam.put( "datatype", URI.class );
-            mapInputz.put("input", mapInputParam);
+        else if( strTool.equals("file") && strAction.equals("identify") ||
+                 strTool.equals("fits") && strAction.equals("identify")) {
+            ParamSpec param = new ParamSpec();
+            param.setDirection(ParamSpec.Direction.IN);
+            param.setRequired(true);
+            param.setType(URI.class);
+            mapInputz.put( "input", param );
         }
         return mapInputz;
-         */
     }
     
 }

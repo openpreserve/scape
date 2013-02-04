@@ -1,0 +1,7 @@
+#if(!$aggregate)
+${wrapperName}.t2flow
+#else
+#foreach( $operation in $operations )
+${operation.getName()}.t2flow
+#end
+#end

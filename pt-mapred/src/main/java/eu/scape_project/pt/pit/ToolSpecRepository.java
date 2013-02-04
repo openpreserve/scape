@@ -23,7 +23,7 @@ import org.apache.hadoop.fs.Path;
  * 
  * @deprecated use ToolRepository instead
  */
-public class ToolSpecRepository {
+public class ToolSpecRepository implements Repository{
 
 	private static Log LOG = LogFactory.getLog(ToolSpecRepository.class);
     private final Path repo_dir;
@@ -40,6 +40,7 @@ public class ToolSpecRepository {
         this.repo_dir = directory;
     }
 
+    @Override
     public boolean toolspecExists( String strToolSpec ) {
         Path file = new Path( 
                 repo_dir.toString() + System.getProperty("file.separator") 
@@ -73,7 +74,8 @@ public class ToolSpecRepository {
         return null;
     }
 
-    public String[] getToolSpecList() {
+    @Override
+    public String[] getToolList() {
         FileStatus[] list = new FileStatus[0];
         try {
             list = fs.listStatus(repo_dir);

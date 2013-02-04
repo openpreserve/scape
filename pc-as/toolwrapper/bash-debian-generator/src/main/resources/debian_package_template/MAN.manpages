@@ -1,0 +1,7 @@
+#if(!$aggregate)
+debian/${wrapperName}.1
+#else
+#foreach( $operation in $operations )
+debian/${operation.getName()}.1
+#end
+#end
