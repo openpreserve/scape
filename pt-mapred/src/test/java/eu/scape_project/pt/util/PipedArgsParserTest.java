@@ -124,6 +124,51 @@ public class PipedArgsParserTest {
         }};
         assertEquals(commandsExp, parser.getCommands());
 
+        LOG.info("TEST good input with pipes");
+        strCmdLine = "a-tool a-action --input1=\"bla \\\"quoted\\\" bla\"";
+        strCmdLine += " | b-tool b-action --input2=\"test\"";
+        parser.parse(strCmdLine);
+
+        Command command2 = parser.new Command();
+        command2.tool = "b-tool";
+        command2.action = "b-action";
+        command2.pairs = new HashMap<String, String>() {{
+            put("input2", "test");
+        }};
+
+        Command[] twoCommandsExp = {
+            command1, command2
+        };
+        assertEquals(twoCommandsExp, parser.getCommands());
+
+        LOG.info("TEST good input with more pipes");
+        strCmdLine = "a-tool a-action --input1=\"bla \\\"quoted\\\" bla\"";
+        strCmdLine += " | b-tool b-action --input2=\"test\"";
+        strCmdLine += " | c-tool c-action --input3=\"bla\"";
+        parser.parse(strCmdLine);
+
+        Command command3 = parser.new Command();
+        command3.tool = "c-tool";
+        command3.action = "c-action";
+        command3.pairs = new HashMap<String, String>() {{
+            put("input3", "bla");
+        }};
+
+        Command[] moreCommandsExp = {
+            command1, command2, command3
+        };
+        assertEquals(moreCommandsExp, parser.getCommands());
+
+        LOG.info("TEST good input with more pipes and stdin/out");
+        strCmdLine = "file.in > a-tool a-action --input1=\"bla \\\"quoted\\\" bla\"";
+        strCmdLine += " | b-tool b-action --input2=\"test\"";
+        strCmdLine += " | c-tool c-action --input3=\"bla\" > file.out";
+        parser.parse(strCmdLine);
+
+        assertEquals(moreCommandsExp, parser.getCommands());
+        assertEquals("file.in", parser.getStdinFile());
+        assertEquals("file.out", parser.getStdoutFile());
+
         LOG.info("TEST bad input, missing '='");
         strCmdLine = "a-tool a-action --input1=\"bla\" --input3 \"";
 

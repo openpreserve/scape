@@ -129,9 +129,9 @@ public class PipedArgsParser {
     }
 
     public class Command {
-        String tool = "";
-        String action = "";
-        Map<String, String> pairs = new HashMap<String, String>();
+        public String tool = "";
+        public String action = "";
+        public Map<String, String> pairs = new HashMap<String, String>();
 
         public boolean equals( Object oo ) {
             Command o = (Command)oo;
