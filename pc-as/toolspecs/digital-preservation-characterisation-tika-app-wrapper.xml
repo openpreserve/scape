@@ -22,7 +22,7 @@
       </inputs>
       <outputs>
         <output name="output" required="false">
-          <description>Reference to output file - NOT USED</description>
+          <description>Reference to output file - NOT USED </description>
           <extension>txt</extension>
         </output>
       </outputs>
