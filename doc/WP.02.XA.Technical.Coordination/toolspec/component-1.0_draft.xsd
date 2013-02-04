@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://scape-project.eu/component" elementFormDefault="qualified"
+	xmlns="http://scape-project.eu/component" xmlns:xlink="http://www.w3.org/1999/xlink"
+	version="1.0">
+
+	<xs:annotation>
+		<xs:documentation>This schema ...</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="components" type="Components"/>
+
+	<xs:complexType name="Components">
+		<xs:annotation>
+			<xs:documentation>Describes a Preservation Component.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="component" type="Component"/>
+		</xs:sequence>
+		<xs:attribute name="schemaVersion" type="xs:decimal" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="License" mixed="false">
+		<xs:attribute name="type" type="LicenseType" use="required"/>
+		<xs:attribute name="otherType" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:simpleType name="LicenseType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GPLv1"/>
+			<xs:enumeration value="GPLv2"/>
+			<xs:enumeration value="GPLv3"/>
+			<xs:enumeration value="LGPLv2.1"/>
+			<xs:enumeration value="LGPLv3"/>
+			<xs:enumeration value="BSD-old"/>
+			<xs:enumeration value="BSD-new"/>
+			<xs:enumeration value="FreeBSD"/>
+			<xs:enumeration value="Apache Licence 2.0"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Component" abstract="true">
+		<xs:sequence>
+			<xs:element minOccurs="0" name="license" nillable="false" type="License"/>
+		</xs:sequence>
+		<xs:attribute name="profileVersion" type="xs:decimal" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="author" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:complexType name="MigrationPaths">
+		<xs:annotation>
+			<xs:documentation>Declares 1 or more migration paths.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="migrationPath" type="MigrationPath" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MigrationPath" abstract="false">
+		<xs:sequence>
+			<xs:element minOccurs="1" name="fromMimetype" type="xs:string"/>
+			<xs:element name="toMimetype" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="MigrationProfile">
+		<xs:restriction base="xs:anyURI">
+			<xs:enumeration value="http://scape-project.eu/component/profile/migrationaction"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Migration">
+		<xs:complexContent>
+			<xs:extension base="Component">
+				<xs:sequence>
+					<xs:element name="migrationPaths" type="MigrationPaths"/>
+				</xs:sequence>
+				<xs:attribute name="profile" type="MigrationProfile" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="CharacterizationProfile">
+		<xs:restriction base="xs:anyURI">
+			<xs:enumeration value="http://scape-project.eu/component/profile/characterizationaction"
+			/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Characterization">
+		<xs:complexContent>
+			<xs:extension base="Component">
+				<xs:sequence>
+					<xs:element name="acceptedMimetypes" type="AcceptedMimetypes"/>
+					<xs:element name="measures" type="Measures"/>
+				</xs:sequence>
+				<xs:attribute name="profile" type="CharacterizationProfile" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="AcceptedMimetypes">
+		<xs:annotation>
+			<xs:documentation>Declares 1 or more accepted mimetypes.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="acceptedMimetype" type="AcceptedMimetype" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AcceptedMimetype" abstract="false">
+		<xs:simpleContent>
+			<xs:extension base="xs:string"> </xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="Measures">
+		<xs:annotation>
+			<xs:documentation>Declares 1 or more migration paths.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="measure" type="Measure" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Measure" abstract="false">
+		<xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
+		<xs:attribute name="uri" type="xs:anyURI" use="required"/>
+	</xs:complexType>
+
+	<xs:simpleType name="QualityAssuranceProfile">
+		<xs:restriction base="xs:anyURI">
+			<xs:enumeration value="http://scape-project.eu/component/profile/qualityassuranceaction"
+			/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="QualityAssurance">
+		<xs:complexContent>
+			<xs:extension base="Component">
+				<xs:sequence>
+					<xs:element name="acceptedMimetypes" type="AcceptedMimetypes"/>
+					<xs:element name="inputMeasures" type="Measures"/>
+					<xs:element name="outputMeasures" type="Measures"/>
+				</xs:sequence>
+				<xs:attribute name="profile" type="QualityAssuranceProfile" use="required"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

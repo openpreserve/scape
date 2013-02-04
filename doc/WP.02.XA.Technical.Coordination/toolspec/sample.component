@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://scape-project.eu/component component-1.0_draft.xsd"
+    xmlns="http://scape-project.eu/component" xmlns:xlink="http://www.w3.org/1999/xlink"
+    schemaVersion="1.0">
+
+    <component xsi:type="Migration"
+        profile="http://scape-project.eu/component/profile/migrationaction" profileVersion="1.0"
+        name="video2flv" author="Rui Castro">
+        <license type="Apache Licence 2.0"/>
+        <migrationPaths>
+            <migrationPath>
+                <fromMimetype>video/flv</fromMimetype>
+                <toMimetype>video/avi; codecs="theora, vorbis"</toMimetype>
+            </migrationPath>
+            <migrationPath>
+                <fromMimetype>video/avi</fromMimetype>
+                <toMimetype>video/avi; codecs="theora, vorbis"</toMimetype>
+            </migrationPath>
+            <migrationPath>
+                <fromMimetype>video/mkv</fromMimetype>
+                <toMimetype>video/avi; codecs="theora, vorbis"</toMimetype>
+            </migrationPath>
+        </migrationPaths>
+    </component>
+
+    <component xsi:type="Characterization"
+        profile="http://scape-project.eu/component/profile/characterizationaction"
+        profileVersion="1.0" name="digital-preservation-characterisation-video-ffprobe-video2xml"
+        author="Hélder Silva">
+        <license type="Apache Licence 2.0"/>
+        <acceptedMimetypes>
+            <acceptedMimetype>video/flv</acceptedMimetype>
+            <acceptedMimetype>video/avi</acceptedMimetype>
+            <acceptedMimetype>video/mkv</acceptedMimetype>
+        </acceptedMimetypes>
+        <measures>
+            <measure name="mimetype" uri="http://scape-project.eu/pw/vocab/measures/52"/>
+            <measure name="framerate" uri="http://scape-project.eu/pw/vocab/measures/53"/>
+        </measures>
+    </component>
+
+    <component xsi:type="QualityAssurance"
+        profile="http://scape-project.eu/component/profile/qualityassuranceaction"
+        profileVersion="1.0" name="digital-preservation-qa-audio-xcorrsound-migrationqa"
+        author="Rui Rodrigues">
+        <license type="Apache Licence 2.0"/>
+        <acceptedMimetypes>
+            <acceptedMimetype>audio/wav</acceptedMimetype>
+            <acceptedMimetype>audio/mp3</acceptedMimetype>
+            <acceptedMimetype>audio/flac</acceptedMimetype>
+        </acceptedMimetypes>
+        <inputMeasures>
+            <measure name="length" uri="http://scape-project.eu/pw/vocab/measures/61"/>
+            <measure name="bitrate" uri="http://scape-project.eu/pw/vocab/measures/62"/>
+        </inputMeasures>
+        <outputMeasures>
+            <measure name="length" uri="http://scape-project.eu/pw/vocab/measures/61"/>
+            <measure name="bitrate" uri="http://scape-project.eu/pw/vocab/measures/62"/>
+        </outputMeasures>
+    </component>
+
+</components>
