@@ -40,7 +40,7 @@
                 </output>
             </outputs>
         </operation>
-
+        
         <operation name="video2flv_pipe">
             <description>Converts any FFmpeg supported video format to FLV reading from stdin and writting to stdout</description>
             <command>ffmpeg -y -i pipe:0 ${params} -f flv pipe:1</command>
@@ -85,6 +85,48 @@
                 </output>
             </outputs>
         </operation>
+        
+        <operation name="digital-preservation-characterisation-video-ffprobe-video2xml">
+            <description>Characterises video and outputs information as XML</description>
+            <command>ffprobe -show_streams -show_format  -print_format xml="x=1"  -noprivate  -show_versions  -i ${input} > ${output}</command>
+            <inputs>
+                <input name="input" required="true">
+                    <description>Reference to input file</description>
+                </input>
+                <parameter name="params" required="false">
+                    <description>Additional conversion parameters</description>
+                </parameter>
+            </inputs>
+            <outputs>
+                <output name="output" required="true">
+                    <format registryName="web">http://www.ffmpeg.org/schema/ffprobe.xsd</format>
+                    <description>Reference to output file</description>
+                </output>
+            </outputs>
+        </operation>
+        
+        <operation name="digital-preservation-qa-audio-xcorrsound-migrationqa">
+            <description>Compares two wave files</description>
+            <command>migrationQA ${wave1} ${wave2}</command>
+            <inputs>
+                <input name="wave1" required="true">
+                    <description>Reference to input file 1</description>
+                </input>
+                <input name="wave2" required="true">
+                    <description>Reference to input file 2</description>
+                </input>
+                <parameter name="params" required="false">
+                    <description>Additional  parameters</description>
+                </parameter>
+            </inputs>
+            <outputs>
+                <stdout>
+                    <description>Output will be printed on standard out. Will use return code 0 when the files are deemed identical</description>
+                </stdout>
+            </outputs>
+        </operation>
+        
+        
     </operations>
 
 </tool>
