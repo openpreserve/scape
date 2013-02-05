@@ -5,7 +5,6 @@ import eu.scape_project.pt.executors.TavernaCLExecutor;
 import eu.scape_project.pt.executors.ToolspecExecutor;
 import eu.scape_project.pt.repo.Repository;
 import eu.scape_project.pt.repo.ToolRepository;
-import eu.scape_project.pt.invoke.ToolSpecNotFoundException;
 import eu.scape_project.pt.util.PropertyNames;
 import java.io.IOException;
 import java.util.HashMap;
@@ -67,6 +66,15 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	    	executor.setup(context);
 		}
 
+        /**
+         * Wraps map method of the chosen executor.
+         * 
+         * @param key
+         * @param value
+         * @param context
+         * @throws IOException
+         * @throws InterruptedException 
+         */
         @Override
 		public void map(Object key, Text value, Context context) 
                 throws IOException, InterruptedException {
@@ -74,9 +82,21 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 	    }	  
 	}
 
+    /**
+     * CLIReducer is idle ...
+     */
     public static class CLIReducer extends 
             Reducer<Text, IntWritable, Text, IntWritable> {
 		
+        /**
+         * Does nothing yet!
+         * 
+         * @param key
+         * @param values
+         * @param context
+         * @throws IOException
+         * @throws InterruptedException 
+         */
         @Override
 		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
 			
@@ -119,6 +139,12 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		return 0;
 	}
 	
+    /**
+     * CLIWrapper user interface. See printUsage for further information.
+     * 
+     * @param args
+     * @throws Exception 
+     */
 	public static void main(String[] args) throws Exception {
 		
 		int res = 1;
@@ -131,8 +157,6 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
             put("o", PropertyNames.OUTDIR );
             put("j", "mapred.job.reuse.jvm.num.tasks" );
             put("n", PropertyNames.NUM_LINES_PER_SPLIT );
-            put("t", PropertyNames.TOOLSTRING );
-            put("a", PropertyNames.ACTIONSTRING );
             put("r", PropertyNames.REPO_LOCATION);
             put("v", PropertyNames.TAVERNA_HOME );
             put("w", PropertyNames.TAVERNA_WORKFLOW );
@@ -156,12 +180,8 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
                     conf.set(param.getValue(), 
                              options.valueOf(param.getKey()).toString());
 
-			//input file
-			LOG.info("Input: " + conf.get(PropertyNames.INFILE));
 			//hadoop's output 
 			LOG.info("Output: " + conf.get(PropertyNames.OUTDIR));
-			//tool to select
-			LOG.info("ToolSpec: " + conf.get(PropertyNames.TOOLSTRING));
             //action to select
             LOG.info("Action: " + conf.get(PropertyNames.ACTIONSTRING));
 			//toolspec directory
@@ -183,13 +203,6 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		    if ( conf.get(PropertyNames.INFILE) == null )
                 throw new Exception("Input file needed");
 
-            if( conf.get(PropertyNames.TOOLSTRING) == null ||
-                conf.get(PropertyNames.ACTIONSTRING) == null ) 
-                throw new Exception("Toolspec and Action needed");
-
-
-            // check if toolspec exists:
-
             Path fRepo = new Path( conf.get(PropertyNames.REPO_LOCATION) );
             repo = new ToolRepository(FileSystem.get( conf ),fRepo );
 
@@ -197,11 +210,6 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
             LOG.info( "Available ToolSpecs: ");
             for( String strToolspec: astrToolspecs ) 
                 LOG.info( strToolspec );
-            
-            // TODO also check if action exists
-            if( !repo.toolspecExists( conf.get(PropertyNames.TOOLSTRING)))
-                throw new ToolSpecNotFoundException( 
-                    "Toolspec " + conf.get(PropertyNames.TOOLSTRING) + " not found" );
 
 		} catch (Exception e) {
             printUsage();
@@ -219,9 +227,12 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		System.exit(res);
 	}		
 
+    /**
+     * Prints a usage message for the CLIWrapper.
+     */
     public static void printUsage() {
         System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-j mapred.job.reuse.jvm.num.tasks] [-n num lines of inFile per task]");
-        System.out.println("    execution of ToolSpec: -t toolspec -a action [-r toolspec repository on hdfs]");
+        System.out.println("    execution of ToolSpec: [-r toolspec repository on hdfs]");
         System.out.println("    execution of Taverna workflow: -w workflow [-v tavernaDir]");
     }
 		
