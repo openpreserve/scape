@@ -1,19 +1,3 @@
-/*
- * Copyright 2013 ait.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package eu.scape_project.pt.repo;
 
 import eu.scape_project.pt.tool.Tool;
@@ -29,8 +13,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- *
- * @author Matthias Rella, DME-AIT
+ * Mock-up repository to use in unit-testing on the local filesystem.
+ * 
+ * @author Matthias Rella, DME-AIT [myrho]
  */
 public class LocalToolRepository implements Repository {
 	private static Log LOG = LogFactory.getLog(ToolRepository.class);
@@ -47,6 +32,11 @@ public class LocalToolRepository implements Repository {
 
     private final File toolsDir;
 
+    /**
+     * Construct repository from directory path.
+     * @param strToolsDir directory to toolspecs
+     * @throws FileNotFoundException 
+     */
     public LocalToolRepository(String strToolsDir) throws FileNotFoundException {
         File toolsDir = new File( strToolsDir );
         if( !toolsDir.isDirectory() ) 
@@ -66,6 +56,13 @@ public class LocalToolRepository implements Repository {
                 System.getProperty("file.separator") + file + ".xml").exists();
     }
 
+    /**
+     * Gets Tool from the repository.
+     * 
+     * @param toolName
+     * @return
+     * @throws FileNotFoundException 
+     */
     public Tool getTool(String toolName ) throws FileNotFoundException {
         File fileTool = new File( this.toolsDir.getPath() + 
                 System.getProperty("file.separator") + toolName + ".xml");
@@ -80,6 +77,12 @@ public class LocalToolRepository implements Repository {
         
     }
 
+    /**
+     * Unmarshals an input stream of xml data to a Tool.
+     * @param input
+     * @return
+     * @throws JAXBException 
+     */
     private Tool fromInputStream(InputStream input) throws JAXBException {
 		Unmarshaller u = jc.createUnmarshaller();
 		return (Tool) u.unmarshal(new StreamSource(input));

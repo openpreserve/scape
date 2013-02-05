@@ -18,10 +18,7 @@ package eu.scape_project.pt.util;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
@@ -200,6 +197,5 @@ public class ArgsParser {
     public String getStdoutFile() {
         return this.strStdoutFile == "" ? null : this.strStdoutFile;
     }
-
 
 }

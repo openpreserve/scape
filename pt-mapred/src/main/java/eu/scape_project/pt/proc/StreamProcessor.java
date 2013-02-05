@@ -11,7 +11,9 @@ public class StreamProcessor extends Processor {
     private static Log LOG = LogFactory.getLog(StreamProcessor.class);
 
     /**
-     * Creates a StreamProcessor that functions a reader for the given InputStream.
+     * Creates a StreamProcessor that functions as a reader for the 
+     * given InputStream.
+     * 
      * @param InputStream iStdOut 
      */
     public StreamProcessor(InputStream iIn) {
@@ -20,7 +22,9 @@ public class StreamProcessor extends Processor {
     }
 
     /**
-     * Creates a StreamProcessor that functions a writer for the given OutputStream.
+     * Creates a StreamProcessor that functions as a writer for the 
+     * given OutputStream.
+     * 
      * @param OutputStream oStdIn 
      */
     public StreamProcessor(OutputStream osOut) {
@@ -28,6 +32,12 @@ public class StreamProcessor extends Processor {
         this.iStdOut = null;
     }
 
+    /**
+     * Reads a previous processor's stream and writes to it's own or
+     * simply executes the next processor. 
+     * @return
+     * @throws Exception 
+     */
     @Override
     public int execute() throws Exception {
         debugToken = 'S';

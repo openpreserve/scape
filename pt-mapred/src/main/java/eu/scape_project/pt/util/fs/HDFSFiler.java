@@ -12,7 +12,8 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
 /**
- * Handles the transportation of files from the local filesystem to HDFS and vice-versa.
+ * Handles the transportation of files from the local filesystem to HDFS 
+ * and vice-versa.
  * 
  * @author Rainer Schmidt [rschmidt13]
  * @author Matthias Rella [myrho]
@@ -23,7 +24,7 @@ public class HDFSFiler extends Filer{
 	private static Log LOG = LogFactory.getLog(HDFSFiler.class);
 	
     /**
-     * Hadoop Filesystem handle
+     * Hadoop Filesystem handle.
      */
 	protected FileSystem hdfs = null;
 

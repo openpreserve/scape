@@ -85,8 +85,18 @@ public abstract class Filer {
      */
     abstract public String getFileRef();
 
+    /**
+     * Gets the input stream of a file.
+     * @return
+     * @throws IOException 
+     */
     abstract public InputStream getInputStream() throws IOException;
 
+    /**
+     * Gets the output stream to a file.
+     * @return
+     * @throws IOException 
+     */
     abstract public OutputStream getOutputStream() throws IOException;
 
 

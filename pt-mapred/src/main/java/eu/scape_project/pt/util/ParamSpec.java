@@ -3,7 +3,7 @@ package eu.scape_project.pt.util;
 /**
  * Specification Class for input parameters of command line tools
  *
- * @author Matthias Rella [my_rho]
+ * @author Matthias Rella, DME-AIT [my_rho]
  */
 public class ParamSpec {
 

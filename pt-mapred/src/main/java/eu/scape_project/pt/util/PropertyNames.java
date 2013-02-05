@@ -3,7 +3,7 @@ package eu.scape_project.pt.util;
 /**
  * Keeps property names used in Hadoop Configuration.
  * 
- * @author Matthias Rella, DME-AIT
+ * @author Matthias Rella, DME-AIT [myrho]
  */
 public class PropertyNames {
 

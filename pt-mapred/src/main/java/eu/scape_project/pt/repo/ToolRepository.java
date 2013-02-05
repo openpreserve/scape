@@ -26,8 +26,8 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
 /**
- * Manages toolspecs for a given physical location, eg. a directory.
- * @author Matthias Rella [my_rho]
+ * Manages toolspecs for a given HDFS directory.
+ * @author Matthias Rella [myrho]
  */
 public class ToolRepository implements Repository{
 
@@ -46,6 +46,13 @@ public class ToolRepository implements Repository{
 		}
 	}
 
+    /**
+     * Constructs the repository from a given HDFSystem and a directory path.
+     * @param fs
+     * @param directory
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public ToolRepository( FileSystem fs, Path directory ) 
             throws FileNotFoundException, IOException {
         if( !fs.exists(directory) )
@@ -58,6 +65,7 @@ public class ToolRepository implements Repository{
         this.repo_dir = directory;
     }
 
+    @Override
     public boolean toolspecExists( String strTool ) {
         try {
             Path file = new Path( 
@@ -70,6 +78,13 @@ public class ToolRepository implements Repository{
         return false;
     }
 
+    /**
+     * Gets a certain Tool from the repository.
+     * 
+     * @param strTool name of the tool to get
+     * @return
+     * @throws FileNotFoundException 
+     */
     public Tool getTool( String strTool ) throws FileNotFoundException {
         Path file = new Path( 
                 repo_dir.toString() + System.getProperty("file.separator") 
@@ -91,6 +106,7 @@ public class ToolRepository implements Repository{
         return null;
     }
 
+    @Override
     public String[] getToolList() {
         FileStatus[] list = new FileStatus[0];
         try {
@@ -104,16 +120,32 @@ public class ToolRepository implements Repository{
         return strList;
     }
 
-
+    /**
+     * Gets the file name of given tool name.
+     * @param strTool
+     * @return 
+     */
     private String getToolName( String strTool ) {
         return strTool + ".xml";
     }
 
+    /**
+     * Unmarshals an input stream of xml data to a Tool.
+     * @param input
+     * @return
+     * @throws JAXBException 
+     */
     private Tool fromInputStream(InputStream input) throws JAXBException {
 		Unmarshaller u = jc.createUnmarshaller();
 		return (Tool) u.unmarshal(new StreamSource(input));
     }
 
+    /**
+     * Who needs this method?
+     * @return
+     * @throws JAXBException
+     * @throws UnsupportedEncodingException 
+     */
 	private String toXMlFormatted() throws JAXBException, UnsupportedEncodingException {
 		//Create marshaller
 		Marshaller m = jc.createMarshaller();
