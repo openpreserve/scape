@@ -6,7 +6,7 @@ Here can be found several files and information related to the Action Services d
 
 ## How to create a Debian package from a toolspec
 
-See toolwrapper README.md: [link](https://github.com/openplanets/scape/tree/master/pc-as/toolwrapper)
+See toolwrapper README.md: [link](https://github.com/openplanets/scape-toolwrapper)
 
 ## Try it out locally (tested on Debian 6.0.5)
 
