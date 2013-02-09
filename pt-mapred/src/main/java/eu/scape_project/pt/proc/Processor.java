@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 public abstract class Processor implements Runnable {
 
-    private static Log LOG = LogFactory.getLog(Processor.class.toString());
+    private static Log LOG = LogFactory.getLog(ToolProcessor.class);
     protected char debugToken = 'P';
     /**
      * Inputstream to read from. 
@@ -118,12 +118,13 @@ public abstract class Processor implements Runnable {
             || oStdIn == null ) return;
         try {
             LOG.debug(debugToken + " copy prev.stdout to stdin");
-            LOG.debug("instance of stdout: " + this.prev.getStdOut().toString() );
-            LOG.debug("instance of stdin: " + oStdIn.toString() );
+            LOG.debug("instance of stdout: " + this.prev.getStdOut().getClass().getName() );
+            LOG.debug("instance of stdin: " + oStdIn.getClass().getName() );
             IOUtils.copyLarge(this.prev.getStdOut(), oStdIn);
             this.prev.getStdOut().close();
             oStdIn.close();
         } catch (IOException ex) {
+            LOG.error("broken pipe");
             throw new RuntimeException(ex);
         }
     }

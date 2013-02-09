@@ -9,6 +9,7 @@ import java.io.OutputStream;
 public class StreamProcessor extends Processor {
 
     private static Log LOG = LogFactory.getLog(StreamProcessor.class);
+    private Thread t;
 
     /**
      * Creates a StreamProcessor that functions as a reader for the 
@@ -42,7 +43,8 @@ public class StreamProcessor extends Processor {
     public int execute() throws Exception {
         debugToken = 'S';
         LOG.debug("execute");
-        new Thread(this).start();
+        t = new Thread(this);
+        t.start();
         if( this.next != null )
         {
             //this.next.setStdIn(oStdIn);
@@ -65,7 +67,9 @@ public class StreamProcessor extends Processor {
     public int waitFor() throws InterruptedException {
         if( this.prev == null ) return 0;
         LOG.debug("waitFor");
-        return this.prev.waitFor();
+        int r = this.prev.waitFor();
+        t.join();
+        return r;
     }
 
 }
