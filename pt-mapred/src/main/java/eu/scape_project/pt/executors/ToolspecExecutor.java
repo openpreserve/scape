@@ -9,10 +9,7 @@ import eu.scape_project.pt.tool.Operation;
 import eu.scape_project.pt.tool.Tool;
 import eu.scape_project.pt.util.*;
 import eu.scape_project.pt.util.PipedArgsParser.Command;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -155,8 +152,8 @@ public class ToolspecExecutor implements Executor {
         OutputStream oStdout = null;
         if( strStdoutFile != null ) 
             oStdout = Filer.create(strStdoutFile).getOutputStream();
-        else // default: output to stdout
-            oStdout = new PrintStream(System.out);
+        else // default: output to bytestream
+            oStdout = new ByteArrayOutputStream();
 
         StreamProcessor streamProcessorOut = new StreamProcessor(oStdout);
         lastProcessor.next(streamProcessorOut);
@@ -178,11 +175,15 @@ public class ToolspecExecutor implements Executor {
                 Filer.create(strFile).delocalize();
 
         try {
-            // write lastProcessor output to map context
-            context.write(
-                    new Text(System.currentTimeMillis()+""), new Text("dummy"));
+            Text text = null;
+            if( oStdout instanceof ByteArrayOutputStream )
+                text = new Text( ((ByteArrayOutputStream)oStdout).toByteArray() );
+            else
+                text = new Text( strStdoutFile );
+
+            context.write( new Text(value.hashCode()+""), text);
         } catch (InterruptedException ex) {
-            Logger.getLogger(ToolspecExecutor.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error(ex);
         }
     }
 }
