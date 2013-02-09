@@ -1,5 +1,0 @@
-# when using the action "fits-to-stdout" --output will be ignored
---input hdfs:///path/to/input-file1 --output hdfs:///path/to/xml-output1.xml
---input hdfs:///path/to/input-file2 --output hdfs:///path/to/xml-output2.xml
-
-# add more ...
