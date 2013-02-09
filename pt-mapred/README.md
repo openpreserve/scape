@@ -16,14 +16,13 @@ In order to avoid data-intensive duplications and temporary files streaming of d
 
 ### The Command Line
 
-At least a CL consists of a pair of a _toolspec_ name and an _action_ of that toolspec. An _action_ denotes a specific shell command with placeholders for parameters, input and output files and further restrictions. 
+At least a command line (further: CL) consists of a pair of a _toolspec_ name and an _action_ of that toolspec. An _action_ denotes a specific shell command with placeholders for parameters, input and output files and further restrictions. 
 
 * See the [Toolspec XML Schema draft](https://github.com/openplanets/scape/blob/master/doc/WP.02.XA.Technical.Coordination/toolspec/tool-1.0_draft.xsd) and [example toolspecs](https://github.com/openplanets/scape/tree/master/pc-as/toolspecs) for deeper understanding of toolspecs
-* See [CLIWrapper input file examples](
 
 #### Basics
 
-Beneath the _toolspec_-_action_ pair a CL may contain additional parameters for the _action_. These are mapped to the placeholders in the definition of the _action_. Parameters are specified by a list of --{placeholder}="{value}" strings after the _toolspec_-_action_ pair. For example:
+Beneath the _toolspec-action_ pair a CL may contain additional parameters for the _action_. These are mapped to the placeholders in the definition of the _action_. Parameters are specified by a list of --{placeholder}="{value}" strings after the _toolspec-action_ pair. For example:
 
     fancy-tool do-fancy-thing --fancy-parameter="foo" --another-fancy-parameter="bar"
 
@@ -47,7 +46,7 @@ Instead of streaming the command's output to a file, it could be streamed to ano
 
 This CL results in the output of the command of `do-fancy-streaming` being piped to the command of `do-funny-streaming`. Then the output of the latter one will be redirected to `hdfs:///output-file.bar`. 
 
-There can be numerous pipes in one CL but only one input file at the beginning and one output file at the end for file redirection. Independently from this, the piped _toolspec_-_action_ pairs may contain parameters as explained in the previous section, ie. input and output file parameters too.
+There can be numerous pipes in one CL but only one input file at the beginning and one output file at the end for file redirection. Independently from this, the piped _toolspec-action_ pairs may contain parameters as explained in the previous section, ie. input and output file parameters too.
 
 If a CL produces standard output and there is not final redirection to an output file, then the output is written to Hadoop default output file `part-r-00000`. It contains the Job's output key-value pairs. Key is the hashcode of the CL.
 
@@ -63,7 +62,7 @@ Having Hadoop set up you can run CLIWrapper:
 * *path-to-jar* leads to the jar file of the SCAPE subproject _pt-mapred_ which has to be built with dependencies.
 * *input-file-with-command-lines* functions like a batch file containing a list of commands line by line. 
 * *output-dir-for-job* is the directory on HDFS where output files will be written to.
-* *toolspec-repo-dir* is a directory on HDFS containing available Toolspecs.
+* *toolspec-repo-dir* is a directory on HDFS containing available toolspecs.
 
 ### Demostration
 
@@ -76,7 +75,7 @@ As a proof of concept the execution of CLIWrapper on
 5. streamed in ps-to-pdf migration with consecutive piped file identification
 6. streamed in ps-to-pdf migration with two consecutive piped file identifications
 
-is described and demonstrated in this section. The input _command line_ files only contain one command each. Of course in a productive environment one would have thousends of such command lines.
+is described and demonstrated in this section. The input _command line_ files only contain one command each. Of course in a productive environment one would have thousands of such command lines.
 
 #### Prerequisites
 
