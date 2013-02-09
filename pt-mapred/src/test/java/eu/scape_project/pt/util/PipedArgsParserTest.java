@@ -62,7 +62,7 @@ public class PipedArgsParserTest {
         PipedArgsParser parser = new PipedArgsParser();
 
         LOG.info("TEST good input");
-        String strCmdLine = "file.in > a-tool a-action --input1=\"bla\" --input3=\"5\" > \"file with spaces.out\"";
+        String strCmdLine = "\"file.in\" > a-tool a-action --input1=\"bla\" --input3=\"5\" > \"file with spaces.out\"";
         parser.parse(strCmdLine);
 
         Command command1 = parser.new Command();
