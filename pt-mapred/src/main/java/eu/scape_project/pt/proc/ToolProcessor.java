@@ -1,172 +1,289 @@
-/*
- * Copyright 2012 ait.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package eu.scape_project.pt.proc;
 
-import eu.scape_project.pt.pit.ToolRepository;
-import eu.scape_project.pt.pit.invoke.CommandNotFoundException;
-import eu.scape_project.pt.pit.invoke.Out;
-import eu.scape_project.pt.pit.invoke.Stream;
-import eu.scape_project.pt.pit.invoke.ToolInvoker;
-import eu.scape_project.pt.tool.Input;
-import eu.scape_project.pt.tool.Inputs;
-import eu.scape_project.pt.tool.Operation;
-import eu.scape_project.pt.tool.Operations;
-import eu.scape_project.pt.tool.Output;
-import eu.scape_project.pt.tool.Tool;
-import eu.scape_project.pt.util.ParamSpec;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import eu.scape_project.pt.repo.ToolRepository;
+import eu.scape_project.pt.tool.*;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
 
 /**
  * Creates processes for a Tool.
  *
  * @author Matthias Rella [my_rho]
  */
-public class ToolProcessor implements eu.scape_project.pt.proc.Processor {
+public class ToolProcessor extends Processor {
 
     private static Log LOG = LogFactory.getLog(ToolProcessor.class);
+
     /**
-     * Name of the Operation of a Tool to use.
+     * Operation of a Tool to use.
      */
-    private String strOperation;
     private Operation operation;
+
     /**
-     * Name of the Tool to use.
+     * Tool to use.
      */
-    private String strTool;
     private Tool tool;
+
     /**
-     * In this Processor context is used as the Processor input parameters set.
+     * ToolRepository to fetch tools from.
      */
-    private HashMap<String, Stream> context;
-    private String strRepo;
     private ToolRepository repo;
-    private InputStream stdin;
-    private OutputStream stdout;
 
     /**
-     * Sets toolstring and actionstring.
-     *
-     * @param strTool
-     * @param strAction
+     * Parameters referring to input files.
      */
-    public ToolProcessor(String strTool, String strOperation, String strRepo) {
-        this.strTool = strTool;
-        this.strOperation = strOperation;
-        this.strRepo = strRepo;
+    private Map<String, String> mapInputFileParameters;
 
-        Path fRepo = new Path(strRepo);
-        FileSystem fs;
-        try {
-            fs = FileSystem.get(new Configuration());
-            this.repo = new ToolRepository(fs, fRepo);
-            this.tool = repo.getTool(strTool);
-            Operations operations = this.tool.getOperations();
-            for (Operation operation : operations.getOperation()) {
-                if (operation.getName().equals(strOperation)) {
-                    this.operation = operation;
-                }
-            }
+    /**
+     * Parameters referring to output files.
+     */
+    private Map<String, String> mapOutputFileParameters;
 
-        } catch (IOException ex) {
-            Logger.getLogger(ToolProcessor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+    /**
+     * Underlying sub-process.
+     */
+    private Process proc;
+
+    /**
+     * Constructs the processor with a tool and an action of a
+     * toolspec.
+     *
+     * @param Tool tool
+     * @param Operation operation
+     */
+    public ToolProcessor(Tool tool) {
+        this.tool = tool;
+        debugToken = 'T';
     }
 
+    /**
+     * Tries to find a operation of the tool.
+     * 
+     * @param Operation strOp
+     * @return 
+     */
+    public Operation findOperation( String strOp ) {
+        LOG.debug("findOperation(" + strOp + ")");
+        Operations operations = tool.getOperations();
+        for (Operation op : operations.getOperation()) {
+            LOG.debug("op = " + op.getName());
+            if (op.getName().equals(strOp)) {
+                return op;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Sets the operation to use for execution. 
+     * 
+     * @param op 
+     */
+    public void setOperation( Operation op ) {
+        this.operation = op;
+    }
+
+    /**
+     * Executes the tool, optionally reading from a previous process (stdin).
+     * All input file parameters need to be local to the machine.
+     * 
+     * @return
+     * @throws Exception 
+     */
     @Override
     public int execute() throws Exception {
-        // FIXME update this processor to use Stream class!
-        throw new Exception("update ToolProcessor to use Stream class");
+        LOG.debug("execute");
 
-        /*
-         * LOG.debug("execute");          *
-         * // get default values for input parameters HashMap<String, String>
-         * inputs = getDefaults();
-         *
-         * // replace default values by given parameters in the context if(
-         * this.context != null ) inputs.putAll(this.context);
-         *
-         * for( String key : inputs.keySet() ) { LOG.debug("Key: "+key+" =
-         * "+inputs.get(key)); }
-         *
-         * ToolInvoker invoker = new ToolInvoker();
-         *
-         * // Now invoke the command: return
-         * invoker.runCommand(this.operation.getCommand(), inputs, null,
-         * this.stdout);
-         *
-         */
+        Map<String, String> allInputs = new HashMap<String, String>();
+        allInputs.putAll(getInputFileParameters());
+        allInputs.putAll(getOutputFileParameters());
+        allInputs.putAll(getOtherParameters());
+
+        for (String key : allInputs.keySet()) {
+            LOG.debug("Key: " + key + " = " + allInputs.get(key));
+        }
+
+        String strCmd = replaceAll(this.operation.getCommand(), allInputs);
+
+        LOG.debug("strCmd = " + strCmd );
+
+		proc = Runtime.getRuntime().exec(strCmd);
+
+        this.setStdIn(proc.getOutputStream());
+        this.setStdOut(proc.getInputStream());
+
+        new Thread(this).start();
+
+        if( this.next != null )
+            return this.next.execute();
+
+        return proc.waitFor();
+    }
+
+    /** 
+     * Waits for the sub-process to terminate.
+     * 
+     * @return
+     * @throws InterruptedException 
+     */
+    @Override
+    public int waitFor() throws InterruptedException {
+        if( proc == null ) return 0;
+        LOG.debug("waitFor");
+        return proc.waitFor();
     }
 
     @Override
     public void initialize() {
     }
 
-    @Override
-    public void setContext(HashMap<String, Stream> hashMap) {
-        this.context = hashMap;
+    /**
+     * Fills all types of parameters with given Map of parameters.
+     * 
+     * @param mapParams 
+     */
+    public void setParameters( Map<String, String> mapParams) {
+        for(Entry<String, String> entry: mapParams.entrySet() ) 
+            if( getInputFileParameters().containsKey(entry.getKey()))
+                getInputFileParameters().put(entry.getKey(), entry.getValue());
+            else if( getOutputFileParameters().containsKey(entry.getKey()))
+                getOutputFileParameters().put(entry.getKey(), entry.getValue());
+            else if( getOtherParameters().containsKey(entry.getKey()))
+                getOtherParameters().put(entry.getKey(), entry.getValue());
     }
 
-    @Override
-    public void setStdout(OutputStream out) {
-        this.stdout = out;
-    }
-
-    @Override
-    public HashMap<String, ParamSpec> getParameters() {
-        HashMap<String, ParamSpec> parameters = new HashMap<String, ParamSpec>();
+    /**
+     * Get input file parameters from the toolspec.
+     * 
+     * @return 
+     */
+    public Map<String, String> getInputFileParameters() {
+        LOG.debug("getInputFileParameters");
+        if( this.mapInputFileParameters != null )
+            return this.mapInputFileParameters;
+        Map<String, String> parameters = new HashMap<String, String>();
 
         if (operation.getInputs() != null) {
             for (Input input : operation.getInputs().getInput()) {
-                ParamSpec param = new ParamSpec();
-                param.setDirection(ParamSpec.Direction.IN);
-                param.setRequired(input.isRequired());
-                parameters.put(input.getName(), param);
+                LOG.debug("input = " + input.getName());
+                parameters.put(input.getName(), input.getDefaultValue());
             }
         }
+        return this.mapInputFileParameters = parameters;
+
+    }
+
+    /**
+     * Get output file parameters from the toolspec.
+     * 
+     * @return 
+     */
+    public Map<String, String> getOutputFileParameters() {
+        LOG.debug("getOutputFileParameters");
+        if( this.mapOutputFileParameters != null )
+            return this.mapOutputFileParameters;
+        Map<String, String> parameters = new HashMap<String, String>();
 
         if (operation.getOutputs() != null) {
             for (Output output : operation.getOutputs().getOutput()) {
-                ParamSpec param = new ParamSpec();
-                param.setDirection(ParamSpec.Direction.OUT);
-                param.setRequired(output.isRequired());
-                parameters.put(output.getName(), param);
+                LOG.debug("output = " + output.getName());
+                parameters.put(output.getName(), null);
             }
         }
+        return this.mapOutputFileParameters = parameters;
 
-        return parameters;
     }
 
-    private HashMap<String, String> getDefaults() {
-        HashMap<String, String> defaults = new HashMap<String, String>();
+    /**
+     * Gets other input parameters from the toolspec.
+     * 
+     * @return 
+     */
+    public Map<String, String> getOtherParameters() {
+        Map<String, String> parameters = new HashMap<String, String>();
+
         if (operation.getInputs() != null) {
-            for (Input input : operation.getInputs().getInput()) {
-                defaults.put(input.getName(), input.getDefaultValue());
+            for (Parameter param : operation.getInputs().getParameter()) {
+                parameters.put(param.getName(), param.getDefaultValue());
             }
         }
-        return defaults;
+        return parameters;
+
+    }
+
+    /**
+     * Sets input file parameters.
+     * 
+     * @param mapTempInputFileParameters 
+     */
+    public void setInputFileParameters(Map<String, String> mapInput) {
+        this.mapInputFileParameters = mapInput;
+    }
+
+    /**
+     * Sets output file parameters.
+     * 
+     * @param mapTempInputFileParameters 
+     */
+    public void setOutputFileParameters(Map<String, String> mapOutput) {
+        this.mapOutputFileParameters = mapOutput;
+    }
+
+    /**
+     * Replaces ${key}s in given command strCmd by values.
+     * 
+     * @param strCmd
+     * @param mapInputs 
+     */
+	 private String replaceAll(String strCmd, Map<String,String> mapInputs) {
+         if( mapInputs.isEmpty() ) return strCmd;
+        // create the pattern wrapping the keys with ${} and join them with '|'
+        String regexp = "";
+        for( String input : mapInputs.keySet())
+            regexp += parameterToPlaceholder(input);
+        regexp = regexp.substring(0, regexp.length()-1);
+
+        LOG.debug("replaceAll.regexp = " + regexp );
+        StringBuffer sb = new StringBuffer();
+        Pattern p = Pattern.compile(regexp);
+        Matcher m = p.matcher(strCmd);
+
+        while (m.find())
+        {
+            String param = placeholderToParameter(m.group());
+            m.appendReplacement(sb, mapInputs.get(param));
+        }
+        m.appendTail(sb);
+
+        return sb.toString();
+
+	}
+
+    /**
+     * Maps a parameter name to the placeholder's form.
+     * Inverse of placeholderToParameter.
+     * 
+     * @param strParameter
+     * @return 
+     */
+    private String parameterToPlaceholder( String strParameter ) {
+        return "\\$\\{" + strParameter + "\\}|"; 
+    }
+
+    /**
+     * Maps a placeholder to its parameter name.
+     * Inverse of parameterToPlaceholder.
+     * 
+     * @param strVariable
+     * @return 
+     */
+    private String placeholderToParameter( String strVariable ) {
+        return strVariable.substring(2, strVariable.length() - 1 );
     }
 }

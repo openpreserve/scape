@@ -1,50 +1,153 @@
 MapReduce Wrappers
 ==================
 
-Usage
------
-
-Having Hadoop set up you can run CLIWrapper:
-
-    hadoop jar {path-to-jar} -i {input-file-with-command-lines} -t {toolspec-name} -a {action-id} [-o {output-dir-for-the-job}]
-
-See at the end for the usage of the wrapper with Taverna.
-
-*Working toolspecs/actions combinations:*
-
-* file/file (identify a file using the file command, see files/hinput_file.txt for example input)
-* fits/fits-to-xml or fits/fits-to-stdout (identify a file using FITS, see files/hinput_fits.txt for example input)
-* ghostscript/ps-to-pdfa (make a ps to pdfa, see files/hinput_ps2pdf.txt for example input)
-
-Stdout output will be written to the output directory of the hadoop job (parameter -o).
-
 CLIWrapper
 ----------
 
-This wrapper depends essentially on eu.scape_project.pit.invoke.processor (Subproject xa-pit), which wraps command-line tools for invocation through Toolspec actions. It takes a Toolspec name and an action id and creates the Processor. 
+CLIWrapper stands for "Command-Line-Interface"-Wrapper. It wraps _command lines_ for parallel execution in a MapReduce job. The wrapper only leverages the Mapper of the MapReduce-framework. Per map task the wrapper 
 
-So these two parameters are one part of a MapReduce Job's input. The other part is a text file listing command-lines with various arguments for the specified Toolspec/action-id. See an example here: https://github.com/openplanets/scape/blob/master/pt-mapred/files/hinput.txt (ignore comment lines).
+* fetches the specified _toolspec_ from the _toolspec repository_
+* maps the _command line_ to the specified _action_ 
+* copies remote input files to the local file system
+* executes the _action_'s command in the local runtime environment of the system
+* deposits resulting output files to a remote location 
 
-Per command-line one *map* is executed which 
+In order to avoid data-intensive duplications and temporary files streaming of data from/to files and between executions is supported too.
 
-1. Copies needed input files (from eg. HDFS) into a temporary execution directory.
-2. Executes the command-line tool with the given command-line arguments.
-3. Copies potential output files back to a remote filesystem (eg. HDFS)
+### The Command Line
 
-There are some TODOs:
+At least a CL consists of a pair of a _toolspec_ name and an _action_ of that toolspec. An _action_ denotes a specific shell command with placeholders for parameters, input and output files and further restrictions. 
 
-* Input parameters of command-lines should be mapped and checked to parameters in the Toolspec commands generically. For instance placeholder "${input}" in a Toolspec command definition should be replaced by the argument of the input parameter "--input". 
+* See the [Toolspec XML Schema draft](https://github.com/openplanets/scape/blob/master/doc/WP.02.XA.Technical.Coordination/toolspec/tool-1.0_draft.xsd) and [example toolspecs](https://github.com/openplanets/scape/tree/master/pc-as/toolspecs) for deeper understanding of toolspecs
+* See [CLIWrapper input file examples](
 
-* A great deal of a MapReduce Wrapper is concerned with getting the needed files (input, output, ...) into a temporary execution directory on the working node and back to the remote filesystem (eg. HDFS). So what could be useful is an additional flag in the input parameters specification of the Toolspec, which denotes whether a parameter is (1) a file and (2) whether it is an input or an output file. For MR Wrappers need input files to be copied to the temporary execution directory they need to know which of the input parameters carry input files. Consequently, MR Wrappers also need to know which of these are output destinations to copy locally and temporarily created output files there to.
+#### Basics
 
-* Reading from std-in and using InputStreams.
+Beneath the _toolspec_-_action_ pair a CL may contain additional parameters for the _action_. These are mapped to the placeholders in the definition of the _action_. Parameters are specified by a list of --{placeholder}="{value}" strings after the _toolspec_-_action_ pair. For example:
 
-* Piped commands
+    fancy-tool do-fancy-thing --fancy-parameter="foo" --another-fancy-parameter="bar"
 
-* As the input file with the list of command-lines serves as the MR Job input MapReduce cannot distribute workload. This input file gets assigned to one worker node which reads all lines and executes them, regardless of where the input or output files reside on HDFS. Ie. HDFS input files are copied from potentially remote nodes to the local filesystem which results in loss of parallelity. However, the aim should be that nodes process primarily command-lines which operate on files that already reside locally on that HDFS-node.
+For this CL to function there should be a _toolspec_ named `fancy-tool` containing the _action_ `do-fancy-thing`, which should have `fancy-parameter` and `another-fancy-parameter` defined in its parameters section. An action's input and output file parameters are specified the same way. For example: 
+
+    fancy-tool do-fancy-file-stuff --input="hdfs:///fancy-file.foo" --output="hdfs:///fancy-output-file.bar"
+
+Again, an input parameter `input` and an output parameter `output` needs to be defined in the correspondent sections of `do-fancy-file-stuff`.
+
+#### File redirection and piping
+
+As an _action_'s command may be reading from standard input and/or writing to standard output, a _stdin_ and/or _stdout_ section should be defined for the _action_. From the CL's perspective these properties are mapped by the `>` character. For example:
+
+    "hdfs:///input-file.foo" > fancy-tool do-fancy-streaming > "hdfs:///output-file.bar"
+
+Prior to the execution of the _action_, the wrapper will start reading an input stream of `hdfs:///input-file.foo` and feeding its contents to the command of `do-fancy-streaming`. Respectively, the output is redirected to an output stream of `hdfs:///output-file.bar`.
+
+Instead of streaming the command's output to a file, it could be streamed to another _action_ of another _toolspec_ imitating pipes in the UNIX shell. For example:
+
+    "hdfs:///input-file.foo" > fancy-tool do-fancy-streaming | funny-tool do-funny-streaming > "hdfs:///output-file.bar"
+
+This CL results in the output of the command of `do-fancy-streaming` being piped to the command of `do-funny-streaming`. Then the output of the latter one will be redirected to `hdfs:///output-file.bar`. 
+
+There can be numerous pipes in one CL but only one input file at the beginning and one output file at the end for file redirection. Independently from this, the piped _toolspec_-_action_ pairs may contain parameters as explained in the previous section, ie. input and output file parameters too.
+
+If a CL produces standard output and there is not final redirection to an output file, then the output is written to Hadoop default output file `part-r-00000`. It contains the Job's output key-value pairs. Key is the hashcode of the CL.
+
+### Usage
+
+Having Hadoop set up you can run CLIWrapper:
+
+    hadoop jar {path-to-jar} 
+        -i {input-file-with-command-lines} 
+        -o {output-dir-for-job} 
+        -r {toolspec-repo-dir}
+
+* *path-to-jar* leads to the jar file of the SCAPE subproject _pt-mapred_ which has to be built with dependencies.
+* *input-file-with-command-lines* functions like a batch file containing a list of commands line by line. 
+* *output-dir-for-job* is the directory on HDFS where output files will be written to.
+* *toolspec-repo-dir* is a directory on HDFS containing available Toolspecs.
+
+### Demostration
+
+As a proof of concept the execution of CLIWrapper on 
+
+1. file identification 
+2. streamed file identification
+3. postscript to PDF migration of an input ps-file to an output pdf-file
+4. streamed in postscript to PDF migration of an input ps-file to an streamed out pdf-file
+5. streamed in ps-to-pdf migration with consecutive piped file identification
+6. streamed in ps-to-pdf migration with two consecutive piped file identifications
+
+is described and demonstrated in this section. The input _command line_ files only contain one command each. Of course in a productive environment one would have thousends of such command lines.
+
+#### Prerequisites
+
+1. Make sure the commands `file` and `ps2pdf` are in the path of your system. 
+2. Copy the toolspecs [file.xml](https://github.com/openplanets/scape/tree/master/pt-mapred/src/test/resources/toolspecs/file.xml) and [ps2pdf.xml](https://github.com/openplanets/scape/tree/master/pt-mapred/src/test/resources/toolspecs/ps2pdf.xml) to a directory of your choice on HDFS (eg. `/user/you/toolspecs/`).
+3. Copy [ps2pdf-input.ps](https://github.com/openplanets/scape/tree/master/pt-mapred/src/test/resources/ps2pdf-input.ps) to a directory of your choice on HDFS (eg. `/user/you/input/`).
+
+#### File identification 
+
+Contents of job input file (CLs):
+
+    file identify --input="hdfs:///user/you/input/ps2pdf-input.ps"
+
+After running the job, contents of `part-r-00000` in output directory is:
+
+    1407062753      PostScript document text conforming DSC level 3.0, Level 2
+
+#### Streamed file identification   
+
+Contents of job input file (CLs):
+
+    "hdfs:///user/you/input/ps2pdf-input.ps" > file identify-stdin 
+
+After running the job, contents of `part-r-00000` in output directory is:
+
+    -238455161      PostScript document text conforming DSC level 3.0, Level 2
+
+#### Postscript to PDF migration
+
+Contents of job input file (CLs):
+
+    ps2pdf convert --input="hdfs:///user/you/input/ps2pdf-input.ps" --output="hdfs:///user/you/output/ps2pdf-output.pdf"
+
+After running the job, specified output file location references the migrated PDF.
+
+#### Streamed postscript to PDF migration
+
+Contents of job input file (CLs):
+
+    "hdfs:///user/you/input/ps2pdf-input.ps" > ps2pdf convert-streamed > "hdfs:///user/you/output/ps2pdf-output.pdf"
+
+After running the job, specified output file location references the migrated PDF.
+
+#### Streamed postscript to PDF migration with consecutive piped file identification
+
+Contents of job input file (CLs):
+
+    "hdfs:///user/you/input/ps2pdf-input.ps" > ps2pdf convert-streamed | file identify-stdin > "hdfs:///user/you/output/file-identified.txt" 
+
+After running the job, contents of `file-identified.txt` in output directory is:
+
+    PDF document, version 1.4    
+
+#### Streamed postscript to PDF migration with two consecutive piped file identifications
+
+Contents of job input file (CLs):
+
+    "hdfs:///user/you/input/ps2pdf-input.ps" > ps2pdf convert-streamed | file identify-stdin | file identify-stdin
+
+After running the job, contents of `part-r-00000` in output directory is:
+
+    -1771972640     ASCII text
+
+### Caveat
+
+As the input file with the list of command-lines serves as the MR Job input MapReduce cannot distribute workload. This input file gets assigned to one worker node which reads all lines and executes them, regardless of where the inwrite put or output files reside on HDFS. Ie. HDFS input files are copied from potentially remote nodes to the local filesystem what harms locality. However, the aim should be that nodes process primarily command-lines which operate on files that already reside locally on that HDFS-node.
 
 Executing a Taverna Workflow
 ----------------------------
+
+*NOT TESTED. Maybe deprecated.*
 
 To execute a Taverna workflow, Taverna must be installed on the cluster. The wrapper can then be used to execute a Taverna workflow in parallel. 
 

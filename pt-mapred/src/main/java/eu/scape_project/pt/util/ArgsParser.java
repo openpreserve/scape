@@ -1,157 +1,201 @@
+/*
+ * Copyright 2013 ait.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package eu.scape_project.pt.util;
 
-import java.util.HashMap;
-import java.util.List;
-
-import java.util.Map.Entry;
-import joptsimple.ArgumentAcceptingOptionSpec;
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
-import joptsimple.OptionSpecBuilder;
-
+import java.io.IOException;
+import java.io.StreamTokenizer;
+import java.io.StringReader;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Parses a commandline for setParameters, values and redirect symbols
+ *
+ * @author Matthias Rella, DME-AIT
+ */
 public class ArgsParser {
 
-	private static Log LOG = LogFactory.getLog(ArgsParser.class);
-
-	static public final String INFILE = "INFILE";
-	static public final String OUTDIR = "OUTDIR";
-	static public final String TOOLSTRING = "TOOLSTRING";
-	static public final String ACTIONSTRING = "ACTIONSTRING";
-	static public final String PARAMETERLIST = "PARAMETERLIST";
-    static public final String REPO_LOCATION = "REPO_LOCATION";
-    
-    //nInputFormat
-    static public final String NUM_LINES_PER_SPLIT = "NUM_LINES_PER_SPLIT";
-    
-
-	/* seems to be unused
-	static public final String PROCSTRING = "PROC_STRING";
-	static public final String PROC_TOOLSPEC = "toolspec";
-	static public final String PROC_TAVERNA = "taverna";
-	*/
-	
-	// Taverna specific settigns
-	static public final String TAVERNA_HOME = "TAVERNA_HOME";
-	static public final String WORKFLOW_LOCATION = "WORKFLOW_LOCATION";
-    
-    
-	private OptionParser parser = null;
-	private OptionSet options = null;
-	
-    public ArgsParser() {
-        this.parser = new OptionParser();
-    }
-
-	public ArgsParser(String optionString, String[] args) {
-		this.parser = new OptionParser(optionString);
-		this.options = parser.parse(args);
-		
-		LOG.info("Options: " + options.toString());
-	}
-
-    public void accepts( String strOption ) {
-        this.parser.accepts(strOption);
-    }
-	
-	public String getValue(String opt) {
-		
-		//System.out.println("found option "+opt+": "+options.has(opt));
-		//System.out.println(opt+" has am argument: "+options.hasArgument(opt));
-		//System.out.println(opt+" has argument: "+options.valueOf(opt));
-		if (options.hasArgument(opt)) return options.valueOf(opt).toString();
-		return null;
-	}
-	
-	public List<?> getValues(String opt) {
-		if (options.hasArgument(opt)) return options.valuesOf(opt);
-		return null;
-	}
-	
-	public boolean hasOption(String opt) {
-		return options.has(opt);
-	}
+    private static Log LOG = LogFactory.getLog(ArgsParser.class);
 
     /**
-     * Wrapper for OptionParser.parse()
-     * 
-     * @param astrParameters an array of strings of OptionParser ready parameters
+     * Set of parameters which are recognized by this parser.
+     * If null or empty parser accepts all parameters
      */
-    public void parse( String[] astrParameters ) {
-        options = parser.parse( astrParameters);
+    private Set<String> setParameters = new HashSet<String>();
+
+    /**
+     * Map of recognized key-value pairs.
+     */
+    private Map<String, String> mapArguments = new HashMap<String, String>();
+
+    /**
+     * Tokenizer which reads input command line.
+     */
+    private StreamTokenizer tokenizer;
+
+    /**
+     * File name after "&lt" in command line.
+     */
+    private String strStdinFile = "";
+
+    /**
+     * File name after "&gt" in command line.
+     */
+    private String strStdoutFile = "";
+
+    /**
+     * Public interface for parsing a command line. The form of the
+     * command line should be (--key="value")* (&lt stdinfile)? (&gt stdoutfile)?.
+     * Results can be fetched via getters.
+     * @param String strCmdLine input String
+     * @throws IOException 
+     */
+    public void parse(String strCmdLine) throws IOException {
+
+        mapArguments = new HashMap<String, String>();
+        strStdinFile = "";
+        strStdoutFile = "";
+        tokenizer = new StreamTokenizer(
+                new StringReader(strCmdLine));
+
+        root();
     }
 
     /**
-     * Reads keys and values out of a string of parameters.
-     * 
-     * 0. Trim input string and remove first dash.
-     * 1. Split up at every " --" 
-     * 2. For each component: first word is key, rest is value
-     * 2a. If value is not set, key is not put into HashMap
-     * 
-     * @param strParameters a string of multiples of "--{key} {value}"
-     * @return a HashMap of keys and values
+     * Reads next token from Tokenizer and increases column number
+     * @return
+     * @throws IOException 
      */
+    private int nextToken() throws IOException {
+        //colnr += tokenizer.sval != null ? tokenizer.sval.length() : 1;
+        int token = tokenizer.nextToken();
+        LOG.debug("tokenizer.sval = " + tokenizer.sval + ", token = " + token );
+        return token;
+    }
 
-    static public HashMap<String, String> readParameters( String strParameters ) {
-        strParameters = strParameters.trim();
-        if(strParameters.startsWith("--")) 
-            strParameters = strParameters.substring(2);
-
-        String[] astrParameters = strParameters.split("\\s+--");
-        HashMap<String, String> mapParameters = new HashMap<String, String>();
-
-        for( String strParameter : astrParameters ) {
-            String[] astrKV = strParameter.split("\\s+", 2 );
-            if(astrKV.length > 1 )
-                mapParameters.put( astrKV[0], astrKV[1] );
+    /**
+     * Matches (--key="value")* (< stdin)? (> stdout)?
+     *
+     * @throws IOException
+     */
+    private void root() throws IOException {
+        while (nextToken() == '-') {
+            pair();
         }
-        return mapParameters;
-    }
-
-    /**
-     * Takes a string of command-line input arguments and turns it into a args[] like String array.
-     * 
-     * Adapts readParameters(): It turns the output HashMap of readParameters() back to the
-     * --{key} {value} template.
-     * 
-     * @param strParameters
-     * @return OptionParser-parsable String[]
-     */
-    public static String[] makeCLArguments(String strParameters) {
-        HashMap<String, String> args = readParameters(strParameters);
-        String[] astrArgs = new String[ args.size()*2 ];
-        int i = 0;
-        for( Entry<String, String> entry : args.entrySet() ) {
-            astrArgs[i++] = "--" + entry.getKey();
-            astrArgs[i++] = entry.getValue();
+        if (tokenizer.ttype == '<') {
+            stdin();
+            nextToken();
         }
-        return astrArgs;
+        if (tokenizer.ttype == '>') {
+            stdout();
+        }
     }
 
     /**
-     * Maps a parameter and its specification to an OptionParser.accepts() call.
-     * 
-     * @param strName name of the option
-     * @param mapSpecs specification of the option (eg. required, datatype)
+     * Matches -key="value"
+     *
+     * @throws IOException
      */
-    public void setOption(String strName, ParamSpec param ) {
-            LOG.debug( "accepts( " + strName + ")");
-            // sets the name of the option
-            OptionSpecBuilder builder = parser.accepts( strName );
-            ArgumentAcceptingOptionSpec aaoc; 
-
-            // sets whether the option is required or not
-            if( param.isRequired() )
-                aaoc = builder.withRequiredArg();
+    private void pair() throws IOException {
+        String key = null;
+        String value = null;
+        if (nextToken() == '-') {
+            if (nextToken() == StreamTokenizer.TT_WORD
+                    && 
+                ( setParameters == null 
+                  || setParameters.isEmpty()
+                  || setParameters.contains(tokenizer.sval))) {
+                key = tokenizer.sval;
+            } else {
+                LOG.error("unrecognized token, expecting key word");
+                return;
+            }
+            if (nextToken() == '=') {
+                LOG.debug("= found");
+                if (nextToken() == '"') {
+                    LOG.debug("\" found");
+                    LOG.debug("value found");
+                    value = tokenizer.sval;
+                    mapArguments.put(key, value);
+                    return;
+                }
+                else
+                    LOG.error("unrecognized token, expecting '\"'");
+            }
             else
-                aaoc = builder.withOptionalArg();
+                LOG.error("unrecognized token, expecting '='");
+        }
+        LOG.error("unrecognized token "
+                + (tokenizer.ttype >= 32 ? (char)tokenizer.ttype : ""));
 
-            // sets the accepted datatype to the specified class
-            //aaoc.ofType((Class)(mapSpecs.get("datatype")));
     }
-	
+
+    /**
+     * Matches a string (quoted or not)
+     * @throws IOException 
+     */
+    private void stdin() throws IOException {
+        LOG.debug("stdin");
+        nextToken();
+        strStdinFile = tokenizer.sval;
+    }
+
+    /**
+     * Matches a string (quoted or not)
+     * @throws IOException 
+     */
+    private void stdout() throws IOException {
+        LOG.debug("stdout");
+        nextToken();
+        strStdoutFile = tokenizer.sval;
+    }
+
+    /**
+     * Sets parameters (keys) to be recognized by parser.
+     * @param parameters 
+     */
+    public void setParameters(Set<String> parameters) {
+        this.setParameters = parameters;
+    }
+
+    /**
+     * Gets recognized arguments (key-value pairs)
+     * @return Map mapArguments
+     */
+    public Map<String, String> getArguments() {
+        return this.mapArguments;
+    }
+
+    /**
+     * Gets recognized stdin file name
+     * @return String
+     */
+    public String getStdinFile() {
+        return this.strStdinFile == "" ? null : this.strStdinFile;
+    }
+
+    /**
+     * Gets recognized stdout file name
+     * @return String
+     */
+    public String getStdoutFile() {
+        return this.strStdoutFile == "" ? null : this.strStdoutFile;
+    }
 
 }

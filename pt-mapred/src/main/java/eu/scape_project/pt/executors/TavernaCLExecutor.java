@@ -17,8 +17,11 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.io.Text;
 
-import eu.scape_project.pt.fs.util.Filer;
-import eu.scape_project.pt.proc.FileProcessor;
+import eu.scape_project.pt.util.fs.Filer;
+import eu.scape_project.pt.proc.StreamProcessor;
+import eu.scape_project.pt.util.ArgsParser;
+import java.util.*;
+import java.util.Map.Entry;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 
 /**
@@ -36,7 +39,7 @@ public class TavernaCLExecutor implements Executor {
 	private String resultOutDir;
 	
 	// File processor to get temporary input files
-	FileProcessor fileProcessor;
+	StreamProcessor fileProcessor;
 	
 	// Taverna output directory
 	private String tavernaOutput;
@@ -48,7 +51,7 @@ public class TavernaCLExecutor implements Executor {
 	}
 
 	@Override
-	public void setup() {
+	public void setup(Context context) {
 		// Add trailing slash if missing to given directories
     	if(tavernaHome != null && !tavernaHome.endsWith(File.separator))
     		tavernaHome += File.separator;
@@ -59,33 +62,26 @@ public class TavernaCLExecutor implements Executor {
 
 	@Override
 	public void map(Object key, Text value, Context context) throws IOException {
-		// Also get a local copy of the workflow
-		StringBuilder stringBuilder = new StringBuilder(value.toString());
-		stringBuilder.append(" ");
-		stringBuilder.append(workflowLocation);
+
+        Map<String, String> mapTmpArgs = new HashMap<String, String>();
+
+        // localize workflow
+        Filer filer = Filer.create(workflowLocation);
+        filer.localize();
+        String strTmpWorkflowLocation = filer.getFileRef();
 		
-		// Split input to find file handles with the file processor
-		String[] values = stringBuilder.toString().split(" ");
-		
-		// Create a file processor and assign the hdfs
-		FileSystem hdfs = FileSystem.get(new Configuration());
-		FileProcessor fileProcessor = new FileProcessor(values);
-		fileProcessor.setHadoopFS(hdfs);
-		
-		// Retrieve all files
-		try {
-			fileProcessor.resolvePrecondition();
-		} catch(Exception e) {
-			LOG.error("Exception in preprocessing phase: " + e.getMessage(), e);
-			e.printStackTrace();
-		}	    	
-		
+		// localize (retrieve) input files and store local file refs in mapTmpArgs
+        for( String fileRef: value.toString().split(" ") ) {
+            filer = Filer.create(fileRef);
+            filer.localize();
+            mapTmpArgs.put(fileRef, filer.getFileRef());
+        }
+
 		// Replace all file handles with the temporary local ones
-		Map<String, String> retrievedFiles = fileProcessor.getRetrievedFiles();
 		String workflowInput = value.toString();
-		for(String retrievedFile : retrievedFiles.keySet()) {
+		for(String retrievedFile : mapTmpArgs.keySet()) {
 			workflowInput = workflowInput.replaceAll(retrievedFile,
-					retrievedFiles.get(retrievedFile));
+					mapTmpArgs.get(retrievedFile));
 		}
 		
 		// Workflow
@@ -109,7 +105,7 @@ public class TavernaCLExecutor implements Executor {
 	    	}
 	    	
 	    	command.addAll(inputList);
-	    	command.add(retrievedFiles.get(workflowLocation));
+	    	command.add(strTmpWorkflowLocation);
 	    	
 	    	ProcessBuilder processBuilder = new ProcessBuilder(command);
 	    	
@@ -127,16 +123,14 @@ public class TavernaCLExecutor implements Executor {
 	    	outputStream(outStream);
 	    } catch (Exception e) {
 	    	LOG.error("Could not run workflow: " + e.getMessage(), e);
-	    	e.printStackTrace();
 	    }
 	    
 	    // Write the results to the corresponding directory
 	    try {
-			Filer filer = fileProcessor.getFiler(resultOutDir);
+			filer = Filer.create(resultOutDir);
 			filer.depositDirectoryOrFile(tavernaOutput, resultOutDir + UUID.randomUUID() + File.separator);
-		} catch (URISyntaxException e) {
-			LOG.error("Could not create filer for URI syntax: " + resultOutDir);
-			e.printStackTrace();
+		} catch (IOException e) {
+			LOG.error("Could not create filer for URI syntax: " + resultOutDir, e);
 		}
 	    
 	}
