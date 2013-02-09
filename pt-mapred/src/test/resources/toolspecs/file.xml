@@ -10,7 +10,7 @@
   <operations>
     <operation name="identify">
       <description>Identifies a files mime-type</description>
-      <command>file ${input}</command>
+      <command>file -b ${input}</command>
       <inputs>
         <input name="input" required="true">
           <description>Reference to input file</description>
@@ -19,7 +19,7 @@
     </operation>
     <operation name="identify-stdin">
       <description>Identifies a files mime-type reading from stdin</description>
-      <command>file -</command>
+      <command>file -b -</command>
       <inputs>
         <stdin name="stdin" required="true">
           <description>Reference to input file</description>
