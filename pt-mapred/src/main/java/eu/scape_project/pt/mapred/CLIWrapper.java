@@ -27,6 +27,8 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
 
+import org.apache.hadoop.mapreduce.lib.input.NLineInputFormat;
+
 /**
  * A command-line interaction wrapper to execute cmd-line tools with MapReduce.
  * Code based on SimpleWrapper.
