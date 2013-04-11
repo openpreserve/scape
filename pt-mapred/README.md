@@ -32,6 +32,8 @@ For this CL to function there should be a _toolspec_ named `fancy-tool` containi
 
 Again, an input parameter `input` and an output parameter `output` needs to be defined in the correspondent sections of `do-fancy-file-stuff`.
 
+**Don't use the character '_' (underscore) in toolspec, action or key names. It is allowed to use it in values within quotes.**
+
 #### File redirection and piping
 
 As an _action_'s command may be reading from standard input and/or writing to standard output, a _stdin_ and/or _stdout_ section should be defined for the _action_. From the CL's perspective these properties are mapped by the `>` character. For example:
