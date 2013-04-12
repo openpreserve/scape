@@ -1,0 +1,17 @@
+digital-preservation-tools-quality-assurance (1.0.2) unstable; urgency=low
+
+  * Updated dependencies (new migration actions).
+
+ -- Hélder Silva <hsilva@keep.pt>  Fri, 12 Mar 2013 12:14:31 +0000
+
+digital-preservation-tools-quality-assurance (1.0.1) unstable; urgency=low
+
+  * Updated dependencies (new migration actions).
+
+ -- Hélder Silva <hsilva@keep.pt>  Tue, 05 Mar 2013 16:14:31 +0000
+
+digital-preservation-tools-quality-assurance (1.0.0) unstable; urgency=low
+
+  * Initial Release.
+
+ -- SCAPE project <hsilva@keep.pt>  Mon, 23 Jul 2012 13:52:38 +0100

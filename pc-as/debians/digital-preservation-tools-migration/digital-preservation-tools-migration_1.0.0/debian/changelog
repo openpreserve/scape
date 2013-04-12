@@ -1,3 +1,9 @@
+digital-preservation-tools-migration (1.0.1) unstable; urgency=low
+
+  * Updated dependencies (new migration actions).
+
+ -- Hélder Silva <hsilva@quagmire>  Tue, 05 Mar 2013 16:14:31 +0000
+
 digital-preservation-tools-migration (1.0.0) unstable; urgency=low
 
   * Initial Release.

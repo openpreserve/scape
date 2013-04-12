@@ -1,0 +1,17 @@
+Source: digital-preservation-tools-characterization
+Section: misc
+Priority: extra
+Maintainer: Hélder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+
+Package: digital-preservation-tools-characterization
+Architecture: all
+Depends: ${misc:Depends},digital-preservation-characterisation-video-ffprobe-video2xml,digital-preservation-characterisation-tika-app-parse2text,digital-preservation-characterisation-tika-app-wrapper
+#Depends: ${misc:Depends},digital-preservation-characterisation-video-ffprobe-video2xml,digital-preservation-characterisation-tika-app-parse2text,digital-preservation-characterisation-tika-app-wrapper,digital-preservation-identification-droid-folder2csv
+Description: Metapackage for digital preservation characterisation tools 
+ This package was developed in the context of SCAPE project.
+ The SCAPE project is co-funded by the European Union under 
+ FP7 ICT-2009.4.1 (Grant Agreement number 270137).
+ metapackage that contains reference for all scape digital
+ preservation characterisation tools.

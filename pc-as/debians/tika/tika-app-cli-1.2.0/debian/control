@@ -1,16 +1,16 @@
 Source: tika-app-cli
-Section: java 
+Section: java
 Priority: extra
 Maintainer: The British Library (UK) <lynn.marwood@bl.uk>
 Build-Depends: debhelper (>=8.0.0) 
 Standards-Version: 3.9.2
-Homepage: http://tika.apache.org/ 
+Homepage: http://tika.apache.org/
 Vcs-Browser: http://svn.apache.org/repos/asf/tika/trunk/
 
 Package: tika-app-cli
 Section: java
 Architecture: all
-Depends: ${misc:Depends} 
+Depends: ${misc:Depends}, default-jre
 Description: Automatic file format identification tool. 
  The Apache Tika library is a toolkit for detecting and extracting 
  metadata and structured text content from various documents using
