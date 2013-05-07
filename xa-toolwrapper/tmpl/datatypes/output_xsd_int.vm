@@ -1,2 +1,0 @@
-        // Output: ${output_variable}
-        int ${output_variable} = 0;

@@ -1,3 +1,0 @@
-        OMElement ${varname}Elm = fac.createOMElement("${varname}", omNs);
-        ${varname}Elm.setText(String.valueOf(${serviceresult}));
-        result.addChild(${varname}Elm);
