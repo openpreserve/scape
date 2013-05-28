@@ -61,24 +61,37 @@ public class PipedArgsParserTest {
         LOG.info("TEST parse");
         PipedArgsParser parser = new PipedArgsParser();
 
-        LOG.info("TEST good input");
-        String strCmdLine = "\"hdfs:///file.in\" > a-tool a-action --input1=\"bla\" --input3=\"5\" > \"file with spaces.out\"";
+        LOG.info("TEST good input, dashes in keys");
+        String strCmdLine = "a-tool a-action --input-one=\"bla\" --input-two=\"5\"";
         parser.parse(strCmdLine);
 
         Command command1 = parser.new Command();
         command1.action = "a-action";
         command1.tool = "a-tool";
         command1.pairs = new HashMap<String, String>() {{
-            put("input1", "bla");
-            put("input3", "5");
+            put("input-one", "bla");
+            put("input-two", "5");
         }};
 
         Command[] commandsExp = {
             command1
         };
+
+        assertEquals(commandsExp, parser.getCommands());
+
+        LOG.info("TEST good input");
+        strCmdLine = "\"hdfs:///file.in\" > a-tool a-action --input1=\"bla\" --input3=\"5\" > \"file with spaces.out\"";
+        parser.parse(strCmdLine);
+
+        command1.pairs = new HashMap<String, String>() {{
+            put("input1", "bla");
+            put("input3", "5");
+        }};
+
         assertEquals(commandsExp, parser.getCommands());
         assertEquals("hdfs:///file.in", parser.getStdinFile() );
         assertEquals("file with spaces.out", parser.getStdoutFile() );
+
 
         LOG.info("TEST good input, stdin only");
         strCmdLine = "file.in > a-tool a-action --input1=\"bla\" --input3=\"5\"";
