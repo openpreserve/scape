@@ -23,13 +23,12 @@ int main(int argc, char* argv[])
 		// init command line parser
 			TCLAP::CmdLine cmd("Command description message", ' ', "0.9");
 
-			TCLAP::ValueArg<string> argOutput("d","dir","Output directory for feature files.",false,"","string");
-			cmd.add( argOutput );
-
+			TCLAP::ValueArg<string>          argOutput("d", "dir",  "Output directory for feature files.", false,"", "string");
+			TCLAP::UnlabeledValueArg<string> file1Arg (     "file", "image file to extract features from", true, "", "file", false);
 			TCLAP::SwitchArg argVerbose("v","verbose","Provide additional debugging output",false);
-			cmd.add( argVerbose );
 
-			TCLAP::UnlabeledValueArg<std::string> file1Arg("file", "image file to extract features from", true, "", "file", false);
+			cmd.add( argOutput );
+			cmd.add( argVerbose );
 			cmd.add( file1Arg );
 
 		// init characterization

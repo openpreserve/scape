@@ -56,3 +56,27 @@ void TaskFactory::loadData( list<Feature*> tasks)
 		task->loadData();
 	}
 }
+
+Feature* TaskFactory::createTaskfromFilename( string* name )
+{
+	if (name->find(ImageMetadata::TASK_NAME) != -1)
+	{
+		return new ImageMetadata();
+	}
+	else if (name->find(ImageHistogram::TASK_NAME) != -1)
+	{
+		return new ImageHistogram();
+	}
+	else if (name->find(ImageProfile::TASK_NAME) != -1)
+	{
+		return new ImageProfile();
+	}
+	else if (name->find(SIFTComparison::TASK_NAME) != -1)
+	{
+		return new SIFTComparison();
+	}
+	else if (name->find(BOWHistogram::TASK_NAME) != -1)
+	{
+		return new BOWHistogram();
+	}
+}

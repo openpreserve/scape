@@ -17,15 +17,11 @@ int main(int argc, char* argv[])
 			TCLAP::CmdLine cmd("Command description message", ' ', "0.9");
 
 			TCLAP::UnlabeledValueArg<std::string> file1Arg("file1", "file 1 that should be compared", true, "", "file1", false);
-			cmd.add( file1Arg );
-
 			TCLAP::UnlabeledValueArg<std::string> file2Arg("file2", "file 2 that should be compared", true, "", "file2", false);
-			cmd.add( file2Arg );
-
-			TCLAP::ValueArg<int> argLevel("l","level","Comparison Level (1-4)",false,0,"int");
-			cmd.add( argLevel );
-
 			TCLAP::SwitchArg argVerbose("v","verbose","Provide additional debugging output",false);
+
+			cmd.add( file1Arg );
+			cmd.add( file2Arg );
 			cmd.add( argVerbose );
 
 		// init comparison
@@ -43,11 +39,10 @@ int main(int argc, char* argv[])
 			string file1   = file1Arg.getValue();
 			string file2   = file2Arg.getValue();
 
-			comp->setLevel(argLevel.getValue());
-
 			// compare xml files
-			comp->read(&file1, &file2);
+			comp->createTasks(&file1, &file2);
 			comp->parseCommandLineArgs();
+			comp->read(&file1, &file2);
 			
 		// execute comparison
 			comp->execute();

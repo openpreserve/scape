@@ -375,7 +375,7 @@ def processExtractFeatures(queue, numThreads):
 # @param only:   
 #   
 '''
-def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featdir = "", only = "", downsample = 1000000):
+def extractFeatures(config, collectiondir, sdk, numThreads = 1, clahe = 1, featdir = "", only = "", downsample = 1000000, verbose=False):
 
     queue = Queue.Queue()
     
@@ -495,14 +495,19 @@ def extractFilename(path):
 # @param bowsize:   
 #
 '''      
-def calculateBoW(config, featdir, filenameFilter, clusterCenters = 0, bowsize = 1000):
+def calculateBoW(config, featdir, filenameFilter, clusterCenters = 0, bowsize = 1000, verbose=False):
     
-    call([config['BIN_TRAIN'], 
+    cmd = [config['BIN_TRAIN'], 
           "--bowsize",    str(bowsize), 
           "--precluster", '{0}'.format(clusterCenters), 
           "--filter",     filenameFilter, 
           "-o",           "{0}/{1}".format(featdir,BOW_FILE_NAME), 
-          featdir])
+          featdir]
+    
+    if verbose:
+        cmd.append("-v")
+    
+    call()
 
 '''
 # ============================================
@@ -517,14 +522,16 @@ def calculateBoW(config, featdir, filenameFilter, clusterCenters = 0, bowsize = 
 # @param path: the path that should be cleaned
 #
 '''   
-def clearDirectory(path):
+def clearDirectory(path,verbose=False):
     
     for currentFile in glob.glob( os.path.join(path, '*.feat.xml.gz')):
-        print "... deleting {0}".format(currentFile)
+        if verbose:
+            print "... deleting {0}".format(currentFile)
         os.remove(currentFile)
         
     for currentFile in glob.glob( os.path.join(path, BOW_FILE_NAME)):
-        print "... deleting {0}".format(currentFile)
+        if verbose:
+            print "... deleting {0}".format(currentFile)
         os.remove(currentFile)
             
 '''
@@ -1047,38 +1054,82 @@ def compare(config, f1, f2, feature, valueName):
 # @return: loaded data
 #
 ''' 
-def pyFindDuplicates_SpatialVerification(config, featureDirectory, csv):
+def pyFindDuplicates_SpatialVerification(config, featureDirectory, csv, threads=1):
     
     # initialize hardcoded values
     
     # declare variables
     
     # load distance matrix
-    shortlist = getShortLists(featureDirectory, 4)
+    shortlist = getShortLists(featureDirectory, 3)
     
     idx = 1
     
+    collection_entries = {}
+    duplicates = set()
+    
+    
     for (query,neighbors) in shortlist:
         
-        result, kill = runSpatialVerification(config, query, neighbors, 4)
         
-        duplicates = []
+        result, kill = runSpatialVerification(config, query, neighbors, numThreads=threads)
         
         for r in result:
-            
             if r[0] >= 0.7:
                 
+                if not collection_entries.has_key(query.replace("\\", "/").split("/")[-1].split(".")[0]):
+                    if collection_entries.has_key(r[1].replace("\\", "/").split("/")[-1].split(".")[0]):
+                        collection_entries[query.replace("\\", "/").split("/")[-1].split(".")[0]] = collection_entries[r[1].replace("\\", "/").split("/")[-1].split(".")[0]]
+                    else:
+                        collection_entries[query.replace("\\", "/").split("/")[-1].split(".")[0]] = set()
+                    
+                collection_entries[query.replace("\\", "/").split("/")[-1].split(".")[0]].add(query.replace("\\", "/").split("/")[-1].split(".")[0])
                 
-                duplicates.append(int(r[1].replace("\\", "/").split("/")[-1].split(".")[0]))
-        
-        duplicates.sort()
-        
-        if len(duplicates) > 0:
-            print "[{0} of {1}] {2} => {3}".format(idx, len(shortlist), int(query.replace("\\", "/").split("/")[-1].split(".")[0]), duplicates)
-        else:
-            print "[{0} of {1}] {2}".format(idx, len(shortlist), int(query.replace("\\", "/").split("/")[-1].split(".")[0]))
-            
+
+                if not collection_entries.has_key(r[1].replace("\\", "/").split("/")[-1].split(".")[0]):
+                    if collection_entries.has_key(query.replace("\\", "/").split("/")[-1].split(".")[0]):
+                        collection_entries[r[1].replace("\\", "/").split("/")[-1].split(".")[0]] = collection_entries[query.replace("\\", "/").split("/")[-1].split(".")[0]]
+                    else:
+                        collection_entries[r[1].replace("\\", "/").split("/")[-1].split(".")[0]] = set()
+                    
+                collection_entries[r[1].replace("\\", "/").split("/")[-1].split(".")[0]].add(r[1].replace("\\", "/").split("/")[-1].split(".")[0])
+                
+                collection_entries[query.replace("\\", "/").split("/")[-1].split(".")[0]].update(collection_entries[r[1].replace("\\", "/").split("/")[-1].split(".")[0]])
+                
+                for key in collection_entries[query.replace("\\", "/").split("/")[-1].split(".")[0]]:
+                    collection_entries[key] = collection_entries[query.replace("\\", "/").split("/")[-1].split(".")[0]]
+                
+                
+        print "[{0} of {1}]".format(idx, len(shortlist))
+
         idx += 1
+
+    map(lambda x: duplicates.add(frozenset(x)), collection_entries.values())
+    
+    print "\n=== Summary ==============================================\n"
+    
+    print "{0} sets of duplicates detected".format(len(duplicates))
+    
+    
+    list_duplicates = []
+    
+    for x in duplicates:
+        
+        list_item = []
+        
+        for y in sorted(x, key=lambda item: (int(item.partition(' ')[0])
+                               if item[0].isdigit() else float('inf'), item)):
+            
+            list_item.append(y)
+            
+        list_duplicates.append(list_item)
+    
+    
+    for x in sorted(list_duplicates):
+        
+        print x
+
+    print "\n==========================================================\n"
 
 
 def dispKeypoints(filename1, filename2):

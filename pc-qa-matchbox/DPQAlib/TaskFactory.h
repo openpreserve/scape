@@ -23,4 +23,5 @@ public:
 	static Feature* createTask(FileNode node, int& level);
 	static void     copyCmdlineArgument(Feature* src, Feature* dest);
 	static void     loadData( list<Feature*> tasks );
+	static Feature* createTaskfromFilename( string* file1 );
 };

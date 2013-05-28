@@ -197,6 +197,7 @@ Mat RobustMatcher::match(vector<KeyPoint>& keypoints1,
 								 {
 									 if (ratio > 1)
 									 {
+										 VerboseOutput::println("RobustMatcher", "RobustMatcher cannot find enough matches to create fundamental matrix");
 										 throw runtime_error("RobustMatcher cannot find enough matches to create fundamental matrix");
 									 }
 

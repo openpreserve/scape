@@ -9,8 +9,9 @@
 #include "DoubleOutputParameter.h"
 
 #include "ErrorOutputParameter.h"
-#include "opencv2/features2d/features2d.hpp"
+//#include "opencv2/features2d/features2d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
+#include "opencv2/nonfree/nonfree.hpp"
 
 #include "opencv/cv.h"
 
@@ -37,15 +38,15 @@ private:
 	Mat              descriptors;
 	vector<KeyPoint> keypoints;
 	double           scale;
-	double           dispersion;
-	double           uniformity;
-	double           sizeVariation;
 
 	// commandline arguments
 	int              sdk;
 	int              clahe;
-	int              numClusterCenters;
 	int              maxResolution;
+	bool             binaryInput;
+	bool             binaryOutput;
+	bool             binaryOnly;
+
 
 	vector<DMatch>   calcGoodMatches(vector<DMatch>& matches);
 	Mat              calcAffineTransform(vector<DMatch>& matches, vector<KeyPoint>& keypointsTrain, vector<KeyPoint>& keypointsQuery, double scale2);

@@ -86,7 +86,6 @@ if __name__ == '__main__':
     config = configs[args['config']]
     
     
-    
     # ===============================================================================
     # action: clean
     # ===============================================================================
@@ -99,7 +98,7 @@ if __name__ == '__main__':
         
         MatchboxLib.clearDirectory(args['dir'])
         if len(args['featdir']) > 0:
-            MatchboxLib.clearDirectory(args['featdir'])
+            MatchboxLib.clearDirectory(args['featdir'],args['verbose'])
         exit()
     
     # ===============================================================================
@@ -112,7 +111,7 @@ if __name__ == '__main__':
         
         print "\n=== extracting features from directory {0} ===\n".format(args['dir'])
         
-        MatchboxLib.extractFeatures(config, args['dir'], args['sdk'],args['threads'], args['clahe'], args['featdir'], "SIFTComparison",args['downsample'])
+        MatchboxLib.extractFeatures(config, args['dir'], args['sdk'],args['threads'], args['clahe'], args['featdir'], "SIFTComparison",args['downsample'],args['verbose'])
     
     # ===============================================================================
     # action: train
@@ -129,7 +128,7 @@ if __name__ == '__main__':
         if len(args['featdir']) > 0:
             dir = args['featdir']
         
-        MatchboxLib.calculateBoW(config, dir, ".SIFTComparison.feat.xml.gz", args['precluster'], args['bowsize'])
+        MatchboxLib.calculateBoW(config, dir, ".SIFTComparison.feat.xml.gz", args['precluster'], args['bowsize'],args['verbose'])
     
     # ===============================================================================
     # action: bowhist
@@ -164,4 +163,4 @@ if __name__ == '__main__':
             dir = args['featdir']
             
         #MatchboxLib.pyFindDuplicates(config, dir, args['csv'])
-        MatchboxLib.pyFindDuplicates_SpatialVerification(config, dir, args['csv'])
+        MatchboxLib.pyFindDuplicates_SpatialVerification(config, dir, args['csv'], args['threads'])
