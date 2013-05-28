@@ -27,7 +27,7 @@ fi
 
 STRING=""
 cd $1
-for i in $(ls digital-preservation-migration*.xml);
+for i in $(ls digital-preservation-characterisation*.xml);
 do
 	DEP_NAME=`echo -n $i | sed 's#.xml$##'`
 	case $DEP_NAME in

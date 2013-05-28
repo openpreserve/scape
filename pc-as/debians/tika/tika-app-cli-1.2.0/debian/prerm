@@ -21,7 +21,7 @@ case "$1" in
     remove|upgrade|deconfigure)
 		rm /usr/bin/tika-app-cli
 		rm /usr/share/tika-app-cli/executeJar.sh
-		rm /usr/share/tika-app-cli/tika-app-1.2.jar
+		rm /usr/share/tika-app-cli/tika-app-1.3.jar
     ;;
 
     failed-upgrade)

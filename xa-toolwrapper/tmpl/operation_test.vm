@@ -1,5 +1,0 @@
-    public void ${operationname}(${parameters}) {
-        ${inputsection}
-        execute();
-        ${outputsection}
-    }

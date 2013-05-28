@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://scape-project.eu/tool" elementFormDefault="qualified"
+	xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+
+	<xs:annotation>
+		<xs:documentation>This schema ...</xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="tool" type="Tool"/>
+
+	<xs:complexType name="Tool">
+		<xs:annotation>
+			<xs:documentation>A command line tool.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="installation" type="Installation" minOccurs="0"/>
+			<xs:element name="operations" type="Operations"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="nonEmptyString" use="required"/>
+		<xs:attribute name="version" type="nonEmptyString" use="required"/>
+		<xs:attribute name="homepage" type="xs:anyURI"/>
+		<xs:attribute name="schemaVersion" type="xs:decimal" use="required"/>
+	</xs:complexType>
+
+
+	<xs:complexType name="Installation">
+		<xs:annotation>
+			<xs:documentation>Declares 1 or more installation dependencies and
+				license.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="dependencies" type="OperatingSystemDependency" maxOccurs="unbounded"
+				minOccurs="0"/>
+			<xs:element name="license" type="License" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="License">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="LicenseNameVersion" use="required"/>
+				<xs:attribute name="otherName" type="xs:string" use="optional"/>
+				<xs:attribute name="type" type="LicenseType" use="optional"/>
+				<xs:attribute name="otherType" type="xs:string" use="optional"/>
+				<xs:attribute name="uri" type="xs:anyURI" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="LicenseNameVersion">
+		<xs:restriction base="xs:string">
+			<!-- licenses from http://opensource.org/licenses -->
+			<xs:enumeration value="AFL-3.0"/>
+			<xs:enumeration value="AGPL-3.0"/>
+			<xs:enumeration value="APL-1.0"/>
+			<xs:enumeration value="Apache-2.0"/>
+			<xs:enumeration value="APSL-2.0"/>
+			<xs:enumeration value="Artistic-2.0"/>
+			<xs:enumeration value="AAL"/>
+			<!--<xs:enumeration value="BSD-3-Clause"/>-->
+			<!--<xs:enumeration value="BSD-2-Clause"/>-->
+			<xs:enumeration value="BSL-1.0"/>
+			<xs:enumeration value="CATOSL-1.1"/>
+			<xs:enumeration value="CDDL-1.0"/>
+			<xs:enumeration value="CPAL-1.0"/>
+			<xs:enumeration value="CUA-OPL-1.0"/>
+			<xs:enumeration value="EUDatagrid"/>
+			<xs:enumeration value="EPL-1.0"/>
+			<xs:enumeration value="ECL-2.0"/>
+			<xs:enumeration value="EFL-2.0"/>
+			<xs:enumeration value="Entessa"/>
+			<xs:enumeration value="EUPL-1.1"/>
+			<xs:enumeration value="Fair"/>
+			<xs:enumeration value="Frameworx-1.0"/>
+			<xs:enumeration value="AGPL-3.0"/>
+			<xs:enumeration value="GPL-2.0"/>
+			<xs:enumeration value="GPL-3.0"/>
+			<xs:enumeration value="LGPL-2.1"/>
+			<xs:enumeration value="LGPL-3.0"/>
+			<xs:enumeration value="HPND"/>
+			<xs:enumeration value="IPL-1.0"/>
+			<xs:enumeration value="IPA"/>
+			<xs:enumeration value="ISC"/>
+			<xs:enumeration value="LPPL-1.3c"/>
+			<xs:enumeration value="LPL-1.02"/>
+			<xs:enumeration value="MirOS"/>
+			<xs:enumeration value="MS-PL"/>
+			<xs:enumeration value="MS-RL"/>
+			<xs:enumeration value="MIT"/>
+			<xs:enumeration value="Motosoto"/>
+			<xs:enumeration value="MPL-2.0"/>
+			<xs:enumeration value="Multics"/>
+			<xs:enumeration value="NASA-1.3"/>
+			<xs:enumeration value="NTP"/>
+			<xs:enumeration value="Naumen"/>
+			<xs:enumeration value="NGPL"/>
+			<xs:enumeration value="Nokia"/>
+			<xs:enumeration value="NPOSL-3.0"/>
+			<xs:enumeration value="OCLC-2.0"/>
+			<xs:enumeration value="OFL-1.1"/>
+			<xs:enumeration value="OGTSL"/>
+			<xs:enumeration value="OSL-3.0"/>
+			<xs:enumeration value="PHP-3.0"/>
+			<xs:enumeration value="PostgreSQL"/>
+			<xs:enumeration value="Python-2.0"/>
+			<xs:enumeration value="CNRI-Python"/>
+			<xs:enumeration value="QPL-1.0"/>
+			<xs:enumeration value="RPSL-1.0"/>
+			<xs:enumeration value="RPL-1.5"/>
+			<xs:enumeration value="RSCPL"/>
+			<xs:enumeration value="SimPL-2.0"/>
+			<xs:enumeration value="Sleepycat"/>
+			<xs:enumeration value="SPL-1.0"/>
+			<xs:enumeration value="Watcom-1.0"/>
+			<xs:enumeration value="NCSA"/>
+			<xs:enumeration value="VSL-1.0"/>
+			<xs:enumeration value="W3C"/>
+			<xs:enumeration value="WXwindows"/>
+			<xs:enumeration value="Xnet"/>
+			<xs:enumeration value="ZPL-2.0"/>
+			<xs:enumeration value="Zlib"/>
+
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="LicenseType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FLOSS"/>
+			<xs:enumeration value="CC"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Dependency">
+		<xs:sequence>
+			<xs:element name="license" type="License" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="OperatingSystemDependency">
+		<xs:annotation>
+			<xs:documentation>Declares an operating system dependency.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<!--<xs:element name="packageManagerConfig" type="PackageManagerConfig" minOccurs="1"
+				maxOccurs="unbounded"/>-->
+			<xs:element name="packageManager" type="PackageManager" minOccurs="1"
+				maxOccurs="unbounded"/>
+			<xs:element name="dependency" type="Dependency" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="operatingSystemName" type="OperatingSystemName" use="required"/>
+		<xs:attribute name="otherOperatingSystemName" type="xs:string"/>
+		<xs:attribute name="operatingSystemVersion" type="xs:string"/>
+	</xs:complexType>
+
+	<xs:simpleType name="OperatingSystemName">
+		<xs:annotation>
+			<xs:documentation>The operating system name. Use "Other" together with
+				@otherOperatingSystemName to specify a different operating
+				system.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Debian"/>
+			<xs:enumeration value="Ubuntu"/>
+			<xs:enumeration value="Redhat"/>
+			<xs:enumeration value="CentOS"/>
+			<xs:enumeration value="Windows"/>
+			<xs:enumeration value="MacOS"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="PackageManager">
+		<xs:sequence>
+			<xs:element name="config" type="ExtensionComplexType"/>
+			<xs:element name="source" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="type" type="PackageManagerType" use="required"/>
+		<xs:attribute name="otherType" type="xs:string" use="optional"/>
+	</xs:complexType>
+
+	<!-- extensionComplexType -->
+	<xs:complexType name="ExtensionComplexType" mixed="true">
+		<xs:sequence>
+			<xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="PackageManagerType">
+		<xs:annotation>
+			<xs:documentation>The type of package manager. Use "Other" together with @otherFormat to
+				specify a different package manager.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Dpkg"/>
+			<xs:enumeration value="RPM"/>
+			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="nonEmptyString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="InOut">
+		<xs:sequence>
+			<xs:element name="format" type="Format" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="InOutAttrs">
+		<xs:complexContent>
+			<xs:extension base="InOut">
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attribute name="required" type="xs:boolean"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Format" mixed="false">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="registryName" type="xs:string" use="required"/>
+				<xs:attribute name="version" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="Inputs">
+		<xs:sequence maxOccurs="1" minOccurs="1">
+			<xs:element name="stdin" type="Stdin" maxOccurs="1" minOccurs="0"/>
+			<xs:element name="input" type="Input" maxOccurs="unbounded" minOccurs="0"/>
+			<xs:element name="parameter" type="Parameter" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Input">
+		<xs:complexContent>
+			<xs:extension base="InOutAttrs">
+				<xs:sequence>
+					<xs:element name="defaultValue" type="xs:string" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Parameter">
+		<xs:complexContent>
+			<xs:extension base="InOutAttrs">
+				<xs:sequence>
+					<xs:element name="defaultValue" type="xs:string" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Stdin">
+		<xs:complexContent>
+			<xs:extension base="InOut">
+				<xs:attribute name="required" type="xs:boolean"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Outputs">
+		<xs:sequence>
+			<xs:element name="stdout" type="Stdout" maxOccurs="1" minOccurs="0"/>
+			<xs:element name="output" type="Output" maxOccurs="unbounded" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Output">
+		<xs:complexContent>
+			<xs:extension base="InOutAttrs">
+				<xs:sequence>
+					<xs:element name="extension" type="xs:string" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Stdout">
+		<xs:complexContent>
+			<xs:extension base="InOut"> </xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="Operations">
+		<xs:annotation>
+			<xs:documentation>Declares 1 or more operations provided by the tool.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="operation" type="Operation" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Operation">
+		<xs:sequence>
+			<xs:element name="description" type="xs:string"/>
+			<xs:element name="command" type="xs:string"/>
+			<xs:element name="inputs" type="Inputs"/>
+			<xs:element name="outputs" type="Outputs"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+	</xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,16 @@
+Source: digital-preservation-tools-quality-assurance
+Section: misc
+Priority: extra
+Maintainer: Hélder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+
+Package: digital-preservation-tools-quality-assurance
+Architecture: all
+Depends: ${misc:Depends},digital-preservation-qa-web-pagelyzer-changedetection,digital-preservation-qa-audio-xcorrsound-migrationqa
+Description: Metapackage for digital preservation quality assurance tools 
+ This package was developed in the context of SCAPE project.
+ The SCAPE project is co-funded by the European Union under 
+ FP7 ICT-2009.4.1 (Grant Agreement number 270137).
+ metapackage that contains reference for all scape digital
+ preservation quality assurance tools.

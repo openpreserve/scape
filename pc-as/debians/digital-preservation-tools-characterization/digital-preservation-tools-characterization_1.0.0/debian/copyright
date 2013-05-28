@@ -1,0 +1,6 @@
+Format: http://dep.debian.net/deps/dep5
+Upstream-Name: digital-preservation-tools-characterization
+
+Files: *
+Copyright: 2012 SCAPE project <hsilva@keep.pt>
+License: Apache-2.0

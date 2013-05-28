@@ -1,2 +1,0 @@
-        // Output: ${output_variable}
-        boolean ${output_variable} = false;

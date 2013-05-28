@@ -1,0 +1,16 @@
+Source: digital-preservation-tools
+Section: misc
+Priority: extra
+Maintainer: Hélder Silva <hsilva@keep.pt>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+
+Package: digital-preservation-tools
+Architecture: all
+Depends: ${misc:Depends},digital-preservation-tools-characterization,digital-preservation-tools-migration,digital-preservation-tools-quality-assurance
+Description: Metapackage for digital preservation tools 
+ This package was developed in the context of SCAPE project.
+ The SCAPE project is co-funded by the European Union under 
+ FP7 ICT-2009.4.1 (Grant Agreement number 270137).
+ metapackage that contains reference for all scape digital
+ preservation tools.
