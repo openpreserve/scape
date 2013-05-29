@@ -297,7 +297,8 @@ class ThreadedVerification(threading.Thread):
 #                    print t_diff
                     estimated_time = (float(t_diff) / float(ThreadedVerification.current_idx+1)) * float(self.initialListSize - ThreadedVerification.current_idx - 1)
 #                    print estimated_time
-                    print "[{0} of {1}] {2}, {3}, {4}, {5}, {6}".format(ThreadedVerification.current_idx, self.initialListSize, (query_key,neighbor_key), ssim, job_id, int(t_diff), int(estimated_time))
+                    #print "[{0} of {1}] {2}, {3}, {4}, {5}, {6}".format(ThreadedVerification.current_idx, self.initialListSize, (query_key,neighbor_key), ssim, job_id, int(t_diff), int(estimated_time))
+                    print "[{0} of {1}] {2}, {3}".format(ThreadedVerification.current_idx, self.initialListSize, (query_key,neighbor_key), ssim)
                     ThreadedVerification.current_idx += 1
                     ThreadedVerification.incrementLock.release()
                 
@@ -1463,75 +1464,75 @@ def pyFindDuplicates_SpatialVerification_fast(config, featureDirectory, csv, thr
     
     job_id = 0
     
-#    tmp_idx = 0
-#    
-#    for (query_filepath, shortlist) in list_of_shortlists:
-#        
-#        
-##        if tmp_idx > 20:
-##            break
-#
-#        query_key = getFilename(query_filepath)
-#        
-#        for neighbor_filepath, distance in shortlist:
-#            
-#            tmp_idx += 1
-#            
-#            neighbor_key = getFilename(neighbor_filepath)
-#            
-##            if (query_key,neighbor_key) not in combinations and (neighbor_key,query_key) not in combinations:
-##                document_image_collection_entries.append([query_key,neighbor_key, query_filepath,neighbor_filepath, job_id])
-##                combinations.add((query_key,neighbor_key))
-#            document_image_collection_entries.append([query_key,neighbor_key, query_filepath,neighbor_filepath, job_id])
-#            combinations.add((query_key,neighbor_key))
-#                
-#        job_id += 1
-#                
-#
-#    document_image_collection_entries = sorted(document_image_collection_entries)
-#    
-#    for query_key,neighbor_key, query_filepath,neighbor_filepath, job_id in document_image_collection_entries:
-#                
-#        job = [(query_key,neighbor_key), (query_filepath,neighbor_filepath), job_id]
-#        jobs.put_nowait(job)
-#                
-#    
-#    initialListSize = jobs.qsize()
-#    
-#    # start worker threads
-#    for i in range(threads):
-#        
-#        # create thread and provide config and queues
-#        worker = ThreadedVerification(config, jobs, results, initialListSize, binary)
-#        pool_ExtractFeaturesWorker.append(worker)
-#        
-#        # start thread
-#        worker.start()
-#    
-#    # wait for all threads to finish
-#    while len(pool_ExtractFeaturesWorker) > 0:
-#        try:
-#            # Join all threads using a timeout so it doesn't block
-#            # Filter out threads which have been joined or are None
-#            for thread in pool_ExtractFeaturesWorker:
-#                thread.join()
-#                if not thread.isAlive():
-#                    pool_ExtractFeaturesWorker.remove(thread)
-#            
-#        except KeyboardInterrupt:
-#            
-#            # control-c detected - shut down threads and terminate
-#            print "Ctrl-c received! Sending kill to threads..."
-#            
-#            kill_received = True
-#            for t in pool_ExtractFeaturesWorker:
-#                t.kill_received = True   
+    tmp_idx = 0
+    
+    for (query_filepath, shortlist) in list_of_shortlists:
+        
+        
+#        if tmp_idx > 20:
+#            break
+
+        query_key = getFilename(query_filepath)
+        
+        for neighbor_filepath, distance in shortlist:
+            
+            tmp_idx += 1
+            
+            neighbor_key = getFilename(neighbor_filepath)
+            
+#            if (query_key,neighbor_key) not in combinations and (neighbor_key,query_key) not in combinations:
+#                document_image_collection_entries.append([query_key,neighbor_key, query_filepath,neighbor_filepath, job_id])
+#                combinations.add((query_key,neighbor_key))
+            document_image_collection_entries.append([query_key,neighbor_key, query_filepath,neighbor_filepath, job_id])
+            combinations.add((query_key,neighbor_key))
+                
+        job_id += 1
+                
+
+    document_image_collection_entries = sorted(document_image_collection_entries)
+    
+    for query_key,neighbor_key, query_filepath,neighbor_filepath, job_id in document_image_collection_entries:
+                
+        job = [(query_key,neighbor_key), (query_filepath,neighbor_filepath), job_id]
+        jobs.put_nowait(job)
+                
+    
+    initialListSize = jobs.qsize()
+    
+    # start worker threads
+    for i in range(threads):
+        
+        # create thread and provide config and queues
+        worker = ThreadedVerification(config, jobs, results, initialListSize, binary)
+        pool_ExtractFeaturesWorker.append(worker)
+        
+        # start thread
+        worker.start()
+    
+    # wait for all threads to finish
+    while len(pool_ExtractFeaturesWorker) > 0:
+        try:
+            # Join all threads using a timeout so it doesn't block
+            # Filter out threads which have been joined or are None
+            for thread in pool_ExtractFeaturesWorker:
+                thread.join()
+                if not thread.isAlive():
+                    pool_ExtractFeaturesWorker.remove(thread)
+            
+        except KeyboardInterrupt:
+            
+            # control-c detected - shut down threads and terminate
+            print "Ctrl-c received! Sending kill to threads..."
+            
+            kill_received = True
+            for t in pool_ExtractFeaturesWorker:
+                t.kill_received = True   
     
     
-    results_npz = np.load(os.path.join(featureDirectory, "matchbox_data_results.npz"))
-    results = results_npz["results"].tolist()
+    #results_npz = np.load(os.path.join(featureDirectory, "matchbox_data_results.npz"))
+    #results = results_npz["results"].tolist()
     
-    np.savez(os.path.join(featureDirectory, "matchbox_data_results"), results=results)
+    #np.savez(os.path.join(featureDirectory, "matchbox_data_results"), results=results)
     
     results = sorted(results)
 
