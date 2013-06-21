@@ -58,7 +58,7 @@
 		<module>scape-core</module>
 		<module>scape-java-services</module>
 		<module>xa-pit</module>
-		<module>xa-toolwrapper</module>
+		<!--module>xa-toolwrapper</module-->
 		<module>pc-cc-jpylyzer-wrapper</module>
 	</modules>
 	<!-- Global build options. -->
