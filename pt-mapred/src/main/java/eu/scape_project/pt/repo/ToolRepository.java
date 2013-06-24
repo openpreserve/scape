@@ -85,25 +85,18 @@ public class ToolRepository implements Repository{
      * @return
      * @throws FileNotFoundException 
      */
-    public Tool getTool( String strTool ) throws FileNotFoundException {
+    public Tool getTool( String strTool ) throws IOException {
         Path file = new Path( 
                 repo_dir.toString() + System.getProperty("file.separator") 
                 + getToolName( strTool ) );
 
         FSDataInputStream fis = null;
-        try {
-            fis = fs.open( file );
-        } catch (IOException ex) {
-            LOG.error(ex);
-            return null;
-        }
-
+        fis = fs.open( file );
         try {
             return fromInputStream( fis );
         } catch (JAXBException ex) {
-            LOG.error(ex);
+            throw new IOException(ex);
         }
-        return null;
     }
 
     @Override
