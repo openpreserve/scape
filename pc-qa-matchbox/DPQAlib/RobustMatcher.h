@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "VerboseOutput.h"
+
 using namespace std;
 using namespace cv;
 

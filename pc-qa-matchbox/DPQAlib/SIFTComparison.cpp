@@ -1,27 +1,29 @@
 #include "SIFTComparison.h"
+#include "BoostSerializer.h"
 
 const string SIFTComparison::TASK_NAME = "SIFTComparison";
 
-TCLAP::ValueArg<int> argSDK       ("","sdk"  ,      "[SIFTComparison] Number of Spatial Distinctive Keypoints (0 = no SDK)",                   false,0 ,"int");
-TCLAP::ValueArg<int> argCLAHE     ("","clahe",      "[SIFTComparison] Value of adaptive contrast enhancement (1 = no enhancement)",            false,1 ,"int");
-TCLAP::ValueArg<int> argPRECLUSTER("","precluster", "[SIFTComparison] Number of descriptors to select in preclustering (0 = no preclustering)",false,0 ,"int");
-TCLAP::ValueArg<int> argDOWNSAMPLE("","downsample", "[SIFTComparison] Sample the image down to this resolution"                               ,false,1000000 ,"int");
+TCLAP::ValueArg<int> argSDK          ("","sdk"  ,         "[SIFTComparison] Number of Spatial Distinctive Keypoints (0 = no SDK)",                   false,0 ,"int");
+TCLAP::ValueArg<int> argCLAHE        ("","clahe",         "[SIFTComparison] Value of adaptive contrast enhancement (1 = no enhancement)",            false,1 ,"int");
+TCLAP::ValueArg<int> argDOWNSAMPLE   ("","downsample",    "[SIFTComparison] Sample the image down to this resolution",                               false,1000000 ,"int");
+TCLAP::SwitchArg     argBinaryOutput ("","binary",        "[SIFTComparison] Store extracted features also as binary archives",                       false);
+TCLAP::SwitchArg     argBinaryInput  ("","binary",        "[SIFTComparison] Load extracted features from binary archives",                           false);
+TCLAP::SwitchArg     argBinaryOnly   ("","binaryonly",    "[SIFTComparison] Store extracted features only as binary archives",                       false);
+
 
 SIFTComparison::SIFTComparison(void):Level3Feature()
 {
 	name          = TASK_NAME;
 	scale         = 1;
 
-	dispersion    = -1;
-	uniformity    = -1;
-	sizeVariation = -1;
-
 	addCharacterizationCommandlineArgument(&argSDK);
 	addCharacterizationCommandlineArgument(&argCLAHE);
-	addCharacterizationCommandlineArgument(&argPRECLUSTER);
+	addCharacterizationCommandlineArgument(&argBinaryOutput);
+	addCharacterizationCommandlineArgument(&argBinaryOnly);
 	addCharacterizationCommandlineArgument(&argDOWNSAMPLE);
 
 	addComparisonCommandlineArgument(&argSDK);
+	addComparisonCommandlineArgument(&argBinaryInput);
 }
 
 SIFTComparison::~SIFTComparison(void)
@@ -112,24 +114,28 @@ vector<int> SIFTComparison::findSpatiallyDistinctiveLocalKeypoints(Mat& image, v
 
 void SIFTComparison::execute(Mat& img)
 {
-	Feature::verbosePrintln(string("extracting features"));
+	Feature::verbosePrintln(string("execute"));
 
-	image = img.clone();
+	Feature::verbosePrintln(string("...extracting features"));
+
+	Mat& image = img;
 
 	// too big images may fail to be processed due to resource limitations (e.g. internal memory)
 	if ((img.rows * img.cols) > maxResolution)
 	{
 		// downsample image to approx. MAX_IMAGE_RESOLUTION
-		Feature::verbosePrintln(string("downsampling image"));
-		image = downsample(image);
+		VerboseOutput::println("SIFTComparison", "...orig. image resolution of %dx%d bigger than max. resolution of %d pixel", img.cols, img.rows, maxResolution);
+		Feature::verbosePrintln(string("...downsampling image"));
+		image = downsample(img);
+		VerboseOutput::println("SIFTComparison", "...new image resolution: %dx%d", image.cols, image.rows);
 		
 	}
-
+	
 	if (clahe != 1)
 	{
-		Feature::verbosePrintln(string("CLAHE"));
+		Feature::verbosePrintln(string("...CLAHE"));
 
-		Feature::verbosePrintln(string("Convert image to grayscale"));
+		Feature::verbosePrintln(string("...Convert image to grayscale"));
 		cvtColor( image, image, CV_RGB2GRAY );
 
 		IplImage ipl_src  = image;
@@ -141,58 +147,36 @@ void SIFTComparison::execute(Mat& img)
 		Mat imgMat(&ipl_dest);
 		image = imgMat;
 
-		Feature::verbosePrintln(string("Convert image back to RGB"));
+		Feature::verbosePrintln(string("...Convert image back to RGB"));
 		cvtColor( image, image, CV_GRAY2BGR );
 	}
 
 	
 	try
 	{
-		vector<KeyPoint> kps;
-
 		// extract features
-		Feature::verbosePrintln(string("detecting keypoints"));
-		Ptr<SIFT> featureDetector = new SIFT();
+		Feature::verbosePrintln(string("...detecting keypoints"));
+		SIFT* featureDetector = new SIFT();
 		
-		Mat base;
-		
-		// workaround for SIFT-Feature detection bug in OpenCV Version 2.4.2
-		resize(image, base, Size(), 2, 2, INTER_CUBIC); // remove this line if bug is resolved
-		featureDetector->detect( base, kps );
-		for (int i=0;i<kps.size();i++) {                // remove this line if bug is resolved
-			kps[i].pt.x = kps[i].pt.x/2;                // remove this line if bug is resolved
-			kps[i].pt.y = kps[i].pt.y/2;                // remove this line if bug is resolved
-			kps[i].size = kps[i].size/2;                // remove this line if bug is resolved
-		}                                               // remove this line if bug is resolved
+		featureDetector->detect( image, keypoints );
 
-		
+		VerboseOutput::println("SIFTComparison", "...num keypoints: %d", keypoints.size());
+
 		if (sdk != 0)
 		{
-			 vector<int> indeces = findSpatiallyDistinctiveLocalKeypoints(image, kps);
-			 keypoints           = filterKeypoints(kps,indeces);
-		}
-		else
-		{
-			keypoints = kps;
-		}
-
-		if (keypoints.size() > 0)
-		{
-			dispersion    = calcDispersion( keypoints, image );
-			uniformity    = calcUniformity( keypoints );
-			sizeVariation = calcSizeVariation( keypoints );
+			 vector<int> indeces = findSpatiallyDistinctiveLocalKeypoints(image, keypoints);
+			 keypoints           = filterKeypoints(keypoints,indeces);
 		}
 
 		// calculate descriptors
-		Ptr<SiftDescriptorExtractor> descriptorExtractor = new SiftDescriptorExtractor();
-		Feature::verbosePrintln(string("computing descriptors"));
+		Feature::verbosePrintln(string("...computing descriptors"));
+		DescriptorExtractor* descriptorExtractor = new SiftDescriptorExtractor();
 		descriptorExtractor->compute( image, keypoints, descriptors );
 	
-		normalizeDescriptors(descriptors);
+		//normalizeDescriptors(descriptors);
+		
+		Feature::verbosePrintln(string("...Feature extraction done!"));
 
-		precluster(numClusterCenters);
-
-		Feature::verbosePrintln(string("Feature extraction done!"));
 	}
 	catch (Exception& ex)
 	{
@@ -201,22 +185,6 @@ void SIFTComparison::execute(Mat& img)
 		msg << "Error while extracting SIFT features: " << ex.msg;
 		throw runtime_error(msg.str());
 	}
-}
-
-void SIFTComparison::precluster( int clusterCenters )
-{	
-	if ((clusterCenters > 0) && (descriptors.rows > clusterCenters))
-	{
-		Feature::verbosePrintln(string("preclustering"));
-		Mat          labels;
-		TermCriteria tcrit;
-		int          attempts = 3;
-		Mat          centers;
-
-		kmeans(descriptors,clusterCenters,labels,tcrit,3, KMEANS_PP_CENTERS, centers);
-		descriptors = centers;
-	}
-
 }
 
 void SIFTComparison::compare(Feature *task)
@@ -264,38 +232,54 @@ void SIFTComparison::compare(Feature *task)
 			verbosePrintln(ss.str());
 		}
 
-		matcher.match(keypointsQuery, keypointsTrain, descriptorsQuery, descriptorsTrain, matches );
+		try
+		{
+			verbosePrintln("matching keypoints");
+			
+			matcher.match(keypointsQuery, keypointsTrain, descriptorsQuery, descriptorsTrain, matches );
 
-		verbosePrintln("number of matches = " + StringConverter::toString((int)matches.size()));
+			verbosePrintln("number of matches = " + StringConverter::toString((int)matches.size()));
 
-		Mat affineTransform = calcAffineTransform(matches, keypointsTrain, keypointsQuery, ((SIFTComparison*)task)->getScale());
+			Mat affineTransform = calcAffineTransform(matches, keypointsTrain, keypointsQuery, ((SIFTComparison*)task)->getScale());
 
-		
+			verbosePrintln(string("warp image"));
 
-		
+			Mat dst(matImageTrainOrig.size(),matImageTrainOrig.type());
+			warpAffine(matImageQueryOrig,dst,affineTransform,matImageTrainOrig.size(),INTER_LINEAR,BORDER_CONSTANT,0);
 
-		verbosePrintln(string("warp"));
+			double ssim = SSIM::calcSSIM(matImageTrainOrig, dst,-1);
 
-		Mat dst(matImageTrainOrig.size(),matImageTrainOrig.type());
-		warpAffine(matImageQueryOrig,dst,affineTransform,matImageTrainOrig.size(),INTER_LINEAR,BORDER_CONSTANT,0);
+			DoubleOutputParameter *ssimParam = new DoubleOutputParameter("ssim");
+			ssimParam->setData(ssim);
+			addOutputParameter(*ssimParam);
 
-		double ssim = SSIM::calcSSIM(matImageTrainOrig, dst,-1);
+			// create mask
+			Mat dstMask(matImageTrainOrig.size(),CV_8U);
+			Mat queryMask = Mat::ones(matImageQueryOrig.size(),CV_8U);
 
-		DoubleOutputParameter *ssimParam = new DoubleOutputParameter("ssim");
-		ssimParam->setData(ssim);
-		addOutputParameter(*ssimParam);
+			warpAffine(queryMask,dstMask,affineTransform,matImageTrainOrig.size(),INTER_NEAREST,BORDER_CONSTANT,0);
 
-		// create mask
-		Mat dstMask(matImageTrainOrig.size(),CV_8U);
-		Mat queryMask = Mat::ones(matImageQueryOrig.size(),CV_8U);
+			double ssimMasked = SSIM::calcSSIM(matImageTrainOrig, dst,-1,CV_BGR2YUV, dstMask);
 
-		warpAffine(queryMask,dstMask,affineTransform,matImageTrainOrig.size(),INTER_NEAREST,BORDER_CONSTANT,0);
+			DoubleOutputParameter *ssimMaskedParam = new DoubleOutputParameter("ssimMasked");
+			ssimMaskedParam->setData(ssimMasked);
+			addOutputParameter(*ssimMaskedParam);
 
-		double ssimMasked = SSIM::calcSSIM(matImageTrainOrig, dst,-1,CV_BGR2YUV, dstMask);
+		}
+		catch(runtime_error e)
+		{
+			DoubleOutputParameter *ssimParam = new DoubleOutputParameter("ssim");
+			ssimParam->setData(0);
+			addOutputParameter(*ssimParam);
 
-		DoubleOutputParameter *ssimMaskedParam = new DoubleOutputParameter("ssimMasked");
-		ssimMaskedParam->setData(ssimMasked);
-		addOutputParameter(*ssimMaskedParam);
+			DoubleOutputParameter *ssimMaskedParam = new DoubleOutputParameter("ssimMasked");
+			ssimMaskedParam->setData(0);
+			addOutputParameter(*ssimMaskedParam);
+
+			ErrorOutputParameter* error = new ErrorOutputParameter();
+			error->setErrorMessage(e.what());
+			addOutputParameter(*error);
+		}
 
 	}
 	catch (exception e)
@@ -394,23 +378,35 @@ void SIFTComparison::writeOutput(FileStorage& fs)
 	try
 	{
 		verbosePrintln(string("writing data"));
+		
+		if (binaryOutput || binaryOnly)
+		{
+			verbosePrintln(string("writing data to binary archive"));
+			ofstream ofs1(getFilepath(".descriptors.dat").c_str(), std::fstream::out | std::fstream::binary);
+			boost::archive::binary_oarchive oa_desc(ofs1);
+			oa_desc << descriptors;
+			ofs1.close();
+					
+			ofstream ofs2(getFilepath(".keypoints.dat").c_str(), std::fstream::out | std::fstream::binary);
+			boost::archive::binary_oarchive oa_keyp(ofs2);
+			oa_keyp << keypoints;
+			ofs2.close();
+		}
 
 		fs << TASK_NAME << "{";
-		
-		write(fs, "keypoints", keypoints);
-		write(fs, "descriptors", descriptors);
-		
+
+		if (!binaryOnly)
+		{	
+			verbosePrintln(string("writing data to OpenCV FileStorage in xml.gz format"));
+			write(fs, "keypoints", keypoints);
+			write(fs, "descriptors", descriptors);
+		}
+
 		fs << "scale" << scale;
 		fs << "filename" << filename;
-
-		if (dispersion > 0)
-		{
-			fs << "dispersion" << dispersion;
-			fs << "uniformity" << uniformity;
-			fs << "sizeVariation" << sizeVariation;
-		}
 		
 		fs << "}";
+		
 	}
 	catch (Exception& e)
 	{
@@ -422,18 +418,6 @@ void SIFTComparison::writeOutput(FileStorage& fs)
 
 void SIFTComparison::readData(FileNode& fs)
 {
-	read(fs["keypoints"], keypoints);
-	if (keypoints.size() == 0)
-	{
-		throw runtime_error("Error while reading SIFTCompairison data: No Keypoints read!");
-	}
-
-	read(fs["descriptors"], descriptors);
-	if ((descriptors.rows == 0) || (descriptors.cols == 0))
-	{
-		throw runtime_error("Error while reading SIFTCompairison data: No Descriptors read!");
-	}
-
 	fs["scale"] >> scale;
 	if ((scale <= 0) || (scale > 1))
 	{
@@ -445,26 +429,84 @@ void SIFTComparison::readData(FileNode& fs)
 	{
 		throw runtime_error("Error while reading SIFTCompairison data: Empty filename!");
 	}
+
+	if (binaryInput)
+	{
+		verbosePrintln(string("reading data from binary archive"));
+
+		try
+		{	
+			stringstream filePathDescriptors;
+			filePathDescriptors << filename << ".SIFTComparison.descriptors.dat";
+
+			VerboseOutput::println("SIFTComparison", "reading descriptors from file: %s", filePathDescriptors.str().c_str());
+			std::ifstream ifsDesc(filePathDescriptors.str().c_str(), std::fstream::binary | std::fstream::in);
+			boost::archive::binary_iarchive iaDesc(ifsDesc);
+			iaDesc >> descriptors;
+			ifsDesc.close();
+
+			stringstream filePathKeypoints;
+			filePathKeypoints << filename << ".SIFTComparison.keypoints.dat";
+
+			VerboseOutput::println("SIFTComparison", "reading descriptors from file: %s", filePathKeypoints.str().c_str());
+			std::ifstream ifsKeyp(filePathKeypoints.str().c_str(), std::fstream::binary | std::fstream::in);
+			boost::archive::binary_iarchive iaKeyp(ifsKeyp);
+			iaKeyp >> keypoints;
+			ifsKeyp.close();
+		}
+		catch (exception& e)
+		{
+			stringstream ss;
+			ss << "*** WARNING: failed to load descriptors from binary archive: " << e.what();
+			VerboseOutput::println(string("train"), ss.str() );
+		}
+	}
+	else
+	{
+		verbosePrintln(string("reading data from OpenCV FileStorage in xml.gz format"));
+
+		read(fs["keypoints"], keypoints);
+		if (keypoints.size() == 0)
+		{
+			throw runtime_error("Error while reading SIFTCompairison data: No Keypoints read!");
+		}
+
+		read(fs["descriptors"], descriptors);
+		if ((descriptors.rows == 0) || (descriptors.cols == 0))
+		{
+			throw runtime_error("Error while reading SIFTCompairison data: No Descriptors read!");
+		}
+	}
 }
 
 list<string>* SIFTComparison::getCmdlineArguments()
 {
 	list<string>* result = new list<string>;
 	result->push_back(StringConverter::toString(sdk));
+	result->push_back(StringConverter::toString(binaryInput));
+
 	return result;
 }
 
 void SIFTComparison::setCmdlineArguments(list<string> *args)
 {
-	sdk = StringConverter::toInt(&args->front());
+	list<string>::iterator item = args->begin();
+
+	sdk         = StringConverter::toInt(&*item);
+
+	item++;
+
+	binaryInput = StringConverter::toInt(&*item);
 }
 
 void SIFTComparison::parseCommandlineArguments()
 {
 	sdk               = argSDK.getValue();
 	clahe             = argCLAHE.getValue();
-	numClusterCenters = argPRECLUSTER.getValue();
 	maxResolution     = argDOWNSAMPLE.getValue();
+	binaryOutput      = argBinaryOutput.getValue();
+	binaryOnly        = argBinaryOnly.getValue();
+	binaryInput       = argBinaryInput.getValue();
 }
 
 Mat& SIFTComparison::getImage(void)
@@ -487,158 +529,7 @@ double SIFTComparison::getScale(void)
 	return scale;
 }
 
-double SIFTComparison::calcDispersion( vector<KeyPoint>& keypoints, Mat& image )
-{
 
-	Feature::verbosePrintln(string("calculate dispersion"));
-	// initialize variables
-	double h        = 0;
-	double weight   = 4.79129;
-
-	// calculate 2D-Histogram of Keypoint-Coordinates
-	Mat kp_map = Mat::zeros(image.rows, image.cols, CV_32F);
-
-	for(vector<KeyPoint>::iterator it = keypoints.begin(); it != keypoints.end(); it++)
-	{
-		kp_map.at<float>((*it).pt) += 1;		
-	}
-
-	// calculate dispersion
-	for (int scale = 2; scale <= 64; scale *= 2)
-	{
-		double h_s        = 0;
-		double m_expected = keypoints.size() / (scale * scale);
-
-		int partWidth;
-		int partHeight;
-
-		int    partWidthFloor  = floor(((float)image.cols / (float)scale));
-		int    partHeightFloor = floor(((float)image.rows / (float)scale));
-		int    partWidthCeil = partWidthFloor + 1;
-		int    partHeightCeil = partHeightFloor + 1;
-		int    errorWidth = image.cols - partWidthFloor*scale;
-		int    errorHeight = image.rows - partHeightFloor*scale;
-
-		int    y_start    = 0;
-
-		// for each row
-		for (int i = 0; i < scale; i++)
-		{
-			int x_start = 0;
-
-			// Distribute the error in Height across errorHeight subMatrices
-			partHeight = partHeightCeil;
-			if (i > (errorHeight - 1))
-			{
-				partHeight = partHeightFloor; 
-			}
-
-			// for each line
-			for (int j = 0; j < scale; j++)
-			{
-				Rect subMatrix;
-
-				// Distribute the error in Width across errorWidth subMatrices
-				partWidth = partWidthCeil;   
-				if (j > (errorWidth - 1))
-				{
-					partWidth = partWidthFloor;
-				}
-
-				subMatrix = Rect(x_start,y_start,partWidth,partHeight);
-
-				// retrieve the number of keypoints for this segment
-				Scalar m_observed = sum(kp_map(subMatrix));
-
-				// calculate h_s for this segment
-				h_s += fabs(m_observed.val[0] - m_expected) / (2 * keypoints.size());
-
-				// update start-coordinate
-				x_start += partWidth;
-			}
-
-
-			// update start-coordinate
-			y_start += partHeight;
-		}
-
-		// calculate h_s for this scale
-		h += std::pow(weight,(1-(log10((double)scale)/log10((double)2)))) * h_s;
-	}
-
-	return h;
-}
-
-bool compare_angle(KeyPoint first, KeyPoint second)
-{
-	if (first.angle < second.angle)
-		return true;
-	else 
-		return false;
-}
-
-double SIFTComparison::calcUniformity( vector<KeyPoint>& keypoints )
-{
-	Feature::verbosePrintln(string("calculate uniformity"));
-
-	// angle uniformity as used in Rao test for circular uniformity. 
-	// Rao, J.S. (1969). Some contributions to the analysis of circular data. Ph.D. thesis, Indian Statistical Institute, Calcutta.
-	// http://www.pstat.ucsb.edu/faculty/jammalam/html/favorite/test.htm
-
-	// initialize variables
-	double u        = 0;
-	double lambda	= 360.0/(double)keypoints.size();
-	double ti	= 0;
-	//double rad2angle = 180/3.14159265;
-	
-	vector<KeyPoint>::iterator it;
-
-	sort( keypoints.begin(), keypoints.end(), compare_angle );
-
-    double prevAngle = keypoints[ keypoints.size()-1 ].angle - 360.0;
-
-	for(vector<KeyPoint>::iterator it = keypoints.begin()+1; it != keypoints.end(); it++)
-	{
-		KeyPoint kp = *it;
-		ti = ( kp.angle  - prevAngle ); // * rad2angle;
-		prevAngle = kp.angle;
-		u += fabs( ti - lambda);
-	}
-
-	//ti = ( keypoints[0].angle - keypoints[ keypoints.size()-1].angle ); // * rad2angle;
-	//u += fabs ( ti - lambda );
-
-	u = u/2;
-
-	return u;
-}
-
-double SIFTComparison::calcSizeVariation( vector<KeyPoint>& keypoints )
-{
-	Feature::verbosePrintln(string("calculate size variation"));
-
-	// scale/size variance 
-
-	// initialize variables
-	double var      = 0;
-	double mean		= 0;
-
-	for(vector<KeyPoint>::iterator it = keypoints.begin(); it != keypoints.end()-1; it++)
-	{
-		KeyPoint kp = *it;
-		mean += kp.size;
-	}
-	mean = mean / (double)keypoints.size();
-
-	for(vector<KeyPoint>::iterator it = keypoints.begin(); it != keypoints.end()-1; it++)
-	{
-		KeyPoint kp = *it;
-		var += powf( kp.size - mean, 2.0 ) ;
-	}
-	var = var / (double)keypoints.size();
-
-	return var;
-}
 
 void SIFTComparison::normalizeDescriptors( Mat& descriptors )
 {

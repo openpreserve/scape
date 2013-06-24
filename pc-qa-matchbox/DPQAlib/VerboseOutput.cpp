@@ -1,4 +1,5 @@
 #include "VerboseOutput.h"
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 bool VerboseOutput::verbose = false;
 
@@ -26,14 +27,17 @@ void VerboseOutput::println( string name, string msg, ... )
 
 string VerboseOutput::getTimeStamp()
 {
-	time_t ltime;
-	struct tm *Tm;
+	//time_t ltime;
+	//struct tm *Tm;
 
-	ltime=time(NULL);
-	Tm=localtime(&ltime);
+	//ltime=time(NULL);
+	//Tm=localtime(&ltime);
+
+	boost::posix_time::ptime now  = boost::posix_time::microsec_clock::local_time();
 
 	stringstream sStream;
-	sStream  << " " << Tm->tm_hour  << ":" << Tm->tm_min  << ":" << Tm->tm_sec ;
+	//sStream  << " " << Tm->tm_hour  << ":" << Tm->tm_min  << ":" << Tm->tm_sec ;
+	sStream  << " " << now ;
 
 	return sStream.str();
 }

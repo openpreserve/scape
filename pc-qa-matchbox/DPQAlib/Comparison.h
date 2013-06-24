@@ -50,4 +50,5 @@ public:
 
 	void writeOutput(void);
 	void setLevel( int& level );
+	void createTasks( string* file1, string* file2 );
 };

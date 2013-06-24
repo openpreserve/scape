@@ -30,8 +30,8 @@ void Comparison::read(string *filename1, string *filename2)
 		{	
 			FileNode node = *it;
 
-			Feature* task = TaskFactory::createTask(node,level);
-			tasksFromXML1.push_back(task);
+			Feature* task1 = tasksFromXML1.front();
+			task1->readData(node);
 		}
 
 		fs1.release();
@@ -42,9 +42,11 @@ void Comparison::read(string *filename1, string *filename2)
 		FileNode features2 = fs2.root();
 
 		for( FileNodeIterator it = features2.begin() ; it != features2.end(); ++it )
-		{			
-			Feature* task = TaskFactory::createTask(*it, level);
-			tasksFromXML2.push_back(task);
+		{
+			FileNode node = *it;
+
+			Feature* task2 = tasksFromXML2.front();
+			task2->readData(node);
 		}
 
 		fs2.release();
@@ -75,10 +77,6 @@ void Comparison::level3(string *filename1, string *filename2)
 void Comparison::execute()
 {
 	VerboseOutput::println(string("Comparison"), string("start comparison"));
-
-	double sumDistance = 0;
-
-	int size = tasksFromXML1.size();
 
 	list<Feature*>::iterator i;
 
@@ -184,11 +182,6 @@ void Comparison::writeOutput(void)
 	printf("</comparison>\n");
 }
 
-void Comparison::setLevel( int& _level )
-{
-	level = _level;
-}
-
 bool Comparison::canExecute( Feature* task )
 {
 	if (level > 0)
@@ -200,4 +193,31 @@ bool Comparison::canExecute( Feature* task )
 	}
 
 	return true;
+}
+
+void Comparison::createTasks( string* file1, string* file2 )
+{
+	try
+	{
+		VerboseOutput::println("Comparison", "creating task for file 1: '" + *file1 + "'");
+
+		Feature* task1 = TaskFactory::createTaskfromFilename(file1);
+		tasksFromXML1.push_back(task1);
+
+		VerboseOutput::println("Comparison", "creating task for file 1: '" + *file2 + "'");
+
+		Feature* task2 = TaskFactory::createTaskfromFilename(file2);
+		tasksFromXML2.push_back(task2);
+
+		// compare
+		if (task1->getName() != task2->getName())
+		{
+			throw runtime_error("Cannot compare different featuresets!");
+		}
+
+	}
+	catch (exception& e)
+	{
+		throw e;
+	}
 }

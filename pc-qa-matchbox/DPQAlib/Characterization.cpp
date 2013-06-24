@@ -124,7 +124,9 @@ void Characterization::execute()
 	// load image
 	try
 	{
+		VerboseOutput::println(string("Characterization"), "loading image: " + string(const_cast<char*>(filename->c_str())));
 		img = imread(const_cast<char*>(filename->c_str()), CV_LOAD_IMAGE_COLOR);
+		VerboseOutput::println(string("Characterization"), "image loaded" );
 	}
 	catch (Exception& e)
 	{
@@ -142,6 +144,7 @@ void Characterization::execute()
 	{
 		list<Feature*>::iterator i;
 
+		VerboseOutput::println(string("Characterization"), "extract features" );
 		// iterate through all tasks
 		for(i=tasks.begin(); i != tasks.end(); ++i)
 		{
@@ -149,10 +152,14 @@ void Characterization::execute()
 
 			if(canExecute(task))
 			{
+				VerboseOutput::println(string("Characterization"), "execute task: " + task->getName());
 				task->execute(img);
+				VerboseOutput::println(string("Characterization"), "persist data from task: " + task->getName());
 				task->persist(featureFileOutputDirectory);
 			}
 		}
+
+		VerboseOutput::println(string("Characterization"), "feature extraction finished");
 	}
 	catch (Exception& ex)
 	{

@@ -43,7 +43,7 @@ protected:
 
 	// protected methods
 	void                   verbosePrintln(string msg);
-	string                 getFilepath(void);
+	string                 getFilepath(string extension);
 
 public:
 
