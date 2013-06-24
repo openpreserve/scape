@@ -118,6 +118,7 @@ public class ToolspecExecutor implements Executor {
             for( Entry<String, String> entry : mapInputFileParameters[c].entrySet()) {
                 LOG.debug("input = " + entry.getValue());
                 Filer filer = Filer.create(entry.getValue());
+                filer.setDirectory(context.getTaskAttemptID().toString());
                 filer.localize();
                 mapTempInputFileParameters.put( entry.getKey(), filer.getFileRef());
             }
@@ -125,6 +126,7 @@ public class ToolspecExecutor implements Executor {
             for( Entry<String, String> entry : mapOutputFileParameters[c].entrySet()) {
                 LOG.debug("output = " + entry.getValue());
                 Filer filer = Filer.create(entry.getValue());
+                filer.setDirectory(context.getTaskAttemptID().toString());
                 mapTempOutputFileParameters.put( entry.getKey(), filer.getFileRef());
             }
 
@@ -172,7 +174,12 @@ public class ToolspecExecutor implements Executor {
         // delocalize output parameters
         for(int i = 0; i < mapOutputFileParameters.length; i++ ) 
             for( String strFile : mapOutputFileParameters[i].values())
-                Filer.create(strFile).delocalize();
+            {
+                Filer filer = Filer.create(strFile);
+                LOG.info("dir = " + context.getTaskAttemptID().toString() );
+                filer.setDirectory(context.getTaskAttemptID().toString());
+                filer.delocalize();
+            }
 
         try {
             Text text = null;
