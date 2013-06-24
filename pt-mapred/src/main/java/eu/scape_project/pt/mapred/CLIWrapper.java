@@ -134,7 +134,13 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         } else
             job.setInputFormatClass(PtInputFormat.class);
         
-		FileInputFormat.addInputPath(job, new Path(conf.get(PropertyNames.INFILE)));
+        // copy input file to temporary directory
+        FileSystem fs = FileSystem.get(conf);
+        Path fSrc = new Path(conf.get(PropertyNames.INFILE));
+        Path fDst = new Path("/tmp/input-" + job.getJobName());
+        fs.copyFromLocalFile(false, true, fSrc, fDst);
+
+		FileInputFormat.addInputPath(job, fDst);
 		FileOutputFormat.setOutputPath(job, new Path(conf.get(PropertyNames.OUTDIR)) ); 
 				
 		job.waitForCompletion(true);
@@ -157,11 +163,12 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         Map<String, String> parameters = new HashMap<String, String>() {{
             put("i", PropertyNames.INFILE );
             put("o", PropertyNames.OUTDIR );
-            put("j", "mapred.job.reuse.jvm.num.tasks" );
+            put("t", "mapred.job.reuse.jvm.num.tasks" );
             put("n", PropertyNames.NUM_LINES_PER_SPLIT );
             put("r", PropertyNames.REPO_LOCATION);
             put("v", PropertyNames.TAVERNA_HOME );
             put("w", PropertyNames.TAVERNA_WORKFLOW );
+            put("j", "mapred.job.name" );
         }};
         		
 		try {
@@ -182,6 +189,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
                     conf.set(param.getValue(), 
                              options.valueOf(param.getKey()).toString());
 
+            LOG.info("Job name: " + conf.get("mapred.job.name"));
 			//hadoop's output 
 			LOG.info("Output: " + conf.get(PropertyNames.OUTDIR));
             //action to select
@@ -233,7 +241,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
      * Prints a usage message for the CLIWrapper.
      */
     public static void printUsage() {
-        System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-j mapred.job.reuse.jvm.num.tasks] [-n num lines of inFile per task]");
+        System.out.println("usage: CLIWrapper -i inFile [-o outFile] [-t mapred.job.reuse.jvm.num.tasks] [-n num lines of inFile per task]");
         System.out.println("    execution of ToolSpec: [-r toolspec repository on hdfs]");
         System.out.println("    execution of Taverna workflow: -w workflow [-v tavernaDir]");
     }
