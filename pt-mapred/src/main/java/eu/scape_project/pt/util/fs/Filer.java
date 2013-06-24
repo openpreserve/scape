@@ -19,6 +19,8 @@ import java.util.logging.Logger;
  */
 public abstract class Filer {
 
+    protected String dir = "";
+
     /**
      * Abstract factory method to create appropriate file for given uri
      * @param value
@@ -31,7 +33,13 @@ public abstract class Filer {
         }
         throw new IOException("no appropriate filer for URI " + strUri + " found");
     };
+
+    public String getTmpDir() {
+        return System.getProperty("java.io.tmpdir") 
+                + System.getProperty("file.separator");
+    }
 	
+    abstract public void setDirectory(String strDir ) throws IOException;
     /**
      * Copies a file from a remote filesystem to the local one.
      * 

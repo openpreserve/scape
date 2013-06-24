@@ -32,7 +32,7 @@ public class HDFSFiler extends Filer{
      * File to handle by this filer
      */
     private final Path file;
-	
+
     HDFSFiler(String value) throws IOException {
         this.file = new Path(value);
         hdfs = file.getFileSystem(new Configuration());
@@ -102,12 +102,21 @@ public class HDFSFiler extends Filer{
     }
 
     @Override
+    public void setDirectory(String strDir ) throws IOException {
+        File dir = new File(getTmpDir() + strDir );
+        dir.mkdir();
+        this.dir = strDir;
+    }
+
+    @Override
     public String getFileRef() {
         // TODO introduce a namespace for temp files so that
         // other running tasks on the machine don't interfere
-        return System.getProperty("java.io.tmpdir") 
-                + System.getProperty("file.separator")
-                    + "hdfsfiler_" + file.hashCode() + "-" + file.getName();
+        return getTmpDir()
+                    + (this.dir.isEmpty() 
+                            ? "hdfsfiler_" + file.hashCode() + "-" 
+                            : this.dir + System.getProperty("file.separator")) 
+                    + file.getName();
     }
 
     @Override
