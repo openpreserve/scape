@@ -38,7 +38,7 @@ typedef unsigned short kz_pixel_t;       /* for 12 bit-per-pixel images (default
 
 /************* Prototype of Graphic Gemms CLAHE function. *********************/
 
-static int CLAHE(kz_pixel_t* pImage, unsigned int uiXRes, 
+static int CLAHE_ext(kz_pixel_t* pImage, unsigned int uiXRes, 
 		  unsigned int uiYRes, kz_pixel_t Min,
           kz_pixel_t Max, unsigned int uiNrX, unsigned int uiNrY,
           unsigned int uiNrBins, float fCliplimit);
@@ -176,7 +176,7 @@ void cvCLAdaptEqualize(IplImage *src, IplImage *dst,
 	// call CLHAHE for in-place CLAHE
 
 	//int rcode = 
-	CLAHE((kz_pixel_t*) (dst->imageData), (unsigned int) dst->width, (unsigned int) 
+	CLAHE_ext((kz_pixel_t*) (dst->imageData), (unsigned int) dst->width, (unsigned int) 
 	dst->height, (kz_pixel_t) min, (kz_pixel_t) max, (unsigned int) xdivs, (unsigned int) ydivs,
               (unsigned int) bins, (float) limit);
 	//printf("RCODE %i\n", rcode);	
@@ -252,7 +252,7 @@ const static unsigned int uiMAX_REG_X = 16;      /* max. # contextual regions in
 const static unsigned int uiMAX_REG_Y = 16;      /* max. # contextual regions in y-direction */
 
 /************************** main function CLAHE ******************/
-static int CLAHE (kz_pixel_t* pImage, unsigned int uiXRes, unsigned int uiYRes,
+static int CLAHE_ext (kz_pixel_t* pImage, unsigned int uiXRes, unsigned int uiYRes,
          kz_pixel_t Min, kz_pixel_t Max, unsigned int uiNrX, unsigned int uiNrY,
               unsigned int uiNrBins, float fCliplimit)
 /*   pImage - Pointer to the input/output image
