@@ -134,7 +134,7 @@ if __name__ == '__main__':
         if len(args['featdir']) > 0:
             feature_directory = args['featdir']
         
-        MatchboxLib.calculateBoW(config, feature_directory, ".SIFTComparison.feat.yml.gz", args['precluster'], args['bowsize'], args['verbose'], args['binary'])
+        MatchboxLib.calculateBoW(config, feature_directory, ".SIFTComparison.feat.xml.gz", args['precluster'], args['bowsize'], args['verbose'], args['binary'])
     
     # ===============================================================================
     # action: bowhist

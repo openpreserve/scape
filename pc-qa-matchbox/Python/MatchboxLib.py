@@ -38,7 +38,7 @@ from subprocess import call
 # === definitions =================================================================================
 
 BOW_FILE_NAME = "bow.xml"
-SUPPORTED_IMAGE_TYPES = ".(png|tif|jpe?g|bmp|gif|jp2)$"
+SUPPORTED_IMAGE_TYPES = ".(png|tiff?|jpe?g|bmp|gif|jp2)$"
 
 # === Classes =====================================================================================
 
@@ -98,11 +98,11 @@ class ExtractFeaturesWorker(threading.Thread):
                         featureName = task[i + 1]
                         break
                     
-                filename = "{0}.{1}.feat.yml.gz".format(task[-1], featureName)
+                filename = "{0}.{1}.feat.xml.gz".format(task[-1], featureName)
                 
                 for i in range(len(task)):
                     if task[i] == "-d":
-                        filename = "{0}/{1}.{2}.feat.yml.gz".format(task[i + 1], extractFilename(task[-1]), featureName)
+                        filename = "{0}/{1}.{2}.feat.xml.gz".format(task[i + 1], extractFilename(task[-1]), featureName)
                         break
                 
                 exists = os.path.exists(filename)
@@ -493,7 +493,7 @@ def extractFeatures(config, collectiondir, sdk, NUM_THREADS_EXTRACTOR=1, clahe=1
 
     # process all entries of the supllied directory
     for currentFile in glob.glob(os.path.join(collectiondir, "*")):
-        
+     
         # check if the current file type is supported by this script
         if re.search(SUPPORTED_IMAGE_TYPES, currentFile, re.IGNORECASE) == None:
             continue
