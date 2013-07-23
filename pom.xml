@@ -277,7 +277,7 @@
 			<id>profile-opf-jenkins</id>
 			<distributionManagement>
 				<site>
-					<id>opf.labs.local.site</id>
+					<id>opf.jenkins.local.site</id>
 					<name>OPF Projects Website</name>
 					<url>file:///var/www/projects/scape</url>
 				</site>
