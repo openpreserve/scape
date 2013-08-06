@@ -22,6 +22,7 @@ import eu.scape_project.pt.proc.StreamProcessor;
 import eu.scape_project.pt.util.ArgsParser;
 import java.util.*;
 import java.util.Map.Entry;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 
 /**
@@ -61,7 +62,7 @@ public class TavernaCLExecutor implements Executor {
 	}
 
 	@Override
-	public void map(Object key, Text value, Context context) throws IOException {
+	public void map(LongWritable key, Text value, Context context) throws IOException {
 
         Map<String, String> mapTmpArgs = new HashMap<String, String>();
 

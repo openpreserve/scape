@@ -21,6 +21,7 @@ import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 
@@ -70,7 +71,7 @@ public class ToolspecExecutor implements Executor {
      * @param context Job context
      */
     @Override
-    public void map(Object key, Text value, Context context ) throws IOException {
+    public void map(LongWritable key, Text value, Context context ) throws IOException {
         LOG.info("Mapper.map key:" + key.toString() + " value:" + value.toString());
 
         // parse input line for stdin/out file refs and tool/action commands
@@ -168,7 +169,8 @@ public class ToolspecExecutor implements Executor {
                 firstProcessor.execute();
 
         } catch (Exception ex) {
-            LOG.error(ex.getStackTrace());
+            LOG.error(ex);
+            throw new IOException(ex);
         }
 
         // delocalize output parameters
@@ -191,6 +193,7 @@ public class ToolspecExecutor implements Executor {
             context.write( new Text(value.hashCode()+""), text);
         } catch (InterruptedException ex) {
             LOG.error(ex);
+            throw new IOException(ex);
         }
     }
 }

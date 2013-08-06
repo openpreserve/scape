@@ -19,6 +19,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -41,7 +42,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
 	private static Log LOG = LogFactory.getLog(CLIWrapper.class);
 	
-	public static class CLIMapper extends Mapper<Object, Text, Text, IntWritable> {
+	public static class CLIMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 
 		/** 
          * Executes the setup and map jobs.
@@ -78,7 +79,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          * @throws InterruptedException 
          */
         @Override
-		public void map(Object key, Text value, Context context) 
+		public void map(LongWritable key, Text value, Context context) 
                 throws IOException, InterruptedException {
 	    	executor.map(key, value, context );
 	    }	  
@@ -126,13 +127,12 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
         job.setMapperClass(CLIMapper.class);
         
+        job.setInputFormatClass(NLineInputFormat.class);
         if(conf.get(PropertyNames.NUM_LINES_PER_SPLIT) != null) {
         	NLineInputFormat.setNumLinesPerSplit(
                 job, 
                 Integer.parseInt(conf.get(PropertyNames.NUM_LINES_PER_SPLIT)));
-            job.setInputFormatClass(NLineInputFormat.class);
-        } else
-            job.setInputFormatClass(PtInputFormat.class);
+        }
         
         // copy input file to temporary directory
         FileSystem fs = FileSystem.get(conf);
@@ -144,7 +144,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		FileOutputFormat.setOutputPath(job, new Path(conf.get(PropertyNames.OUTDIR)) ); 
 				
 		job.waitForCompletion(true);
-		return 0;
+		return job.isSuccessful() ? 0 : 1;
 	}
 	
     /**
@@ -180,7 +180,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
             OptionSet options = parser.parse(args);
 
             // default values:
-            conf.set(PropertyNames.NUM_LINES_PER_SPLIT, "10");
+            conf.set(PropertyNames.NUM_LINES_PER_SPLIT, "1");
             conf.set(PropertyNames.OUTDIR, "out/"+System.nanoTime()%10000 );
 
             // store parameter values:

@@ -4,6 +4,7 @@
 package eu.scape_project.pt.executors;
 
 import java.io.IOException;
+import org.apache.hadoop.io.LongWritable;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper.Context;
@@ -16,5 +17,5 @@ import org.apache.hadoop.mapreduce.Mapper.Context;
  */
 public interface Executor {
 	public void setup(Context context ) throws IOException;
-	public void map(Object key, Text value, Context context) throws IOException;
+	public void map(LongWritable key, Text value, Context context) throws IOException;
 }
