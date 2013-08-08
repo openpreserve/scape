@@ -273,6 +273,16 @@
 				</site>
 			</distributionManagement>
 		</profile>
+		<profile>
+			<id>profile-opf-jenkins</id>
+			<distributionManagement>
+				<site>
+					<id>opf.jenkins.local.site</id>
+					<name>OPF Projects Website</name>
+					<url>file:///var/www/projects/scape/scape</url>
+				</site>
+			</distributionManagement>
+		</profile>
          <profile>
             <id>profile-local-site</id>
             <distributionManagement>
