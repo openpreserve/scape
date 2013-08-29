@@ -94,6 +94,11 @@ void Feature::verbosePrintln(string msg)
 	VerboseOutput::println(name, msg);
 }
 
+void Feature::verboseError(string msg)
+{
+	VerboseOutput::printError(name, msg);
+}
+
 void Feature::setFilename( string* fname )
 {
 	filename = *fname;

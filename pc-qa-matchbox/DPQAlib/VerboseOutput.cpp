@@ -11,6 +11,7 @@ VerboseOutput::~VerboseOutput(void)
 {
 }
 
+
 void VerboseOutput::println( string name, string msg, ... )
 {
 	if (VerboseOutput::verbose)
@@ -21,6 +22,34 @@ void VerboseOutput::println( string name, string msg, ... )
 		va_list argptr;
 		va_start(argptr, msg);
 		vfprintf(stdout, ss.str().c_str(), argptr);
+		va_end(argptr);
+	}
+}
+
+void VerboseOutput::printError( string name, string msg, ... )
+{
+	if (VerboseOutput::verbose)
+	{
+		stringstream ss;
+		ss << "[" << getTimeStamp() << " " << name << "] ***ERROR: " << msg << "\n";
+
+		va_list argptr;
+		va_start(argptr, msg);
+		vfprintf(stdout, ss.str().c_str(), argptr);
+		va_end(argptr);
+	}
+}
+
+void VerboseOutput::logError( string name, string msg, ... )
+{
+	if (VerboseOutput::verbose)
+	{
+		stringstream ss;
+		ss << "[" << getTimeStamp() << " " << name << "] " << msg << "\n";
+
+		va_list argptr;
+		va_start(argptr, msg);
+		vfprintf(stderr, ss.str().c_str(), argptr);
 		va_end(argptr);
 	}
 }

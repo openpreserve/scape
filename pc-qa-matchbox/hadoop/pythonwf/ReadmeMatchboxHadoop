@@ -1,0 +1,57 @@
+Guidelines for Matchbox workflow on Hadoop using Python and shell scripts
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+Preconditions
+=============
+
++ Define working directory where scripts are located e.g. pythonwf
++ HDFS should contain directory with image collection (default name is "collection") that should be analysed. 
++ The path to the working collection can be passed as a parameter to the script
++ In order to leverage Matchbox algorithmus the image collection should have at least 15 files. The default bow size of the bag of visual words (dictionary) is a 1000 (defined in CalculateBow.sh). Having small collection (< then 15 images) you will not be able to calculate with this bow size. You can then reduce the bow size (e.g. 100) for small collection but it will reduce the quality of analysis.
++ Outputs are expected in "matchbox" directory on HDFS (/user/training/matchbox/summary.csv e.g. 00000032;00000034;0.748908 means that image 00000032.jp2 is similar to the image 00000034 with similarity score 0.748908. Similarity score is between 1 and 0, where 1 means best similarity and 0 means no similarity)
++ Each workflow step is a precondition for the next step
++ disable the dfs permissions by extension in conf/hdfs-site.xml with
+  <property>
+    <name>dfs.permissions</name>
+    <value>false</value>
+  </property>
+
+
+Workflow
+========
+
+./PythonMatchboxWF.sh     # start full Matchbox Python Hadoop workflow 
+                          # if necessary use parameter:
+                          #    1. local home path e.g. "/home/training/pythonwf/"
+                          #    2. HDFS home path e.g. "/user/training/"
+                          #    3. HDFS input directory where image collection is stored e.g. "collection"
+
+Example with parameters: ./PythonMatchboxWF.sh /home/training/pythonwf /user/training collection
+
+or use separate steps
+
+./CreateInputFiles.sh     # create manifest file with paths to the input files. Input dir parameter possible
+./CmdExtractSift.sh       # execute extract features step
+./CmdCalculateBoW.sh      # calcualte BoW step
+./CmdExtractHistogram.sh  # extract visual histogram step
+./CmdCompare.sh           # compare visual histograms, find three nearest neighbours and perform SSIM
+
+
+Debugging
+=========
+
+sudo cat /var/log/hadoop-0.20-mapreduce/userlogs/job_201308051312_0018/attempt_201308051312_0018_m_000000_0/stderr
+
+sudo ls -al /var/log/hadoop-0.20-mapreduce/userlogs/job_201308051312_0018
+
+
+Tipps
+=====
+
++ to start Taverna from home use: taverna-workbench-2.4.0/taverna.sh
++ Matchbox sources in pc-qa-matchbox (https://github.com/openplanets/scape/tree/master/pc-qa-matchbox)
++ Hadoop O'Reilly book "Hadoop: The Definitive Guide"
++ Hadoop Streaming with python (text sample):
+
+hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-*streaming*.jar -file /home/training/mapper.py -mapper /home/training/mapper.py -file /home/training/reducer.py -reducer /home/training/reducer.py -input gutenberg -output gutenberg-output

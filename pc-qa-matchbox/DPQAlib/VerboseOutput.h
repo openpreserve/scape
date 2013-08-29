@@ -23,5 +23,7 @@ public:
 	VerboseOutput(void);
 	~VerboseOutput(void);
 	
-	static void println( string name, string msg, ...);	
+	static void println( string name, string msg, ...);
+	static void printError( string name, string msg, ...);
+	static void logError( string name, string msg, ...);
 };

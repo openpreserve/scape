@@ -10,6 +10,7 @@
 
 #include "opencv/cv.h"
 #include "opencv2/nonfree/features2d.hpp"
+//#include "opencv2/imgproc/imgproc.hpp"
 
 #include "SIFTComparison.h"
 
@@ -21,13 +22,14 @@
 using namespace cv;
 using namespace std;
 
+
 vector<string> getdir(string dir, string filter)
 {
     DIR *dp;
     struct dirent *dirp;
 	vector<string> files = vector<string>();
 
-    if((dp  = opendir(dir.c_str())) == NULL)
+	if((dp  = opendir(dir.c_str())) == NULL)
 	{
         cout << "Error(" << errno << ") opening " << dir << endl;
         return files;
@@ -157,7 +159,7 @@ int main(int argc, char* argv[])
 			tcrit.maxCount = 10;
 			tcrit.type = 1;
 
-			BOWKMeansTrainer bowtrainer(argBOWSIZE.getValue(),tcrit,1,KMEANS_PP_CENTERS);
+			BOWKMeansTrainer* bowtrainer = new BOWKMeansTrainer(argBOWSIZE.getValue(),tcrit,1,KMEANS_PP_CENTERS);
 
 			VerboseOutput::println(string("train"), "Creating Visual Bag of Words");
 			
@@ -172,6 +174,7 @@ int main(int argc, char* argv[])
 			int            i        = 1;
 
 			VerboseOutput::println(string("train"), "Reading features of directory '%s'", dirArg.getValue().c_str());
+			VerboseOutput::println(string("train"), "with extension '%s'", filter.c_str());
 
 			for (vector<string>::iterator filename = files.begin(); filename!=files.end(); ++filename)
 			{
@@ -214,26 +217,51 @@ int main(int argc, char* argv[])
 					kmeans(descriptors,argPRECLUSTER.getValue(),labels,tcrit,1, KMEANS_PP_CENTERS, centers);
 
 					VerboseOutput::println(string("train"), "...add cluster centers of pre-clustering to bow");
-					bowtrainer.add(centers);
+					bowtrainer->add(centers);
 				}
 				else
 				{
 					VerboseOutput::println(string("train"), "...add descriptors to bow");
-					bowtrainer.add(descriptors);
+					bowtrainer->add(descriptors);
 				}
 
-				VerboseOutput::println(string("train"), "...current bow-size: %i", bowtrainer.descripotorsCount());
+				VerboseOutput::println(string("train"), "...current bow-size: %i", bowtrainer->descripotorsCount());
 			}
 
 			// calculate vocabulary
 			VerboseOutput::println(string("train"), string("Creating Vocabulary"));
 			
-			if (bowtrainer.descripotorsCount() <= argBOWSIZE.getValue())
+			// check if number of descriptors is less than BoW size
+			if (bowtrainer->descripotorsCount() <= argBOWSIZE.getValue())
 			{
-				throw runtime_error("BoW size higher than number of loaded descriptors!");
+				// automatically reduce BoW size
+
+				// reduce in 100 words intervals
+				int newclusterCount = int((bowtrainer->descripotorsCount() - 1) / 100) * 100;
+				VerboseOutput::println(string("train"), "***Warning: BoW size higher than number of loaded descriptors!");
+				VerboseOutput::println(string("train"), "            reducing BoW size to %i", newclusterCount);
+
+				// if target size is 0 than abort
+				if (newclusterCount == 0)
+				{
+					throw runtime_error("Too few descriptors loaded to calculate an expressive vocabulary! Consider adding more images to the collection");
+				}
+
+				// create new trainer
+				BOWKMeansTrainer* newbow = new BOWKMeansTrainer(newclusterCount,tcrit,1,KMEANS_PP_CENTERS);
+
+				// copy data from the old trainer to the new one
+				for (vector<Mat>::const_iterator descriptor = bowtrainer->getDescriptors().begin(); descriptor!=bowtrainer->getDescriptors().end(); ++descriptor)
+				{
+					newbow->add(*descriptor);
+				}
+				
+				// release old one and set new reference
+				bowtrainer->~BOWKMeansTrainer();
+				bowtrainer = newbow;
 			}
 			
-			Mat vocab = bowtrainer.cluster();
+			Mat vocab = bowtrainer->cluster();
 
 			// output results to file
 			VerboseOutput::println(string("train"), string("Storing BoW to File"));

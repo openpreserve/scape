@@ -205,15 +205,44 @@ void SIFTComparison::compare(Feature *task)
 		RobustMatcher  matcher;
 		vector<DMatch> matches;
 
-		stringstream ss;
-		ss << "keypointsQuery: "     << keypointsQuery.size() << ", keypointsTrain: "   << keypointsTrain.size();
-		ss << ", descriptorsQuery: " << descriptorsQuery.rows << ", descriptorsTrain: " << descriptorsTrain.rows;
-		verbosePrintln(ss.str());
+		stringstream ss1;
+		ss1 << "keypointsQuery: "     << keypointsQuery.size() << ", keypointsTrain: "   << keypointsTrain.size();
+		ss1 << ", descriptorsQuery: " << descriptorsQuery.rows << ", descriptorsTrain: " << descriptorsTrain.rows;
+		verbosePrintln(ss1.str());
 
 		// load images
+
+		// load image 1
 		verbosePrintln(string("load images"));
 		Mat matImageTrainOrig = imread(const_cast<char*>(filename.c_str()), CV_LOAD_IMAGE_COLOR);
+		
+		// check if image has been loaded correctly
+		stringstream ss2;
+		ss2 << "Image1 Resolution: " << matImageTrainOrig.cols << "x" << matImageTrainOrig.rows;
+		verbosePrintln(ss2.str());
+
+		if ((matImageTrainOrig.cols * matImageTrainOrig.rows) == 0)
+		{
+			stringstream msg;
+			msg << "Image '" << filename << "' is corrupt or image path is wrong";
+			throw runtime_error(msg.str());
+		}
+		
+		// load image 2
 		Mat matImageQueryOrig = imread(const_cast<char*>(task->getFilename().c_str()), CV_LOAD_IMAGE_COLOR );
+
+		// check if image has been loaded correctly
+		stringstream ss3;
+		ss3 << "Image2 Resolution: " << matImageQueryOrig.cols << "x" << matImageQueryOrig.rows;
+		verbosePrintln(ss3.str());
+		
+		if ((matImageQueryOrig.cols * matImageQueryOrig.rows) == 0)
+		{
+			stringstream msg;
+			msg << "Image '" << task->getFilename() << "' is corrupt or image path is wrong";
+			throw runtime_error(msg.str());
+		}
+
 
 		if (sdk != 0)
 		{
@@ -269,24 +298,36 @@ void SIFTComparison::compare(Feature *task)
 		catch(runtime_error e)
 		{
 			DoubleOutputParameter *ssimParam = new DoubleOutputParameter("ssim");
-			ssimParam->setData(0);
+			ssimParam->setData(-1);
 			addOutputParameter(*ssimParam);
 
 			DoubleOutputParameter *ssimMaskedParam = new DoubleOutputParameter("ssimMasked");
-			ssimMaskedParam->setData(0);
+			ssimMaskedParam->setData(-1);
 			addOutputParameter(*ssimMaskedParam);
 
 			ErrorOutputParameter* error = new ErrorOutputParameter();
 			error->setErrorMessage(e.what());
 			addOutputParameter(*error);
+
+			verboseError(e.what());
 		}
 
+	}
+	catch (runtime_error e)
+	{
+		ErrorOutputParameter* error = new ErrorOutputParameter();
+		error->setErrorMessage(e.what());
+		addOutputParameter(*error);
+
+		verboseError(e.what());
 	}
 	catch (exception e)
 	{
 		ErrorOutputParameter* error = new ErrorOutputParameter();
 		error->setErrorMessage(e.what());
 		addOutputParameter(*error);
+
+		verboseError(e.what());
 	}
 }
 
