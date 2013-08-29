@@ -89,7 +89,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
      * CLIReducer is idle ...
      */
     public static class CLIReducer extends 
-            Reducer<Text, IntWritable, Text, IntWritable> {
+            Reducer<LongWritable, Text, Text, IntWritable> {
 		
         /**
          * Does nothing yet!
@@ -101,7 +101,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
          * @throws InterruptedException 
          */
         @Override
-		public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+		public void reduce(LongWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			
 		}
 	}
@@ -121,18 +121,16 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 
         job.setJarByClass(CLIWrapper.class);
 
-        job.setOutputKeyClass(Text.class);
+        job.setOutputKeyClass(LongWritable.class);
         // TODO Output Value Class may depend on the tool invoked
         job.setOutputValueClass(Text.class);
 
         job.setMapperClass(CLIMapper.class);
         
         job.setInputFormatClass(NLineInputFormat.class);
-        if(conf.get(PropertyNames.NUM_LINES_PER_SPLIT) != null) {
-        	NLineInputFormat.setNumLinesPerSplit(
-                job, 
-                Integer.parseInt(conf.get(PropertyNames.NUM_LINES_PER_SPLIT)));
-        }
+        NLineInputFormat.setNumLinesPerSplit(
+            job, 
+            Integer.parseInt(conf.get(PropertyNames.NUM_LINES_PER_SPLIT)));
         
         // copy input file to temporary directory
         FileSystem fs = FileSystem.get(conf);
