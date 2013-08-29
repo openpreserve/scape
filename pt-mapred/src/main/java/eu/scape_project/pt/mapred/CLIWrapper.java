@@ -1,12 +1,8 @@
 package eu.scape_project.pt.mapred;
 
-import eu.scape_project.pt.executors.Executor;
-import eu.scape_project.pt.executors.TavernaCLExecutor;
-import eu.scape_project.pt.executors.ToolspecExecutor;
 import eu.scape_project.pt.repo.Repository;
 import eu.scape_project.pt.repo.ToolRepository;
 import eu.scape_project.pt.util.PropertyNames;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,12 +14,9 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.ToolRunner;
@@ -41,70 +34,6 @@ import org.apache.hadoop.mapreduce.lib.input.NLineInputFormat;
 public class CLIWrapper extends Configured implements org.apache.hadoop.util.Tool {
 
 	private static Log LOG = LogFactory.getLog(CLIWrapper.class);
-	
-	public static class CLIMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
-
-		/** 
-         * Executes the setup and map jobs.
-         */
-		Executor executor;
-		
-        /**
-         * Sets up the appropriate executor for the job. 
-         * 
-         * @param context
-         */
-        @Override
-		public void setup( Context context ) throws IOException {
-            Configuration conf = context.getConfiguration();
-        	if(conf.get(PropertyNames.TAVERNA_WORKFLOW) != null 
-               && conf.get(PropertyNames.TAVERNA_WORKFLOW) != "") {
-        		executor = new TavernaCLExecutor(
-                        conf.get(PropertyNames.TAVERNA_HOME),
-        				conf.get(PropertyNames.TAVERNA_WORKFLOW),
-        				conf.get(PropertyNames.OUTDIR));
-        	} else {
-        		executor = new ToolspecExecutor();
-        	}
-	    	executor.setup(context);
-		}
-
-        /**
-         * Wraps map method of the chosen executor.
-         * 
-         * @param key
-         * @param value
-         * @param context
-         * @throws IOException
-         * @throws InterruptedException 
-         */
-        @Override
-		public void map(LongWritable key, Text value, Context context) 
-                throws IOException, InterruptedException {
-	    	executor.map(key, value, context );
-	    }	  
-	}
-
-    /**
-     * CLIReducer is idle ...
-     */
-    public static class CLIReducer extends 
-            Reducer<LongWritable, Text, Text, IntWritable> {
-		
-        /**
-         * Does nothing yet!
-         * 
-         * @param key
-         * @param values
-         * @param context
-         * @throws IOException
-         * @throws InterruptedException 
-         */
-        @Override
-		public void reduce(LongWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-			
-		}
-	}
 	
     /**
      * Sets up, initializes and starts the Job.
@@ -125,7 +54,12 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         // TODO Output Value Class may depend on the tool invoked
         job.setOutputValueClass(Text.class);
 
-        job.setMapperClass(CLIMapper.class);
+        if(conf.get(PropertyNames.TAVERNA_WORKFLOW) != null 
+           && conf.get(PropertyNames.TAVERNA_WORKFLOW) != "") {
+            job.setMapperClass(TavernaMapper.class);
+        } else {
+            job.setMapperClass(ToolspecMapper.class);
+        }
         
         job.setInputFormatClass(NLineInputFormat.class);
         NLineInputFormat.setNumLinesPerSplit(

@@ -1,11 +1,10 @@
-package eu.scape_project.pt.executors;
+package eu.scape_project.pt.mapred;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,16 +12,15 @@ import java.util.UUID;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.io.Text;
 
 import eu.scape_project.pt.util.fs.Filer;
 import eu.scape_project.pt.proc.StreamProcessor;
-import eu.scape_project.pt.util.ArgsParser;
+import eu.scape_project.pt.util.PropertyNames;
 import java.util.*;
-import java.util.Map.Entry;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 
 /**
@@ -31,8 +29,8 @@ import org.apache.hadoop.mapreduce.Mapper.Context;
  * @author Martin Schenck [schenck]
  *
  */
-public class TavernaCLExecutor implements Executor {
-	private static Log LOG = LogFactory.getLog(TavernaCLExecutor.class);
+public class TavernaMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
+	private static Log LOG = LogFactory.getLog(TavernaMapper.class);
 	
 	// Locations of the Taverna installation and the workflow
 	private String tavernaHome;
@@ -45,14 +43,12 @@ public class TavernaCLExecutor implements Executor {
 	// Taverna output directory
 	private String tavernaOutput;
 	
-	public TavernaCLExecutor(String tavernaHome, String workflowLocation, String resultOutDir) {
-		this.tavernaHome = tavernaHome;
-		this.workflowLocation = workflowLocation;
-		this.resultOutDir = resultOutDir;
-	}
-
 	@Override
 	public void setup(Context context) {
+        Configuration conf = context.getConfiguration();
+        this.tavernaHome = conf.get(PropertyNames.TAVERNA_HOME);
+        this.workflowLocation = conf.get(PropertyNames.TAVERNA_WORKFLOW);
+        this.resultOutDir = conf.get(PropertyNames.OUTDIR);
 		// Add trailing slash if missing to given directories
     	if(tavernaHome != null && !tavernaHome.endsWith(File.separator))
     		tavernaHome += File.separator;

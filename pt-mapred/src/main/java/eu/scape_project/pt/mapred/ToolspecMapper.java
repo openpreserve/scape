@@ -1,4 +1,4 @@
-package eu.scape_project.pt.executors;
+package eu.scape_project.pt.mapred;
 
 import eu.scape_project.pt.util.fs.Filer;
 import eu.scape_project.pt.proc.Processor;
@@ -12,17 +12,14 @@ import eu.scape_project.pt.util.PipedArgsParser.Command;
 import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Mapper.Context;
 
 /**
@@ -32,9 +29,9 @@ import org.apache.hadoop.mapreduce.Mapper.Context;
  * @author Matthias Rella [myrho]
  *
  */
-public class ToolspecExecutor implements Executor {
+public class ToolspecMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
 
-    private static Log LOG = LogFactory.getLog(ToolspecExecutor.class);
+    private static Log LOG = LogFactory.getLog(ToolspecMapper.class);
 
     private PipedArgsParser parser;
     private ToolRepository repo;

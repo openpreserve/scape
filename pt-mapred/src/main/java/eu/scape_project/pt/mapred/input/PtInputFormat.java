@@ -1,4 +1,4 @@
-package eu.scape_project.pt.mapred;
+package eu.scape_project.pt.mapred.input;
 
 import java.io.IOException;
 
