@@ -8,7 +8,7 @@
 	<modelVersion>4.0.0</modelVersion>
   <artifactId>pt-mapred</artifactId>
   <name>SCAPE MapReduce Wrappers</name>
-  <description>Invokes SPAPE preservation tools in on Hadoop MapReduce environments</description>
+  <description>Invokes SCAPE preservation tools on Hadoop MapReduce environments</description>
 	<build>
 		<plugins>
 			<plugin>
