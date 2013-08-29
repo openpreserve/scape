@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+@Deprecated
 public class PtFileUtil {
 	
 	static String HDFS = "hdfs";

@@ -5,6 +5,7 @@ package eu.scape_project.pt.util;
  *
  * @author Matthias Rella, DME-AIT [my_rho]
  */
+@Deprecated
 public class ParamSpec {
 
     public static class Direction { 
