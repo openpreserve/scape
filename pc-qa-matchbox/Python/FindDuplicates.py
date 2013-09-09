@@ -35,20 +35,20 @@ configs = {}
 # all binaries should be installed on the target machine through "make install"
 configs["Linux"] = {}
 configs["Linux"]["BIN_EXTRACTFEATURES"] = "extractfeatures"
-configs["Linux"]["BIN_COMPARE"] = "compare"
-configs["Linux"]["BIN_TRAIN"] = "train"
+configs["Linux"]["BIN_COMPARE"]         = "compare"
+configs["Linux"]["BIN_TRAIN"]           = "train"
 
 # === Development configurations ===
-# this configs should be deleted after development
+# these configs should be deleted after development
 configs["PC-Alex"] = {}
-configs["PC-Alex"]["BIN_EXTRACTFEATURES"] = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/extractfeatures.exe"
-configs["PC-Alex"]["BIN_COMPARE"] = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/compare.exe"
-configs["PC-Alex"]["BIN_TRAIN"] = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/train.exe"
+configs["PC-Alex"]["BIN_EXTRACTFEATURES"]     = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/extractfeatures.exe"
+configs["PC-Alex"]["BIN_COMPARE"]             = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/compare.exe"
+configs["PC-Alex"]["BIN_TRAIN"]               = "D:/WORK/AIT_TFS/s3ms16.d03.arc.local/SCAPE/SCAPE QA/Release/train.exe"
 
 configs["PC-Reinhold"] = {}
 configs["PC-Reinhold"]["BIN_EXTRACTFEATURES"] = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/extractfeatures.exe"
-configs["PC-Reinhold"]["BIN_COMPARE"] = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/compare.exe"
-configs["PC-Reinhold"]["BIN_TRAIN"] = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/train.exe"
+configs["PC-Reinhold"]["BIN_COMPARE"]         = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/compare.exe"
+configs["PC-Reinhold"]["BIN_TRAIN"]           = "C:/Dokumente und Einstellungen/huber-moerkr/Eigene Dateien/TFS/SCAPE/SCAPE QA/Release/train.exe"
 
 # === Classes ===================================
 
@@ -62,35 +62,40 @@ if __name__ == '__main__':
     #
     # mandatory arguments
     #
-    parser.add_argument('dir', help='directory containing image files')
-    parser.add_argument('action', help='define which step of the workflow shouold be executed', choices=['all', 'extract', 'compare', 'train', 'bowhist', 'clean'])
+    parser.add_argument('dir',          help='directory containing image files')
+    parser.add_argument('action',       help='define which step of the workflow shouold be executed', 
+                        choices=['all', 'extract', 'compare', 'train', 'bowhist', 'clean'])
     #
     # optional arguments
     #
-    parser.add_argument('--threads', help='number of concurrent threads', type=int, default=1)
-    # parser.add_argument('--filter',     help='Filter for BOW creation',                                     type=str, default=".SIFTComparison.feat.xml.gz")
-    parser.add_argument('--sdk', help='Number of Spatial Distincitve Keypoints', type=int, default=0)
-    parser.add_argument('--precluster', help='Number of Preclustering centers (0 = no preclustering)', type=int, default=100)
-    parser.add_argument('--clahe', help='Value of adaptive contrast enhancement (1 = no enhancement)', type=int, default=1)
-    parser.add_argument('--config', help='Configuration Parameter', type=str, default="Linux")
-    parser.add_argument('--featdir', help='Alternative directory for storing feature files', type=str, default="")
-    parser.add_argument('--bowsize', help='Size of Bag of Words', type=int, default=1000)
-    parser.add_argument('--downsample', help='Downsample to a certain number of pixels', type=int, default=1000000)
-    parser.add_argument('--csv', help='Update Feature', action='store_true')
-    parser.add_argument('--binary', help='Store feature data in binary archives', action='store_true')
-    parser.add_argument('--binaryonly', help='Store feature data in binary archives', action='store_true')
-    parser.add_argument('--benchmark', help='Store feature data in binary archives', action='store_true')
+    parser.add_argument('--threads',    help='number of concurrent threads',                                type=int, default=1)
+    parser.add_argument('--featdir',    help='Alternative directory for storing feature files',             type=str, default="")
+    parser.add_argument('--precluster', help='Number of Preclustering centers (0 = no preclustering)',      type=int, default=100)
+    parser.add_argument('--config',     help='Configuration Parameter',                                     type=str, default="Linux")
+    parser.add_argument('--bowsize',    help='Size of Bag of Words',                                        type=int, default=1000)
+    parser.add_argument('--sdk',        help='Number of Spatial Distincitve Keypoints',                     type=int, default=0)
+    parser.add_argument('--clahe',      help='Value of adaptive contrast enhancement (1 = no enhancement)', type=int, default=1)
+    parser.add_argument('--downsample', help='Downsample to a certain number of pixels',                    type=int, default=1000000)
+    parser.add_argument('--update',     help='Update and overwrite existing feature files', action='store_true')
+    parser.add_argument('--binary',     help='Store feature data in binary archives',       action='store_true')
+    parser.add_argument('--binaryonly', help='Store feature data in binary archives',       action='store_true')
     #
-    parser.add_argument('-v', help="Print verbose messages", dest='verbose', action='store_true')
+    parser.add_argument('-v',           help="Print verbose messages", dest='verbose', action='store_true')
 
     # parse arguments
-    args = vars(parser.parse_args())
+    args   = vars(parser.parse_args())
 
     # assign configuration
     config = configs[args['config']]
 
     if (args['binaryonly']):
         args['binary'] = True
+        
+    collection_directory = args['dir']
+    feature_directory    = collection_directory
+        
+    if len(args['featdir']) > 0:
+        feature_directory = args['featdir']
 
     # ===============================================================================
     # action: clean
@@ -100,13 +105,10 @@ if __name__ == '__main__':
     #
     if (args['action'] == 'clean'):
 
-        print "\n=== deleting generated files from directory {0} ===\n".format(args['dir'])
-
-        MatchboxLib.clearDirectory(args['dir'])
-        if len(args['featdir']) > 0:
-            MatchboxLib.clearDirectory(args['featdir'], args['verbose'])
-        exit()
-
+        print "\n=== deleting generated files from directory {0} ===\n".format(feature_directory)
+        
+        MatchboxLib.clearDirectory(feature_directory, args['verbose'])
+        
     # ===============================================================================
     # action: extract
     # ===============================================================================
@@ -115,9 +117,20 @@ if __name__ == '__main__':
     #
     if (args['action'] == 'extract') or (args['action'] == 'all'):
         
-        print "\n=== extracting features from directory {0} ===\n".format(args['dir'])
+        print "\n=== extracting features from directory {0} ===\n".format(collection_directory)
         
-        MatchboxLib.extractFeatures(config, args['dir'], args['sdk'], args['threads'], args['clahe'], args['featdir'], "SIFTComparison", args['downsample'], args['verbose'], args['binary'], args['binaryonly'])
+        MatchboxLib.extractFeatures(config, 
+                                    collection_directory, 
+                                    args['sdk'], 
+                                    args['threads'], 
+                                    args['clahe'], 
+                                    feature_directory, 
+                                    "SIFTComparison", 
+                                    args['downsample'], 
+                                    args['verbose'], 
+                                    args['binary'], 
+                                    args['binaryonly'],
+                                    args['update'])
     
     # ===============================================================================
     # action: train
@@ -128,13 +141,14 @@ if __name__ == '__main__':
     if (args['action'] == 'train') or (args['action'] == 'all'):
         
         print "\n=== calculating Visual Bag of Words ===\n"
-
-        feature_directory = args['dir']
         
-        if len(args['featdir']) > 0:
-            feature_directory = args['featdir']
-        
-        MatchboxLib.calculateBoW(config, feature_directory, ".SIFTComparison.feat.xml.gz", args['precluster'], args['bowsize'], args['verbose'], args['binary'])
+        MatchboxLib.calculateBoW(config, 
+                                 feature_directory, 
+                                 ".SIFTComparison.feat.xml.gz", 
+                                 args['precluster'], 
+                                 args['bowsize'], 
+                                 args['verbose'], 
+                                 args['binary'])
     
     # ===============================================================================
     # action: bowhist
@@ -144,14 +158,13 @@ if __name__ == '__main__':
     #
     if (args['action'] == 'bowhist') or (args['action'] == 'all'):
         
-        print "\n=== extract BoW Histograms from directory {0} ===\n".format(args['dir'])
-
-        feature_directory = args['dir']
+        print "\n=== extract BoW Histograms from directory {0} ===\n".format(collection_directory)
         
-        if len(args['featdir']) > 0:
-            feature_directory = args['featdir']
-
-        MatchboxLib.extractBoWHistograms(config, args['dir'], args['threads'], feature_directory, args['binary'])
+        MatchboxLib.extractBoWHistograms(config, 
+                                         collection_directory, 
+                                         args['threads'], 
+                                         feature_directory, 
+                                         args['binary'])
 
     # ===============================================================================
     # action: compare
@@ -163,10 +176,8 @@ if __name__ == '__main__':
         
         print "\n=== compare images from directory {0} ===\n".format(args['dir'])
 
-        feature_directory = args['dir']
-        
-        if len(args['featdir']) > 0:
-            feature_directory = args['featdir']
-            
-        # MatchboxLib.pyFindDuplicates(config, dir, args['csv'])
-        MatchboxLib.pyFindDuplicates_SpatialVerification_fast(config, feature_directory, args['csv'], args['threads'], args['binary'], args['benchmark'])
+        MatchboxLib.pyFindDuplicates_SpatialVerification_fast(config, 
+                                                              feature_directory, 
+                                                              args['threads'], 
+                                                              args['binary'], 
+                                                              args['verbose'])

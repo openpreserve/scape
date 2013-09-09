@@ -400,8 +400,10 @@ Mat SIFTComparison::downsample(Mat& matImg)
 
 	try
 	{
+		// scale = 1024/float(np.max([img_orig.shape[0],img_orig.shape[1]]))
+		scale = 1024 / (double) max(matImg.rows, matImg.cols);
 		// calculate scaling factor
-		scale = 1/sqrt((double)((matImg.rows * matImg.cols) / maxResolution));
+		//scale = 1/sqrt((double)((matImg.rows * matImg.cols) / maxResolution));
 		resize(matImg,orImg, Size(), scale, scale,INTER_LINEAR);
 	}
 	catch(Exception& e)

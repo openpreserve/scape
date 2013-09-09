@@ -202,7 +202,8 @@ int main(int argc, char* argv[])
 
 				if ((descriptors.rows == 0) || (descriptors.cols == 0))
 				{
-					throw runtime_error("No Descriptors read for file: ");
+					VerboseOutput::println(string("train"), string("No Descriptors read!"));
+					continue;
 				}
 
 				VerboseOutput::println(string("train"), "%i descriptors loaded", descriptors.rows);

@@ -24,7 +24,7 @@
 	> functions for real time computer vision. 
 	>
 	> WebPage         : http://opencv.org/
-	> Version Required: 3.4 or higher
+	> Version Required: 2.4 or higher
 	
 
 	Always use the most recent version of OpenCV. Many of the implemented
