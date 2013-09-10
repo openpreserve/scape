@@ -44,6 +44,10 @@ public class ToolProcessor extends Processor {
      */
     private Map<String, String> mapOutputFileParameters;
 
+    /**
+     * Other Parameters. 
+     */
+    private Map<String, String> mapOtherParameters;
 
     /**
      * Underlying sub-process.
@@ -206,6 +210,8 @@ public class ToolProcessor extends Processor {
      * @return 
      */
     public Map<String, String> getOtherParameters() {
+        if( this.mapOtherParameters != null )
+            return this.mapOtherParameters;
         Map<String, String> parameters = new HashMap<String, String>();
 
         if (operation.getInputs() != null) {
@@ -213,7 +219,7 @@ public class ToolProcessor extends Processor {
                 parameters.put(param.getName(), param.getDefaultValue());
             }
         }
-        return parameters;
+        return this.mapOtherParameters = parameters;
 
     }
 
