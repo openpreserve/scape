@@ -52,5 +52,5 @@ fi
 ./CmdCompare.sh $localhome $hdfshome
 
 # print out the workflow summary
-hdfs dfs -cat compare/summary.csv
+hdfs dfs -cat compare/benchmark_result_list.csv
 
