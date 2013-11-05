@@ -55,3 +55,33 @@ Tipps
 + Hadoop Streaming with python (text sample):
 
 hadoop jar /usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-*streaming*.jar -file /home/training/mapper.py -mapper /home/training/mapper.py -file /home/training/reducer.py -reducer /home/training/reducer.py -input gutenberg -output gutenberg-output
+
+Taverna
+=======
+
+The workflow MatchboxHadoopApi.t2flow enables using of matchbox tool on Hadoop with Taverna. This workflow is based on Python scripts and Hadoop Streaming API included in 
+"pythonwf" folder of pc-qa-matchbox project on github (https://github.com/openplanets/scape/tree/master/pc-qa-matchbox/hadoop/pythonwf).
+
+For this workflow we assume that digital collection is located on HDFS and we have a list of input files in format "hdfs:///user/training/collection/00000032.jp2" - one row per file entry. 
+This list can be also generated in scripts. Changing python scripts user can customize the workflow and adjust it to the institutional needs. 
+
+This workflow does not apply pt-mapred JAR and uses directly Hadoop Streaming API to avoid additional dependencies. The workflow has four input paramters but could be also used with default parameters.
+These parameters are:
+1. homepath is a path to the scripts on a local machine e.g. "/home/training/pythonwf"
+2. hdfspath is a path to the home directory on HDFS e.g. "/user/training"
+3. collectionpath is a name of the folder that comprises digital collection on HDFS e.g. "collection"
+4. summarypath is a name of the folder that comprises calculation results (list of possible duplicates) on HDFS e.g. "compare".
+
+The list of possible duplicates can be found in file benchmark_result_list.csv in summary path.
+The main script in a workflow is a PythonMatchboxWF.sh that comprises all other scripts. Experienced user could execute each workflow step in a separate module in order to
+better manage script parameters.
+
+1. The first step in the workflow is a preparation of input files list and is performed by CreateInputFiles.sh. Result of this step is a file with paths to collection files stored on HDFS
+in inputfiles folder.
+2. The second step is a SIFT features extraction calculated using "binary" parameter in order to improve performance. Result of this step are feature files for each input file like
+"00000031.jp2.SIFTComparison.descriptors.dat", "00000031.jp2.SIFTComparison.keypoints.dat" and "00000031.jp2.SIFTComparison.feat.xml.gz" stored in matchbox folder on HDFS.
+3. The third step is a calculation of Bag of Words (visual dictionary) performed by CmdCalculateBoW.sh. Result is stored in bow folder in bow.xml file on HDFS.
+4. Then we extract visual histograms using CmdExtractHistogram.sh for each input file. Result is stored in folder histogram on HDFS e.g. "00000031.jp2.BOWHistogram.feat.xml.gz".
+5. The final step is to perform actual comparison using CmdCompare.sh. Results are stored in compare folder on HDFS and comprise file benchmardk_result_list.csv that 
+presents possible duplicates - one pair per row e.g. img1;img2;similarity between 0 (low) and 1 (high)
+
