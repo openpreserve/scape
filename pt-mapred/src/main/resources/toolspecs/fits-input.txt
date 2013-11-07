@@ -1,0 +1,2 @@
+fits filexml --input="hdfs:///user/rainer/ptinput/1.tiff" --output="hdfs:///user/rainer/ptoutput/1.tiff.xml"
+fits filexml --input="hdfs:///user/rainer/ptinput/2.tiff" --output="hdfs:///user/rainer/ptoutput/2.tiff.xml"

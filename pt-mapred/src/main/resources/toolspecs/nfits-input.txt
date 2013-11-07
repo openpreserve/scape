@@ -1,0 +1,3 @@
+fits dirxml --input="hdfs:///./" --inputlist="hdfs:///user/rainer/ptinput/1.tiff,hdfs:///user/rainer/ptinput/2.tiff" --output="hdfs:///./" --outputlist="hdfs:///user/rainer/ptoutput/1.tiff.fits.xml,hdfs:///user/rainer/ptoutput/2.tiff.fits.xml"
+fits dirxml --input="hdfs:///./" --inputlist="hdfs:///user/rainer/ptinput/3.tiff,hdfs:///user/rainer/ptinput/4.tiff" --output="hdfs:///./" --outputlist="hdfs:///user/rainer/ptoutput/3.tiff.fits.xml,hdfs:///user/rainer/ptoutput/4.tiff.fits.xml"
+
