@@ -116,18 +116,28 @@ public class ToolspecMapper extends Mapper<LongWritable, Text, LongWritable, Tex
 
                 // localize parameters
                 for( Entry<String, String> entry : mapInputFileParameters[c].entrySet()) {
-                    LOG.debug("input = " + entry.getValue());
-                    Filer filer = Filer.create(entry.getValue());
-                    filer.setDirectory(context.getTaskAttemptID().toString());
-                    filer.localize();
-                    mapTempInputFileParameters.put( entry.getKey(), filer.getFileRef());
+                    LOG.info("input = " + entry.getValue());
+                    String[] filelist = entry.getValue().split(",");
+                    LOG.info("filelist length = "+filelist.length);
+                    for(String file : filelist) {
+                    	//Filer filer = Filer.create(entry.getValue());
+                    	Filer filer = Filer.create(file);
+                    	filer.setDirectory(context.getTaskAttemptID().toString());
+                    	filer.localize();
+                    	mapTempInputFileParameters.put( entry.getKey(), filer.getFileRef());
+                    }
                 }
 
                 for( Entry<String, String> entry : mapOutputFileParameters[c].entrySet()) {
-                    LOG.debug("output = " + entry.getValue());
-                    Filer filer = Filer.create(entry.getValue());
-                    filer.setDirectory(context.getTaskAttemptID().toString());
-                    mapTempOutputFileParameters.put( entry.getKey(), filer.getFileRef());
+                    LOG.info("output = " + entry.getValue());
+                    String[] filelist = entry.getValue().split(",");
+                    LOG.info("filelist length = "+filelist.length);
+                    for(String file : filelist) {
+                    	//Filer filer = Filer.create(entry.getValue());
+                    	Filer filer = Filer.create(file);
+                    	filer.setDirectory(context.getTaskAttemptID().toString());
+                    	mapTempOutputFileParameters.put( entry.getKey(), filer.getFileRef());
+                    }
                 }
 
                 // feed processor with localized parameters
@@ -171,10 +181,16 @@ public class ToolspecMapper extends Mapper<LongWritable, Text, LongWritable, Tex
             for(int i = 0; i < mapOutputFileParameters.length; i++ ) 
                 for( String strFile : mapOutputFileParameters[i].values())
                 {
-                    Filer filer = Filer.create(strFile);
-                    LOG.info("dir = " + context.getTaskAttemptID().toString() );
-                    filer.setDirectory(context.getTaskAttemptID().toString());
-                    filer.delocalize();
+                	LOG.info("delocalizing file: "+strFile);
+                    String[] filelist = strFile.split(",");
+                    LOG.info("filelist length = "+filelist.length);
+                    for(String file : filelist) {
+                    	//Filer filer = Filer.create(strFile);
+                    	Filer filer = Filer.create(file);
+                    	LOG.info("dir = " + context.getTaskAttemptID().toString() );
+                    	filer.setDirectory(context.getTaskAttemptID().toString());
+                    	filer.delocalize();
+                    }
                 }
 
                 if( oStdout instanceof ByteArrayOutputStream )

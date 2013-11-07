@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,7 +36,7 @@ public class HDFSFiler extends Filer{
     private final Path file;
 
     HDFSFiler(String value) throws IOException {
-        this.file = new Path(value);
+    	this.file = new Path(value);
         hdfs = file.getFileSystem(new Configuration());
     }
 	
@@ -91,15 +93,34 @@ public class HDFSFiler extends Filer{
 
     @Override
     public void localize() throws IOException {
-        Path localfile = new Path( getFileRef() );
-        hdfs.copyToLocalFile(file, localfile);
+        try {
+            Path localfile = new Path( getFileRef() );
+        	hdfs.copyToLocalFile(file, localfile);
+        } catch(Exception e) {
+        	LOG.warn("Unable to copy file to local file system. I hope this was just a pointer. "+e);
+        }
     }
 
     @Override
     public void delocalize() throws IOException {
-        Path localfile = new Path( getFileRef() );
-        hdfs.copyFromLocalFile(localfile, file);
-    }
+        
+        /*
+        File f = new File(localfile.getParent().toString());
+        ArrayList<String> names = new ArrayList<String>(Arrays.asList(f.list()));
+        java.util.Iterator<String> i = names.iterator();
+        if(i.hasNext() != true) LOG.info("There is not a single file in the working dir!");
+        while(i.hasNext()) {
+        	LOG.info("file(s) before delocalizations" + i.next());
+        }
+        */
+    	try {
+    		Path localfile = new Path( getFileRef() );
+    		hdfs.copyFromLocalFile(localfile, file);
+        } catch(Exception e) {
+        	LOG.warn("Unable to copy file to hdfs. I hope this was just a pointer. "+e);
+        }
+
+   	}
 
     @Override
     public void setDirectory(String strDir ) throws IOException {

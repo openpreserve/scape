@@ -35,8 +35,7 @@ public abstract class Filer {
     };
 
     public String getTmpDir() {
-        return System.getProperty("java.io.tmpdir") 
-                + System.getProperty("file.separator");
+        return System.getProperty("java.io.tmpdir") + System.getProperty("file.separator");
     }
 	
     abstract public void setDirectory(String strDir ) throws IOException;

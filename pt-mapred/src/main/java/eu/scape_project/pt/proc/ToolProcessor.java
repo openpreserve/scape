@@ -115,7 +115,7 @@ public class ToolProcessor extends Processor {
 
         String strCmd = replaceAll(this.operation.getCommand(), allInputs);
 
-        LOG.debug("strCmd = " + strCmd );
+        LOG.info("strCmd = " + strCmd );
 
 		proc = Runtime.getRuntime().exec(strCmd);
 
