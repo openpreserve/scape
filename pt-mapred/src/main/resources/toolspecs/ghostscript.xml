@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd" xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" schemaVersion="1.0" name="ghostscript">
+  <operations>
+    <operation name="ps2pdf">
+      <description>Converts ps to pdf files</description>
+      <command>/usr/bin/ps2pdf ${input} ${output}</command>
+      <inputs>
+        <input name="input" required="true">
+          <description>Reference to input file</description>
+        </input>
+      </inputs>
+      <outputs>
+        <output name="output" required="true">
+          <description>Reference to output file</description>
+        </output>
+      </outputs>
+    </operation>
+    <operation name="s-ps2pdf">
+      <description>Converts ps to pdf files</description>
+      <command>/usr/bin/ps2pdf - -</command>
+      <inputs>
+	<stdin>true</stdin>
+      </inputs>
+      <outputs>
+	<stdout>true</stdout>
+      </outputs>
+    </operation>
+  </operations>
+</tool>
+

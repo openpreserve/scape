@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd" xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" schemaVersion="1.0" name="bash">
+  <operations>
+    <operation name="filexml">
+      <description>File characterisation using FITS (File information tool set)</description>
+      <command>/usr/bin/fits.sh -i ${input} -o ${output}</command>
+      <inputs>
+        <input name="input" required="true">
+          <description>Reference to input file</description>
+        </input>
+      </inputs>
+      <outputs>
+        <output name="output" required="true">
+          <description>Reference to output file</description>
+        </output>
+      </outputs>
+    </operation>
+<operation name="dirxml">
+      <description>Using FITS in recursive mode</description>
+      <command>/usr/bin/fits.sh -i ${input} -o ${output} -r</command>
+      <inputs>
+        <input name="input" required="true">
+          <description>Reference to input file</description>
+        </input>
+        <input name="inputlist" required="true">
+          <description>list of payload files</description>
+        </input>
+      </inputs>
+      <outputs>
+        <output name="output" required="true">
+          <description>Reference to output directory</description>
+        </output>
+        <output name="outputlist" required="true">
+          <description>list of resutl files</description>
+        </output>
+      </outputs>
+    </operation>
+
+  </operations>
+</tool>
+

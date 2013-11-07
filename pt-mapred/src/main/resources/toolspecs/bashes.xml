@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tool xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://scape-project.eu/tool tool-1.0_draft.xsd" xmlns="http://scape-project.eu/tool" xmlns:xlink="http://www.w3.org/1999/xlink" schemaVersion="1.0" name="bash">
+  <operations>
+    <operation name="isHTML">
+      <description>Uses file utility to identify HTML files</description>
+      <command>if [ "$(file ${input} | awk "{print \$2}" )" == HTML ]; then echo "HTML" ; fi</command>
+      <inputs>
+        <input name="input" required="true">
+          <description>Reference to input file</description>
+        </input>
+      </inputs>
+    </operation>
+    <operation name="sisHTML">
+      <description>Uses file utility to identify HTML files. Input is read from the stdin stream</description>
+      <command>if [ "$( file - | awk "{print \$2}" )" == HTML ]; then echo "HTML" ; fi</command>
+      <inputs>
+        <stdin>true</stdin>
+      </inputs> 
+    </operation>
+    <operation name="hello">
+      <description>Writes hello to stdout</description>
+      <command>echo hello</command>
+    </operation>
+  </operations>
+</tool>
+
