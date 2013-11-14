@@ -12,6 +12,7 @@ public class PropertyNames {
 	static public final String TOOLSTRING = "TOOLSTRING";
 	static public final String ACTIONSTRING = "ACTIONSTRING";
     static public final String REPO_LOCATION = "REPO_LOCATION";
+    static public final String ENV_VARIABLES = "ENV_VARIABLES";
     
     //nInputFormat
     static public final String NUM_LINES_PER_SPLIT = "NUM_LINES_PER_SPLIT";

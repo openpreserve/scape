@@ -3,6 +3,8 @@ package eu.scape_project.pt.mapred;
 import eu.scape_project.pt.repo.Repository;
 import eu.scape_project.pt.repo.ToolRepository;
 import eu.scape_project.pt.util.PropertyNames;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -46,6 +48,17 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
     public int run(String[] args) throws Exception {
 
         Configuration conf = getConf();
+        
+        //propagate environment variables to node vms        
+        String envVars = conf.get(PropertyNames.ENV_VARIABLES);
+        if(envVars != null && envVars.trim() != "") {            
+        	StringBuilder childEnv = new StringBuilder();
+        	if(conf.get("mapred.map.child.env") != null) childEnv.append(conf.get("mapred.map.child.env")).append(",");
+        	childEnv.append(envVars);
+        	LOG.info("Propagating Environment Variables: -"+childEnv.toString()+"-");
+        	conf.set("mapred.map.child.env", childEnv.toString());   
+        }
+
         Job job = new Job(conf);
 
         job.setJarByClass(CLIWrapper.class);
@@ -91,6 +104,19 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
 		CLIWrapper mr = new CLIWrapper();
         Configuration conf = new Configuration();
         Repository repo;
+        
+        //don't check hadoop's libjar parameter
+        ArrayList<String> arrayList = new ArrayList<String>();
+    	int k = 0;
+        for(String arg : args) {
+        	if(k == 1 || arg.contains("libjars")) {
+        		k++;
+        		continue;
+        	}
+        	arrayList.add(arg);
+        }
+        args = arrayList.toArray(new String[arrayList.size()]);
+        LOG.info("number of args: "+args.length);
 
         Map<String, String> parameters = new HashMap<String, String>() {{
             put("i", PropertyNames.INFILE );
@@ -98,6 +124,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
             put("t", "mapred.job.reuse.jvm.num.tasks" );
             put("n", PropertyNames.NUM_LINES_PER_SPLIT );
             put("r", PropertyNames.REPO_LOCATION);
+            put("p", PropertyNames.ENV_VARIABLES);
             put("v", PropertyNames.TAVERNA_HOME );
             put("w", PropertyNames.TAVERNA_WORKFLOW );
             put("j", "mapred.job.name" );
@@ -105,7 +132,7 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
         		
 		try {
             String pStrings = "";
-            for( String i : parameters.keySet() )
+            for( String i : parameters.keySet() ) 
                 pStrings += i + ":";
 
 			OptionParser parser = new OptionParser(pStrings);
@@ -135,6 +162,10 @@ public class CLIWrapper extends Configured implements org.apache.hadoop.util.Too
             //NInputFormat
             LOG.info("Number of Lines: " 
                     + conf.get(PropertyNames.NUM_LINES_PER_SPLIT));
+            //mapred.map.child.env"
+            LOG.info("Environment Variables: " 
+                    + conf.get(PropertyNames.ENV_VARIABLES));
+
             // taverna workflow location
 			LOG.info("Taverna: " + conf.get(PropertyNames.TAVERNA_HOME));
             // taverna home

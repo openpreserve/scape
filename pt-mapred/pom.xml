@@ -72,6 +72,36 @@
   	      <version>${project.version}</version>
   	   	</dependency
   	   	-->
+  	    <dependency>
+  	      <groupId>edu.harvard.hul.ois.fits</groupId>
+  	      <artifactId>Fits</artifactId>
+  	      <version>0.6.0</version>
+  	      <scope>provided</scope>
+  	   	</dependency>
+  	   	<dependency>
+		  <groupId>jdom</groupId>
+		  <artifactId>jdom</artifactId>
+		  <version>1.0</version>
+  	      <scope>provided</scope>
+		</dependency>
+		<dependency>
+		  <groupId>edu.harvard.hul.ois</groupId>
+          <artifactId>Ots</artifactId>
+          <version>0.6.0</version>
+          <scope>provided</scope>
+        </dependency>	
+        <dependency>
+    	  <groupId>xerces</groupId>
+    	  <artifactId>xercesImpl</artifactId>
+    	  <version>2.9.1</version>
+		  <type>jar</type>
+		  <scope>compile</scope>
+		</dependency>
+   		<dependency>
+    	  <groupId>xalan</groupId>
+      	  <artifactId>xalan</artifactId>
+     	  <version>2.7.1</version>
+		</dependency>			
   	   <dependency>
   	      <groupId>org.apache.hadoop</groupId>
   	      <artifactId>hadoop-core</artifactId>

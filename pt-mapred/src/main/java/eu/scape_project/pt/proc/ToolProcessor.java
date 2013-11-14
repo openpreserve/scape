@@ -22,7 +22,7 @@ public class ToolProcessor extends Processor {
     /**
      * Operation of a Tool to use.
      */
-    private Operation operation;
+    protected Operation operation;
 
     /**
      * Tool to use.
@@ -102,7 +102,7 @@ public class ToolProcessor extends Processor {
      */
     @Override
     public int execute() throws Exception {
-        LOG.debug("execute");
+        LOG.info("execute");
 
         Map<String, String> allInputs = new HashMap<String, String>();
         allInputs.putAll(getInputFileParameters());
@@ -247,7 +247,7 @@ public class ToolProcessor extends Processor {
      * @param strCmd
      * @param mapInputs 
      */
-	 private String replaceAll(String strCmd, Map<String,String> mapInputs) {
+	 protected String replaceAll(String strCmd, Map<String,String> mapInputs) {
          if( mapInputs.isEmpty() ) return strCmd;
         // create the pattern wrapping the keys with ${} and join them with '|'
         String regexp = "";
