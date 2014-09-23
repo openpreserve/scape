@@ -7,7 +7,7 @@ Standards-Version: 3.9.2
 
 Package: openoffice-server-headless-lsb-initscript
 Architecture: all
-Depends: ${misc:Depends}, openoffice.org
+Depends: ${misc:Depends}, openoffice.org | libreoffice
 Description: Init script fo openoffice server running headless. 
  This package was developed in the context of SCAPE project.
  The SCAPE project is co-funded by the European Union under 

@@ -14,11 +14,16 @@ PATH=/usr/sbin:/usr/bin:/sbin:/bin
 DESC="OpenOffice.org server"
 NAME=openoffice-server-headless-lsb-initscript
 DAEMON=/usr/bin/openoffice.org
+DAEMON_ALT=/usr/bin/libreoffice
 SCRIPTNAME=/etc/init.d/$NAME
 
 
 # Exit if the package is not installed
-[ -x "$DAEMON" ] || exit 3
+[ -x "$DAEMON" ] || [ -x "$DAEMON_ALT" ] || exit 3
+
+if [ -x "$DAEMON_ALT" ]; then
+	DAEMON=$DAEMON_ALT
+fi
 
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
@@ -45,7 +50,11 @@ do_start()
 	if [ "$PID" != "0" ]; then
 		return 1
 	else
-		/usr/bin/openoffice.org -headless -accept="socket,port=8100;urp;" -nofirststartwizard &
+		if [ "$(lsb_release -si | sed 's#\(.*\)#\L\1#')" = "debian" ]; then
+			$DAEMON -headless -accept="socket,port=8100;urp;" -nofirststartwizard &
+		else
+			$DAEMON --headless --accept="socket,port=8100;urp;" --nofirststartwizard &
+		fi
 		if [ "$?" -eq "0" ]; then
 	  		return 0
 	   else
