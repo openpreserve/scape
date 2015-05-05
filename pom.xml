@@ -50,9 +50,9 @@
 		<url>http://bamboo.opf-labs.org/browse/SP</url>
 	</ciManagement>
 	<scm>
-		<connection>scm:git:git@github.com:openplanets/scape.git</connection>
-		<developerConnection>scm:git:git@github.com:openplanets/scape.git</developerConnection>
-		<url>git@github.com:openplanets/scape.git</url>
+		<connection>scm:git:git@github.com:openpreserve/scape.git</connection>
+		<developerConnection>scm:git:git@github.com:openpreserve/scape.git</developerConnection>
+		<url>git@github.com:openpreserve/scape.git</url>
 	</scm>
 	<modules>
 		<module>scape-core</module>
@@ -279,7 +279,7 @@
 				<site>
 					<id>opf.jenkins.local.site</id>
 					<name>OPF Projects Website</name>
-					<url>file:///var/www/projects/scape/scape</url>
+					<url>file:///var/www/projects.opf-labs.org/scape/scape</url>
 				</site>
 			</distributionManagement>
 		</profile>
